@@ -123,7 +123,13 @@ class ViewController: UIViewController {
                 sdkRequest: self.sdkRequest)
         }
     }
-	
+    
+    @IBAction func chooseButtonAction(_ sender: UIButton) {
+    }
+    
+    @IBAction func createButtonAction(_ sender: UIButton) {
+    }
+    
 	@IBAction func currencyButtonAction(_ sender: UIButton) {
         
         coverAllLabel.text = LOADING_MESSAGE

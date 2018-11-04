@@ -31,12 +31,24 @@ class BSShopper : NSObject {
     var countryCode: String?
     var stateCode: String?
     var address: String?
+    var address2: String?
     var city: String?
     var zip: String?
     var phone: String?
     
     var shippingDetails : BSShippingAddressDetails?
+    var chosenPaymentMethod: BSChosenPaymentMethod?
+
     // todo: change to paymentSources of type paymentInfo
     var existingCreditCards: [BSCreditCardInfo] = []
     // todo: add last payment info? type paymentInfo, base for creditCardInfo
+}
+
+/**
+Chosen Payment Method for Update Shopper
+*/
+class BSChosenPaymentMethod: NSObject {
+    var creditCard :BSCreditCard?
+    var chosenPaymentMethodType: String?
+
 }
