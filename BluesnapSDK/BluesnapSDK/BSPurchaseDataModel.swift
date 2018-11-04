@@ -15,6 +15,7 @@ public enum BSPaymentType : String {
     case CreditCard = "CC"
     case ApplePay = "APPLE_PAY"
     case PayPal = "PAYPAL"
+    case Unknown = "UNKNOWN"
 }
 
 /**

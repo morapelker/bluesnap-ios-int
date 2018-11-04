@@ -98,7 +98,6 @@ import Foundation
                         let methods = parseSupportedPaymentMethodsJSON(json: supportedPaymentMethods)
                         resultData?.supportedPaymentMethods = methods
                     }
-
                 } else {
                     resultError = .unknown
                     NSLog("Error parsing BS currency rates")
@@ -549,7 +548,7 @@ import Foundation
             if (shopper.address == nil) {
                 shopper.address = address2
             } else {
-                shopper.address = shopper.address! + " " + address2
+                shopper.address2 = address2
             }
         }
         if let city = json["city"] as? String {
@@ -627,19 +626,9 @@ import Foundation
                             billingDetails?.zip = zip
                         }
                     }
-                    let cc = BSCreditCard()
-                    if let creditCardJson = ccDetailsJson["creditCard"] as? [String: AnyObject] {
-                        if let cardLastFourDigits = creditCardJson["cardLastFourDigits"] as? String {
-                            cc.last4Digits = cardLastFourDigits
-                        }
-                        if let cardType = creditCardJson["cardType"] as? String {
-                            cc.ccType = cardType
-                        }
-                        if let expirationMonth = creditCardJson["expirationMonth"] as? String, let expirationYear = creditCardJson["expirationYear"] as? String {
-                            cc.expirationMonth = expirationMonth
-                            cc.expirationYear = expirationYear
-                        }
-                    }
+
+                    let cc = parseCreditCardJSON(ccDetailsJson: ccDetailsJson)
+
                     // add the CC only if it's not expired
                     let validCc : (Bool, String) = BSValidator.isCcValidExpiration(mm: cc.expirationMonth ?? "", yy: cc.expirationYear ?? "")
                     if validCc.0 {
@@ -649,7 +638,30 @@ import Foundation
                 }
             }
         }
+
+        if let chosenPaymentMethod = json["chosenPaymentMethod"] as? [String: AnyObject] {
+            let methods = parseChosenPaymentMethodsJSON(json: chosenPaymentMethod)
+            shopper.chosenPaymentMethod = methods
+        }
+
         return shopper
+    }
+
+    private static func parseCreditCardJSON(ccDetailsJson: [String: AnyObject]) -> (BSCreditCard) {
+        let cc = BSCreditCard()
+        if let creditCardJson = ccDetailsJson["creditCard"] as? [String: AnyObject] {
+            if let cardLastFourDigits = creditCardJson["cardLastFourDigits"] as? String {
+                cc.last4Digits = cardLastFourDigits
+            }
+            if let cardType = creditCardJson["cardType"] as? String {
+                cc.ccType = cardType
+            }
+            if let expirationMonth = creditCardJson["expirationMonth"] as? String, let expirationYear = creditCardJson["expirationYear"] as? String {
+                cc.expirationMonth = expirationMonth
+                cc.expirationYear = expirationYear
+            }
+        }
+        return cc
     }
 
     private static func parsePayPalTokenJSON(data: Data?) -> (String?, BSErrors?) {
@@ -719,6 +731,20 @@ import Foundation
             resultArr = arr
         }
          return resultArr
+    }
+
+    private static func parseChosenPaymentMethodsJSON(json: [String: AnyObject]) -> BSChosenPaymentMethod?  {
+
+        let chosenPaymentMethod = BSChosenPaymentMethod()
+        if let chosenPaymentMethodType = json["chosenPaymentMethodType"] as? String {
+            chosenPaymentMethod.chosenPaymentMethodType = chosenPaymentMethodType
+        }
+        if let creditCard = json["creditCard"] as? [String: AnyObject] {
+            let cc = parseCreditCardJSON(ccDetailsJson: creditCard)
+            chosenPaymentMethod.creditCard = cc
+        }
+
+        return chosenPaymentMethod
     }
     
     private static func extractTokenFromResponse(httpResponse: HTTPURLResponse?) -> BSToken? {
