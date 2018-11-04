@@ -130,6 +130,18 @@ class BSApiManagerTests: XCTestCase {
                 XCTAssertTrue(applePayIsSupported)
                 let payPalIsSupported = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods)
                 XCTAssertTrue(payPalIsSupported)
+
+                if let chosenPaymentMethod = shopper?.chosenPaymentMethod {
+                    XCTAssertEqual("CC", chosenPaymentMethod.chosenPaymentMethodType)
+                    if let ccDetails = chosenPaymentMethod.creditCard {
+                        XCTAssertEqual("5557", ccDetails.last4Digits)
+                        XCTAssertEqual("MASTERCARD", ccDetails.ccType)
+                        XCTAssertEqual("11", ccDetails.expirationMonth)
+                        XCTAssertEqual("2022", ccDetails.expirationYear)
+                    }
+                }  else {
+                    XCTFail("No chosenPaymentMethod in shopper")
+                }
                 
                 semaphore.signal()
             })
