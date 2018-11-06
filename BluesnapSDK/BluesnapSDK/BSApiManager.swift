@@ -421,7 +421,7 @@ import Foundation
                 regenerateToken(executeAfter: { _ in
                     BSApiCaller.submitPaymentDetails(bsToken: getBsToken(), requestBody: requestBody, parseFunction: BSApiCaller.parseCCResponse, completion: checkErrorAndComplete)
                 })
-            } else {
+            } else {	
                 checkErrorAndComplete(resultData, error)
             }
         })
