@@ -680,7 +680,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = Automatic;
-				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
+				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-demo";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
@@ -706,7 +706,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
+				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-demo";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
