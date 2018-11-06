@@ -654,7 +654,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
+				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
 		};
@@ -664,7 +664,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BluesnapSDKExample/BluesnapSDKExample.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -677,10 +679,10 @@
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/../../../Downloads\"/**";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3036489d-a96c-4f67-ac05-d095078854d4";
+				PROVISIONING_PROFILE = Automatic;
 				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -690,6 +692,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BluesnapSDKExample/BluesnapSDKExample.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -701,10 +705,10 @@
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/../../../Downloads\"/**";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3036489d-a96c-4f67-ac05-d095078854d4";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
