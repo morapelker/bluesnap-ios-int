@@ -202,6 +202,7 @@ class BSApiManagerTests: XCTestCase {
         let priceDetails = BSPriceDetails(amount: 30, taxAmount: 0, currency: "USD")
         let sdkRequest = BSSdkRequest(withEmail: false, withShipping: false, fullBilling: false, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: { _ in }, updateTaxFunc: nil)
         let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequest: sdkRequest)
+        XCTAssertTrue(!purchaseDetails.isShopperRequirements())
         
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -302,7 +303,7 @@ class BSApiManagerTests: XCTestCase {
         })
         semaphore.wait()
     }
-    
+
     func testSubmitCCDetailsSuccessWithExpiredToken() {
         
         createExpiredTokenWithRegeneration()
@@ -405,6 +406,72 @@ class BSApiManagerTests: XCTestCase {
         })
         semaphore.wait()
     }
+
+    //------------------------------------------------------
+    // MARK: Update Shopper
+    //------------------------------------------------------
+
+    func testUpdateShopperSuccess() {
+
+        let shopper = BSShopper()
+        shopper.name = "John Doe"
+        shopper.countryCode = "US"
+        shopper.stateCode = "NY"
+        shopper.address = "some address"
+        shopper.city = "some city"
+        shopper.email = "some@email.com"
+        shopper.zip = "123456"
+        shopper.phone = "0541234567"
+        shopper.vaultedShopperId = 23245835
+        let cc = BSCreditCard()
+        cc.ccType = "VISA"
+        cc.last4Digits = "1111"
+        cc.expirationMonth = "01"
+        cc.expirationYear = "2020"
+        let chosenPaymentMethod = BSChosenPaymentMethod()
+        //chosenPaymentMethod.chosenPaymentMethodType = BSPaymentType.ApplePay.rawValue
+        //chosenPaymentMethod.chosenPaymentMethodType = BSPaymentType.PayPal.rawValue
+        chosenPaymentMethod.chosenPaymentMethodType = BSPaymentType.CreditCard.rawValue
+        chosenPaymentMethod.creditCard = cc
+        shopper.chosenPaymentMethod = chosenPaymentMethod
+
+        XCTAssertNotNil(shopper)
+
+        let semaphore = DispatchSemaphore(value: 0)
+        createTokenWithShopperId(shopperId: shopper.vaultedShopperId, completion: { token, error in
+
+            let ccn = "4111 1111 1111 1111"
+            let cvv = "111"
+            let exp = "10/2020"
+
+            let semaphore1 = DispatchSemaphore(value: 1)
+            self.submitCcDetails(ccNumber: ccn, expDate: exp, cvv: cvv, completion: {
+                (result, error) in
+
+                XCTAssert(error == nil, "error: \(error)")
+                let ccType = result.ccType
+                let last4 = result.last4Digits
+                let country = result.ccIssuingCountry
+                NSLog("Result: ccType=\(ccType!), last4Digits=\(last4!), ccIssuingCountry=\(country!)")
+                assert(last4 == "1111", "last4 should be 1111")
+                assert(ccType == "VISA", "CC Type should be VISA")
+                assert(country == "US", "country should be US")
+                semaphore1.signal()
+            })
+            semaphore1.wait()
+
+            BSApiManager.updateShopper(shopper: shopper, completion: {
+                (result, error) in
+
+                XCTAssert(error == nil, "error: \(error)")
+                XCTAssertNotNil(result)
+                print(result)
+                semaphore.signal()
+            })
+        })
+        semaphore.wait()
+    }
+
 
     //------------------------------------------------------
     // MARK: BlueSnap Token

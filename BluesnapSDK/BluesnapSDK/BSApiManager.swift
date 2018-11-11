@@ -23,14 +23,14 @@ import Foundation
 //    internal static let BS_SANDBOX_TEST_USER = "HostedPapi"
     internal static let TIME_DIFF_TO_RELOAD: Double = -60 * 60
     // every hour (interval should be negative, and in seconds)
- 
+
     // MARK: private properties
     internal static var bsCurrencies: BSCurrencies?
     internal static var supportedPaymentMethods: [String]?
     internal static var lastSupportedPaymentMethodsFetchDate: Date?
     internal static var shopper: BSShopper?
     internal static var apiToken: BSToken?
-    internal static var payPalToken : String?
+    internal static var payPalToken: String?
     internal static var apiGenerateTokenFunc: (_ completion: @escaping (BSToken?, BSErrors?) -> Void) -> Void = { completion in
         NSLog("no token regeneration method was supplied")
         completion(nil, BSErrors.invalidInput)
@@ -52,7 +52,7 @@ import Foundation
      - completion: function to be called after token is generated; will receive optional token and optional error
      */
     open class func setGenerateBsTokenFunc(generateTokenFunc: @escaping (_ completion: @escaping (BSToken?, BSErrors?) -> Void) -> Void) {
-        
+
         apiGenerateTokenFunc = generateTokenFunc
     }
 
@@ -67,7 +67,7 @@ import Foundation
             fatalError("BsToken has not been initialized")
         }
     }
-    
+
     /**
      Use this method only in tests to get a token for sandbox
      - parameters:
@@ -75,22 +75,22 @@ import Foundation
      - completion: function to be called after token is generated; will receive optional token and optional error
      */
     static func createSandboxBSToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
-        
+
         createSandboxBSToken(shopperId: shopperId, domain: BS_SANDBOX_DOMAIN, user: BS_SANDBOX_TEST_USER, password: BS_SANDBOX_TEST_PASS, completion: { bsToken, bsError in
-            
+
             BSApiManager.setBsToken(bsToken: bsToken)
             completion(bsToken, bsError)
         })
     }
-    
+
     static func isProductionToken() -> Bool {
-        
+
         let bsToken = getBsToken()
         return bsToken?.serverUrl != BS_SANDBOX_DOMAIN
     }
-    
+
     // MARK: Main functions
-    
+
     /**
      Return a list of currencies and their rates from BlueSnap server
      - parameters:
@@ -98,20 +98,20 @@ import Foundation
      - completion: function to be called after data is received; will receive optional currency data and optional error
      */
     static func getSdkData(baseCurrency: String?, completion: @escaping (BSSdkConfiguration?, BSErrors?) -> Void) {
-        
+
         let bsToken = getBsToken()
-        
+
         NSLog("BlueSnap; getSdkData")
         BSApiCaller.getSdkData(bsToken: bsToken, baseCurrency: baseCurrency, completion: {
             sdkData, resultError in
-            
+
             NSLog("BlueSnap; getSdkData completion")
             if resultError == .unAuthorised {
-                
+
                 // regenerate Token and try again
                 regenerateToken(executeAfter: { _ in
                     BSApiCaller.getSdkData(bsToken: getBsToken(), baseCurrency: baseCurrency, completion: { sdkData2, resultError2 in
-                        
+
                         if resultError2 == nil {
                             self.lastSupportedPaymentMethodsFetchDate = Date()
                         }
@@ -144,11 +144,11 @@ import Foundation
      - completion: callback with either result details if OK, or error details if not OK
      */
     static func submitPurchaseDetails(purchaseDetails: BSExistingCcSdkResult, completion: @escaping (BSCreditCard, BSErrors?) -> Void) {
-        
+
         let cc = purchaseDetails.creditCard
         BSApiManager.submitPurchaseDetails(ccNumber: nil, expDate: cc.getExpirationForSubmit(), cvv: nil, last4Digits: cc.last4Digits, cardType: cc.ccType, billingDetails: purchaseDetails.billingDetails, shippingDetails: purchaseDetails.shippingDetails, fraudSessionId: BlueSnapSDK.fraudSessionId, completion: completion)
     }
-    
+
     /**
      Submit CC details to BlueSnap server
      - parameters:
@@ -160,7 +160,7 @@ import Foundation
      - completion: callback with either result details if OK, or error details if not OK
      */
     static func submitPurchaseDetails(ccNumber: String?, expDate: String?, cvv: String?, last4Digits: String?, cardType: String?, billingDetails: BSBillingAddressDetails?, shippingDetails: BSShippingAddressDetails?, fraudSessionId: String?, completion: @escaping (BSCreditCard, BSErrors?) -> Void) {
-        
+
         let tokenizeRequest = BSTokenizeRequest()
         if let ccNumber = ccNumber {
             tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: ccNumber, cvv: cvv, ccType: cardType, expDate: expDate)
@@ -172,7 +172,7 @@ import Foundation
         submitCcDetails(tokenizeRequest: tokenizeRequest, completion: completion)
     }
 
-    
+
     /**
      Submit CCN only to BlueSnap server
      - parameters:
@@ -180,10 +180,10 @@ import Foundation
      - completion: callback with either result details if OK, or error details if not OK
      */
     static func submitCcn(ccNumber: String, completion: @escaping (BSCreditCard, BSErrors?) -> Void) {
-        
+
         submitPurchaseDetails(ccNumber: ccNumber, expDate: nil, cvv: nil, last4Digits: nil, cardType: nil, billingDetails: nil, shippingDetails: nil, fraudSessionId: nil, completion: completion)
     }
-    
+
 
     /**
      Fetch a list of merchant-supported payment methods from BlueSnap server
@@ -191,9 +191,9 @@ import Foundation
      - completion: function to be called after data is fetched; will receive optional string list and optional error
      */
     static func getSupportedPaymentMethods(completion: @escaping ([String]?, BSErrors?) -> Void) {
-        
+
         let bsToken = getBsToken()
-        
+
         if let lastSupportedPaymentMethodsFetchDate = lastSupportedPaymentMethodsFetchDate, let supportedPaymentMethods = supportedPaymentMethods {
             let diff = lastSupportedPaymentMethodsFetchDate.timeIntervalSinceNow as Double // interval in seconds
             if (diff > TIME_DIFF_TO_RELOAD) {
@@ -201,11 +201,11 @@ import Foundation
                 return
             }
         }
-        
+
         NSLog("BlueSnap; getSupportedPaymentMethods")
         BSApiCaller.getSupportedPaymentMethods(bsToken: bsToken, completion: {
             resultSupportedPaymentMethods, resultError in
-            
+
             NSLog("BlueSnap; getSupportedPaymentMethods completion")
             if resultError == .unAuthorised {
                 BSApiCaller.isTokenExpired(bsToken: bsToken, completion: { isExpired in
@@ -214,7 +214,7 @@ import Foundation
                         regenerateToken(executeAfter: { _ in
                             NSLog("BlueSnap; getSupportedPaymentMethods retry")
                             BSApiCaller.getSupportedPaymentMethods(bsToken: getBsToken(), completion: { resultSupportedPaymentMethods2, resultError2 in
-                                
+
                                 NSLog("BlueSnap; getSupportedPaymentMethods retry completion")
                                 if resultError2 == nil {
                                     supportedPaymentMethods = resultSupportedPaymentMethods2
@@ -227,7 +227,7 @@ import Foundation
                         completion(supportedPaymentMethods, resultError)
                     }
                 })
-                
+
             } else {
                 if resultError == nil {
                     supportedPaymentMethods = resultSupportedPaymentMethods
@@ -237,12 +237,12 @@ import Foundation
             }
         })
     }
-    
+
     /**
      Return a list of merchant-supported payment methods from BlueSnap server
      */
     static func isSupportedPaymentMethod(paymentType: BSPaymentType, supportedPaymentMethods: [String]?) -> Bool {
-        
+
         if let supportedPaymentMethods = supportedPaymentMethods {
             let exists = supportedPaymentMethods.index(of: paymentType.rawValue)
             return exists != nil
@@ -250,7 +250,7 @@ import Foundation
             return false
         }
     }
-    
+
     /**
      Create PayPal token on BlueSnap server and get back the URL for redirect
      - parameters:
@@ -260,15 +260,15 @@ import Foundation
      - completion: a callback function to be called once the PayPal token is fetched; receives optional PayPal Token string data and optional error
      */
     static func createPayPalToken(purchaseDetails: BSPayPalSdkResult, withShipping: Bool, completion: @escaping (String?, BSErrors?) -> Void) {
-        
+
         if (payPalToken != nil) {
             completion(payPalToken, nil)
             return
         }
-        
+
         DispatchQueue.global().async {
             let bsToken = getBsToken()
-            
+
             NSLog("BlueSnap; createPayPalToken")
             BSApiCaller.createPayPalToken(bsToken: bsToken, purchaseDetails: purchaseDetails, withShipping: withShipping, completion: {
                 resultToken, resultError in
@@ -281,7 +281,7 @@ import Foundation
                             // regenerate Token and try again
                             regenerateToken(executeAfter: { _ in
                                 BSApiCaller.createPayPalToken(bsToken: getBsToken(), purchaseDetails: purchaseDetails, withShipping: withShipping, completion: { resultToken2, resultError2 in
-                                    
+
                                     payPalToken = resultToken2
                                     completion(resultToken2, resultError2)
                                 })
@@ -290,7 +290,7 @@ import Foundation
                             completion(resultToken, resultError)
                         }
                     })
-                    
+
                 } else {
                     payPalToken = resultToken
                     completion(resultToken, resultError)
@@ -320,15 +320,15 @@ import Foundation
     /**
      Submit data to be submitted to BLS server under the current token, to be used later for server-to-server actions
      */
-    open class func submitTokenizedDetails(tokenizeRequest: BSTokenizeRequest, completion: @escaping ([String:String], BSErrors?) -> Void) {
-        
-        var requestBody : [String:String] = [:]
-        var parseFunction: (Int, Data?) -> ([String:String],BSErrors?) = BSApiCaller.parseGenericResponse
-        
+    open class func submitTokenizedDetails(tokenizeRequest: BSTokenizeRequest, completion: @escaping ([String: String], BSErrors?) -> Void) {
+
+        var requestBody: [String: String] = [:]
+        var parseFunction: (Int, Data?) -> ([String: String], BSErrors?) = BSApiCaller.parseGenericResponse
+
         if let applePayDetails = tokenizeRequest.paymentDetails as? BSTokenizeApplePayDetails {
             requestBody["applePayToken"] = applePayDetails.applePayToken
             parseFunction = BSApiCaller.parseApplePayResponse
-            
+
         } else if let ccDetails = tokenizeRequest.paymentDetails as? BSTokenizeBaseCCDetails {
             parseFunction = BSApiCaller.parseCCResponse
             if let cardType = ccDetails.ccType {
@@ -353,7 +353,7 @@ import Foundation
         if let fraudSessionId = BlueSnapSDK.fraudSessionId {
             requestBody["fraudSessionId"] = fraudSessionId
         }
-        
+
         if let billingDetails = tokenizeRequest.billingDetails {
             if let splitName = billingDetails.getSplitName() {
                 requestBody["billingFirstName"] = splitName.firstName
@@ -378,7 +378,7 @@ import Foundation
                 requestBody["email"] = email
             }
         }
-        
+
         if let shippingDetails = tokenizeRequest.shippingDetails {
             if let splitName = shippingDetails.getSplitName() {
                 requestBody["shippingFirstName"] = splitName.firstName
@@ -403,8 +403,8 @@ import Foundation
                 requestBody["phone"] = phone
             }
         }
-        
-        let checkErrorAndComplete : ([String:String], BSErrors?) -> Void = { resultData, error in
+
+        let checkErrorAndComplete: ([String: String], BSErrors?) -> Void = { resultData, error in
             if let error = error {
                 completion(resultData, error)
                 debugPrint(error.description())
@@ -412,7 +412,7 @@ import Foundation
             }
             completion(resultData, nil)
         }
-        
+
         BSApiCaller.submitPaymentDetails(bsToken: getBsToken(), requestBody: requestBody, parseFunction: parseFunction, completion: { resultData, error in
             NSLog("BlueSnap; submitCcDetails completion")
             if error == BSErrors.expiredToken || error == BSErrors.tokenNotFound {
@@ -427,10 +427,106 @@ import Foundation
         })
     }
 
+    /**
+     update Shopper to BLS server under the current token, to be used later for server-to-server actions
+     */
+    open class func updateShopper(shopper: BSShopper, completion: @escaping ([String: String], BSErrors?) -> Void) {
+
+        var requestBody: [String: Any] = [:]
+
+        if let splitName = shopper.getSplitName() {
+            requestBody["firstName"] = splitName.firstName
+            requestBody["lastName"] = splitName.lastName
+        }
+        if let country = shopper.country {
+            requestBody["country"] = country
+        }
+        if let state = shopper.state {
+            requestBody["state"] = state
+        }
+        if let city = shopper.city {
+            requestBody["city"] = city
+        }
+        if let address = shopper.address {
+            requestBody["address"] = address
+        }
+        if let address2 = shopper.address2 {
+            requestBody["address2"] = address2
+        }
+        if let zip = shopper.zip {
+            requestBody["zip"] = zip
+        }
+        if let email = shopper.email {
+            requestBody["email"] = email
+        }
+        if let phone = shopper.phone {
+            requestBody["phone"] = phone
+        }
+        if let chosenPaymentMethod = shopper.chosenPaymentMethod {
+            var chosenPaymentMethodBody: [String: Any] = [:]
+
+            if let type = chosenPaymentMethod.chosenPaymentMethodType {
+                chosenPaymentMethodBody["chosenPaymentMethodType"] = type
+            }
+
+            if chosenPaymentMethod.chosenPaymentMethodType ==  BSPaymentType.CreditCard.rawValue, let ccDetails = chosenPaymentMethod.creditCard {
+                var ccDetailsBody: [String: String] = [:]
+
+                if let expirationMonth = ccDetails.expirationMonth {
+                    ccDetailsBody["expirationMonth"] = expirationMonth
+                }
+                if let expirationYear = ccDetails.expirationYear {
+                    ccDetailsBody["expirationYear"] = expirationYear
+                }
+                if let ccLast4Digits = ccDetails.last4Digits {
+                    ccDetailsBody["cardLastFourDigits"] = ccLast4Digits
+                }
+                if let ccType = ccDetails.ccType {
+                    ccDetailsBody["cardType"] = ccType
+                }
+
+                chosenPaymentMethodBody["creditCard"] = ccDetailsBody
+            }
+
+            requestBody["chosenPaymentMethod"] = chosenPaymentMethodBody
+
+            requestBody["paymentSources"] = ["creditCardInfo": [["pfToken": getBsToken()!.tokenStr]]]
+        }
+
+        if let vaultedShopperId = shopper.vaultedShopperId {
+            requestBody["vaultedShopperId"] = vaultedShopperId
+        }
+
+
+        let checkErrorAndComplete: ([String: String], BSErrors?) -> Void = { resultData, error in
+            if let error = error {
+                completion(resultData, error)
+                debugPrint(error.description())
+                return
+            }
+            completion(resultData, nil)
+        }
+
+        var parseFunction: (Int, Data?) -> ([String: String], BSErrors?) = BSApiCaller.parseGenericResponse
+
+        BSApiCaller.updateShopper(bsToken: getBsToken(), requestBody: requestBody, parseFunction: parseFunction, completion: { resultData, error in
+            NSLog("BlueSnap; updateShopper completion")
+            if error == BSErrors.expiredToken || error == BSErrors.tokenNotFound {
+                // regenerate Token and try again
+                NSLog("BlueSnap; updateShopper retry")
+                regenerateToken(executeAfter: { _ in
+                    BSApiCaller.updateShopper(bsToken: getBsToken(), requestBody: requestBody, parseFunction: parseFunction, completion: checkErrorAndComplete)
+                })
+            } else {
+                checkErrorAndComplete(resultData, error)
+            }
+        })
+    }
+
     static internal func regenerateToken(executeAfter: @escaping () -> Void) {
-        
+
         NSLog("Regenrating new token instead of \(apiToken?.getTokenStr() ?? "")")
-        apiGenerateTokenFunc({newToken, error in
+        apiGenerateTokenFunc({ newToken, error in
             if let newToken = newToken {
                 setBsToken(bsToken: newToken)
             }
@@ -438,19 +534,19 @@ import Foundation
         })
     }
 
-    
+
     private static func submitCcDetails(tokenizeRequest: BSTokenizeRequest, completion: @escaping (BSCreditCard, BSErrors?) -> Void) {
-        
+
         NSLog("BlueSnap; submitCcDetails")
         submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: { resultData, error in
             NSLog("BlueSnap; submitCcDetails completion")
             fillCcDetailsAndComplete(tokenizeRequest: tokenizeRequest, resultData: resultData, error: error, completion: completion)
         })
-     }
-    
-    
-    internal static func fillCcDetailsAndComplete(tokenizeRequest: BSTokenizeRequest, resultData: [String:String], error: BSErrors?, completion: @escaping (BSCreditCard, BSErrors?) -> Void) {
-        
+    }
+
+
+    internal static func fillCcDetailsAndComplete(tokenizeRequest: BSTokenizeRequest, resultData: [String: String], error: BSErrors?, completion: @escaping (BSCreditCard, BSErrors?) -> Void) {
+
         let cc = BSCreditCard()
         if let error = error {
             completion(cc, error)
