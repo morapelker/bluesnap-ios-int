@@ -36,10 +36,25 @@ public enum BSPaymentType: String {
 
     var fraudSessionId: String?
     var priceDetails: BSPriceDetails!
+    private var isSdkRequestIsShopperRequirements: Bool!
 
+    /**
+    * for Shopper Requirements
+    */
+    internal init(sdkRequestShopperRequirements: BSSdkRequestShopperRequirements) {
+        super.init()
+        self.priceDetails = nil
+        self.isSdkRequestIsShopperRequirements = true
+        self.fraudSessionId = BlueSnapSDK.fraudSessionId
+    }
+
+    /**
+    * for Regular Checkout Flow
+    */
     internal init(sdkRequest: BSSdkRequest) {
         super.init()
         self.priceDetails = sdkRequest.priceDetails.copy() as! BSPriceDetails
+        self.isSdkRequestIsShopperRequirements = false
         self.fraudSessionId = BlueSnapSDK.fraudSessionId
     }
 
@@ -50,15 +65,19 @@ public enum BSPaymentType: String {
     // MARK: getters and setters
 
     public func getAmount() -> Double! {
-        return priceDetails.amount.doubleValue
+        return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.amount.doubleValue
     }
 
     public func getTaxAmount() -> Double! {
-        return priceDetails.taxAmount.doubleValue
+        return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.taxAmount.doubleValue
     }
 
     public func getCurrency() -> String! {
-        return priceDetails.currency
+        return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.currency
+    }
+
+    public func isShopperRequirements() -> Bool! {
+        return isSdkRequestIsShopperRequirements
     }
 }
 

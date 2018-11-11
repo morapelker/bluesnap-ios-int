@@ -5,14 +5,15 @@
 //  Created by Shevie Chen on 13/11/2017.
 //  Copyright © 2017 Bluesnap. All rights reserved.
 //
+
 import Foundation
 
 class BSSdkConfiguration: NSObject {
-    
+
     var kountMID: Int?
     var currencies: BSCurrencies?
     var shopper: BSShopper?
-    
+
     var supportedPaymentMethods: [String]?
     // TODO: use this top prevent paypal error
     var paypalCurrencies: [String]?
@@ -20,23 +21,20 @@ class BSSdkConfiguration: NSObject {
     var creditCardTypes: [String]?
     var creditCardBrands: [String]?
     // TODO: use these to replace the static Regexes in the validator
-    var creditCardRegex: [String : String]?
+    var creditCardRegex: [String: String]?
 }
 
-class BSShopper : NSObject {
-    
+class BSShopper: BSBaseAddressDetails {
+
     // todo: put contact address in baseAddressDetails?
-    var name: String?
+    var vaultedShopperId: Int?
     var email: String?
     var countryCode: String?
     var stateCode: String?
-    var address: String?
     var address2: String?
-    var city: String?
-    var zip: String?
     var phone: String?
-    
-    var shippingDetails : BSShippingAddressDetails?
+
+    var shippingDetails: BSShippingAddressDetails?
     var chosenPaymentMethod: BSChosenPaymentMethod?
 
     // todo: change to paymentSources of type paymentInfo
@@ -48,7 +46,7 @@ class BSShopper : NSObject {
 Chosen Payment Method for Update Shopper
 */
 class BSChosenPaymentMethod: NSObject {
-    var creditCard :BSCreditCard?
+    var creditCard: BSCreditCard?
     var chosenPaymentMethodType: String?
 
 }

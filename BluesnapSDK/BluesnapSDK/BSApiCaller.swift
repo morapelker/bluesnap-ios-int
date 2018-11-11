@@ -15,6 +15,7 @@ import Foundation
     internal static let PAYPAL_SERVICE = "services/2/tokenized-services/paypal-token?amount="
     internal static let PAYPAL_SHIPPING = "&req-confirm-shipping=0&no-shipping=2"
     internal static let TOKENIZED_SERVICE = "services/2/payment-fields-tokens/"
+    internal static let UPDATE_SHOPPER = "services/2/tokenized-services/shopper"
     internal static let BLUESNAP_VERSION_HEADER = "BLUESNAP_VERSION_HEADER"
     internal static let BLUESNAP_VERSION_HEADER_VAL = "2.0"
     internal static let SDK_VERSION_HEADER = "BLUESNAP_ORIGIN_HEADER"
@@ -298,6 +299,49 @@ import Foundation
                 (resultData, resultError) = parseFunction(httpStatusCode, data)
             } else {
                 NSLog("Error getting response from BS on submitting Payment details")
+            }
+            defer {
+                completion(resultData, resultError)
+            }
+        }
+        task.resume()
+    }
+
+    /**
+    Update Shopper
+    */
+    static func updateShopper(bsToken: BSToken!,
+                              requestBody: [String: Any],
+                              parseFunction: @escaping (Int, Data?) -> ([String: String], BSErrors?),
+                              completion: @escaping ([String: String], BSErrors?) -> Void) {
+
+        let domain: String! = bsToken!.serverUrl
+        let urlStr = domain + UPDATE_SHOPPER
+        var request = createRequest(urlStr, bsToken: bsToken)
+        request.httpMethod = "PUT"
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
+        } catch let error {
+            NSLog("Error update shopper: \(error.localizedDescription)")
+        }
+
+        // fire request
+
+        var resultError: BSErrors?
+
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            var resultData: [String: String] = [:]
+            if let error = error {
+                let errorType = type(of: error)
+                NSLog("error update shopper - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                completion(resultData, .unknown)
+                return
+            }
+            let httpResponse = response as? HTTPURLResponse
+            if let httpStatusCode: Int = (httpResponse?.statusCode) {
+                (resultData, resultError) = parseFunction(httpStatusCode, data)
+            } else {
+                NSLog("Error getting response from BS on update shopper")
             }
             defer {
                 completion(resultData, resultError)
@@ -644,6 +688,10 @@ import Foundation
         if let chosenPaymentMethod = json["chosenPaymentMethod"] as? [String: AnyObject] {
             let methods = parseChosenPaymentMethodsJSON(json: chosenPaymentMethod)
             shopper.chosenPaymentMethod = methods
+        }
+
+        if let vaultedShopperId = json["vaultedShopperId"] as? Int {
+            shopper.vaultedShopperId = vaultedShopperId
         }
 
         return shopper
