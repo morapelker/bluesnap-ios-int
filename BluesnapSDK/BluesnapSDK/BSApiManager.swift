@@ -486,11 +486,11 @@ import Foundation
                 }
 
                 chosenPaymentMethodBody["creditCard"] = ccDetailsBody
+
+                requestBody["paymentSources"] = ["creditCardInfo": [["pfToken": getBsToken()!.tokenStr]]]
             }
 
             requestBody["chosenPaymentMethod"] = chosenPaymentMethodBody
-
-            requestBody["paymentSources"] = ["creditCardInfo": [["pfToken": getBsToken()!.tokenStr]]]
         }
 
         if let vaultedShopperId = shopper.vaultedShopperId {

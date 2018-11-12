@@ -580,10 +580,10 @@ import Foundation
             shopper.email = email
         }
         if let country = json["country"] as? String {
-            shopper.countryCode = country
+            shopper.country = country
         }
         if let state = json["state"] as? String {
-            shopper.stateCode = state
+            shopper.state = state
         }
         if let address = json["address"] as? String {
             shopper.address = address
