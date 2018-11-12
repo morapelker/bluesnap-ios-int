@@ -29,8 +29,6 @@ class BSShopper: BSBaseAddressDetails {
     // todo: put contact address in baseAddressDetails?
     var vaultedShopperId: Int?
     var email: String?
-    var countryCode: String?
-    var stateCode: String?
     var address2: String?
     var phone: String?
 

@@ -77,7 +77,7 @@ class BSCreditCardInfo: BSPaymentInfo, NSCopying {
         super.init(sdkRequest: sdkRequest)
         
         if let shopper = BSApiManager.shopper {
-            self.billingDetails = BSBillingAddressDetails(email: shopper.email, name: shopper.name, address: shopper.address, city: shopper.city, zip: shopper.zip, country: shopper.countryCode, state: shopper.stateCode)
+            self.billingDetails = BSBillingAddressDetails(email: shopper.email, name: shopper.name, address: shopper.address, city: shopper.city, zip: shopper.zip, country: shopper.country, state: shopper.state)
         } else if let billingDetails = sdkRequest.billingDetails {
             self.billingDetails = billingDetails.copy() as! BSBillingAddressDetails
         }
@@ -146,10 +146,10 @@ class BSCreditCardInfo: BSPaymentInfo, NSCopying {
                     billingDetails.email = email
                 }
             }
-            if let country = shopper.countryCode {
+            if let country = shopper.country {
                 billingDetails.country =  country
                 if sdkRequest.fullBilling {
-                    if let state = shopper.stateCode {
+                    if let state = shopper.state {
                         billingDetails.state = state
                     }
                     if let address = shopper.address {
