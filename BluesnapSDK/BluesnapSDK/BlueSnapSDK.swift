@@ -253,7 +253,7 @@ import PassKit
         } else {
             KDataCollector.shared().environment = KEnvironment.test
         }
-        NSLog("Kount session ID: \(BlueSnapSDK.fraudSessionId ?? "")")
+        NSLog("Kount session ID")
         if let fraudSessionId = BlueSnapSDK.fraudSessionId {
             KDataCollector.shared().collect(forSession: fraudSessionId) { (sessionID, success, error) in
                 if success {

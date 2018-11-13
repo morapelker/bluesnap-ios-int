@@ -55,7 +55,7 @@ import Foundation
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error) in
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error getting supportedPaymentMethods - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error getting supportedPaymentMethods - \(errorType). Error: \(error.localizedDescription)")
                 resultError = .unknown
             } else {
                 let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
@@ -153,7 +153,7 @@ import Foundation
             NSLog("BlueSnap; createSandboxBSToken completion")
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error getting BSToken - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error getting BSToken - \(errorType). Error: \(error.localizedDescription)")
                 resultError = .unknown
             } else {
                 let httpResponse = response as? HTTPURLResponse
@@ -161,7 +161,7 @@ import Foundation
                     if (httpStatusCode >= 200 && httpStatusCode <= 299) {
                         result = extractTokenFromResponse(httpResponse: httpResponse)
                         if let result = result {
-                            NSLog("createSandboxBSToken result: \(result.tokenStr)")
+                            NSLog("createSandboxBSToken result")
                         } else {
                             resultError = .unknown
                         }
@@ -198,8 +198,7 @@ import Foundation
         if withShipping {
             urlStr += PAYPAL_SHIPPING
         }
-        
-        NSLog("Calling \(urlStr)")
+
         let request = createRequest(urlStr, bsToken: bsToken)
 
         // fire request
@@ -210,7 +209,7 @@ import Foundation
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error creating PayPal token - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error creating PayPal token - \(errorType). Error: \(error.localizedDescription)")
             }  else {
                 let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
                 if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
@@ -245,7 +244,7 @@ import Foundation
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error) in
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error getting supportedPaymentMethods - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error getting supportedPaymentMethods - \(errorType). Error: \(error.localizedDescription)")
                 resultError = .unknown
             } else {
                 let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
@@ -290,7 +289,7 @@ import Foundation
             var resultData: [String:String] = [:]
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error submitting BS Payment details - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error submitting BS Payment details - \(errorType). Error: \(error.localizedDescription)")
                 completion(resultData, .unknown)
                 return
             }
@@ -409,7 +408,7 @@ import Foundation
                 var resultData: [String:String] = [:]
                 if let error = error {
                     let errorType = type(of: error)
-                    NSLog("error submitting to check if token is expired - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                    NSLog("error submitting to check if token is expired - \(errorType). Error: \(error.localizedDescription)")
                     return
                 }
                 let httpResponse = response as? HTTPURLResponse
@@ -492,7 +491,7 @@ import Foundation
                     }
                 }
             } catch let error {
-                NSLog("Error parsing result data: \(data) ; error: \(error.localizedDescription)")
+                NSLog("Error parsing result data; error: \(error.localizedDescription)")
             }
         } else {
             NSLog("Error - result data is empty")
