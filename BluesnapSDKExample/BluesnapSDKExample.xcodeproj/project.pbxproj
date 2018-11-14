@@ -343,6 +343,7 @@
 					2D4E277E1E8808A700C56C46 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = AYTGDKG3D8;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
@@ -353,12 +354,14 @@
 					2D4E27921E8808A800C56C46 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = AYTGDKG3D8;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D4E277E1E8808A700C56C46;
 					};
 					2D4E279D1E8808A800C56C46 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = AYTGDKG3D8;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D4E277E1E8808A700C56C46;
 					};
@@ -654,7 +657,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = NO;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -679,10 +682,11 @@
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/../../../Downloads\"/**";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = Automatic;
-				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-demo";
+				PROVISIONING_PROFILE = "3036489d-a96c-4f67-ac05-d095078854d4";
+				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -708,7 +712,8 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-demo";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -722,7 +727,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BluesnapSDKExample.app/BluesnapSDKExample";
 			};
 			name = Debug;
@@ -737,7 +743,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BluesnapSDKExample.app/BluesnapSDKExample";
 			};
 			name = Release;
@@ -751,7 +758,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = BluesnapSDKExample;
 			};
 			name = Debug;
@@ -765,7 +773,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = BluesnapSDKExample;
 			};
 			name = Release;
