@@ -429,7 +429,7 @@ import Foundation
 
     static internal func regenerateToken(executeAfter: @escaping () -> Void) {
         
-        NSLog("Regenrating new token instead of \(apiToken?.getTokenStr() ?? "")")
+        NSLog("Regenrating new token")
         apiGenerateTokenFunc({newToken, error in
             if let newToken = newToken {
                 setBsToken(bsToken: newToken)

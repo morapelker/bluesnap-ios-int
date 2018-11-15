@@ -152,7 +152,7 @@ public class PaymentOperation: BSApplepayOperation, PKPaymentAuthorizationViewCo
             if case .success = self.status {
                 self.finish();
             } else if self.status.rawValue > 1 {
-                NSLog("Apple pay operation error \(self.status.rawValue)")
+                NSLog("Apple pay operation error")
                 self.finish(with: BSErrors.applePayOperationError);
             } else {
                 self.finish(with: BSErrors.applePayCanceled);
