@@ -374,14 +374,10 @@
 				TargetAttributes = {
 					2D374F1F1E880E7200AE2A81 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = AYTGDKG3D8;
 						LastSwiftMigration = 0820;
-						ProvisioningStyle = Automatic;
 					};
 					2D374F281E880E7300AE2A81 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = AYTGDKG3D8;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -688,7 +684,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -709,6 +706,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -719,7 +717,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -740,6 +739,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 			};
@@ -749,6 +749,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				INFOPLIST_FILE = BluesnapSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -758,6 +759,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -766,6 +768,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				INFOPLIST_FILE = BluesnapSDKTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -775,6 +778,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -789,7 +793,7 @@
 				2D374F331E880E7300AE2A81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		2D374F341E880E7300AE2A81 /* Build configuration list for PBXNativeTarget "BluesnapSDK" */ = {
 			isa = XCConfigurationList;
@@ -798,7 +802,7 @@
 				2D374F361E880E7300AE2A81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		2D374F371E880E7300AE2A81 /* Build configuration list for PBXNativeTarget "BluesnapSDKTests" */ = {
 			isa = XCConfigurationList;
@@ -807,7 +811,7 @@
 				2D374F391E880E7300AE2A81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
