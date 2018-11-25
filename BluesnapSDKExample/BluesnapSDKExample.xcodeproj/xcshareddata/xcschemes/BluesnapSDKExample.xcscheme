@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D4E27921E8808A800C56C46"
-               BuildableName = "BluesnapSDKExampleTests.xctest"
-               BlueprintName = "BluesnapSDKExampleTests"
+               BlueprintIdentifier = "2D4E279D1E8808A800C56C46"
+               BuildableName = "BluesnapSDKExampleUITests.xctest"
+               BlueprintName = "BluesnapSDKExampleUITests"
                ReferencedContainer = "container:BluesnapSDKExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,9 +42,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D4E279D1E8808A800C56C46"
-               BuildableName = "BluesnapSDKExampleUITests.xctest"
-               BlueprintName = "BluesnapSDKExampleUITests"
+               BlueprintIdentifier = "2D4E27921E8808A800C56C46"
+               BuildableName = "BluesnapSDKExampleTests.xctest"
+               BlueprintName = "BluesnapSDKExampleTests"
                ReferencedContainer = "container:BluesnapSDKExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
