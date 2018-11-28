@@ -15,6 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+
+        Configuration.loadAPICredentialsFromBundle();
+        NSLog("Configuration user = \(Configuration.bsAPIUser ?? "None")")
+        NSLog("Configuration password = \(Configuration.bsAPIPassword ?? "None")")
         BuddyBuildSDK.setup()
         
         // Override point for customization after application launch.
