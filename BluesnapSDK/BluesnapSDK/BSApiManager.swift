@@ -10,17 +10,26 @@
 
 import Foundation
 
+extension BSApiManager {
+    static var bsAPIUser: String {
+        return (Bundle(for: BSApiManager.self).object(forInfoDictionaryKey: "BsAPIUser") as? String) ?? "USER_UNDEFINED"
+    }
+
+    static var bsAPIPassword: String {
+        return (Bundle(for: BSApiManager.self).object(forInfoDictionaryKey: "BsAPIPassword") as? String) ?? "PASSWORD_UNDEFINED"
+    }
+
+}
+
   class BSApiManager: NSObject {
 
     // MARK: Constants
-
     internal static let BS_PRODUCTION_DOMAIN_PART1 = "https://ws"
     internal static let BS_PRODUCTION_DOMAIN_PART2 = ".bluesnap.com/"
     internal static let BS_SANDBOX_DOMAIN = "https://sandbox.bluesnap.com/"
-    internal static let BS_SANDBOX_TEST_USER = "sdkuser"
-    internal static let BS_SANDBOX_TEST_PASS = "SDKuser123"
 //    internal static let BS_SANDBOX_DOMAIN = "https://us-qa-fct02.bluesnap.com/"
-//    internal static let BS_SANDBOX_TEST_USER = "HostedPapi"
+    internal static let BS_SANDBOX_TEST_USER = bsAPIUser
+    internal static let BS_SANDBOX_TEST_PASSWORD = bsAPIPassword
     internal static let TIME_DIFF_TO_RELOAD: Double = -60 * 60
     // every hour (interval should be negative, and in seconds)
  
@@ -67,7 +76,7 @@ import Foundation
             fatalError("BsToken has not been initialized")
         }
     }
-    
+
     /**
      Use this method only in tests to get a token for sandbox
      - parameters:
@@ -75,9 +84,8 @@ import Foundation
      - completion: function to be called after token is generated; will receive optional token and optional error
      */
     static func createSandboxBSToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
-        
-        createSandboxBSToken(shopperId: shopperId, domain: BS_SANDBOX_DOMAIN, user: BS_SANDBOX_TEST_USER, password: BS_SANDBOX_TEST_PASS, completion: { bsToken, bsError in
-            
+        createSandboxBSToken(shopperId: shopperId, domain: BS_SANDBOX_DOMAIN, user: BS_SANDBOX_TEST_USER, password: BS_SANDBOX_TEST_PASSWORD, completion: { bsToken, bsError in
+
             BSApiManager.setBsToken(bsToken: bsToken)
             completion(bsToken, bsError)
         })
