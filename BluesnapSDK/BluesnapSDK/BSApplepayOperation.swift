@@ -104,16 +104,22 @@ public class PaymentOperation: BSApplepayOperation, PKPaymentAuthorizationViewCo
     private var requestController: PKPaymentAuthorizationViewController!
     private var status: PKPaymentAuthorizationStatus = .failure;
     public var error: BSErrors?
-    public weak var delegate: PaymentOperationDelegate!
+    private let delegate: PaymentOperationDelegate
+    private var finishCompletion: ((BSErrors?) -> Void)
 
 
-    public init(request: PKPaymentRequest) {
-        self.request = request;
+    public init(request: PKPaymentRequest, delegate: PaymentOperationDelegate, completion: @escaping (BSErrors?) -> Void) {
+        self.request = request
+        self.finishCompletion = completion
+        self.requestController = PKPaymentAuthorizationViewController(paymentRequest: request)
+        self.delegate = delegate
+
     }
 
     public func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController,
                                                    didAuthorizePayment payment: PKPayment,
                                                    completion: @escaping (PKPaymentAuthorizationStatus) -> Void) {
+        NSLog("ApplePaymentAuthorizationViewController Validate")
         delegate.validate(payment: payment) {
             switch $0 {
             case .valid:
@@ -147,12 +153,14 @@ public class PaymentOperation: BSApplepayOperation, PKPaymentAuthorizationViewCo
     }
 
     public func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
-
+        NSLog("Apple pay controller finish")
         controller.dismiss(animated: true) {
             if case .success = self.status {
+                NSLog("Apple pay controller dismissm successfuly")
                 self.finish();
+                self.finishCompletion(nil)
             } else if self.status.rawValue > 1 {
-                NSLog("Apple pay operation error")
+                NSLog("Apple pay operation error \(self.status.rawValue)")
                 self.finish(with: BSErrors.applePayOperationError);
             } else {
                 self.finish(with: BSErrors.applePayCanceled);
@@ -168,8 +176,8 @@ public class PaymentOperation: BSApplepayOperation, PKPaymentAuthorizationViewCo
         if !PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: self.request.supportedNetworks) {
             self.finish(with: BSErrors.cantMakePaymentError);
         }
-        self.requestController = PKPaymentAuthorizationViewController(paymentRequest: self.request);
-        self.requestController.delegate = self;
+
+        self.requestController!.delegate = self;
         DispatchQueue.main.async {
             UIApplication.shared.keyWindow?.rootViewController?.present(self.requestController, animated: true, completion: nil) ?? {
                 self.finish(with: BSErrors.unknown);
