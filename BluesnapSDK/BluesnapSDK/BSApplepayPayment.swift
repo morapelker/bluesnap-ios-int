@@ -70,7 +70,15 @@ extension BSApplePayInfo: DictionaryConvertible
 
     public func toDictionary() throws -> [String: Any] {
 
-        let desrilaziedToken = try JSONSerialization.jsonObject(with: payment.token.paymentData, options: JSONSerialization.ReadingOptions())
+        //let desrilaziedToken = try JSONSerialization.jsonObject(with: payment.token.paymentData, options: JSONSerialization.ReadingOptions())
+        let desrilaziedToken: Any
+        if (payment.token.transactionIdentifier != "Simulated Identifier") {
+            desrilaziedToken = try JSONSerialization.jsonObject(with: payment.token.paymentData, options: JSONSerialization.ReadingOptions())
+        } else {
+            desrilaziedToken = "Simulated Instrument"
+            NSLog("This is a Simulated Instrument")
+        }
+
 
         let shippingContactDict = [
                 "familyName": shippingContact?.name?.familyName ?? "",
