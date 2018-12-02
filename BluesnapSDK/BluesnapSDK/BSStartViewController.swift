@@ -86,7 +86,9 @@ class BSStartViewController: UIViewController {
 
 
         applePayPressed(sender, completion: { (error) in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async
+            {
+                NSLog("Apple pay completion")
                 if error == BSErrors.applePayCanceled {
                     NSLog("Apple Pay operation canceled")
                     return
@@ -101,7 +103,8 @@ class BSStartViewController: UIViewController {
                     BlueSnapSDK.sdkRequest?.purchaseFunc(applePayPurchaseDetails)
                 }
             }
-        })
+        }
+           )
 
     }
 

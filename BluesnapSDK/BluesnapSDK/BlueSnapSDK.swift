@@ -304,5 +304,3 @@ public class BSApplePayConfiguration {
     }
 
 }
-
-let InternalQueue = OperationQueue();
