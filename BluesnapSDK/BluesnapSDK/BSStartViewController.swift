@@ -86,7 +86,9 @@ class BSStartViewController: UIViewController {
 
 
         applePayPressed(sender, completion: { (error) in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async
+            {
+                NSLog("Apple pay completion")
                 if error == BSErrors.applePayCanceled {
                     NSLog("Apple Pay operation canceled")
                     return
@@ -101,7 +103,8 @@ class BSStartViewController: UIViewController {
                     BlueSnapSDK.sdkRequest?.purchaseFunc(applePayPurchaseDetails)
                 }
             }
-        })
+        }
+           )
 
     }
 
@@ -201,13 +204,13 @@ class BSStartViewController: UIViewController {
                 let accessibilityIdentifier = "existingCc\(tag)"
                 cardView.accessibilityIdentifier = accessibilityIdentifier
                 cardView.isUserInteractionEnabled = true
-                cardView.accessibilityTraits = UIAccessibilityTraitButton
+                cardView.accessibilityTraits = UIAccessibilityTraits.button
                 tag = tag + 1
             }
         }
     }
     
-    func existingCCTouchUpInside(_ sender: Any) {
+    @objc func existingCCTouchUpInside(_ sender: Any) {
         
         if let existingCcUIView = sender as? BSExistingCcUIView, let existingCreditCards = BSApiManager.shopper?.existingCreditCards {
             let ccIdx = existingCcUIView.tag

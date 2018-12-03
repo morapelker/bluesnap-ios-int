@@ -43,3 +43,5 @@ Pods/
 # Carthage/Checkouts
 
 Carthage/Build
+
+env-vars.sh

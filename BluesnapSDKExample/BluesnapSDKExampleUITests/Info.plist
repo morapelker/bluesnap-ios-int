@@ -18,5 +18,9 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>BsAPIUser</key>
+	<string>${BS_API_USER}</string>
+	<key>BsAPIPassword</key>
+	<string>${BS_API_PASSWORD}</string>
 </dict>
 </plist>
