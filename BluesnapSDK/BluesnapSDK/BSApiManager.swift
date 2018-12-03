@@ -522,7 +522,7 @@ extension BSApiManager {
             if error == BSErrors.expiredToken || error == BSErrors.tokenNotFound {
                 // regenerate Token and try again
                 NSLog("BlueSnap; updateShopper retry")
-                regenerateToken(executeAfter: { _ in
+                regenerateToken(executeAfter: {
                     BSApiCaller.updateShopper(bsToken: getBsToken(), requestBody: requestBody, parseFunction: parseFunction, completion: checkErrorAndComplete)
                 })
             } else {
