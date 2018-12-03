@@ -141,7 +141,7 @@ public enum BSPaymentType : String {
             priceDetails: BSPriceDetails!,
             billingDetails: BSBillingAddressDetails?,
             shippingDetails: BSShippingAddressDetails?,
-            purchaseFunc: @escaping (BSBaseSdkResult!) -> Void,
+            purchaseFunc: @escaping (BSBaseSdkResult?) -> Void,
             updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)?) {
 
         super.init(withEmail: withEmail,
