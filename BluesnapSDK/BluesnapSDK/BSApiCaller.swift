@@ -10,8 +10,8 @@
 
 import Foundation
 
-@objc class BSApiCaller: NSObject {
-
+  class BSApiCaller: NSObject {
+    
     internal static let PAYPAL_SERVICE = "services/2/tokenized-services/paypal-token?amount="
     internal static let PAYPAL_SHIPPING = "&req-confirm-shipping=0&no-shipping=2"
     internal static let TOKENIZED_SERVICE = "services/2/payment-fields-tokens/"
@@ -31,7 +31,7 @@ import Foundation
         request.setValue(SDK_VERSION_HEADER_VAL, forHTTPHeaderField: SDK_VERSION_HEADER)
         return request
     }
-
+    
     /**
      Fetch all the initial data required for the SDK from BlueSnap server:
      - BlueSnap Kount MID
@@ -45,21 +45,21 @@ import Foundation
      - completion: a callback function to be called once the data is fetched; receives optional data and optional error
      */
     static func getSdkData(bsToken: BSToken!, baseCurrency: String?, completion: @escaping (BSSdkConfiguration?, BSErrors?) -> Void) {
-
+        
         let urlStr = bsToken.serverUrl + "services/2/tokenized-services/sdk-init?base-currency=" + (baseCurrency ?? "USD")
         let request = createRequest(urlStr, bsToken: bsToken)
-
+        
         // fire request
-
-        var sdkConfig: BSSdkConfiguration?
+        
+        var sdkConfig : BSSdkConfiguration?
         var resultError: BSErrors?
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error) in
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error getting supportedPaymentMethods - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error getting supportedPaymentMethods - \(errorType). Error: \(error.localizedDescription)")
                 resultError = .unknown
             } else {
-                let httpStatusCode: Int? = (response as? HTTPURLResponse)?.statusCode
+                let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
                 if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
                     (sdkConfig, resultError) = parseSdkDataJSON(data: data)
                 } else {
@@ -72,17 +72,17 @@ import Foundation
         }
         task.resume()
     }
-
+    
     private static func parseSdkDataJSON(data: Data?) -> (BSSdkConfiguration?, BSErrors?) {
-
+        
         var resultData: BSSdkConfiguration?
         var resultError: BSErrors?
-
+        
         if let data = data {
             do {
                 // Parse the result JSOn object
                 if let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject] {
-
+                    
                     resultData = BSSdkConfiguration()
                     if let kountMID = json["kountMerchantId"] as? Int {
                         resultData?.kountMID = kountMID
@@ -99,6 +99,7 @@ import Foundation
                         let methods = parseSupportedPaymentMethodsJSON(json: supportedPaymentMethods)
                         resultData?.supportedPaymentMethods = methods
                     }
+
                 } else {
                     resultError = .unknown
                     NSLog("Error parsing BS currency rates")
@@ -113,7 +114,7 @@ import Foundation
         }
         return (resultData, resultError)
     }
-
+    
 
     /**
      Get BlueSnap Token from BlueSnap server
@@ -127,7 +128,7 @@ import Foundation
     internal static func createSandboxBSToken(shopperId: Int?, user: String, password: String, completion: @escaping (BSToken?, BSErrors?) -> Void) {
 
         let domain: String = BSApiManager.BS_SANDBOX_DOMAIN
-
+        
         // create request
         let authorization = getBasicAuth(user: user, password: password)
         var urlStr = domain + "services/2/payment-fields-tokens"
@@ -145,7 +146,7 @@ import Foundation
         request.setValue(SDK_VERSION_HEADER_VAL, forHTTPHeaderField: SDK_VERSION_HEADER)
 
         // fire request
-
+        
         var result: BSToken?
         var resultError: BSErrors?
         NSLog("BlueSnap; createSandboxBSToken")
@@ -153,7 +154,7 @@ import Foundation
             NSLog("BlueSnap; createSandboxBSToken completion")
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error getting BSToken - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error getting BSToken - \(errorType). Error: \(error.localizedDescription)")
                 resultError = .unknown
             } else {
                 let httpResponse = response as? HTTPURLResponse
@@ -161,7 +162,7 @@ import Foundation
                     if (httpStatusCode >= 200 && httpStatusCode <= 299) {
                         result = extractTokenFromResponse(httpResponse: httpResponse)
                         if let result = result {
-                            NSLog("createSandboxBSToken result: \(result.tokenStr)")
+                            NSLog("createSandboxBSToken result")
                         } else {
                             resultError = .unknown
                         }
@@ -183,7 +184,7 @@ import Foundation
         }
         task.resume()
     }
-
+    
     /**
      Calls BlueSnap server to create a PayPal token
      - parameters:
@@ -193,26 +194,25 @@ import Foundation
      - completion: a callback function to be called once the PayPal token is fetched; receives optional PayPal Token string data and optional error
     */
     static func createPayPalToken(bsToken: BSToken!, purchaseDetails: BSPayPalSdkResult, withShipping: Bool, completion: @escaping (String?, BSErrors?) -> Void) {
-
-        var urlStr = bsToken.serverUrl + PAYPAL_SERVICE + "\(purchaseDetails.getAmount() ?? 0)" + "&currency=" + purchaseDetails.getCurrency()
+        
+        var urlStr = bsToken.serverUrl + PAYPAL_SERVICE  + "\(purchaseDetails.getAmount() ?? 0)" + "&currency=" + purchaseDetails.getCurrency()
         if withShipping {
             urlStr += PAYPAL_SHIPPING
         }
 
-        NSLog("Calling \(urlStr)")
         let request = createRequest(urlStr, bsToken: bsToken)
 
         // fire request
-
+        
         var resultToken: String?
         var resultError: BSErrors?
-
+        
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error creating PayPal token - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
-            } else {
-                let httpStatusCode: Int? = (response as? HTTPURLResponse)?.statusCode
+                NSLog("error creating PayPal token - \(errorType). Error: \(error.localizedDescription)")
+            }  else {
+                let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
                 if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
                     (resultToken, resultError) = parsePayPalTokenJSON(data: data)
                 } else {
@@ -225,8 +225,8 @@ import Foundation
         }
         task.resume()
     }
-
-
+    
+    
     /**
      Fetch a list of merchant-supported payment methods from BlueSnap server
      - parameters:
@@ -234,21 +234,21 @@ import Foundation
      - completion: a callback function to be called once the data is fetched; receives optional payment method list and optional error
      */
     static func getSupportedPaymentMethods(bsToken: BSToken!, completion: @escaping ([String]?, BSErrors?) -> Void) {
-
+        
         let urlStr = bsToken.serverUrl + "services/2/tokenized-services/supported-payment-methods"
         let request = createRequest(urlStr, bsToken: bsToken)
 
         // fire request
-
+        
         var supportedPaymentMethods: [String]?
         var resultError: BSErrors?
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error) in
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error getting supportedPaymentMethods - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error getting supportedPaymentMethods - \(errorType). Error: \(error.localizedDescription)")
                 resultError = .unknown
             } else {
-                let httpStatusCode: Int? = (response as? HTTPURLResponse)?.statusCode
+                let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
                 if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
                     (supportedPaymentMethods, resultError) = parsePaymentMethodsData(data: data)
                 } else {
@@ -266,10 +266,10 @@ import Foundation
     Submit payment fields to BlueSnap
     */
     static func submitPaymentDetails(bsToken: BSToken!,
-                                     requestBody: [String: String],
-                                     parseFunction: @escaping (Int, Data?) -> ([String: String], BSErrors?),
-                                     completion: @escaping ([String: String], BSErrors?) -> Void) {
-
+                                    requestBody: [String: String],
+                                    parseFunction: @escaping (Int, Data?) -> ([String:String],BSErrors?),
+                                    completion: @escaping ([String:String], BSErrors?) -> Void) {
+        
         let domain: String! = bsToken!.serverUrl
         // If you want to test expired token, use this:
         //let urlStr = domain + TOKENIZED_SERVICE + "fcebc8db0bcda5f8a7a5002ca1395e1106ea668f21200d98011c12e69dd6bceb_"
@@ -283,14 +283,14 @@ import Foundation
         }
 
         // fire request
-
+        
         var resultError: BSErrors?
-
+        
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-            var resultData: [String: String] = [:]
+            var resultData: [String:String] = [:]
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error submitting BS Payment details - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error submitting BS Payment details - \(errorType). Error: \(error.localizedDescription)")
                 completion(resultData, .unknown)
                 return
             }
@@ -355,7 +355,7 @@ import Foundation
 
         var resultData: [String: String] = [:]
         var resultError: BSErrors?
-
+        
         if (httpStatusCode >= 200 && httpStatusCode <= 299) {
             (resultData, resultError) = parseResultCCDetailsFromResponse(data: data)
         } else if (httpStatusCode >= 400 && httpStatusCode <= 499) {
@@ -366,14 +366,14 @@ import Foundation
         }
         return (resultData, resultError)
     }
-
-    static func parseGenericResponse(httpStatusCode: Int, data: Data?) -> ([String: String], BSErrors?) {
-
-        var resultData: [String: String] = [:]
+    
+    static func parseGenericResponse(httpStatusCode: Int, data: Data?) -> ([String:String], BSErrors?) {
+        
+        let resultData: [String:String] = [:]
         var resultError: BSErrors?
-
+        
         if (httpStatusCode >= 200 && httpStatusCode <= 299) {
-
+            
         } else if (httpStatusCode >= 400 && httpStatusCode <= 499) {
             resultError = parseHttpError(data: data, httpStatusCode: httpStatusCode)
         } else {
@@ -383,9 +383,9 @@ import Foundation
         return (resultData, resultError)
     }
 
-    static func parseResultCCDetailsFromResponse(data: Data?) -> ([String: String], BSErrors?) {
-
-        var resultData: [String: String] = [:]
+    static func parseResultCCDetailsFromResponse(data: Data?) -> ([String:String], BSErrors?) {
+        
+        var resultData: [String:String] = [:]
         var resultError: BSErrors? = nil
         if let data = data {
             if !data.isEmpty {
@@ -407,13 +407,13 @@ import Foundation
         }
         return (resultData, resultError)
     }
-
-
-    internal static func parseApplePayResponse(httpStatusCode: Int, data: Data?) -> ([String: String], BSErrors?) {
-
-        let resultData: [String: String] = [:]
+    
+    
+    internal static func parseApplePayResponse(httpStatusCode: Int, data: Data?) -> ([String:String], BSErrors?) {
+        
+        let resultData: [String:String] = [:]
         var resultError: BSErrors?
-
+        
         if (httpStatusCode >= 200 && httpStatusCode <= 299) {
             NSLog("ApplePay data submitted successfully")
         } else if (httpStatusCode >= 400 && httpStatusCode <= 499) {
@@ -425,34 +425,34 @@ import Foundation
         return (resultData, resultError)
     }
 
-
+    
     /**
      This function checks if a token is expired by trying to submit payment fields,
      then checking the response.
     */
     static func isTokenExpired(bsToken: BSToken?, completion: @escaping (Bool) -> Void) {
-
+        
         if let bsToken = bsToken {
-
+            
             // create request
             let urlStr = bsToken.serverUrl + TOKENIZED_SERVICE + bsToken.getTokenStr()
             var request = createRequest(urlStr, bsToken: bsToken)
             request.httpMethod = "PUT"
             do {
-                let requestBody = ["dummy": "check:"]
+                let requestBody = ["dummy":"check:"]
                 request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
             } catch let error {
                 NSLog("Error serializing CC details: \(error.localizedDescription)")
             }
-
+            
             // fire request
-
+            
             var result: Bool = false
             let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-                var resultData: [String: String] = [:]
+                var resultData: [String:String] = [:]
                 if let error = error {
                     let errorType = type(of: error)
-                    NSLog("error submitting to check if token is expired - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                    NSLog("error submitting to check if token is expired - \(errorType). Error: \(error.localizedDescription)")
                     return
                 }
                 let httpResponse = response as? HTTPURLResponse
@@ -475,13 +475,13 @@ import Foundation
     }
 
     // MARK: private functions
-
-
+    
+    
     private static func parseHttpError(data: Data?, httpStatusCode: Int?) -> BSErrors {
-
-        var resultError: BSErrors = .invalidInput
-        let errStr: String? = extractError(data: data)
-
+        
+        var resultError : BSErrors = .invalidInput
+        let errStr : String? = extractError(data: data)
+        
         if (httpStatusCode != nil && httpStatusCode! >= 400 && httpStatusCode! <= 499) {
             if (errStr == "EXPIRED_TOKEN") {
                 resultError = .expiredToken
@@ -506,20 +506,20 @@ import Foundation
             }
         } else {
             resultError = .unknown
-            NSLog("Http error; HTTP status = \(httpStatusCode)")
+            NSLog("Http error; HTTP status = \(String(describing: httpStatusCode))")
         }
 
         return resultError
     }
 
     private static func extractError(data: Data?) -> String {
-
-        var errStr: String?
+        
+        var errStr : String?
         if let data = data {
             do {
                 // sometimes the data is not JSON :(
-                let str: String = String(data: data, encoding: .utf8) ?? ""
-                let p = str.characters.index(of: "{")
+                let str : String = String(data: data, encoding: .utf8) ?? ""
+                let p = str.index(of: "{")
                 if p == nil {
                     errStr = str.replacingOccurrences(of: "\"", with: "")
                 } else {
@@ -535,20 +535,20 @@ import Foundation
                     }
                 }
             } catch let error {
-                NSLog("Error parsing result data: \(data) ; error: \(error.localizedDescription)")
+                NSLog("Error parsing result data; error: \(error.localizedDescription)")
             }
         } else {
             NSLog("Error - result data is empty")
         }
         return errStr ?? ""
     }
-
+    
     private static func parseCurrenciesJSON(json: [String: AnyObject]) -> BSCurrencies {
-
+        
         var currencies: [BSCurrency] = []
         var baseCurrency = "USD"
         if let currencyName = json["baseCurrencyName"] as? String
-        , let currencyCode = json["baseCurrency"] as? String {
+            , let currencyCode = json["baseCurrency"] as? String {
             let bsCurrency = BSCurrency(name: currencyName, code: currencyCode, rate: 1.0)
             currencies.append(bsCurrency)
             baseCurrency = currencyCode
@@ -556,8 +556,8 @@ import Foundation
         if let exchangeRatesArr = json["exchangeRate"] as? [[String: Any]] {
             for exchangeRateItem in exchangeRatesArr {
                 if let currencyName = exchangeRateItem["quoteCurrencyName"] as? String
-                , let currencyCode = exchangeRateItem["quoteCurrency"] as? String
-                , let currencyRate = exchangeRateItem["conversionRate"] as? Double {
+                    , let currencyCode = exchangeRateItem["quoteCurrency"] as? String
+                    , let currencyRate = exchangeRateItem["conversionRate"] as? Double {
                     let bsCurrency = BSCurrency(name: currencyName, code: currencyCode, rate: currencyRate)
                     currencies.append(bsCurrency)
                 }
@@ -568,12 +568,12 @@ import Foundation
         }
         return BSCurrencies(baseCurrency: baseCurrency, currencies: currencies)
     }
-
+    
     private static func parseShopperJSON(json: [String: AnyObject]) -> BSShopper {
-
+        
         let shopper = BSShopper()
         if let firstName = json["firstName"] as? String
-        , let lastName = json["lastName"] as? String {
+            , let lastName = json["lastName"] as? String {
             shopper.name = firstName + " " + lastName
         }
         if let email = json["email"] as? String {
@@ -608,7 +608,7 @@ import Foundation
             let shippingDetails = BSShippingAddressDetails()
             shopper.shippingDetails = shippingDetails
             if let firstName = shipping["firstName"] as? String
-            , let lastName = shipping["lastName"] as? String {
+                , let lastName = shipping["lastName"] as? String {
                 shippingDetails.name = firstName + " " + lastName
             }
             if let country = shipping["country"] as? String {
@@ -640,11 +640,11 @@ import Foundation
         if let paymentSources = json["paymentSources"] as? [String: AnyObject] {
             if let creditCardInfo = paymentSources["creditCardInfo"] as? [[String: AnyObject]] {
                 for ccDetailsJson in creditCardInfo {
-                    var billingDetails: BSBillingAddressDetails?
+                    var billingDetails : BSBillingAddressDetails?
                     if let billingContactInfo = ccDetailsJson["billingContactInfo"] as? [String: AnyObject] {
                         billingDetails = BSBillingAddressDetails()
                         if let firstName = billingContactInfo["firstName"] as? String
-                        , let lastName = billingContactInfo["lastName"] as? String {
+                            , let lastName = billingContactInfo["lastName"] as? String {
                             billingDetails?.name = firstName + " " + lastName
                         }
                         if let country = billingContactInfo["country"] as? String {
@@ -713,10 +713,10 @@ import Foundation
     }
 
     private static func parsePayPalTokenJSON(data: Data?) -> (String?, BSErrors?) {
-
+        
         var resultToken: String?
         var resultError: BSErrors?
-
+        
         if let data = data {
             do {
                 // Parse the result JSOn object
@@ -734,12 +734,12 @@ import Foundation
             resultError = .unknown
             NSLog("No data in BS result on getting PayPal Token")
         }
-
+        
         return (resultToken, resultError)
     }
-
-    private static func parsePaymentMethodsData(data: Data?) -> ([String]?, BSErrors?) {
-
+    
+    private static func parsePaymentMethodsData(data: Data?) -> ([String]?, BSErrors?)  {
+        
         var resultArr: [String]?
         var resultError: BSErrors?
         if let data = data {
@@ -761,13 +761,13 @@ import Foundation
         }
         return (resultArr, resultError)
     }
-
-    private static func parseSupportedPaymentMethodsJSON(json: [String: AnyObject]) -> [String]? {
+    
+    private static func parseSupportedPaymentMethodsJSON(json: [String: AnyObject]) -> [String]?  {
 
         // insert SDKInit Regex data to the cardTypeRegex Validator while maintaining order
         if let cardTypesRegex = json["creditCardRegex"] as? [String: String] {
             var index: Int = 0
-            for (k, v) in cardTypesRegex {
+            for (k,v) in cardTypesRegex {
                 BSValidator.cardTypesRegex[index] = (cardType: k, regexp: v)
                 index += 1
             }
@@ -778,7 +778,7 @@ import Foundation
         if let arr = json["paymentMethods"] as? [String] {
             resultArr = arr
         }
-        return resultArr
+         return resultArr
     }
 
     private static func parseChosenPaymentMethodsJSON(json: [String: AnyObject]) -> BSChosenPaymentMethod? {
@@ -796,11 +796,11 @@ import Foundation
     }
 
     private static func extractTokenFromResponse(httpResponse: HTTPURLResponse?) -> BSToken? {
-
+        
         var result: BSToken?
         if let location: String = httpResponse?.allHeaderFields["Location"] as? String {
             if let lastIndexOfSlash = location.range(of: "/", options: String.CompareOptions.backwards, range: nil, locale: nil) {
-                let tokenStr = location.substring(with: lastIndexOfSlash.upperBound..<location.endIndex)
+                let tokenStr = String(location[lastIndexOfSlash.upperBound..<location.endIndex])
                 result = BSToken(tokenStr: tokenStr)
             } else {
                 NSLog("Error: BS Token does not contain /")
@@ -810,7 +810,7 @@ import Foundation
         }
         return result
     }
-
+    
     /**
      Build the basic authentication header from username/password
      - parameters:

@@ -11,7 +11,7 @@ import Foundation
 /**
  Available payment types
  */
-public enum BSPaymentType: String {
+public enum BSPaymentType : String {
     case CreditCard = "CC"
     case ApplePay = "APPLE_PAY"
     case PayPal = "PAYPAL"
@@ -21,9 +21,8 @@ public enum BSPaymentType: String {
 /**
  Base class for the different payments; for now only BSCreditCardInfo inherits from this.
  */
-@objc public class BSPaymentInfo: NSObject {
-    let paymentType: BSPaymentType!
-
+  public class BSPaymentInfo: NSObject {
+    let paymentType : BSPaymentType!
     public init(paymentType: BSPaymentType!) {
         self.paymentType = paymentType
     }
@@ -32,8 +31,8 @@ public enum BSPaymentType: String {
 /**
  Base class for payment request; this will be the result of the payment flow (one of the inherited classes: BSCcSdkResult/BSApplePaySdkResult/BSPayPalSdkResult)
  */
-@objc public class BSBaseSdkResult: NSObject {
-
+  public class BSBaseSdkResult : NSObject {
+    
     var fraudSessionId: String?
     var priceDetails: BSPriceDetails!
     private var isSdkRequestIsShopperRequirements: Bool!
@@ -53,25 +52,25 @@ public enum BSPaymentType: String {
     */
     internal init(sdkRequest: BSSdkRequest) {
         super.init()
-        self.priceDetails = sdkRequest.priceDetails.copy() as! BSPriceDetails
+        self.priceDetails = sdkRequest.priceDetails.copy() as? BSPriceDetails
         self.isSdkRequestIsShopperRequirements = false
         self.fraudSessionId = BlueSnapSDK.fraudSessionId
     }
-
+    
     public func getFraudSessionId() -> String? {
         return fraudSessionId;
     }
-
+        
     // MARK: getters and setters
-
+    
     public func getAmount() -> Double! {
         return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.amount.doubleValue
     }
-
+    
     public func getTaxAmount() -> Double! {
         return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.taxAmount.doubleValue
     }
-
+    
     public func getCurrency() -> String! {
         return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.currency
     }
@@ -85,13 +84,13 @@ public enum BSPaymentType: String {
 /**
  price details: amount, tax and currency
  */
-@objc public class BSPriceDetails: NSObject, NSCopying {
+  public class BSPriceDetails : NSObject, NSCopying {
 
     public var amount: NSNumber! = 0.0
     public var taxAmount: NSNumber! = 0.0
-    public var currency: String! = "USD"
+    public var currency : String! = "USD"
 
-    @objc public func setDetailsWithAmount(amount: NSNumber!, taxAmount: NSNumber!, currency: NSString?/*, baseCurrency: NSString?*/) {
+      public func setDetailsWithAmount(amount: NSNumber!, taxAmount: NSNumber!, currency: NSString?/*, baseCurrency: NSString?*/) {
         self.amount = amount
         self.taxAmount = taxAmount
         self.currency = currency! as String
@@ -103,14 +102,14 @@ public enum BSPaymentType: String {
         self.taxAmount = NSNumber.init(value: taxAmount)
         self.currency = currency ?? "USD"
     }
-
+    
     public func copy(with zone: NSZone? = nil) -> Any {
         let copy = BSPriceDetails(amount: amount.doubleValue, taxAmount: taxAmount.doubleValue, currency: currency)
         return copy
     }
-
+    
     public func changeCurrencyAndConvertAmounts(newCurrency: BSCurrency!) {
-
+        
         if let currencies = BSApiManager.bsCurrencies {
             let originalRate = currencies.getCurrencyByCode(code: self.currency)?.getRate() ?? 1.0
             self.currency = newCurrency.code
@@ -131,7 +130,7 @@ public enum BSPaymentType: String {
     - (optional) Shopper details
     - (optional) function for updating tax amount based on shipping country/state. Only called when 'withShipping
  */
-@objc public class BSSdkRequest: BSSdkRequestShopperRequirements {
+  public class BSSdkRequest: BSSdkRequestShopperRequirements {
     public var priceDetails: BSPriceDetails! = BSPriceDetails(amount: 0, taxAmount: 0, currency: nil)
     public var updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)?
 
@@ -156,7 +155,7 @@ public enum BSPaymentType: String {
     }
 }
 
-@objc public class BSSdkRequestShopperRequirements: NSObject {
+  public class BSSdkRequestShopperRequirements: NSObject {
 
     public var withEmail: Bool = true
     public var withShipping: Bool = false
@@ -165,7 +164,7 @@ public enum BSPaymentType: String {
     public var billingDetails: BSBillingAddressDetails?
     public var shippingDetails: BSShippingAddressDetails?
 
-    public var purchaseFunc: (BSBaseSdkResult!) -> Void
+    public var purchaseFunc: (BSBaseSdkResult?) -> Void
 
     public init(
             withEmail: Bool,
@@ -173,7 +172,7 @@ public enum BSPaymentType: String {
             fullBilling: Bool,
             billingDetails: BSBillingAddressDetails?,
             shippingDetails: BSShippingAddressDetails?,
-            purchaseFunc: @escaping (BSBaseSdkResult!) -> Void) {
+            purchaseFunc: @escaping (BSBaseSdkResult?) -> Void) {
 
         self.withEmail = withEmail
         self.withShipping = withShipping
