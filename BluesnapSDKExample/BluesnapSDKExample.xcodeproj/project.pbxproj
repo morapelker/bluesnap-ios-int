@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 47;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,7 @@
 		6A0D56668683F67E8BCFD6EC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A1D0EF03F84A1CE191C991 /* CoreMedia.framework */; };
 		926D45929502286419E25FCB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C4E68941D1C882B3AE350E9 /* CoreText.framework */; };
 		D4BF8F684D49EBF26C3471C0 /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD5DA00E6D9D413F0E884C5 /* BuddyBuildSDK.framework */; };
+		DEB34D679B4735BD2B2F6DD5 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */; };
 		E09E73F9DBF6074864644F11 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57BBCD0E0159D220A2D83C91 /* CoreVideo.framework */; };
 		FD50228F1F6137A900C820AC /* BSPaymentTypeScreenUITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD50228E1F6137A900C820AC /* BSPaymentTypeScreenUITestHelper.swift */; };
 		FD5022911F61399300C820AC /* BSPaymentScreenUITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5022901F61399300C820AC /* BSPaymentScreenUITestHelper.swift */; };
@@ -113,6 +114,7 @@
 		BFD5DA00E6D9D413F0E884C5 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
 		D4C1F041334E92065E9D2639 /* Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		DD1DA5729FE41DCDE3370A44 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		F7A1D0EF03F84A1CE191C991 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		FD08882D1FA9E5B2001EED4C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FD50228E1F6137A900C820AC /* BSPaymentTypeScreenUITestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSPaymentTypeScreenUITestHelper.swift; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				2D4E278E1E8808A700C56C46 /* Info.plist */,
 				FD89AB631EB6038600A1B257 /* DemoTransactions.swift */,
 				FD68146F1F405EAD00FAE1ED /* Localizable.strings */,
+				DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */,
 			);
 			path = BluesnapSDKExample;
 			sourceTree = "<group>";
@@ -342,8 +345,7 @@
 				TargetAttributes = {
 					2D4E277E1E8808A700C56C46 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = AYTGDKG3D8;
-						ProvisioningStyle = Manual;
+						LastSwiftMigration = 1000;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 1;
@@ -353,19 +355,19 @@
 					2D4E27921E8808A800C56C46 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = AYTGDKG3D8;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D4E277E1E8808A700C56C46;
 					};
 					2D4E279D1E8808A800C56C46 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = AYTGDKG3D8;
-						ProvisioningStyle = Automatic;
+						LastSwiftMigration = 1000;
 						TestTargetID = 2D4E277E1E8808A700C56C46;
 					};
 				};
 			};
 			buildConfigurationList = 2D4E277A1E8808A700C56C46 /* Build configuration list for PBXProject "BluesnapSDKExample" */;
-			compatibilityVersion = "Xcode 6.3";
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -467,6 +469,7 @@
 				FDF2217C1F25CAB10078217C /* ThankYouViewController.swift in Sources */,
 				2D4E27831E8808A700C56C46 /* AppDelegate.swift in Sources */,
 				FD89AB641EB6038600A1B257 /* DemoTransactions.swift in Sources */,
+				DEB34D679B4735BD2B2F6DD5 /* Configuration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,7 +655,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -664,7 +668,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BluesnapSDKExample/BluesnapSDKExample.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -673,14 +679,18 @@
 				"FRAMEWORK_SEARCH_PATHS[arch=*]" = " $(PROJECT_DIR)";
 				INFOPLIST_FILE = BluesnapSDKExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/../../../Downloads\"/**";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3036489d-a96c-4f67-ac05-d095078854d4";
 				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -690,6 +700,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BluesnapSDKExample/BluesnapSDKExample.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -697,14 +709,18 @@
 				);
 				INFOPLIST_FILE = BluesnapSDKExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "\"${PROJECT_DIR}/../../../Downloads\"/**";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3036489d-a96c-4f67-ac05-d095078854d4";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_OBJC_BRIDGING_HEADER = "Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -715,10 +731,15 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				INFOPLIST_FILE = BluesnapSDKExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BluesnapSDKExample.app/BluesnapSDKExample";
 			};
 			name = Debug;
@@ -730,10 +751,15 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				INFOPLIST_FILE = BluesnapSDKExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BluesnapSDKExample.app/BluesnapSDKExample";
 			};
 			name = Release;
@@ -742,12 +768,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				INFOPLIST_FILE = BluesnapSDKExampleUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-demo";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = BluesnapSDKExample;
 			};
 			name = Debug;
@@ -756,12 +789,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				INFOPLIST_FILE = BluesnapSDKExampleUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-demo";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = BluesnapSDKExample;
 			};
 			name = Release;

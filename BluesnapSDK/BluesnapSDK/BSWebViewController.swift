@@ -35,7 +35,7 @@ class BSWebViewController: UIViewController, UIWebViewDelegate {
         activityIndicator = BSViewsManager.createActivityIndicator(view: self.view)
         
         let wUrl = URL(string: self.url)
-        NSLog("WebView loading URL \(url)")
+        NSLog("WebView loading URL")
         webView.loadRequest(URLRequest(url: wUrl!))
     }
     
@@ -45,7 +45,7 @@ class BSWebViewController: UIViewController, UIWebViewDelegate {
     
     // MARK: UIWebViewDelegate functions
     
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         let urlStr = request.mainDocumentURL?.absoluteString ?? ""
         if let shouldGoToUrlFunc = shouldGoToUrlFunc {
             return shouldGoToUrlFunc(urlStr)
