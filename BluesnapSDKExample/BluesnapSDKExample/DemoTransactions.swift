@@ -16,12 +16,6 @@ import Foundation
 import BluesnapSDK
 
 class DemoTreansactions {
-    
-    static let BS_SANDBOX_TEST_USER : String  = "sdkuser"
-    static let BS_SANDBOX_TEST_PASS : String  = "SDKuser123"
-//    static let BS_SANDBOX_TEST_USER = "HostedPapi"
-//    static let BS_SANDBOX_TEST_PASS = "Plimus12345"
-
 
     func createApplePayTransaction(purchaseDetails: BSApplePaySdkResult!,
                                    bsToken: BSToken!,
@@ -152,8 +146,9 @@ class DemoTreansactions {
      Build the basic authentication header from username/password
      */
     func getBasicAuth() -> String {
-        
-        let loginStr = String(format: "%@:%@", DemoTreansactions.BS_SANDBOX_TEST_USER, DemoTreansactions.BS_SANDBOX_TEST_PASS)
+        let BS_SANDBOX_TEST_USER : String  = Configuration.bsAPIUser
+        let BS_SANDBOX_TEST_PASS : String  = Configuration.bsAPIPassword
+        let loginStr = String(format: "%@:%@", BS_SANDBOX_TEST_USER, BS_SANDBOX_TEST_PASS)
         let loginData = loginStr.data(using: String.Encoding.utf8)!
         let base64LoginStr = loginData.base64EncodedString()
         return "Basic \(base64LoginStr)"

@@ -7,7 +7,7 @@
 import Foundation
 import PassKit
 
-@objc open class BlueSnapSDK: NSObject {
+  open class BlueSnapSDK: NSObject {
 	
     // MARK: Supported networks for ApplePay
     
@@ -212,7 +212,7 @@ import PassKit
 //    /**
 //    Objective C helper method for returning sandbox token
 //    */
-//    @objc open class func createSandboxTestTokenOrNil() -> BSToken? {
+//      open class func createSandboxTestTokenOrNil() -> BSToken? {
 //        do {
 //            return try BSApiManager.createSandboxBSToken()!
 //        } catch let error {
@@ -253,7 +253,7 @@ import PassKit
         } else {
             KDataCollector.shared().environment = KEnvironment.test
         }
-        NSLog("Kount session ID: \(BlueSnapSDK.fraudSessionId ?? "")")
+        NSLog("Kount session ID")
         if let fraudSessionId = BlueSnapSDK.fraudSessionId {
             KDataCollector.shared().collect(forSession: fraudSessionId) { (sessionID, success, error) in
                 if success {
@@ -304,5 +304,3 @@ public class BSApplePayConfiguration {
     }
 
 }
-
-let InternalQueue = OperationQueue();

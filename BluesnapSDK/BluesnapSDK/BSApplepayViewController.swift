@@ -15,6 +15,8 @@ extension BSStartViewController : PaymentOperationDelegate {
 
     func applePayPressed(_ sender: Any, completion: @escaping (BSErrors?) -> Void) {
 
+        let InternalQueue = OperationQueue();
+
         if let sdkRequest = BlueSnapSDK.sdkRequest {
             let priceDetails = sdkRequest.priceDetails!
             let tax = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(floatLiteral: priceDetails.taxAmount.doubleValue), type: .final)
@@ -44,21 +46,15 @@ extension BSStartViewController : PaymentOperationDelegate {
                 .masterCard,
                 .visa
             ]
-            
-            
+
+
             // set up the operation with the paymaket request
-            let paymentOperation = PaymentOperation(request: pkPaymentRequest);
-            
-            paymentOperation.delegate = self;
-            
+            let paymentOperation =  PaymentOperation(request: pkPaymentRequest, delegate: self,  completion: completion);
             paymentOperation.completionBlock = {[weak op = paymentOperation] in
-                NSLog("PK payment completion \(op?.error.debugDescription ?? "No op")")
-                DispatchQueue.main.async {
+                NSLog("PK payment completion")
                     completion(op?.error)
-                }
-            };
-            
-            //Send the payment operation via queue
+            }
+
             InternalQueue.addOperation(paymentOperation);
         }
     }
@@ -71,7 +67,7 @@ extension BSStartViewController : PaymentOperationDelegate {
     func validate(payment: PKPayment, completion: @escaping (PaymentValidationResult) -> Void) {
         DispatchQueue.main.async {
             completion(.valid);
-        }
+       }
     }
 
     func send(paymentInformation: BSApplePayInfo, completion: @escaping (BSErrors?) -> Void) {
@@ -82,22 +78,18 @@ extension BSStartViewController : PaymentOperationDelegate {
             tokenizeRequest.paymentDetails = BSTokenizeApplePayDetails(applePayToken: jsonData)
             BSApiManager.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: { (result, error) in
                 if let error = error {
-                    DispatchQueue.main.async {
                         completion(error)
-                    }
                     debugPrint(error.description())
                     return
                 }
-                DispatchQueue.main.async {
                     completion(nil) // no result from BS on 200
-                }
             }
             )
         } else {
             NSLog("PaymentInformation parse error")
-            DispatchQueue.main.async {
+            //DispatchQueue.main.async {
                 completion(BSErrors.applePayOperationError)
-            }
+            //}
             return
         }
     }
@@ -109,7 +101,7 @@ extension BSStartViewController : PaymentOperationDelegate {
     }
     
     func didSelectShippingContact(contact: PKContact, completion: @escaping (PKPaymentAuthorizationStatus, [PKShippingMethod], [PKPaymentSummaryItem]) -> Void) {
-        DispatchQueue.main.async {
+       DispatchQueue.main.async {
             completion(.success, [], self.paymentSummaryItems);
         }
     }
