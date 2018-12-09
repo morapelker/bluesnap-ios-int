@@ -17,74 +17,12 @@ import BluesnapSDK
 
 class DemoTreansactions {
 
-    func createApplePayTransaction(purchaseDetails: BSApplePaySdkResult!,
-                                   bsToken: BSToken!,
-                                   completion: @escaping (_ success: Bool, _ data: String?) -> Void) {
-
-        var requestBody = [
-                "recurringTransaction": "ECOMMERCE",
-                "softDescriptor": "MobileSDKtest",
-                "cardTransactionType": "AUTH_CAPTURE",
-                "amount": "\(purchaseDetails.getAmount()!)",
-                "currency": "\(purchaseDetails.getCurrency()!)",
-                "pfToken": "\(bsToken.getTokenStr()!)",
-        ] as [String: Any]
-        if let fraudSessionId: String = purchaseDetails.getFraudSessionId() {
-            requestBody["transactionFraudInfo"] = ["fraudSessionId": fraudSessionId]
-        }
-        print("requestBody= \(requestBody)")
-        let authorization = getBasicAuth()
-
-        let urlStr = bsToken.getServerUrl() + "services/2/transactions";
-        let url = NSURL(string: urlStr)!
-        var request = NSMutableURLRequest(url: url as URL)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue(authorization, forHTTPHeaderField: "Authorization")
-        request.httpMethod = "POST"
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
-        } catch let error {
-            NSLog("Error serializing CC details: \(error.localizedDescription)")
-        }
-
-
-        // fire request
-
-        var result: (success: Bool, data: String?) = (success: false, data: nil)
-
-        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-            
-            if let error = error {
-                NSLog("error calling create transaction: \(error.localizedDescription)")
-            } else {
-                let httpResponse = response as? HTTPURLResponse
-                if let httpStatusCode: Int = (httpResponse?.statusCode) {
-
-                    if let data = data {
-                        result.data = String(data: data, encoding: .utf8)
-                        NSLog("Response body = \(result.data ?? "Empty")")
-                    }
-                    if (httpStatusCode >= 200 && httpStatusCode <= 299) {
-                        result.success = true
-                    } else {
-                        NSLog("Http error Creating BS Transaction; HTTP status = \(httpStatusCode)")
-                    }
-                }
-            }
-            defer {
-                DispatchQueue.main.async {
-                    completion(result.success, result.data)
-                }
-            }
-        }
-        task.resume()
-    }
 
     /**
-    Here all the data is on the token, we only need to send amoutn and currency
+    Here all the data is on the token, we only need to send amount and currency
      */
     func createTokenizedTransaction(
-        purchaseDetails: BSCcSdkResult!,
+        purchaseDetails: BSBaseSdkResult!,
         bsToken: BSToken!,
         completion: @escaping (_ success: Bool, _ data: String?)->Void) {
         
