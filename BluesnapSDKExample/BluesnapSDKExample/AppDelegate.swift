@@ -19,8 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Configuration.loadAPICredentialsFromBundle();
         NSLog("Configuration user = \(Configuration.bsAPIUser ?? "None")")
-        NSLog("Configuration password = \(Configuration.bsAPIPassword ?? "None")")
-        BuddyBuildSDK.setup()
+        NSLog("Configuration password char lenght = \(Configuration.bsAPIPassword.count.description ?? "None")")
+       
         
         // Override point for customization after application launch.
         return true
