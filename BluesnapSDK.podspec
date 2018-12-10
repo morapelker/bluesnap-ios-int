@@ -25,10 +25,4 @@ Pod::Spec.new do |s|
   s.frameworks                     = 'Foundation', 'Security', 'WebKit', 'PassKit', 'AddressBook', 'UIKit'
   s.weak_frameworks                = 'Contacts'
   s.requires_arc = true
-
-  s.subspec "DataCollector" do |s|
-    s.source_files = "BluesnapSDK/Kount/*.{h,m}"
-    s.public_header_files = "BluesnapSDK/Kount/*.h"
-    s.vendored_library = "BluesnapSDK/Kount/libKountDataCollector.a"
-  end
 end
