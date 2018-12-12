@@ -35,6 +35,7 @@ public enum BSPaymentType : String {
     
     var fraudSessionId: String?
     var priceDetails: BSPriceDetails!
+    var chosenPaymentMethodType: BSPaymentType?
     private var isSdkRequestIsShopperRequirements: Bool!
 
     /**
@@ -73,6 +74,10 @@ public enum BSPaymentType : String {
     
     public func getCurrency() -> String! {
         return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.currency
+    }
+
+    public func getChosenPaymentMethodType() -> BSPaymentType! {
+        return chosenPaymentMethodType
     }
 
     public func isShopperRequirements() -> Bool! {
