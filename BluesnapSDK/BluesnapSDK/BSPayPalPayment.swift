@@ -18,5 +18,11 @@ import Foundation
     
     override public init(sdkRequest: BSSdkRequest) {
         super.init(sdkRequest: sdkRequest)
+        chosenPaymentMethodType = BSPaymentType.PayPal
     }
-}
+
+      public override init(sdkRequestShopperRequirements: BSSdkRequestShopperRequirements) {
+          super.init(sdkRequestShopperRequirements: sdkRequestShopperRequirements)
+          chosenPaymentMethodType = BSPaymentType.PayPal
+      }
+  }

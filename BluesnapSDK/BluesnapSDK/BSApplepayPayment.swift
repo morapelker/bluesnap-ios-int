@@ -14,8 +14,14 @@ import PassKit
     
     public override init(sdkRequest: BSSdkRequest) {
         super.init(sdkRequest: sdkRequest)
+        chosenPaymentMethodType = BSPaymentType.ApplePay
     }
-}
+
+      public override init(sdkRequestShopperRequirements: BSSdkRequestShopperRequirements) {
+          super.init(sdkRequestShopperRequirements: sdkRequestShopperRequirements)
+          chosenPaymentMethodType = BSPaymentType.ApplePay
+      }
+  }
 
 
 // This extention is required only to extract enum string values of the OBJC Passkit type
