@@ -18,7 +18,7 @@ import PassKit
         .visa
     ]
     static internal var fraudSessionId : String?
-    static internal var sdkRequest : BSSdkRequest?
+    static internal var sdkRequestBase: BSSdkRequestBase?
 
 
     // MARK: SDK functions
@@ -94,9 +94,9 @@ import PassKit
     open class func showCheckoutScreen(
         inNavigationController: UINavigationController!,
         animated: Bool,
-        sdkRequest : BSSdkRequest!) {
+        sdkRequest : BSSdkRequestBase!) {
         
-        self.sdkRequest = sdkRequest
+        self.sdkRequestBase = sdkRequest
         adjustSdkRequest()
         
         DispatchQueue.main.async {
@@ -267,7 +267,7 @@ import PassKit
 
     private class func adjustSdkRequest() {
         
-        if let data = sdkRequest {
+        if var data = sdkRequestBase {
             
             let defaultCountry = NSLocale.current.regionCode ?? BSCountryManager.US_COUNTRY_CODE
             

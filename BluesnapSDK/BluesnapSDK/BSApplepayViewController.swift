@@ -17,8 +17,8 @@ extension BSStartViewController : PaymentOperationDelegate {
 
         let InternalQueue = OperationQueue();
 
-        if let sdkRequest = BlueSnapSDK.sdkRequest {
-            let priceDetails = sdkRequest.priceDetails!
+        if let sdkRequestBase = BlueSnapSDK.sdkRequestBase {
+            let priceDetails = sdkRequestBase.priceDetails!
             let tax = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(floatLiteral: priceDetails.taxAmount.doubleValue), type: .final)
             let total = PKPaymentSummaryItem(label: "Payment", amount: NSDecimalNumber(floatLiteral: priceDetails.amount.doubleValue), type: .final)
             
@@ -31,7 +31,7 @@ extension BSStartViewController : PaymentOperationDelegate {
             pkPaymentRequest.countryCode = "US"
             pkPaymentRequest.currencyCode = priceDetails.currency
             
-            if sdkRequest.withShipping {
+            if sdkRequestBase.withShipping {
                 pkPaymentRequest.requiredShippingAddressFields = [.email, .phone, .postalAddress]
             }
             // The billing fields are required for creating an ApplePay transaction on

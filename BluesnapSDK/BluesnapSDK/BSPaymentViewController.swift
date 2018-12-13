@@ -57,7 +57,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         
         self.firstTime = true
         self.firstTimeShipping = true
-        if let data = BlueSnapSDK.sdkRequest {
+        if let data = BlueSnapSDK.sdkRequestBase {
             self.fullBilling = data.fullBilling
             self.withEmail = data.withEmail
             self.withShipping = data.withShipping
@@ -190,7 +190,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
                 let merchantControllerIndex = viewControllers.count - (inShippingScreen ? 4 : 3)
                 _ = navigationController.popToViewController(viewControllers[merchantControllerIndex], animated: false)
                 // execute callback
-                BlueSnapSDK.sdkRequest?.purchaseFunc(self.purchaseDetails)
+                BlueSnapSDK.sdkRequestBase?.purchaseFunc(self.purchaseDetails)
             } else {
                 // error
                 if inShippingScreen {
