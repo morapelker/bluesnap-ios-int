@@ -51,7 +51,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         self.submitPaymentFields = submitPaymentFields
         self.firstTime = true
         self.validateOnEntry = validateOnEntry
-        self.updateTaxFunc = BlueSnapSDK.sdkRequest?.updateTaxFunc
+        self.updateTaxFunc = BlueSnapSDK.sdkRequestBase?.updateTaxFunc
     }
     
     // MARK: Keyboard functions

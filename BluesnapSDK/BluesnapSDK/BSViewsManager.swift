@@ -78,12 +78,12 @@ class BSViewsManager {
         inNavigationController: UINavigationController!,
         animated: Bool) {
         
-        if let sdkRequest = BlueSnapSDK.sdkRequest {
+        if let sdkRequestBase = BlueSnapSDK.sdkRequestBase {
             let bundle = BSViewsManager.getBundle()
             let storyboard = UIStoryboard(name: BSViewsManager.storyboardName, bundle: bundle);
             let purchaseScreen = storyboard.instantiateViewController(withIdentifier: BSViewsManager.purchaseScreenStoryboardId) as! BSPaymentViewController
             
-            let purchaseDetails = existingCcPurchaseDetails ?? BSCcSdkResult(sdkRequest: sdkRequest)
+            let purchaseDetails = existingCcPurchaseDetails ?? BSCcSdkResult(sdkRequestBase: sdkRequestBase)
             purchaseScreen.initScreen(purchaseDetails: purchaseDetails)
 
             inNavigationController.pushViewController(purchaseScreen, animated: animated)

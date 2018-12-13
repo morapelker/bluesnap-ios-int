@@ -78,7 +78,7 @@ class BSExistingCCViewController: UIViewController {
         
         shippingBoxView.isHidden = true
         shippingLabel.isHidden = true
-        if let data = BlueSnapSDK.sdkRequest {
+        if let data = BlueSnapSDK.sdkRequestBase {
             if data.withShipping {
                 shippingBoxView.isHidden = false
                 shippingLabel.isHidden = false
@@ -165,7 +165,7 @@ class BSExistingCCViewController: UIViewController {
 
     private func callUpdateTax() {
         
-        let sdkRequest = BlueSnapSDK.sdkRequest!
+        let sdkRequest = BlueSnapSDK.sdkRequestBase!
         let updateTaxFunc = sdkRequest.updateTaxFunc
         if updateTaxFunc != nil && sdkRequest.withShipping && purchaseDetails.shippingDetails?.country != nil {
             let country: String = purchaseDetails.shippingDetails!.country!
@@ -203,7 +203,7 @@ class BSExistingCCViewController: UIViewController {
                         _ = navigationController.popToViewController(viewControllers[merchantControllerIndex], animated: false)
                     }
                     // execute callback
-                    BlueSnapSDK.sdkRequest?.purchaseFunc(self.purchaseDetails)
+                    BlueSnapSDK.sdkRequestBase?.purchaseFunc(self.purchaseDetails)
                 }
             }
         })
@@ -248,7 +248,7 @@ class BSExistingCCViewController: UIViewController {
     func validateBilling() -> Bool {
         
         var result = false
-        if let data = BlueSnapSDK.sdkRequest {
+        if let data = BlueSnapSDK.sdkRequestBase {
             
             // not validating CC, seeing as it is an existing one
             
@@ -276,7 +276,7 @@ class BSExistingCCViewController: UIViewController {
     func validateShipping() -> Bool {
         
         var result = true
-        if let data = BlueSnapSDK.sdkRequest {
+        if let data = BlueSnapSDK.sdkRequestBase {
             if data.withShipping {
                 if let shippingDetails = purchaseDetails.shippingDetails {
                     let ok1 = BSValidator.isValidName(shippingDetails.name)

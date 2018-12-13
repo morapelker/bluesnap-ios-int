@@ -157,7 +157,7 @@ class BSApiManagerTests: XCTestCase {
         
         let priceDetails = BSPriceDetails(amount: 30, taxAmount: 0, currency: "USD")
         let sdkRequest = BSSdkRequest(withEmail: false, withShipping: false, fullBilling: false, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: { _ in }, updateTaxFunc: nil)
-        let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequest: sdkRequest)
+        let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequestBase: sdkRequest)
         
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -178,7 +178,7 @@ class BSApiManagerTests: XCTestCase {
         createExpiredTokenNoRegeneration()
         let priceDetails = BSPriceDetails(amount: 30, taxAmount: 0, currency: "USD")
         let sdkRequest = BSSdkRequest(withEmail: false, withShipping: false, fullBilling: false, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: { _ in }, updateTaxFunc: nil)
-        let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequest: sdkRequest)
+        let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequestBase: sdkRequest)
         
         let semaphore = DispatchSemaphore(value: 0)
         
@@ -201,7 +201,7 @@ class BSApiManagerTests: XCTestCase {
         
         let priceDetails = BSPriceDetails(amount: 30, taxAmount: 0, currency: "USD")
         let sdkRequest = BSSdkRequest(withEmail: false, withShipping: false, fullBilling: false, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: { _ in }, updateTaxFunc: nil)
-        let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequest: sdkRequest)
+        let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequestBase: sdkRequest)
         
         let semaphore = DispatchSemaphore(value: 0)
         

@@ -46,28 +46,28 @@ class BSSdkRequestResultTests: XCTestCase {
 
         XCTAssertTrue(sdkRequest is BSSdkRequest)
 
-        let sdkResultShopperRequirements = BSBaseSdkResult(sdkRequestShopperRequirements: sdkRequestShopperRequirements)
+        let sdkResultShopperRequirements = BSBaseSdkResult(sdkRequestBase: sdkRequestShopperRequirements)
         XCTAssertTrue(sdkResultShopperRequirements.isShopperRequirements())
 
-        let sdkResultShopperRequirementsApplePay = BSApplePaySdkResult(sdkRequestShopperRequirements: sdkRequestShopperRequirements)
+        let sdkResultShopperRequirementsApplePay = BSApplePaySdkResult(sdkRequestBase: sdkRequestShopperRequirements)
         XCTAssertTrue(sdkResultShopperRequirementsApplePay.getChosenPaymentMethodType() == BSPaymentType.ApplePay)
 
-        let sdkResultShopperRequirementsPayPal = BSPayPalSdkResult(sdkRequestShopperRequirements: sdkRequestShopperRequirements)
+        let sdkResultShopperRequirementsPayPal = BSPayPalSdkResult(sdkRequestBase: sdkRequestShopperRequirements)
         XCTAssertTrue(sdkResultShopperRequirementsPayPal.getChosenPaymentMethodType() == BSPaymentType.PayPal)
 
-        let sdkResultShopperRequirementsCC = BSCcSdkResult(sdkRequestShopperRequirements: sdkRequestShopperRequirements)
+        let sdkResultShopperRequirementsCC = BSCcSdkResult(sdkRequestBase: sdkRequestShopperRequirements)
         XCTAssertTrue(sdkResultShopperRequirementsCC.getChosenPaymentMethodType() == BSPaymentType.CreditCard)
 
-        let sdkResult = BSBaseSdkResult(sdkRequest: sdkRequest)
+        let sdkResult = BSBaseSdkResult(sdkRequestBase: sdkRequest)
         XCTAssertTrue(!sdkResult.isShopperRequirements())
 
-        let sdkResultApplePay = BSApplePaySdkResult(sdkRequest: sdkRequest)
+        let sdkResultApplePay = BSApplePaySdkResult(sdkRequestBase: sdkRequest)
         XCTAssertTrue(sdkResultApplePay.getChosenPaymentMethodType() == BSPaymentType.ApplePay)
 
-        let sdkResultPayPal = BSPayPalSdkResult(sdkRequest: sdkRequest)
+        let sdkResultPayPal = BSPayPalSdkResult(sdkRequestBase: sdkRequest)
         XCTAssertTrue(sdkResultPayPal.getChosenPaymentMethodType() == BSPaymentType.PayPal)
 
-        let sdkResultCC = BSCcSdkResult(sdkRequest: sdkRequest)
+        let sdkResultCC = BSCcSdkResult(sdkRequestBase: sdkRequest)
         XCTAssertTrue(sdkResultCC.getChosenPaymentMethodType() == BSPaymentType.CreditCard)
 
     }

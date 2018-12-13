@@ -99,8 +99,8 @@ class BSStartViewController: UIViewController {
                 } else {
                     _ = self.navigationController?.popViewController(animated: false)
                     // execute callback
-                    let applePayPurchaseDetails = BSApplePaySdkResult(sdkRequest: BlueSnapSDK.sdkRequest!)
-                    BlueSnapSDK.sdkRequest?.purchaseFunc(applePayPurchaseDetails)
+                    let applePayPurchaseDetails = BSApplePaySdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
+                    BlueSnapSDK.sdkRequestBase?.purchaseFunc(applePayPurchaseDetails)
                 }
             }
         }
@@ -121,14 +121,14 @@ class BSStartViewController: UIViewController {
     
     @IBAction func payPalClicked(_ sender: Any) {
         
-        payPalPurchaseDetails = BSPayPalSdkResult(sdkRequest: BlueSnapSDK.sdkRequest!)
+        payPalPurchaseDetails = BSPayPalSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
         
         DispatchQueue.main.async {
             self.startActivityIndicator()
         }
         
         DispatchQueue.main.async {
-            BSApiManager.createPayPalToken(purchaseDetails: self.payPalPurchaseDetails, withShipping: BlueSnapSDK.sdkRequest!.withShipping, completion: { resultToken, resultError in
+            BSApiManager.createPayPalToken(purchaseDetails: self.payPalPurchaseDetails, withShipping: BlueSnapSDK.sdkRequestBase!.withShipping, completion: { resultToken, resultError in
                 
                 if let resultToken = resultToken {
                     self.stopActivityIndicator()
@@ -217,7 +217,7 @@ class BSStartViewController: UIViewController {
             let cc = existingCreditCards[ccIdx]
             animateToPaymentScreen(startY: existingCcUIView.frame.minY, completion: { animate in
                 
-                let purchaseDetails = BSExistingCcSdkResult(sdkRequest: BlueSnapSDK.sdkRequest!, shopper: BSApiManager.shopper, existingCcDetails: cc)
+                let purchaseDetails = BSExistingCcSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!, shopper: BSApiManager.shopper, existingCcDetails: cc)
                 _ = BSViewsManager.showExistingCCDetailsScreen(purchaseDetails: purchaseDetails, inNavigationController: self.navigationController, animated: animate)
             })
         }
@@ -250,7 +250,7 @@ class BSStartViewController: UIViewController {
             }
             
             // execute callback
-            BlueSnapSDK.sdkRequest?.purchaseFunc(self.payPalPurchaseDetails)
+            BlueSnapSDK.sdkRequestBase?.purchaseFunc(self.payPalPurchaseDetails)
             return false
             
         } else if BSPaypalHandler.isPayPalCancelUrl(url: url) {
