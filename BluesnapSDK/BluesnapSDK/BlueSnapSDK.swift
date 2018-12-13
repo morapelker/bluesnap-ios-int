@@ -92,11 +92,11 @@ import PassKit
      - sdkRequest: initial payment details + flow settings
      */
     open class func showCheckoutScreen(
-        inNavigationController: UINavigationController!,
-        animated: Bool,
-        sdkRequest : BSSdkRequestBase!) {
+            inNavigationController: UINavigationController!,
+            animated: Bool,
+            sdkRequestBase: BSSdkRequestBase!) {
         
-        self.sdkRequestBase = sdkRequest
+        self.sdkRequestBase = sdkRequestBase
         adjustSdkRequest()
         
         DispatchQueue.main.async {

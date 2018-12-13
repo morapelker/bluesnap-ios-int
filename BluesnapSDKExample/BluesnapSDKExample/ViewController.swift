@@ -30,7 +30,8 @@ class ViewController: UIViewController {
     
     fileprivate var bsToken : BSToken?
     fileprivate var shouldInitKount = true
-    fileprivate var sdkRequest: BSSdkRequest?
+    fileprivate var sdkRequestBase: BSSdkRequestBase?
+    fileprivate var isShopperRequirements: Bool!
     fileprivate var hideCoverView : Bool = false
     final fileprivate let LOADING_MESSAGE = "Loading, please wait"
     final fileprivate let PROCESSING_MESSAGE = "Processing, please wait"
@@ -93,18 +94,17 @@ class ViewController: UIViewController {
     
 
 	// MARK: - Actions
-	
-	@IBAction func convertButtonAction(_ sender: UIButton) {
-        
+	func buttonAction(isShopperRequirements: Bool) {
+
         resultTextView.text = ""
-        
+
         // Make sure a new token is created for the shopper
         if returningShopperIdTextField.isFirstResponder {
             returningShopperIdTextField.resignFirstResponder()
             return
         }
         dismissKeyboard()
-        
+
         // Override the navigation name, so that the next screen navigation item will say "Cancel"
         let backItem = UIBarButtonItem()
         backItem.title = "Cancel"
@@ -113,18 +113,26 @@ class ViewController: UIViewController {
         coverAllLabel.text = PROCESSING_MESSAGE
         coverAllView.isHidden = false
         hideCoverView = true
-        
+
         DispatchQueue.main.async {
             // open the purchase screen
-            self.fillSdkRequest()
+            self.fillSdkRequest(isShopperRequirements: isShopperRequirements)
             BlueSnapSDK.showCheckoutScreen(
-                inNavigationController: self.navigationController,
-                animated: true,
-                sdkRequest: self.sdkRequest)
+                    inNavigationController: self.navigationController,
+                    animated: true,
+                    sdkRequestBase: self.sdkRequestBase)
         }
+    }
+
+	@IBAction func convertButtonAction(_ sender: UIButton) {
+        self.isShopperRequirements = false
+        buttonAction(isShopperRequirements: self.isShopperRequirements)
     }
     
     @IBAction func chooseButtonAction(_ sender: UIButton) {
+        self.isShopperRequirements = true
+        buttonAction(isShopperRequirements: self.isShopperRequirements)
+
     }
     
     @IBAction func createButtonAction(_ sender: UIButton) {
@@ -137,11 +145,11 @@ class ViewController: UIViewController {
         hideCoverView = true
         
         DispatchQueue.main.async {
-            self.fillSdkRequest()
+            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements)
             BlueSnapSDK.showCurrencyList(
                 inNavigationController: self.navigationController,
                 animated: true,
-                selectedCurrencyCode: self.sdkRequest!.priceDetails.currency,
+                selectedCurrencyCode: self.sdkRequestBase!.priceDetails.currency,
                 updateFunc: self.updateViewWithNewCurrency,
                 errorFunc: {
                     self.showErrorAlert(message: "Failed to display currency List, please try again")
@@ -155,7 +163,7 @@ class ViewController: UIViewController {
         hideCoverView = true
         
         DispatchQueue.main.async {
-            self.fillSdkRequest()
+            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements)
             BlueSnapSDK.showCurrencyList(
                 inNavigationController: self.navigationController,
                 animated: true,
@@ -182,10 +190,10 @@ class ViewController: UIViewController {
     */
     private func setInitialShopperDetails() {
         
-        sdkRequest?.billingDetails = BSBillingAddressDetails(email: "john@gmail.com", name: "John Doe", address: "333 elm st", city: "New York", zip: "532464", country: "US", state: "MA")
+        sdkRequestBase?.billingDetails = BSBillingAddressDetails(email: "john@gmail.com", name: "John Doe", address: "333 elm st", city: "New York", zip: "532464", country: "US", state: "MA")
 
         if withShippingSwitch.isOn {
-            sdkRequest?.shippingDetails = BSShippingAddressDetails(phone: "972-528-9999999", name: "Mary Doe", address: "333 elm st", city: "Boston", zip: "111222", country: initialShippingCoutry, state: initialShippingState)
+            sdkRequestBase?.shippingDetails = BSShippingAddressDetails(phone: "972-528-9999999", name: "Mary Doe", address: "333 elm st", city: "Boston", zip: "111222", country: initialShippingCoutry, state: initialShippingState)
         }
     }
     
@@ -208,16 +216,18 @@ class ViewController: UIViewController {
     /**
      Here we adjust the checkout details with the latest amounts from the fields on our view.
     */
-    private func fillSdkRequest() {
-        
+    private func fillSdkRequest(isShopperRequirements: Bool) {
+
         let amount = (valueTextField.text! as NSString).doubleValue
-        let taxAmount = (taxTextField.text! as NSString).doubleValue
+        let taxAmount = (!isShopperRequirements) ? (taxTextField.text! as NSString).doubleValue : nil
         let currency = currencyButton.titleLabel?.text ?? "USD"
-        let priceDetails = BSPriceDetails(amount: amount, taxAmount: taxAmount, currency: currency)
+        let priceDetails = (!isShopperRequirements) ? BSPriceDetails(amount: amount, taxAmount: taxAmount, currency: currency) : nil
         let withShipping = withShippingSwitch.isOn
         let fullBilling = fullBillingSwitch.isOn
         let withEmail = withEmailSwitch.isOn
-        sdkRequest = BSSdkRequest(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
+        sdkRequestBase = (!isShopperRequirements)
+                ? BSSdkRequest(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
+                : BSSdkRequestShopperRequirements(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
     }
     
     /**
@@ -226,7 +236,7 @@ class ViewController: UIViewController {
     */
     private func updateViewWithNewCurrency(oldCurrency : BSCurrency?, newCurrency : BSCurrency?) {
         
-        if let priceDetails = sdkRequest?.priceDetails {
+        if let priceDetails = sdkRequestBase?.priceDetails {
             priceDetails.changeCurrencyAndConvertAmounts(newCurrency: newCurrency)
             valueTextField.text = String(format: "%.2f", CGFloat(truncating: priceDetails.amount ?? 0))
             taxTextField.text = String(format: "%.2f", CGFloat(truncating: priceDetails.taxAmount ?? 0))
@@ -265,6 +275,12 @@ class ViewController: UIViewController {
     */
     
     private func completePurchase(purchaseDetails: BSBaseSdkResult!) {
+
+        if purchaseDetails.isShopperRequirements() {
+            NSLog("Shopper Configuration completed Successfully! ChosenPaymentMethodType: \(purchaseDetails.getChosenPaymentMethodType())")
+            showThankYouScreen(errorText: nil)
+            return // no need to complete purchase via BlueSnap API
+        }
         
         if let paypalPurchaseDetails = purchaseDetails as? BSPayPalSdkResult {
             
