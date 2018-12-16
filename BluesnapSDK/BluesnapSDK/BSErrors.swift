@@ -22,7 +22,8 @@ import Foundation
 
     // PayPal
     case paypalUnsupportedCurrency
-    
+    case paypalUTokenAlreadyUsed
+
     // generic
     case invalidInput
     case expiredToken
