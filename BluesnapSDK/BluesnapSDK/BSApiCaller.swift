@@ -456,6 +456,8 @@ import Foundation
                 resultError = .tokenAlreadyUsed // PayPal
             } else if (errStr == "PAYPAL_UNSUPPORTED_CURRENCY") {
                 resultError = .paypalUnsupportedCurrency
+            } else if (errStr == "PAYPAL_TOKEN_ALREADY_USED") {
+                resultError = .paypalUTokenAlreadyUsed
             } else if (errStr == "TOKEN_NOT_FOUND") {
                 resultError = .tokenNotFound
             } else if httpStatusCode == 401 {
