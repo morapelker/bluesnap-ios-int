@@ -196,7 +196,7 @@ The following logic should apply within `purchaseFunc` :
 
 2. If the user selected PayPal, no further action is required - transaction is complete. Show success message.
 
-3. If the user selected Apple Pay or credit card, update your server with the order details and the token.
+3. If the user selected Apple Pay or credit card, update your server with the order details and the token. Unless you need to keep the non-secure CC details, there is really no difference in handling Credit card or Apple Pay. You just need the token to finalize the transaction.
 
 4. From your server, [complete the purchase](#sending-the-payment-for-processing) with your token. 
 
@@ -211,18 +211,11 @@ private func completePurchase(purchaseDetails: BSBaseSdkResult!) {
         // show success message
         return // no need to complete purchase via BlueSnap API
     }
-    if let applePayPurchaseDetails = purchaseDetails as? BSApplePaySdkResult {
-        // user chose Apple Pay
-        // send order details & bsToken to server...
+    
+    // handle Apple-Pay or Credit card:
+    // send order details & bsToken to server...
+    // ...receive response
 
-        // ...receive response
-
-    } else if let ccPurchaseDetails = purchaseDetails as? BSCcSdkResult {
-        // user chose credit card 
-        // send order details & bsToken to server...
-
-        // ...receive response
-    }
     // depending on response, show success/fail message
 }
 ```
