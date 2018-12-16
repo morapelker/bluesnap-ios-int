@@ -206,6 +206,51 @@ class BSApiManagerTests: XCTestCase {
     }
 
     
+    
+    func testGetPayPalTokenTwiceWithSameToken() {
+        
+        let priceDetails = BSPriceDetails(amount: 30, taxAmount: 0, currency: "USD")
+        let sdkRequest = BSSdkRequest(withEmail: false, withShipping: false, fullBilling: false, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: { _ in }, updateTaxFunc: nil)
+        let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequest: sdkRequest)
+        var tokenWasRecreated = false
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        BSApiManager.setGenerateBsTokenFunc(generateTokenFunc: { completion in
+            NSLog("*** testGetPayPalTokenTwiceWithSameToken: Recreating token!!!")
+            tokenWasRecreated = true
+            BSApiManager.createSandboxBSToken(shopperId: nil, completion: completion)
+        })
+        
+        createToken(completion: { token, error in
+            BSApiManager.createPayPalToken(purchaseDetails: purchaseDetails, withShipping: false, completion: { resultToken, resultError in
+                
+                XCTAssertNil(resultError)
+                NSLog("*** testGetPayPalTokenTwiceWithSameToken; First Token result: resultToken=\(resultToken ?? ""), resultError= \(String(describing: resultError))")
+                semaphore.signal()
+            })
+        })
+        
+        semaphore.wait()
+
+        // clear the existing PayPalToken so that the API will try to create a new one
+        BSApiManager.payPalToken = nil
+
+        // Try to create a second opaypal token with the same BLS token
+        let semaphore2 = DispatchSemaphore(value: 0)
+        
+        BSApiManager.createPayPalToken(purchaseDetails: purchaseDetails, withShipping: false, completion: { resultToken, resultError in
+            
+            XCTAssertNil(resultError)
+            NSLog("*** testGetPayPalTokenTwiceWithSameToken; Second Token result: resultToken=\(resultToken ?? ""), resultError= \(String(describing: resultError))")
+            semaphore2.signal()
+        })
+
+        semaphore2.wait()
+        
+        XCTAssertTrue(tokenWasRecreated)
+    }
+    
     //------------------------------------------------------
     // MARK: Supported Payment Methods
     //------------------------------------------------------
