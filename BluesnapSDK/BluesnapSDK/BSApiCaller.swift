@@ -633,9 +633,6 @@ import Foundation
             if let zip = shipping["zip"] as? String {
                 shippingDetails.zip = zip
             }
-            if let phone = shipping["phone"] as? String {
-                shippingDetails.phone = phone
-            }
         }
         if let paymentSources = json["paymentSources"] as? [String: AnyObject] {
             if let creditCardInfo = paymentSources["creditCardInfo"] as? [[String: AnyObject]] {

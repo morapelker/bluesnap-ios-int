@@ -11,7 +11,11 @@ import Foundation
 /**
  (PCI-compliant) Credit Card details: result of submitting the CC details to BlueSnap server
  */
-public class BSCreditCard: NSObject, NSCopying {
+public class BSCreditCard: NSObject, NSCopying, BSJson {
+    private static let CARD_LAST_FOUR_DIGITS: String = "cardLastFourDigits";
+    private static let EXPIRATION_MONTH: String = "expirationMonth";
+    private static let EXPIRATION_YEAR: String = "expirationYear";
+    private static let CARD_TYPE: String = "cardType";
 
     public var ccType: String?
     public var last4Digits: String?
@@ -35,6 +39,25 @@ public class BSCreditCard: NSObject, NSCopying {
 
     func getExpirationForSubmit() -> String {
         return (expirationMonth ?? "") + "/" + (expirationYear ?? "")
+    }
+
+    public func toJson() -> ([String: Any])! {
+        var ccDetailsBody: [String: Any] = [:]
+
+        if let expirationMonth = expirationMonth {
+            ccDetailsBody[BSCreditCard.EXPIRATION_MONTH] = expirationMonth
+        }
+        if let expirationYear = expirationYear {
+            ccDetailsBody[BSCreditCard.EXPIRATION_YEAR] = expirationYear
+        }
+        if let ccLast4Digits = last4Digits {
+            ccDetailsBody[BSCreditCard.CARD_LAST_FOUR_DIGITS] = ccLast4Digits
+        }
+        if let ccType = ccType {
+            ccDetailsBody[BSCreditCard.CARD_TYPE] = ccType
+        }
+
+        return ccDetailsBody
     }
 }
 
