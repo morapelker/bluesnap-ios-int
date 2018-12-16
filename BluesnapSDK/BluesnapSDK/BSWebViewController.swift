@@ -45,7 +45,7 @@ class BSWebViewController: UIViewController, UIWebViewDelegate {
     
     // MARK: UIWebViewDelegate functions
     
-    private func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         let urlStr = request.mainDocumentURL?.absoluteString ?? ""
         if let shouldGoToUrlFunc = shouldGoToUrlFunc {
             return shouldGoToUrlFunc(urlStr)
