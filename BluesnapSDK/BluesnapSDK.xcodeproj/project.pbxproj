@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2D374F2F1E880E7300AE2A81 /* BluesnapSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D374F2E1E880E7300AE2A81 /* BluesnapSDKTests.swift */; };
 		2D374F311E880E7300AE2A81 /* BluesnapSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D374F231E880E7200AE2A81 /* BluesnapSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D374F491E880EF100AE2A81 /* BSCurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D374F3E1E880EF100AE2A81 /* BSCurrencyModel.swift */; };
 		2D374F4C1E880EF100AE2A81 /* BSToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D374F411E880EF100AE2A81 /* BSToken.swift */; };
@@ -16,6 +15,11 @@
 		2DADB9D51EC31F3200C1A2D2 /* BlueSnap.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DADB9D71EC31F3200C1A2D2 /* BlueSnap.storyboard */; };
 		2DBB606B1F8CB8F800E80254 /* libKountDataCollector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */; };
 		2DD7F11D1E8828B2002C5571 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
+		87A317BB21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */; };
+		87A317BD21BFD77400156EA2 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
+		87A317CD21C0224000156EA2 /* BluesnapSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D374F2E1E880E7300AE2A81 /* BluesnapSDKTests.swift */; };
+		87A317CE21C0224000156EA2 /* BSApiManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9197421F49630E008C266A /* BSApiManagerTests.swift */; };
+		87A317D021C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A317CF21C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift */; };
 		DEB03A9C85F648C1BCBDEC42 /* Kount-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = DEB84D43DE95794744F74D97 /* Kount-Bridging-Header.h */; };
 		DEB2956B373F197BF3547EC7 /* KDataCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = DEBEC07006625D7C0FFAF7B2 /* KDataCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DEB2DD0B164B99C6E7DE417C /* BSApplepayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB753629162521B2FF3F4AC /* BSApplepayViewController.swift */; };
@@ -52,7 +56,6 @@
 		FD68145D1F38762E00FAE1ED /* BSCcPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD68145C1F38762E00FAE1ED /* BSCcPayment.swift */; };
 		FD68145F1F38769300FAE1ED /* BSPayPalPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD68145E1F38769300FAE1ED /* BSPayPalPayment.swift */; };
 		FD6814621F40419C00FAE1ED /* BSLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD6814641F40419C00FAE1ED /* BSLocalizable.strings */; };
-		FD9197431F49630E008C266A /* BSApiManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9197421F49630E008C266A /* BSApiManagerTests.swift */; };
 		FD9197451F496C04008C266A /* BSStringUtilssTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9197441F496C04008C266A /* BSStringUtilssTests.swift */; };
 		FD9197471F49B649008C266A /* BSValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9197461F49B649008C266A /* BSValidatorTests.swift */; };
 		FD919B531FB04C9A00CFDEE9 /* BSExistingCCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD919B521FB04C9A00CFDEE9 /* BSExistingCCViewController.swift */; };
@@ -67,6 +70,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		2D374F2B1E880E7300AE2A81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2D374F171E880E7200AE2A81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2D374F1F1E880E7200AE2A81;
+			remoteInfo = BluesnapSDK;
+		};
+		87A317BE21BFD77400156EA2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2D374F171E880E7200AE2A81 /* Project object */;
 			proxyType = 1;
@@ -88,6 +98,10 @@
 		2D779B811F8CABBA003E889A /* Kount */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Kount; sourceTree = SOURCE_ROOT; };
 		2DADB9D81EC31F4200C1A2D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/BlueSnap.storyboard; sourceTree = "<group>"; };
 		2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKountDataCollector.a; sourceTree = "<group>"; };
+		87A317B821BFD77400156EA2 /* BluesnapSDKIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluesnapSDKIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluesnapSDKIntegrationTests.swift; sourceTree = "<group>"; };
+		87A317BC21BFD77400156EA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87A317CF21C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluesnapSDKIntegrationTestsHelper.swift; sourceTree = "<group>"; };
 		DEB739342E9A635BBD2878B9 /* BSApplepayPayment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSApplepayPayment.swift; sourceTree = "<group>"; };
 		DEB753629162521B2FF3F4AC /* BSApplepayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSApplepayViewController.swift; sourceTree = "<group>"; };
 		DEB84D43DE95794744F74D97 /* Kount-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Kount-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -178,6 +192,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87A317B521BFD77400156EA2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87A317BD21BFD77400156EA2 /* BluesnapSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -186,6 +208,7 @@
 			children = (
 				2D374F221E880E7200AE2A81 /* BluesnapSDK */,
 				2D374F2D1E880E7300AE2A81 /* BluesnapSDKTests */,
+				87A317B921BFD77400156EA2 /* BluesnapSDKIntegrationTests */,
 				2D374F211E880E7200AE2A81 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -195,6 +218,7 @@
 			children = (
 				2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */,
 				2D374F291E880E7300AE2A81 /* BluesnapSDKTests.xctest */,
+				87A317B821BFD77400156EA2 /* BluesnapSDKIntegrationTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -224,14 +248,24 @@
 		2D374F2D1E880E7300AE2A81 /* BluesnapSDKTests */ = {
 			isa = PBXGroup;
 			children = (
-				2D374F2E1E880E7300AE2A81 /* BluesnapSDKTests.swift */,
-				FD9197421F49630E008C266A /* BSApiManagerTests.swift */,
 				FD9197441F496C04008C266A /* BSStringUtilssTests.swift */,
 				FD9197461F49B649008C266A /* BSValidatorTests.swift */,
 				FD6479F21FBC37D900403E7D /* BSCurrencyTests.swift */,
 				2D374F301E880E7300AE2A81 /* Info.plist */,
 			);
 			path = BluesnapSDKTests;
+			sourceTree = "<group>";
+		};
+		87A317B921BFD77400156EA2 /* BluesnapSDKIntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+				2D374F2E1E880E7300AE2A81 /* BluesnapSDKTests.swift */,
+				FD9197421F49630E008C266A /* BSApiManagerTests.swift */,
+				87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */,
+				87A317BC21BFD77400156EA2 /* Info.plist */,
+				87A317CF21C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift */,
+			);
+			path = BluesnapSDKIntegrationTests;
 			sourceTree = "<group>";
 		};
 		FD17062D1E9371FD00552A35 /* Model */ = {
@@ -362,13 +396,31 @@
 			productReference = 2D374F291E880E7300AE2A81 /* BluesnapSDKTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		87A317B721BFD77400156EA2 /* BluesnapSDKIntegrationTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87A317C221BFD77400156EA2 /* Build configuration list for PBXNativeTarget "BluesnapSDKIntegrationTests" */;
+			buildPhases = (
+				87A317B421BFD77400156EA2 /* Sources */,
+				87A317B521BFD77400156EA2 /* Frameworks */,
+				87A317B621BFD77400156EA2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				87A317BF21BFD77400156EA2 /* PBXTargetDependency */,
+			);
+			name = BluesnapSDKIntegrationTests;
+			productName = BluesnapSDKIntegrationTests;
+			productReference = 87A317B821BFD77400156EA2 /* BluesnapSDKIntegrationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		2D374F171E880E7200AE2A81 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Bluesnap;
 				TargetAttributes = {
@@ -378,6 +430,9 @@
 					};
 					2D374F281E880E7300AE2A81 = {
 						CreatedOnToolsVersion = 8.2.1;
+					};
+					87A317B721BFD77400156EA2 = {
+						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
@@ -419,6 +474,7 @@
 			targets = (
 				2D374F1F1E880E7200AE2A81 /* BluesnapSDK */,
 				2D374F281E880E7300AE2A81 /* BluesnapSDKTests */,
+				87A317B721BFD77400156EA2 /* BluesnapSDKIntegrationTests */,
 			);
 		};
 /* End PBXProject section */
@@ -436,6 +492,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2D374F271E880E7300AE2A81 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87A317B621BFD77400156EA2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -499,10 +562,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD6479F31FBC37D900403E7D /* BSCurrencyTests.swift in Sources */,
-				2D374F2F1E880E7300AE2A81 /* BluesnapSDKTests.swift in Sources */,
 				FD9197451F496C04008C266A /* BSStringUtilssTests.swift in Sources */,
-				FD9197431F49630E008C266A /* BSApiManagerTests.swift in Sources */,
 				FD9197471F49B649008C266A /* BSValidatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87A317B421BFD77400156EA2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87A317CD21C0224000156EA2 /* BluesnapSDKTests.swift in Sources */,
+				87A317D021C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift in Sources */,
+				87A317CE21C0224000156EA2 /* BSApiManagerTests.swift in Sources */,
+				87A317BB21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,6 +585,11 @@
 			isa = PBXTargetDependency;
 			target = 2D374F1F1E880E7200AE2A81 /* BluesnapSDK */;
 			targetProxy = 2D374F2B1E880E7300AE2A81 /* PBXContainerItemProxy */;
+		};
+		87A317BF21BFD77400156EA2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2D374F1F1E880E7200AE2A81 /* BluesnapSDK */;
+			targetProxy = 87A317BE21BFD77400156EA2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -783,6 +860,61 @@
 			};
 			name = Release;
 		};
+		87A317C021BFD77400156EA2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = AYTGDKG3D8;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = BluesnapSDKIntegrationTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		87A317C121BFD77400156EA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = AYTGDKG3D8;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = BluesnapSDKIntegrationTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -809,6 +941,15 @@
 			buildConfigurations = (
 				2D374F381E880E7300AE2A81 /* Debug */,
 				2D374F391E880E7300AE2A81 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		87A317C221BFD77400156EA2 /* Build configuration list for PBXNativeTarget "BluesnapSDKIntegrationTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87A317C021BFD77400156EA2 /* Debug */,
+				87A317C121BFD77400156EA2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

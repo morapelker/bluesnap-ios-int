@@ -10,6 +10,7 @@ import XCTest
 import Foundation
 import PassKit
 import BluesnapSDK
+@testable import BluesnapSDKIntegrationTests //TODO: make it work
 
 class BluesnapSDKExampleUITests: XCTestCase {
     
@@ -388,7 +389,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         print("done")
     }
-    
 
     
     //------------------------------------ Helper functions ----------------------------
