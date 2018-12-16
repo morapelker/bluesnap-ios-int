@@ -238,31 +238,31 @@ import PassKit
             BlueSnapSDK.fraudSessionId = UUID().uuidString.replacingOccurrences(of: "-", with: "")
         }
         
-        //// Configure the Data Collector
-        //KDataCollector.shared().debug = true
-        if (kountMid != nil) {
-            KDataCollector.shared().merchantID = kountMid!.intValue
-        } else {
-            KDataCollector.shared().merchantID = 700000
-        }
-        // Optional Set the location collection configuration
-        KDataCollector.shared().locationCollectorConfig = KLocationCollectorConfig.passive
-        
-        if BSApiManager.isProductionToken() {
-            KDataCollector.shared().environment = KEnvironment.production
-        } else {
-            KDataCollector.shared().environment = KEnvironment.test
-        }
-        NSLog("Kount session ID")
-        if let fraudSessionId = BlueSnapSDK.fraudSessionId {
-            KDataCollector.shared().collect(forSession: fraudSessionId) { (sessionID, success, error) in
-                if success {
-                    NSLog("Kount collection success")
-                } else {
-                    NSLog("Kount collection failed")
-                }
-            }
-        }
+//        //// Configure the Data Collector
+//        //KDataCollector.shared().debug = true
+//        if (kountMid != nil) {
+//            KDataCollector.shared().merchantID = kountMid!.intValue
+//        } else {
+//            KDataCollector.shared().merchantID = 700000
+//        }
+//        // Optional Set the location collection configuration
+//        KDataCollector.shared().locationCollectorConfig = KLocationCollectorConfig.passive
+//        
+//        if BSApiManager.isProductionToken() {
+//            KDataCollector.shared().environment = KEnvironment.production
+//        } else {
+//            KDataCollector.shared().environment = KEnvironment.test
+//        }
+//        NSLog("Kount session ID")
+//        if let fraudSessionId = BlueSnapSDK.fraudSessionId {
+//            KDataCollector.shared().collect(forSession: fraudSessionId) { (sessionID, success, error) in
+//                if success {
+//                    NSLog("Kount collection success")
+//                } else {
+//                    NSLog("Kount collection failed")
+//                }
+//            }
+//        }
     }
 
     private class func adjustSdkRequest() {

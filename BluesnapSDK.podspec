@@ -9,10 +9,12 @@ Pod::Spec.new do |s|
   s.homepage     = "http://www.bluesnap.com"
   s.license      = { :type => "MIT", :file => "LICENSE.md" }
   s.author             = { "snpori" => "oribsnap@gmail.com" }
-  s.platform     = :ios, "9.0"
-  s.source       = { :git => "https://github.com/bluesnap/bluesnap-ios.git", :tag => "release-1.0.1" }
+  s.platform = :ios
+  s.ios.deployment_target = '9.3'
+  s.swift_version = '4.2'
+  s.source       = { :git => "https://github.com/bluesnap/bluesnap-ios.git", :tag => "#{s.version}" }
   s.source_files  = "BluesnapSDK/**/*.{h,m,swift,a}"
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2' }
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2', 'ONLY_ACTIVE_ARCH' => 'NO' }
   s.resource_bundles = {
     'BluesnapUI' => [
         'BluesnapSDK/**/*.xib',
