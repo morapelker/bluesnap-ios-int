@@ -16,33 +16,70 @@ import Foundation
  For full billing details, everything is mandatory except email which is optional.
  For shipping details all field are mandatory except phone which is optional.
  */
-  public class BSBaseAddressDetails: NSObject {
-    
-    public var name : String! = ""
-    public var address : String?
-    public var city : String?
-    public var zip : String?
-    public var country : String?
-    public var state : String?
-    
+public class BSBaseAddressDetails: NSObject, BSJson {
+    public static let FIRST_NAME: String = "firstName";
+    public static let LAST_NAME: String = "lastName";
+    public static let ADDRESS: String = "address";
+    public static let ADDRESS_1: String = "address1";
+    public static let ADDRESS_2: String = "address2";
+    public static let STATE: String = "state";
+    public static let ZIP: String = "zip";
+    public static let COUNTRY: String = "country";
+    public static let CITY: String = "city";
+    public static let EMAIL: String = "email";
+    public static let PHONE: String = "phone";
+
+    public var name: String! = ""
+    public var address: String?
+    public var city: String?
+    public var zip: String?
+    public var country: String?
+    public var state: String?
+
     public override init() {
         super.init()
     }
-    
+
     public func getSplitName() -> (firstName: String, lastName: String)? {
         return BSStringUtils.splitName(name)
+    }
+
+    public func toJson() -> ([String: Any])! {
+        var baseAddressDetails: [String: Any] = [:]
+        if let splitName = getSplitName() {
+            baseAddressDetails[BSBaseAddressDetails.FIRST_NAME] = splitName.firstName
+            baseAddressDetails[BSBaseAddressDetails.LAST_NAME] = splitName.lastName
+        }
+        if let country = country {
+            baseAddressDetails[BSBaseAddressDetails.COUNTRY] = country
+        }
+        if let state = state {
+            baseAddressDetails[BSBaseAddressDetails.STATE] = state
+        }
+        if let city = city {
+            baseAddressDetails[BSBaseAddressDetails.CITY] = city
+        }
+        if let zip = zip {
+            baseAddressDetails[BSBaseAddressDetails.ZIP] = zip
+        }
+        if let address = address {
+            baseAddressDetails[BSBaseAddressDetails.ADDRESS] = address
+        }
+        return baseAddressDetails
     }
 }
 
 /**
  Shopper billing details - basically address + email
  */
-  public class BSBillingAddressDetails : BSBaseAddressDetails, NSCopying {
-    
-    public var email : String?
+public class BSBillingAddressDetails: BSBaseAddressDetails, NSCopying {
 
-    public override init() { super.init() }
-    
+    public var email: String?
+
+    public override init() {
+        super.init()
+    }
+
     public init(email: String?, name: String!, address: String?, city: String?, zip: String?, country: String?, state: String?) {
         super.init()
         self.email = email
@@ -53,22 +90,35 @@ import Foundation
         self.country = country
         self.state = state
     }
-    
+
     public func copy(with zone: NSZone? = nil) -> Any {
-        let copy = BSBillingAddressDetails(email: email, name:name, address: address, city: city, zip: zip, country: country, state: state)
+        let copy = BSBillingAddressDetails(email: email, name: name, address: address, city: city, zip: zip, country: country, state: state)
         return copy
+    }
+
+    public override func toJson() -> ([String: Any])! {
+        var billingAddressDetails: [String: Any] = super.toJson()
+        if let email = email {
+            billingAddressDetails[BSBaseAddressDetails.EMAIL] = email
+        }
+        if let address = address {
+            billingAddressDetails[BSBaseAddressDetails.ADDRESS_1] = address
+        }
+        return billingAddressDetails
     }
 }
 
 /**
  Shopper shipping details - basically address + phone
  */
-  public class BSShippingAddressDetails : BSBaseAddressDetails, NSCopying {
-    
-    public var phone : String?
-    
-    public override init() { super.init() }
-    
+public class BSShippingAddressDetails: BSBaseAddressDetails, NSCopying {
+
+    public var phone: String?
+
+    public override init() {
+        super.init()
+    }
+
     public init(phone: String?, name: String!, address: String?, city: String?, zip: String?, country: String?, state: String?) {
         super.init()
         self.phone = phone
@@ -79,10 +129,18 @@ import Foundation
         self.country = country
         self.state = state
     }
-    
+
     public func copy(with zone: NSZone? = nil) -> Any {
-        let copy = BSShippingAddressDetails(phone: phone, name:name, address: address, city: city, zip: zip, country: country, state: state)
+        let copy = BSShippingAddressDetails(phone: phone, name: name, address: address, city: city, zip: zip, country: country, state: state)
         return copy
+    }
+
+    public override func toJson() -> ([String: Any])! {
+        var shippingAddressDetails: [String: Any] = super.toJson()
+        if let address = address {
+            shippingAddressDetails[BSBaseAddressDetails.ADDRESS_1] = address
+        }
+        return shippingAddressDetails
     }
 }
 

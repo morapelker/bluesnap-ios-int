@@ -85,11 +85,32 @@ class BSStartViewController: UIViewController {
         }
 
         if BlueSnapSDK.sdkRequestBase is BSSdkRequestShopperRequirements {
-            //TODO: update shopper
-            _ = self.navigationController?.popViewController(animated: false)
-            // execute callback
-            let applePayPurchaseDetails = BSApplePaySdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
-            BlueSnapSDK.sdkRequestBase?.purchaseFunc(applePayPurchaseDetails)
+            let chosenPaymentMethod: BSChosenPaymentMethod = BSChosenPaymentMethod()
+            chosenPaymentMethod.chosenPaymentMethodType = BSPaymentType.ApplePay.rawValue
+            BlueSnapSDK.updateShopper(chosenPaymentMethod: chosenPaymentMethod, completion: { (result, error) in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        var message: String
+                        if (error == .expiredToken) {
+                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_expired)
+                        } else if (error == .tokenNotFound) {
+                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
+                        } else {
+                            NSLog("Unexpected error Updating Shopper to BS")
+                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
+                        }
+
+                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_Apple_Pay, message: message)
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    } else {
+                        _ = self.navigationController?.popViewController(animated: false)
+                        // execute callback
+                        let applePayPurchaseDetails = BSApplePaySdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
+                        BlueSnapSDK.sdkRequestBase?.purchaseFunc(applePayPurchaseDetails)
+                    }
+                }
+            })
         } else {
             applePayPressed(sender, completion: { (error) in
                 DispatchQueue.main.async {
@@ -130,11 +151,32 @@ class BSStartViewController: UIViewController {
         payPalPurchaseDetails = BSPayPalSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
 
         if BlueSnapSDK.sdkRequestBase is BSSdkRequestShopperRequirements {
-            //TODO: update shopper
-            _ = self.navigationController?.popViewController(animated: false)
-            // execute callback
-            let payPalPurchaseDetails = BSPayPalSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
-            BlueSnapSDK.sdkRequestBase?.purchaseFunc(payPalPurchaseDetails)
+            let chosenPaymentMethod: BSChosenPaymentMethod = BSChosenPaymentMethod()
+            chosenPaymentMethod.chosenPaymentMethodType = BSPaymentType.PayPal.rawValue
+            BlueSnapSDK.updateShopper(chosenPaymentMethod: chosenPaymentMethod, completion: { (result, error) in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        var message: String
+                        if (error == .expiredToken) {
+                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_expired)
+                        } else if (error == .tokenNotFound) {
+                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
+                        } else {
+                            NSLog("Unexpected error Updating Shopper to BS")
+                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
+                        }
+
+                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_PayPal, message: message)
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    } else {
+                        _ = self.navigationController?.popViewController(animated: false)
+                        // execute callback
+                        let payPalPurchaseDetails = BSPayPalSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
+                        BlueSnapSDK.sdkRequestBase?.purchaseFunc(payPalPurchaseDetails)
+                    }
+                }
+            })
         } else {
             DispatchQueue.main.async {
                 self.startActivityIndicator()

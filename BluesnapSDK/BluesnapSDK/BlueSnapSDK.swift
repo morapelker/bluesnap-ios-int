@@ -111,6 +111,13 @@ import PassKit
     open class func submitTokenizedDetails(tokenizeRequest: BSTokenizeRequest, completion: @escaping ([String:String], BSErrors?) -> Void) {
         BSApiManager.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: completion)
     }
+
+      /**
+    Update Shopper to BLS server under the current token
+    */
+    open class func updateShopper(chosenPaymentMethod: BSChosenPaymentMethod, completion: @escaping ([String: String], BSErrors?) -> Void) {
+        BSApiManager.updateShopper(chosenPaymentMethod: chosenPaymentMethod, completion: completion)
+    }
     
 //    /**
 //     Submit Payment token fields

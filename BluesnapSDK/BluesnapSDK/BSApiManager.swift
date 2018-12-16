@@ -438,73 +438,13 @@ extension BSApiManager {
     /**
      update Shopper to BLS server under the current token, to be used later for server-to-server actions
      */
-    open class func updateShopper(shopper: BSShopper, completion: @escaping ([String: String], BSErrors?) -> Void) {
-
-        var requestBody: [String: Any] = [:]
-
-        if let splitName = shopper.getSplitName() {
-            requestBody["firstName"] = splitName.firstName
-            requestBody["lastName"] = splitName.lastName
+    open class func updateShopper(chosenPaymentMethod: BSChosenPaymentMethod, completion: @escaping ([String: String], BSErrors?) -> Void) {
+        let shopper: BSShopper = self.shopper!
+        shopper.chosenPaymentMethod = chosenPaymentMethod
+        var requestBody: [String: Any] = shopper.toJson()
+        if chosenPaymentMethod.chosenPaymentMethodType == BSPaymentType.CreditCard.rawValue {
+            requestBody["paymentSources"] = ["creditCardInfo": [["pfToken": getBsToken()!.tokenStr]]]
         }
-        if let country = shopper.country {
-            requestBody["country"] = country
-        }
-        if let state = shopper.state {
-            requestBody["state"] = state
-        }
-        if let city = shopper.city {
-            requestBody["city"] = city
-        }
-        if let address = shopper.address {
-            requestBody["address"] = address
-        }
-        if let address2 = shopper.address2 {
-            requestBody["address2"] = address2
-        }
-        if let zip = shopper.zip {
-            requestBody["zip"] = zip
-        }
-        if let email = shopper.email {
-            requestBody["email"] = email
-        }
-        if let phone = shopper.phone {
-            requestBody["phone"] = phone
-        }
-        if let chosenPaymentMethod = shopper.chosenPaymentMethod {
-            var chosenPaymentMethodBody: [String: Any] = [:]
-
-            if let type = chosenPaymentMethod.chosenPaymentMethodType {
-                chosenPaymentMethodBody["chosenPaymentMethodType"] = type
-            }
-
-            if chosenPaymentMethod.chosenPaymentMethodType ==  BSPaymentType.CreditCard.rawValue, let ccDetails = chosenPaymentMethod.creditCard {
-                var ccDetailsBody: [String: String] = [:]
-
-                if let expirationMonth = ccDetails.expirationMonth {
-                    ccDetailsBody["expirationMonth"] = expirationMonth
-                }
-                if let expirationYear = ccDetails.expirationYear {
-                    ccDetailsBody["expirationYear"] = expirationYear
-                }
-                if let ccLast4Digits = ccDetails.last4Digits {
-                    ccDetailsBody["cardLastFourDigits"] = ccLast4Digits
-                }
-                if let ccType = ccDetails.ccType {
-                    ccDetailsBody["cardType"] = ccType
-                }
-
-                chosenPaymentMethodBody["creditCard"] = ccDetailsBody
-
-                requestBody["paymentSources"] = ["creditCardInfo": [["pfToken": getBsToken()!.tokenStr]]]
-            }
-
-            requestBody["chosenPaymentMethod"] = chosenPaymentMethodBody
-        }
-
-        if let vaultedShopperId = shopper.vaultedShopperId {
-            requestBody["vaultedShopperId"] = vaultedShopperId
-        }
-
 
         let checkErrorAndComplete: ([String: String], BSErrors?) -> Void = { resultData, error in
             if let error = error {
