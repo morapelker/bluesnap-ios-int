@@ -11,12 +11,14 @@ import UIKit
 class ThankYouViewController: UIViewController {
 
     var errorText : String?
-    
+    var vaultedShopperId: String!
+
     @IBOutlet weak var checkmarkImageView: UIImageView!
     @IBOutlet weak var successLabel: UILabel!
     @IBOutlet weak var errorTextView: UITextView!
     @IBOutlet weak var somethingWentWrongLabel: UILabel!
-
+    @IBOutlet weak var vaultedShopperIdLabel: UILabel!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -30,6 +32,7 @@ class ThankYouViewController: UIViewController {
             successLabel.text = "Success!"
             somethingWentWrongLabel.isHidden = true
             errorTextView.text = ""
+            vaultedShopperIdLabel.text = "Shopper Id: \(vaultedShopperId!)"
         }
     }
 

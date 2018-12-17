@@ -16,6 +16,8 @@ import Foundation
 import BluesnapSDK
 
 class DemoTreansactions {
+    
+    var vaultedShopperId: String!
 
 
     /**
@@ -61,6 +63,7 @@ class DemoTreansactions {
                 if let httpStatusCode:Int = (httpResponse?.statusCode) {
                     
                     if let data = data {
+                        self.getShopperIdFromResponse(responseData: data)
                         result.data = String(data: data, encoding: .utf8)
                         NSLog("Response body = \(result.data ?? "")")
                     }
@@ -91,5 +94,26 @@ class DemoTreansactions {
         let base64LoginStr = loginData.base64EncodedString()
         return "Basic \(base64LoginStr)"
     }
+    
+    /**
+     Extract shopper ID from transaction API response
+     */
+    func getShopperIdFromResponse(responseData: Data?){
+        if let data = responseData {
+            do {
+                // Parse the result JSOn object
+                if let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject] {
+                    vaultedShopperId = String(json["vaultedShopperId"] as! Int)
+                    
+                } else {
+                    NSLog("Error parsing BS result on CC transaction submit")
+                }
+                
+            }catch let error as NSError {
+                NSLog("Error parsing BS result on CC transaction submit: \(error.localizedDescription)")
+            }
+        }
+    }
+        
 
 }
