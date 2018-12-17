@@ -115,8 +115,8 @@ import PassKit
       /**
     Update Shopper to BLS server under the current token
     */
-    open class func updateShopper(chosenPaymentMethod: BSChosenPaymentMethod, completion: @escaping ([String: String], BSErrors?) -> Void) {
-        BSApiManager.updateShopper(chosenPaymentMethod: chosenPaymentMethod, completion: completion)
+    open class func updateShopper(completion: @escaping ([String: String], BSErrors?) -> Void) {
+        BSApiManager.updateShopper(completion: completion)
     }
     
 //    /**

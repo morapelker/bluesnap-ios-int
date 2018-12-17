@@ -450,11 +450,10 @@ extension BSApiManager {
     /**
      update Shopper to BLS server under the current token, to be used later for server-to-server actions
      */
-    open class func updateShopper(chosenPaymentMethod: BSChosenPaymentMethod, completion: @escaping ([String: String], BSErrors?) -> Void) {
+    open class func updateShopper(completion: @escaping ([String: String], BSErrors?) -> Void) {
         let shopper: BSShopper = self.shopper!
-        shopper.chosenPaymentMethod = chosenPaymentMethod
         var requestBody: [String: Any] = shopper.toJson()
-        if chosenPaymentMethod.chosenPaymentMethodType == BSPaymentType.CreditCard.rawValue {
+        if shopper.chosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.CreditCard.rawValue {
             requestBody["paymentSources"] = ["creditCardInfo": [["pfToken": getBsToken()!.tokenStr]]]
         }
 

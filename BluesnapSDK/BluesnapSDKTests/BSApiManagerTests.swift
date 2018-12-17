@@ -223,7 +223,7 @@ class BSApiManagerTests: XCTestCase {
 
         let priceDetails = BSPriceDetails(amount: 30, taxAmount: 0, currency: "USD")
         let sdkRequest = BSSdkRequest(withEmail: false, withShipping: false, fullBilling: false, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: { _ in }, updateTaxFunc: nil)
-        let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequest: sdkRequest)
+        let purchaseDetails: BSPayPalSdkResult = BSPayPalSdkResult(sdkRequestBase: sdkRequest)
         var tokenWasRecreated = false
 
         let semaphore = DispatchSemaphore(value: 0)
@@ -485,7 +485,7 @@ class BSApiManagerTests: XCTestCase {
             }
 
             BSApiManager.shopper = shopper
-            BSApiManager.updateShopper(chosenPaymentMethod: shopper.chosenPaymentMethod!, completion: {
+            BSApiManager.updateShopper(completion: {
                 (result, error) in
 
                 XCTAssert(error == nil, "error: \(error)")
@@ -571,8 +571,7 @@ class BSApiManagerTests: XCTestCase {
         shopper.phone = "0541234567"
 
         shopper.vaultedShopperId = 23245835
-        let chosenPaymentMethod = BSChosenPaymentMethod()
-        chosenPaymentMethod.chosenPaymentMethodType = chosenPaymentMethodType
+        let chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: chosenPaymentMethodType)
         if let creditCard = cc {
             chosenPaymentMethod.creditCard = cc
         }
