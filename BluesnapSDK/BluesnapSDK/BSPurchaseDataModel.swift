@@ -165,6 +165,7 @@ public class BSSdkRequestShopperRequirements: NSObject, BSSdkRequestBase {
     public var withShipping: Bool = false
     public var fullBilling: Bool = false
     public let priceDetails: BSPriceDetails! = nil
+    public var allowCurrencyChange: Bool {get {return false} set {}}
 
     public var billingDetails: BSBillingAddressDetails?
     public var shippingDetails: BSShippingAddressDetails?
@@ -201,4 +202,6 @@ public protocol BSSdkRequestBase {
 
     var priceDetails: BSPriceDetails! { get }
     var updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)? { get }
+
+    var allowCurrencyChange: Bool {get set}
 }
