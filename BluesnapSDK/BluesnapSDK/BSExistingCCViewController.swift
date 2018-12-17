@@ -161,7 +161,7 @@ class BSExistingCCViewController: UIViewController {
         let taxAmount = purchaseDetails.getTaxAmount() ?? 0.0
         subtotalAndTaxDetailsView.setAmounts(subtotalAmount: subtotalAmount, taxAmount: taxAmount, currency: toCurrency)
         
-        let payButtonText = BSViewsManager.getPayButtonText(subtotalAmount: subtotalAmount, taxAmount: taxAmount, toCurrency: toCurrency)
+        let payButtonText = (!purchaseDetails.isShopperRequirements()) ? BSViewsManager.getPayButtonText(subtotalAmount: subtotalAmount, taxAmount: taxAmount, toCurrency: toCurrency) : BSLocalizedStrings.getString(BSLocalizedString.Keyboard_Done_Button_Text)
         payButton.setTitle(payButtonText, for: UIControl.State())
     }
 

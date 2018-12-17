@@ -364,7 +364,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
             cityInputLine.isHidden = hideFields
             updateState()
             shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
-            subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0
+            subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0 || purchaseDetails.isShopperRequirements()
             updateZipFieldLocation()
         }
     }
@@ -413,8 +413,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         let subtotalAmount = purchaseDetails.getAmount() ?? 0.0
         let taxAmount = purchaseDetails.getTaxAmount() ?? 0.0
         subtotalAndTaxDetailsView.setAmounts(subtotalAmount: subtotalAmount, taxAmount: taxAmount, currency: toCurrency)
-        
-        if newCardMode {
+
+        if newCardMode && !purchaseDetails.isShopperRequirements(){
             payButtonText = BSViewsManager.getPayButtonText(subtotalAmount: subtotalAmount, taxAmount: taxAmount, toCurrency: toCurrency)
         } else {
             payButtonText = BSLocalizedStrings.getString(BSLocalizedString.Keyboard_Done_Button_Text)
