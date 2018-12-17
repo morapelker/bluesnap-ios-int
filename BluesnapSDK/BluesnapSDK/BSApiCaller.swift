@@ -18,7 +18,8 @@ import Foundation
     internal static let BLUESNAP_VERSION_HEADER = "BLUESNAP_VERSION_HEADER"
     internal static let BLUESNAP_VERSION_HEADER_VAL = "2.0"
     internal static let SDK_VERSION_HEADER = "BLUESNAP_ORIGIN_HEADER"
-    internal static let SDK_VERSION_HEADER_VAL = "IOS SDK 0.2.0"
+    internal static let SDK_VERSION_HEADER_VAL = "IOS SDK " + (BSViewsManager.getBundle().object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String);
+
 
     private static func createRequest(_ urlStr: String, bsToken: BSToken!) -> NSMutableURLRequest {
 
@@ -455,6 +456,8 @@ import Foundation
                 resultError = .tokenAlreadyUsed // PayPal
             } else if (errStr == "PAYPAL_UNSUPPORTED_CURRENCY") {
                 resultError = .paypalUnsupportedCurrency
+            } else if (errStr == "PAYPAL_TOKEN_ALREADY_USED") {
+                resultError = .paypalUTokenAlreadyUsed
             } else if (errStr == "TOKEN_NOT_FOUND") {
                 resultError = .tokenNotFound
             } else if httpStatusCode == 401 {
