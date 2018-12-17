@@ -85,9 +85,8 @@ class BSStartViewController: UIViewController {
         }
 
         if BlueSnapSDK.sdkRequestBase is BSSdkRequestShopperRequirements {
-            let chosenPaymentMethod: BSChosenPaymentMethod = BSChosenPaymentMethod()
-            chosenPaymentMethod.chosenPaymentMethodType = BSPaymentType.ApplePay.rawValue
-            BlueSnapSDK.updateShopper(chosenPaymentMethod: chosenPaymentMethod, completion: { (result, error) in
+            BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.ApplePay.rawValue)
+            BlueSnapSDK.updateShopper(completion: { (result, error) in
                 DispatchQueue.main.async {
                     if let error = error {
                         var message: String
@@ -151,9 +150,8 @@ class BSStartViewController: UIViewController {
         payPalPurchaseDetails = BSPayPalSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
 
         if BlueSnapSDK.sdkRequestBase is BSSdkRequestShopperRequirements {
-            let chosenPaymentMethod: BSChosenPaymentMethod = BSChosenPaymentMethod()
-            chosenPaymentMethod.chosenPaymentMethodType = BSPaymentType.PayPal.rawValue
-            BlueSnapSDK.updateShopper(chosenPaymentMethod: chosenPaymentMethod, completion: { (result, error) in
+            BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.PayPal.rawValue)
+            BlueSnapSDK.updateShopper(completion: { (result, error) in
                 DispatchQueue.main.async {
                     if let error = error {
                         var message: String

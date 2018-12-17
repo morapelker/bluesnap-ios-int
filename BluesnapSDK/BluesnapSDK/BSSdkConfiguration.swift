@@ -83,6 +83,18 @@ public class BSChosenPaymentMethod: NSObject, BSJson {
     var creditCard: BSCreditCard?
     var chosenPaymentMethodType: String?
 
+    public init(chosenPaymentMethodType: String, creditCard: BSCreditCard? = nil) {
+        super.init()
+        self.chosenPaymentMethodType = chosenPaymentMethodType
+        if let creditCard = creditCard {
+            self.creditCard = creditCard
+        }
+    }
+
+    public override init() {
+        super.init()
+    }
+
     public func toJson() -> ([String: Any])! {
         var chosenPaymentMethodBody: [String: Any] = [:]
 
