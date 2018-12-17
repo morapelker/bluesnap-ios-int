@@ -295,7 +295,7 @@ class BSViewsManager {
         let menu = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
 
         // Add change currency menu item
-        if BlueSnapSDK.sdkRequest?.allowCurrencyChange ?? true {
+        if BlueSnapSDK.sdkRequestBase?.allowCurrencyChange ?? true {
             let currencyMenuTitle = BSLocalizedStrings.getString(BSLocalizedString.Menu_Item_Currency)
             let currencyMenuOption = UIAlertAction(title: currencyMenuTitle, style: UIAlertAction.Style.default) { _ in
                 if let purchaseDetails = purchaseDetails {
