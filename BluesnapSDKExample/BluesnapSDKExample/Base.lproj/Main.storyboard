@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kEU-ax-AwI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kEU-ax-AwI">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -381,6 +381,12 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shopper Id:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNv-Re-kXI">
+                                        <rect key="frame" x="76" y="419.5" width="88.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -390,8 +396,10 @@
                                     <constraint firstItem="A3N-It-HEB" firstAttribute="top" secondItem="SZe-k1-CoZ" secondAttribute="bottom" constant="19" id="OF7-A8-YI8"/>
                                     <constraint firstItem="TIc-eV-eUb" firstAttribute="leading" secondItem="6D7-ha-199" secondAttribute="leading" constant="20" symbolic="YES" id="QQH-iV-mZc"/>
                                     <constraint firstItem="TIc-eV-eUb" firstAttribute="top" secondItem="KfV-UR-b1h" secondAttribute="bottom" constant="17" id="WX3-GU-2HO"/>
+                                    <constraint firstItem="LNv-Re-kXI" firstAttribute="leading" secondItem="6D7-ha-199" secondAttribute="leading" constant="76.230000000000004" id="aZX-w6-fpd"/>
                                     <constraint firstAttribute="trailing" secondItem="TIc-eV-eUb" secondAttribute="trailing" constant="20" symbolic="YES" id="gkI-7J-0Lq"/>
                                     <constraint firstItem="KfV-UR-b1h" firstAttribute="top" secondItem="A3N-It-HEB" secondAttribute="bottom" constant="18" id="izP-aR-FEC"/>
+                                    <constraint firstItem="NTs-3n-r0Y" firstAttribute="top" secondItem="LNv-Re-kXI" secondAttribute="bottom" constant="8" id="kez-4P-jCa"/>
                                     <constraint firstItem="SZe-k1-CoZ" firstAttribute="top" secondItem="6D7-ha-199" secondAttribute="top" constant="31" id="mWk-e6-Yk8"/>
                                     <constraint firstItem="KfV-UR-b1h" firstAttribute="top" secondItem="A3N-It-HEB" secondAttribute="bottom" constant="18" id="q9b-2K-Blm"/>
                                     <constraint firstItem="A3N-It-HEB" firstAttribute="top" secondItem="SZe-k1-CoZ" secondAttribute="bottom" constant="19" id="z10-SL-Gcw"/>
@@ -416,6 +424,7 @@
                         <outlet property="errorTextView" destination="TIc-eV-eUb" id="980-jI-Dd9"/>
                         <outlet property="somethingWentWrongLabel" destination="KfV-UR-b1h" id="Ynv-FQ-vza"/>
                         <outlet property="successLabel" destination="A3N-It-HEB" id="Yvz-2t-d6l"/>
+                        <outlet property="vaultedShopperIdLabel" destination="LNv-Re-kXI" id="mqS-sO-H3u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9B7-Xl-L4i" userLabel="First Responder" sceneMemberID="firstResponder"/>
