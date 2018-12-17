@@ -71,21 +71,20 @@ class BluesnapSDKIntegrationTests: XCTestCase {
     }
     
     func testEndToEndCheckoutFlow() {
-        let ccn = "4111 1111 1111 1111"
-        let cvv = "111"
-        let exp = "10/2020"
+        let purchaseData = ["ccn": "4111 1111 1111 1111", "cardLastFourDigits": "1111", "cvv": "123", "exp": "10/2020", "cardType": "VISA",
+                            "email": "test@sdk.com", "firstName": "La", "lastName": "Fleur", "address": "555 Broadway street",
+                            "city": "New York", "zip": "12345", "country": "US", "state": "NY"]
+        
         let tokenizeRequest = BSTokenizeRequest()
-        tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: ccn, cvv: cvv, ccType: nil, expDate: exp)
+        tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: purchaseData["ccn"], cvv: purchaseData["cvv"], ccType: nil, expDate: purchaseData["exp"])
+        tokenizeRequest.billingDetails = BSBillingAddressDetails(email: purchaseData["email"], name: "\(purchaseData["firstName"]!) \(purchaseData["lastName"]!)",
+                                                                 address: purchaseData["address"], city: purchaseData["city"], zip: purchaseData["zip"], country: purchaseData["country"], state: purchaseData["state"])
         
         let semaphore = DispatchSemaphore(value: 0)
         BluesnapSDKIntegrationTestsHelper.createToken(completion: { token, error in
             
             BlueSnapSDK.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: { (result, error) in
                 XCTAssertNil(error, "error: \(String(describing: error))")
-                let ccType = result[BSTokenizeBaseCCDetails.CARD_TYPE_KEY]
-                let last4 = result[BSTokenizeBaseCCDetails.LAST_4_DIGITS_KEY]
-                let country = result[BSTokenizeBaseCCDetails.ISSUING_COUNTRY_KEY]
-                NSLog("Result: ccType=\(ccType!), last4Digits=\(last4!), ccIssuingCountry=\(country!)")
                 
                 BluesnapSDKIntegrationTestsHelper.createTokenizedTransaction(
                     purchaseAmount: 22.0,
@@ -95,7 +94,7 @@ class BluesnapSDKIntegrationTests: XCTestCase {
                         XCTAssert(success, "error: \(String(describing: "Transaction failed"))")
                         let (resultData, resultError) = BluesnapSDKIntegrationTestsHelper.parseTransactionResponse(responseBody: data)
                         XCTAssertNil(resultError, "Error parsing BS result on CC transaction submit")
-                        BluesnapSDKIntegrationTestsHelper.checkTransactionResult(resultData: resultData)
+                        BluesnapSDKIntegrationTestsHelper.checkTransactionResult(expectedData: purchaseData, resultData: resultData)
                         semaphore.signal()
                 })
             })
