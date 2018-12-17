@@ -206,6 +206,8 @@ class BluesnapSDKIntegrationTestsHelper {
                 do {
                     // Parse the result JSOn object
                     if let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject] {
+                        resultData["vaultedShopperId"] = json["vaultedShopperId"] as? String
+
                         if let cardHolderInfo = json["cardHolderInfo"] as? [String: AnyObject] {
                             resultData["firstName"] = cardHolderInfo["firstName"] as? String
                             resultData["lastName"] = cardHolderInfo["lastName"] as? String
@@ -221,9 +223,10 @@ class BluesnapSDKIntegrationTestsHelper {
                         if let creditCardInfo = json["creditCard"] as? [String: AnyObject] {
                             resultData["cardLastFourDigits"] = creditCardInfo["cardLastFourDigits"] as? String
                             resultData["cardType"] = creditCardInfo["cardType"] as? String
-                            resultData["cardSubType"] = creditCardInfo["cardSubType"] as? String
-                            
+//                            resultData["cardSubType"] = creditCardInfo["cardSubType"] as? String
                         }
+                        
+                        
                         
                     } else {
                         NSLog("Error parsing BS result on CC transaction submit")
@@ -234,6 +237,10 @@ class BluesnapSDKIntegrationTestsHelper {
                     resultError = .unknown
                 }
             }
+        } else {
+            NSLog("Error: no data exists")
+            resultError = .unknown
+            
         }
         return (resultData, resultError)
         
@@ -241,43 +248,15 @@ class BluesnapSDKIntegrationTestsHelper {
     }
     
     
-    static func checkTransactionResult(resultData: [String:String]){
-        
-        //example
-//        if let data = data {
-//            do {
-//                // Parse the result JSOn object
-//                if let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject] {
-//                    
-//                    resultData = BSSdkConfiguration()
-//                    if let kountMID = json["kountMerchantId"] as? Int {
-//                        resultData?.kountMID = kountMID
-//                    }
-//                    if let rates = json["rates"] as? [String: AnyObject] {
-//                        let currencies = parseCurrenciesJSON(json: rates)
-//                        resultData?.currencies = currencies
-//                    }
-//                    if let shopper = json["shopper"] as? [String: AnyObject] {
-//                        let shopper = parseShopperJSON(json: shopper)
-//                        resultData?.shopper = shopper
-//                    }
-//                    if let supportedPaymentMethods = json["supportedPaymentMethods"] as? [String: AnyObject] {
-//                        let methods = parseSupportedPaymentMethodsJSON(json: supportedPaymentMethods)
-//                        resultData?.supportedPaymentMethods = methods
-//                    }
-//                    
-//                } else {
-//                    resultError = .unknown
-//                    NSLog("Error parsing BS currency rates")
-//                }
-//            } catch let error as NSError {
-//                resultError = .unknown
-//                NSLog("Error parsing BS currency rates: \(error.localizedDescription)")
-//            }
-//        } else {
-//            resultError = .unknown
-//            NSLog("No BS currency data exists")
-//        }
+    static func checkTransactionResult(expectedData: [String:String], resultData: [String:String]){
+        for (fieldName, fieldValue) in resultData {
+            checkFieldContent(expectedValue: expectedData[fieldName]!, actualValue: fieldValue, fieldName: fieldName)
+        }
+
+    }
+    
+    static func checkFieldContent(expectedValue: String, actualValue: String, fieldName: String){
+        XCTAssertTrue(expectedValue == actualValue, "Field \(fieldName) was not saved correctly in DataBase")
     }
     
 }
