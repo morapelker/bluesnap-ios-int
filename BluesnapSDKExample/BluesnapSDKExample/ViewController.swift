@@ -25,7 +25,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var returningShopperIdLabel: UILabel!
     @IBOutlet var returningShopperIdTextField: UITextField!
     @IBOutlet weak var storeCurrencyButton: UIButton!
-    
+    @IBOutlet weak var allowCurrencyChangeSwitch: UISwitch!
+
     // MARK: private properties
     
     fileprivate var bsToken : BSToken?
@@ -128,16 +129,16 @@ class ViewController: UIViewController {
         self.isShopperRequirements = false
         buttonAction(isShopperRequirements: self.isShopperRequirements)
     }
-    
+
     @IBAction func chooseButtonAction(_ sender: UIButton) {
         self.isShopperRequirements = true
         buttonAction(isShopperRequirements: self.isShopperRequirements)
 
     }
-    
+
     @IBAction func createButtonAction(_ sender: UIButton) {
     }
-    
+
 	@IBAction func currencyButtonAction(_ sender: UIButton) {
         
         coverAllLabel.text = LOADING_MESSAGE
@@ -228,6 +229,7 @@ class ViewController: UIViewController {
         sdkRequestBase = (!isShopperRequirements)
                 ? BSSdkRequest(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
                 : BSSdkRequestShopperRequirements(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
+        sdkRequestBase?.allowCurrencyChange = allowCurrencyChangeSwitch.isOn
     }
     
     /**
@@ -281,7 +283,7 @@ class ViewController: UIViewController {
             showThankYouScreen(errorText: nil)
             return // no need to complete purchase via BlueSnap API
         }
-        
+
         if let paypalPurchaseDetails = purchaseDetails as? BSPayPalSdkResult {
             
             NSLog("PayPal transaction completed Successfully! invoice ID: \(paypalPurchaseDetails.payPalInvoiceId ?? "")")
@@ -302,7 +304,7 @@ class ViewController: UIViewController {
             NSLog("CC last 4 digits: \(creditCard.last4Digits ?? "")")
             NSLog("CC Issuing country: \(creditCard.ccIssuingCountry ?? "")")
         }
-        
+
         // The creation of BlueSnap Demo transaction here should be done in the merchant server!!!
         // This is just for demo purposes
         DispatchQueue.main.async {

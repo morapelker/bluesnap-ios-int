@@ -293,21 +293,22 @@ class BSViewsManager {
             errorFunc: @escaping ()->Void) -> UIAlertController {
         
         let menu = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertController.Style.actionSheet)
-        
+
         // Add change currency menu item
-        let currencyMenuTitle = BSLocalizedStrings.getString(BSLocalizedString.Menu_Item_Currency)
-        let currencyMenuOption = UIAlertAction(title: currencyMenuTitle, style: UIAlertAction.Style.default) { _ in
-            if let purchaseDetails = purchaseDetails {
-                BSViewsManager.showCurrencyList(
-                    inNavigationController: inNavigationController,
-                    animated: true,
-                    selectedCurrencyCode: purchaseDetails.getCurrency(),
-                    updateFunc: updateCurrencyFunc,
-                    errorFunc: errorFunc)
+        if BlueSnapSDK.sdkRequest?.allowCurrencyChange ?? true {
+            let currencyMenuTitle = BSLocalizedStrings.getString(BSLocalizedString.Menu_Item_Currency)
+            let currencyMenuOption = UIAlertAction(title: currencyMenuTitle, style: UIAlertAction.Style.default) { _ in
+                if let purchaseDetails = purchaseDetails {
+                    BSViewsManager.showCurrencyList(
+                            inNavigationController: inNavigationController,
+                            animated: true,
+                            selectedCurrencyCode: purchaseDetails.getCurrency(),
+                            updateFunc: updateCurrencyFunc,
+                            errorFunc: errorFunc)
+                }
             }
+            menu.addAction(currencyMenuOption)
         }
-        menu.addAction(currencyMenuOption)
-        
         // Add Cancel menu item
         let cancelMenuTitle = BSLocalizedStrings.getString(BSLocalizedString.Menu_Item_Cancel)
         let cancelMenuOption = UIAlertAction(title: cancelMenuTitle, style: UIAlertAction.Style.cancel, handler: nil)

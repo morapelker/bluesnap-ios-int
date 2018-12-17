@@ -120,6 +120,16 @@
                                         <rect key="frame" x="163" y="93" width="51" height="31"/>
                                         <accessibility key="accessibilityConfiguration" identifier="WithEmailSwitch"/>
                                     </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow currency change" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fb3-k4-RXP" userLabel="Allow Currency Change">
+                                        <rect key="frame" x="14" y="128" width="170" height="23"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ouC-gm-BdN" userLabel="Allow Currency Change">
+                                        <rect key="frame" x="183" y="122" width="51" height="31"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="CurrencyChangeSwitch"/>
+                                    </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Store Currency:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Df9-pw-Kb1">
                                         <rect key="frame" x="14" y="132" width="108" height="23"/>
                                         <constraints>
@@ -327,6 +337,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="BlueSnap IOS SDK Example App" id="Wrn-am-caX"/>
                     <connections>
+                        <outlet property="allowCurrencyChangeSwitch" destination="ouC-gm-BdN" id="TJG-nT-21o"/>
                         <outlet property="convertButton" destination="TAo-mM-qRo" id="fgb-9J-9ff"/>
                         <outlet property="coverAllLabel" destination="5gd-cl-sWV" id="0ut-Ch-cnk"/>
                         <outlet property="coverAllView" destination="cco-GN-tEP" id="n6f-jP-Kui"/>
