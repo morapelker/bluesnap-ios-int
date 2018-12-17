@@ -271,37 +271,29 @@ class ViewController: UIViewController {
         coverAllView.isHidden = false
         coverAllLabel.text = PROCESSING_MESSAGE
        
+        if let _ = purchaseDetails as? BSApplePaySdkResult {
+            NSLog("Apple Pay details accepted")
+        } else if let ccPurchaseDetails = purchaseDetails as? BSCcSdkResult {
+            let creditCard = ccPurchaseDetails.creditCard
+            NSLog("CC Expiration: \(creditCard.getExpiration() )")
+            NSLog("CC type: \(creditCard.ccType ?? "")")
+            NSLog("CC last 4 digits: \(creditCard.last4Digits ?? "")")
+            NSLog("CC Issuing country: \(creditCard.ccIssuingCountry ?? "")")
+        }
+        
         // The creation of BlueSnap Demo transaction here should be done in the merchant server!!!
         // This is just for demo purposes
         DispatchQueue.main.async {
             let demo = DemoTreansactions()
             var result: (success: Bool, data: String?) = (false, nil)
-            if let applePayPurchaseDetails = purchaseDetails as? BSApplePaySdkResult {
-                
-                demo.createApplePayTransaction(
-                    purchaseDetails: applePayPurchaseDetails,
-                    bsToken: self.bsToken!,
-                    completion: { success, data in
-                        result.data = data
-                        result.success = success
-                        self.logResultDetails(result: result, purchaseDetails: applePayPurchaseDetails)
-                        self.showThankYouScreen(result)
-                })
-                
-            } else if let ccPurchaseDetails = purchaseDetails as? BSCcSdkResult {
-                
-                let creditCard = ccPurchaseDetails.creditCard
-                NSLog("CC Expiration: \(creditCard.getExpiration() )")
-                NSLog("CC type: \(creditCard.ccType ?? "")")
-                NSLog("CC last 4 digits: \(creditCard.last4Digits ?? "")")
-                NSLog("CC Issuing country: \(creditCard.ccIssuingCountry ?? "")")
+            if let purchaseDetails = purchaseDetails {
                 demo.createTokenizedTransaction(
-                    purchaseDetails: ccPurchaseDetails,
+                    purchaseDetails: purchaseDetails,
                     bsToken: self.bsToken!,
                     completion: { success, data in
                         result.data = data
                         result.success = success
-                        self.logResultDetails(result: result, purchaseDetails: ccPurchaseDetails)
+                        self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
                         self.showThankYouScreen(result)
                 })
             }

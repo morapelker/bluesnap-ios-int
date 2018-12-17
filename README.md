@@ -37,8 +37,7 @@ To see an image of the credit card UI component, click [here](https://developers
 > The SDK is written in Swift 3, using Xcode 8.
 
 ## Requirements
-* CocoaPods 1.1.0+
-* Xcode 8.3.3+
+* Xcode 10+
 * [BlueSnap API credentials](https://support.bluesnap.com/docs/api-credentials) 
 
 ## CocoaPods (Optional, CocoaPods 1.1.0+)
@@ -197,7 +196,7 @@ The following logic should apply within `purchaseFunc` :
 
 2. If the user selected PayPal, no further action is required - transaction is complete. Show success message.
 
-3. If the user selected Apple Pay or credit card, update your server with the order details and the token.
+3. If the user selected Apple Pay or credit card, update your server with the order details and the token. Unless you need to keep the non-secure CC details, there is really no difference in handling Credit card or Apple Pay. You just need the token to finalize the transaction.
 
 4. From your server, [complete the purchase](#sending-the-payment-for-processing) with your token. 
 
@@ -212,18 +211,11 @@ private func completePurchase(purchaseDetails: BSBaseSdkResult!) {
         // show success message
         return // no need to complete purchase via BlueSnap API
     }
-    if let applePayPurchaseDetails = purchaseDetails as? BSApplePaySdkResult {
-        // user chose Apple Pay
-        // send order details & bsToken to server...
+    
+    // handle Apple-Pay or Credit card:
+    // send order details & bsToken to server...
+    // ...receive response
 
-        // ...receive response
-
-    } else if let ccPurchaseDetails = purchaseDetails as? BSCcSdkResult {
-        // user chose credit card 
-        // send order details & bsToken to server...
-
-        // ...receive response
-    }
     // depending on response, show success/fail message
 }
 ```
@@ -339,7 +331,24 @@ curl -v -X POST https://sandbox.bluesnap.com/services/2/transactions \
 If successful, the response HTTP status code is 200 OK. Visit our [API Reference](https://developers.bluesnap.com/v8976-JSON/docs/auth-capture) for more details. 
 
 # Demo app - explained
-The demo app shows how to use the basic functionality of the Standard Checkout Flow, including the various stages you need to implement (everything is in class `ViewController`). The basic steps include:
+The demo app shows how to use the basic functionality of the Standard Checkout Flow, including the various stages you need to implement (everything is in class `ViewController`).
+
+## Demo app credentials
+The Demo app requires Sandbox API credentials to simulate the merchant server operation, you can get your Sandbox API credentials from the Bluesnap Sandbox dashboard.
+The Credentials are injected to Configuration.swift using environment variables, Alternatively you can put them directly there for demo purposes.
+You can either put the environment variables in your shell, or write them in Configuration.swift
+The Credentials will be printed to the demo app log.
+> **note**  
+To make Xcode pass the environment variable to the build process you need to set this explicitly using the following command line:
+>
+> defaults write com.apple.dt.Xcode UseSanitizedBuildSystemEnvironment -bool NO
+
+The environment variables are configured in info.plist in the demo app, see ${BS_API_USER} ${BS_API_PASSWORD}
+
+While this approach is fine for the demo app it should not be used in real life cases. do not leave your API credentials in your app code.
+
+ 
+ The basic steps include:
 
 1. Getting a token from BlueSnap's server. Please note that you need to do this from your server. In the demo app, we create a token from the BlueSnap Sandbox environment with dummy credentials. According to the toggle in the UI, we either create a token with a shopper ID (for returning user flow) or without the shopper ID (for new user flow).
 

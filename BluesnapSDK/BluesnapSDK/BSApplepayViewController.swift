@@ -28,18 +28,20 @@ extension BSStartViewController : PaymentOperationDelegate {
             pkPaymentRequest.paymentSummaryItems = paymentSummaryItems;
             pkPaymentRequest.merchantIdentifier = BSApplePayConfiguration.getIdentifier()
             pkPaymentRequest.merchantCapabilities = .capability3DS
+            // The merchant's ISO country code.
             pkPaymentRequest.countryCode = "US"
             pkPaymentRequest.currencyCode = priceDetails.currency
             
             if sdkRequest.withShipping {
-                pkPaymentRequest.requiredShippingAddressFields = [.email, .phone, .postalAddress]
+                pkPaymentRequest.requiredShippingAddressFields = [.phone, .postalAddress, .name]
             }
-            // The billing fields are required for creating an ApplePay transaction on
-            // BlueSnap servers, so we take them all even if the merchant did not request it.
-            //if sdkRequest.fullBilling {
-                pkPaymentRequest.requiredBillingAddressFields = [.postalAddress]
-            //}
+            // even without full billing we need zip code, so we need to ask for postal address...
+            pkPaymentRequest.requiredBillingAddressFields = [.name, .postalAddress]
+            if sdkRequest.withEmail {
+                pkPaymentRequest.requiredBillingAddressFields.insert(.email)
+            }
             
+            // todo: populate from merchant settings
             pkPaymentRequest.supportedNetworks = [
                 .amex,
                 .discover,
