@@ -7,22 +7,22 @@
 import Foundation
 import PassKit
 
-  open class BlueSnapSDK: NSObject {
-	
+open class BlueSnapSDK: NSObject {
+
     // MARK: Supported networks for ApplePay
-    
+
     static let applePaySupportedNetworks: [PKPaymentNetwork] = [
         .amex,
         .discover,
         .masterCard,
         .visa
     ]
-    static internal var fraudSessionId : String?
+    static internal var fraudSessionId: String?
     static internal var sdkRequestBase: BSSdkRequestBase?
 
 
     // MARK: SDK functions
-    
+
     /**
      Inititalize BlueSnap SDK - this function must be called before any other function in the SDK
      
@@ -36,24 +36,24 @@ import PassKit
      - completion: callback; will be called when the init process is done. Only then can you proceed to call other functions in the SDK
      */
     open class func initBluesnap(
-        bsToken : BSToken!,
-        generateTokenFunc: @escaping (_ completion: @escaping (BSToken?, BSErrors?) -> Void) -> Void,
-        initKount: Bool,
-        fraudSessionId: String?,
-        applePayMerchantIdentifier: String?,
-        merchantStoreCurrency : String?,
-        completion: @escaping (BSErrors?)->Void) {
-        
+            bsToken: BSToken!,
+            generateTokenFunc: @escaping (_ completion: @escaping (BSToken?, BSErrors?) -> Void) -> Void,
+            initKount: Bool,
+            fraudSessionId: String?,
+            applePayMerchantIdentifier: String?,
+            merchantStoreCurrency: String?,
+            completion: @escaping (BSErrors?) -> Void) {
+
         BSApiManager.setBsToken(bsToken: bsToken)
         BSApiManager.setGenerateBsTokenFunc(generateTokenFunc: generateTokenFunc)
-        
+
         BSApiManager.getSdkData(baseCurrency: merchantStoreCurrency, completion: { sdkData, error in
-        
+
             if let error = error {
                 NSLog("Failed to fetch data for Bluesnap SDK. error: \(error)")
                 return
             }
-            
+
             if let sdkData = sdkData {
                 if initKount {
                     KountInit(kountMid: sdkData.kountMID! as NSNumber, customFraudSessionId: fraudSessionId)
@@ -67,9 +67,9 @@ import PassKit
             }
 
         })
-        
+
     }
-    
+
     /**
      Set the token used for BS API
      This needs to be called when you generate a new token after a token expired (in your generateTokenFunc
@@ -78,11 +78,11 @@ import PassKit
      - parameters:
      - bsToken: BlueSnap token, should be fresh and valid
      */
-    open class func setBsToken(bsToken : BSToken!) {
-        
+    open class func setBsToken(bsToken: BSToken!) {
+
         BSApiManager.setBsToken(bsToken: bsToken)
     }
-    
+
     /**
      Start the BlueSnap checkout flow
      
@@ -94,31 +94,61 @@ import PassKit
     open class func showCheckoutScreen(
             inNavigationController: UINavigationController!,
             animated: Bool,
-            sdkRequestBase: BSSdkRequestBase!) {
-        
-        self.sdkRequestBase = sdkRequestBase
-        adjustSdkRequest()
-        
-        DispatchQueue.main.async {
-            BSViewsManager.showStartScreen(inNavigationController: inNavigationController,
-                                           animated: animated)
+            sdkRequest: BSSdkRequest!) {
+
+        do {
+            try showCheckoutScreen(inNavigationController: inNavigationController, animated: animated, sdkRequestBase: sdkRequest)
+        } catch {
+            fatalError("Unexpected error: \(error).")
         }
     }
-    
+
+    /**
+     Start the BlueSnap Choose Payment flow for Shopper Configuration
+
+     - parameters:
+     - inNavigationController: your viewController's navigationController (to be able to navigate back)
+     - animated: how to navigate to the new screen
+     - BSSdkRequestShopperRequirements: initial payment details + flow settings
+     */
+    open class func showChoosePaymentScreen(
+            inNavigationController: UINavigationController!,
+            animated: Bool,
+            sdkRequestShopperRequirements: BSSdkRequestShopperRequirements!) throws {
+
+        try showCheckoutScreen(inNavigationController: inNavigationController, animated: animated, sdkRequestBase: sdkRequestShopperRequirements)
+    }
+
+    /**
+     Start the BlueSnap Create Payment flow for Shopper Configuration
+
+     - parameters:
+     - inNavigationController: your viewController's navigationController (to be able to navigate back)
+     - animated: how to navigate to the new screen
+     - BSSdkRequest: initial payment details + flow settings
+     */
+    open class func showCreatePaymentScreen(
+            inNavigationController: UINavigationController!,
+            animated: Bool,
+            sdkRequest: BSSdkRequest!) throws {
+
+        try showCheckoutScreen(inNavigationController: inNavigationController, animated: animated, sdkRequestBase: sdkRequest)
+    }
+
     /**
     Submit data to BLS server under the current token, to be used later for server-to-server actions
     */
-    open class func submitTokenizedDetails(tokenizeRequest: BSTokenizeRequest, completion: @escaping ([String:String], BSErrors?) -> Void) {
+    open class func submitTokenizedDetails(tokenizeRequest: BSTokenizeRequest, completion: @escaping ([String: String], BSErrors?) -> Void) {
         BSApiManager.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: completion)
     }
 
-      /**
-    Update Shopper to BLS server under the current token
-    */
+    /**
+  Update Shopper to BLS server under the current token
+  */
     open class func updateShopper(completion: @escaping ([String: String], BSErrors?) -> Void) {
         BSApiManager.updateShopper(completion: completion)
     }
-    
+
 //    /**
 //     Submit Payment token fields
 //     If you do not want to use our check-out page, you can implement your own.
@@ -134,7 +164,7 @@ import PassKit
 //        
 //        BSApiManager.submitPurchaseDetails(ccNumber: ccNumber, expDate: expDate, cvv: cvv, last4Digits: nil, cardType: nil, billingDetails: purchaseDetails?.billingDetails, shippingDetails: purchaseDetails?.shippingDetails, fraudSessionId: BlueSnapSDK.fraudSessionId, completion: completion)
 //    }
-    
+
     /**
      Return a list of currencies and their rates from BlueSnap server
      The list is updated when calling initBluesnap
@@ -154,23 +184,23 @@ import PassKit
      - errorFunc: callback; will be called if we fail to get the currencies
      */
     open class func showCurrencyList(
-        inNavigationController: UINavigationController!,
-        animated: Bool,
-        selectedCurrencyCode : String!,
-        updateFunc: @escaping (BSCurrency?, BSCurrency?)->Void,
-        errorFunc: @escaping()->Void) {
-        
+            inNavigationController: UINavigationController!,
+            animated: Bool,
+            selectedCurrencyCode: String!,
+            updateFunc: @escaping (BSCurrency?, BSCurrency?) -> Void,
+            errorFunc: @escaping () -> Void) {
+
         BSViewsManager.showCurrencyList(inNavigationController: inNavigationController, animated: animated, selectedCurrencyCode: selectedCurrencyCode, updateFunc: updateFunc, errorFunc: errorFunc)
     }
-    
-    
+
+
     /**
      Fetch the merchant's supported Payment Methods
      - parameters:
      - completion: function to call once the data is fetched; will receive optional list of strings that are the payment methods, and optional error.
     */
     static func getSupportedPaymentMethods(completion: @escaping ([String]?, BSErrors?) -> Void) {
-        
+
         BSApiManager.getSupportedPaymentMethods(completion: completion)
     }
 
@@ -179,9 +209,9 @@ import PassKit
     */
     open class func applePaySupported(supportedPaymentMethods: [String]?,
                                       supportedNetworks: [PKPaymentNetwork]) -> (canMakePayments: Bool, canSetupCards: Bool) {
-        
+
         if #available(iOS 10, *) {
-            
+
             let isSupportedByBS = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.ApplePay, supportedPaymentMethods: supportedPaymentMethods)
             if isSupportedByBS {
                 return (PKPaymentAuthorizationController.canMakePayments(),
@@ -192,9 +222,9 @@ import PassKit
         return (canMakePayments: false, canSetupCards: false)
     }
 
-    
+
     // MARK: Utility functions for quick testing
-    
+
     /**
      Create token for BlueSnap Sandbox environment; useful for tests.
      In your real app, the token should be generated on the server side and passed to the app, so that the app will not expose the username/password
@@ -204,7 +234,7 @@ import PassKit
     open class func createSandboxTestToken(completion: @escaping (BSToken?, BSErrors?) -> Void) {
         BSApiManager.createSandboxBSToken(shopperId: nil, completion: completion)
     }
-    
+
     /**
      Create token for BlueSnap Sandbox environment; useful for tests.
      In your real app, the token should be generated on the server side and passed to the app, so that the app will not expose the username/password
@@ -228,23 +258,23 @@ import PassKit
 //        }
 //    }
 
-    
+
     // MARK: Private functions
-    
+
     /**
      Call Kount SDK to initialize device data collection in a background thread
      - parameters:
      - kountMid: if you have your own Kount MID, send it here; otherwise leave empty
      - fraudSessionID: this unique ID per shopper should be sent later to BlueSnap when creating the transaction
      */
-    private static func KountInit(kountMid: NSNumber? , customFraudSessionId : String?) {
-        
+    private static func KountInit(kountMid: NSNumber?, customFraudSessionId: String?) {
+
         if customFraudSessionId != nil {
             BlueSnapSDK.fraudSessionId = customFraudSessionId!
         } else {
             BlueSnapSDK.fraudSessionId = UUID().uuidString.replacingOccurrences(of: "-", with: "")
         }
-        
+
         //// Configure the Data Collector
         //KDataCollector.shared().debug = true
         if (kountMid != nil) {
@@ -254,7 +284,7 @@ import PassKit
         }
         // Optional Set the location collection configuration
         KDataCollector.shared().locationCollectorConfig = KLocationCollectorConfig.passive
-        
+
         if BSApiManager.isProductionToken() {
             KDataCollector.shared().environment = KEnvironment.production
         } else {
@@ -272,12 +302,31 @@ import PassKit
         }
     }
 
+    private class func showCheckoutScreen(
+            inNavigationController: UINavigationController!,
+            animated: Bool,
+            sdkRequestBase: BSSdkRequestBase!) throws {
+
+        guard !(sdkRequestBase is BSSdkRequestShopperRequirements && BSApiManager.shopper?.vaultedShopperId == nil) else {
+            NSLog("Failed to activate Shopper Configuration for Bluesnap SDK. error: Returning Shopper is missing")
+            throw BSSdkRequestBaseError.invalid("Failed to activate Shopper Configuration for Bluesnap SDK. error: returning shopper is missing")
+        }
+
+        self.sdkRequestBase = sdkRequestBase
+        adjustSdkRequest()
+
+        DispatchQueue.main.async {
+            BSViewsManager.showStartScreen(inNavigationController: inNavigationController,
+                    animated: animated)
+        }
+    }
+
     private class func adjustSdkRequest() {
-        
+
         if var data = sdkRequestBase {
-            
+
             let defaultCountry = NSLocale.current.regionCode ?? BSCountryManager.US_COUNTRY_CODE
-            
+
             if data.withShipping {
                 if data.shippingDetails == nil {
                     data.shippingDetails = BSShippingAddressDetails()
@@ -285,17 +334,17 @@ import PassKit
             } else if data.shippingDetails != nil {
                 data.shippingDetails = nil
             }
-            
+
             if data.billingDetails == nil {
                 data.billingDetails = BSBillingAddressDetails()
             }
-            
+
             if data.billingDetails!.country ?? "" == "" {
                 data.billingDetails!.country = defaultCountry
             }
         }
     }
-    
+
 }
 
 public class BSApplePayConfiguration {
