@@ -23,7 +23,9 @@ Pod::Spec.new do |s|
         'BluesnapSDK/**/*.strings' 
 	]
   }
-  s.exclude_files = "BluesnapSDK/BluesnapSDKTests/**/*.*"
+  s.exclude_files =  ["BluesnapSDK/BluesnapSDKTests/**/*.*","BluesnapSDK/**/libKountDataCollector.a","BluesnapSDK/**/KDataCollector.{h,m}" ]  
+
+  
   s.resources = "BluesnapSDK/**/Media.xcassets"
   s.frameworks                     = 'Foundation', 'Security', 'WebKit', 'PassKit', 'AddressBook', 'UIKit'
   s.weak_frameworks                = 'Contacts'
