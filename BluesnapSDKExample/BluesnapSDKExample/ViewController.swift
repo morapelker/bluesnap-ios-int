@@ -95,7 +95,7 @@ class ViewController: UIViewController {
 
 
     // MARK: - Actions
-    func buttonAction(isShopperRequirements: Bool) {
+    func buttonGeneralAction() {
 
         resultTextView.text = ""
 
@@ -114,29 +114,50 @@ class ViewController: UIViewController {
         coverAllLabel.text = PROCESSING_MESSAGE
         coverAllView.isHidden = false
         hideCoverView = true
-
-        DispatchQueue.main.async {
-            // open the purchase screen
-            self.fillSdkRequest(isShopperRequirements: isShopperRequirements)
-            BlueSnapSDK.showCheckoutScreen(
-                    inNavigationController: self.navigationController,
-                    animated: true,
-                    sdkRequestBase: self.sdkRequestBase)
-        }
     }
 
     @IBAction func convertButtonAction(_ sender: UIButton) {
-        self.isShopperRequirements = false
-        buttonAction(isShopperRequirements: self.isShopperRequirements)
+        buttonGeneralAction()
+        DispatchQueue.main.async {
+            // open the purchase screen
+            self.fillSdkRequest(isShopperRequirements: false)
+            BlueSnapSDK.showCheckoutScreen(
+                        inNavigationController: self.navigationController,
+                        animated: true,
+                        sdkRequest: self.sdkRequestBase as! BSSdkRequest)
+        }
     }
 
     @IBAction func chooseButtonAction(_ sender: UIButton) {
-        self.isShopperRequirements = true
-        buttonAction(isShopperRequirements: self.isShopperRequirements)
-
+        buttonGeneralAction()
+        DispatchQueue.main.async {
+            // open the purchase screen
+            self.fillSdkRequest(isShopperRequirements: true)
+            do {
+                try BlueSnapSDK.showChoosePaymentScreen(
+                        inNavigationController: self.navigationController,
+                        animated: true,
+                        sdkRequestShopperRequirements: self.sdkRequestBase as! BSSdkRequestShopperRequirements)
+            } catch {
+                fatalError("Unexpected error: \(error).")
+            }
+        }
     }
 
     @IBAction func createButtonAction(_ sender: UIButton) {
+        buttonGeneralAction()
+        DispatchQueue.main.async {
+            // open the purchase screen
+            self.fillSdkRequest(isShopperRequirements: false)
+            do {
+                try BlueSnapSDK.showCreatePaymentScreen(
+                    inNavigationController: self.navigationController,
+                    animated: true,
+                    sdkRequest: self.sdkRequestBase as! BSSdkRequest)
+            } catch {
+                fatalError("Unexpected error: \(error).")
+            }
+        }
     }
 
     @IBAction func currencyButtonAction(_ sender: UIButton) {
