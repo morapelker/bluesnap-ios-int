@@ -11,7 +11,7 @@ import UIKit
 /**
  This protocol should be implemented by the view which owns the BSCcInputLine control; Although the component's functionality is sort-of self-sufficient, we still have some calls to the parent
  */
-public protocol BSCcInputLineDelegate : class {
+public protocol BSCcInputLineDelegate: class {
     /**
      startEditCreditCard is called when we switch to the 'open' state of the component
     */
@@ -36,7 +36,7 @@ public protocol BSCcInputLineDelegate : class {
     /**
      showAlert is called in case of unexpected errors from the BlueSnap server.
      */
-    func showAlert(_ message : String)
+    func showAlert(_ message: String)
 }
 
 /**
@@ -52,7 +52,7 @@ public protocol BSCcInputLineDelegate : class {
 public class BSCcInputLine: BSBaseTextInput {
 
     // MARK: Configurable properties
-    
+
     /**
      showOpenInDesign (default = false) helps you to see the component on the storyboard in both states, open (when you edit the CCN field) or closed (CCn shows only last 4 digits and is not editable, you can edit EXP and CVV fields).
      */
@@ -68,7 +68,7 @@ public class BSCcInputLine: BSBaseTextInput {
             }
         }
     }
-    
+
     /**
      expPlaceholder (default = "MM/YY") determines the placeholder text for the EXP field
      */
@@ -85,7 +85,7 @@ public class BSCcInputLine: BSBaseTextInput {
             self.cvvTextField.placeholder = cvvPlaceholder
         }
     }
-    
+
     /**
      ccnWidth (default = 220) determines the CCN text field width in the 'open' state (value will change at runtime according to the device)
      */
@@ -151,25 +151,25 @@ public class BSCcInputLine: BSBaseTextInput {
      nextBtnHeight (default = internal image, looks like >) determines the image for the next button, which shows in the open state when we already have a value in the CCN field (value will change at runtime according to the device)
      */
     @IBInspectable var nextBtnImage: UIImage?
-    
-    
+
+
     // MARK: public properties
 
     /**
      When using this control, you need to implement the BSCcInputLineDelegate protocol, and set the control's delegate to be that class
     */
-    public var delegate : BSCcInputLineDelegate?
-    
-    var cardType : String = "" {
+    public var delegate: BSCcInputLineDelegate?
+
+    var cardType: String = "" {
         didSet {
             updateCcIcon(ccType: cardType)
         }
     }
-    
+
     /**
     ccnIsOpen indicated the state of the control (open or closed)
     */
-    var ccnIsOpen : Bool = true {
+    var ccnIsOpen: Bool = true {
         didSet {
             if designMode {
                 self.isEditable = ccnIsOpen ? true : false
@@ -184,19 +184,19 @@ public class BSCcInputLine: BSBaseTextInput {
 
 
     // MARK: private properties
-    
-    internal var expTextField : UITextField = UITextField()
-    internal var cvvTextField : UITextField = UITextField()
-    private var ccnAnimationLabel : UILabel = UILabel()
+
+    internal var expTextField: UITextField = UITextField()
+    internal var cvvTextField: UITextField = UITextField()
+    private var ccnAnimationLabel: UILabel = UILabel()
     internal var expErrorLabel: UILabel?
     internal var cvvErrorLabel: UILabel?
-    private var nextButton : UIButton = UIButton()
+    private var nextButton: UIButton = UIButton()
     private var showNextButton = false
 
-    private var ccn : String = ""
-    private var lastValidateCcn : String = ""
+    private var ccn: String = ""
+    private var lastValidateCcn: String = ""
     private var closing = false
-    
+
     var actualCcnWidth: CGFloat = 220
     var actualLast4Width: CGFloat = 70
     var actualExpWidth: CGFloat = 70
@@ -205,29 +205,29 @@ public class BSCcInputLine: BSBaseTextInput {
     var actualNextBtnWidth: CGFloat = 22
     var actualNextBtnHeight: CGFloat = 22
 
-    
+
     // MARK: Constants
 
     fileprivate let animationDuration = TimeInterval(0.4)
 
-    
+
     // MARK: UIView override functions
-    
+
     // called at design time (StoryBoard) to init the component
     override init(frame: CGRect) {
-        
+
         super.init(frame: frame)
         updateCcIcon(ccType: "")
     }
-    
+
     // called at runtime to init the component
     required public init?(coder aDecoder: NSCoder) {
-        
+
         super.init(coder: aDecoder)
     }
 
     // MARK: Public functions
-    
+
     /**
      reset sets the component to its initial state, where the fields are emnpty and we are in the 'open' state
     */
@@ -249,16 +249,16 @@ public class BSCcInputLine: BSBaseTextInput {
     public func closeOnLeave() {
         closing = true
     }
-    
+
     /**
      The EXP field contains the expiration date in format MM/YY. This function returns the expiration date in format MMYYYY
     */
     public func getExpDateAsMMYYYY() -> String! {
-        
+
         let newValue = self.expTextField.text ?? ""
         if let p = newValue.index(of: "/") {
             let mm = newValue[..<p]
-            let yy = BSStringUtils.removeNoneDigits(String(newValue[p ..< newValue.endIndex]))
+            let yy = BSStringUtils.removeNoneDigits(String(newValue[p..<newValue.endIndex]))
             let currentYearStr = String(BSValidator.getCurrentYear())
             let p1 = currentYearStr.index(currentYearStr.startIndex, offsetBy: 2)
             let first2Digits = currentYearStr[..<p1]
@@ -266,7 +266,7 @@ public class BSCcInputLine: BSBaseTextInput {
         }
         return ""
     }
-    
+
     /**
      Returns the CCN value
     */
@@ -277,7 +277,7 @@ public class BSCcInputLine: BSBaseTextInput {
             return ccn
         }
     }
-    
+
     /**
      Sets the CCN value
      */
@@ -287,43 +287,43 @@ public class BSCcInputLine: BSBaseTextInput {
             self.textField.text = ccn
         }
     }
-    
+
     /**
      Returns the CVV value
      */
     public func getCvv() -> String! {
         return self.cvvTextField.text ?? ""
     }
-    
+
     /**
      Returns the CC Type
      */
     public func getCardType() -> String! {
         return cardType
     }
-    
+
     /**
      Validated the 3 fields; returns true if all are OK; displays errors under the fields if not.
      */
     public func validate() -> Bool {
-        
+
         let result = validateCCN() && validateExp(ignoreIfEmpty: false) && validateCvv(ignoreIfEmpty: false)
         return result
     }
-    
+
     /**
      Submits the CCN to BlueSnap server; This lets us get the CC issuing country and card type from server, while validating the CCN
      */
     public func checkCreditCard(ccn: String) {
-        
+
         if validateCCN() {
-            
+
             self.closeCcn(animated: true)
             self.delegate?.willCheckCreditCard()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1 , execute: {
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 BSApiManager.submitCcn(ccNumber: ccn, completion: { (creditCard, error) in
-                    
+
                     // Check for error
                     if let error = error {
                         if (error == .invalidCcNumber) {
@@ -361,14 +361,14 @@ public class BSCcInputLine: BSBaseTextInput {
      - purchaseDetails: optional purchase details to be tokenized as well as the CC details
     */
     public func submitPaymentFields(purchaseDetails: BSCcSdkResult?) {
-        
+
         let ccn = self.getValue() ?? ""
         let cvv = self.getCvv() ?? ""
         let exp = self.getExpDateAsMMYYYY() ?? ""
-        
+
         BSApiManager.submitPurchaseDetails(ccNumber: ccn, expDate: exp, cvv: cvv, last4Digits: nil, cardType: nil, billingDetails: purchaseDetails?.billingDetails, shippingDetails: purchaseDetails?.shippingDetails, fraudSessionId: BlueSnapSDK.fraudSessionId, completion: {
             creditCard, error in
-            
+
             if let error = error {
                 if (error == .invalidCcNumber) {
                     self.showError(BSValidator.ccnInvalidMessage)
@@ -394,14 +394,47 @@ public class BSCcInputLine: BSBaseTextInput {
                     }
                 }
             }
-            DispatchQueue.main.async {
-                self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+
+            if (purchaseDetails!.isShopperRequirements()) {
+                BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue)
+                BSApiManager.shopper?.chosenPaymentMethod?.creditCard = creditCard
+                BSApiManager.updateShopper(completion: {
+                    result, error in
+
+                    if let error = error {
+                        if (error == .expiredToken) {
+                            let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_expired)
+                            DispatchQueue.main.async {
+                                self.delegate?.showAlert(message)
+                            }
+                        } else if (error == .tokenNotFound) {
+                            let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
+                            DispatchQueue.main.async {
+                                self.delegate?.showAlert(message)
+                            }
+                        } else {
+                            NSLog("Unexpected error submitting Payment Fields to BS")
+                            let message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
+                            DispatchQueue.main.async {
+                                self.delegate?.showAlert(message)
+                            }
+                        }
+                    }
+
+                    DispatchQueue.main.async {
+                        self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+                    }
+                })
+            } else {
+                DispatchQueue.main.async {
+                    self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+                }
             }
         })
     }
 
     override public func dismissKeyboard() {
-        
+
         if self.textField.isFirstResponder {
             self.textField.resignFirstResponder()
         } else if self.expTextField.isFirstResponder {
@@ -411,30 +444,30 @@ public class BSCcInputLine: BSBaseTextInput {
         }
     }
 
-    
+
     // MARK: BSBaseTextInput Override functions
 
     override func initRatios() -> (hRatio: CGFloat, vRatio: CGFloat) {
-        
+
         let ratios = super.initRatios()
-        
+
         // keep proportion of image
         let imageRatio = min(ratios.hRatio, ratios.vRatio)
         actualNextBtnWidth = (nextBtnWidth * imageRatio).rounded()
         actualNextBtnHeight = (nextBtnHeight * imageRatio).rounded()
-        
+
         actualCcnWidth = (ccnWidth * ratios.hRatio).rounded()
         actualLast4Width = (last4Width * ratios.hRatio).rounded()
         actualExpWidth = (expWidth * ratios.hRatio).rounded()
         actualCvvWidth = (cvvWidth * ratios.hRatio).rounded()
-        actualErrorWidth = self.frame.width / 3         
+        actualErrorWidth = self.frame.width / 3
         return ratios
     }
-    
+
     override func buildElements() {
-        
+
         super.buildElements()
-        
+
         self.textField.accessibilityIdentifier = "CcTextField"
         self.expTextField.accessibilityIdentifier = "ExpTextField"
         self.cvvTextField.accessibilityIdentifier = "CvvTextField"
@@ -451,27 +484,27 @@ public class BSCcInputLine: BSBaseTextInput {
         } else {
             self.addSubview(ccnAnimationLabel)
         }
-        
+
         fieldKeyboardType = .numberPad
-        
+
         expTextField.addTarget(self, action: #selector(BSCcInputLine.expFieldDidBeginEditing(_:)), for: .editingDidBegin)
         expTextField.addTarget(self, action: #selector(BSCcInputLine.expFieldEditingChanged(_:)), for: .editingChanged)
 
         cvvTextField.addTarget(self, action: #selector(BSCcInputLine.cvvFieldDidBeginEditing(_:)), for: .editingDidBegin)
         cvvTextField.addTarget(self, action: #selector(BSCcInputLine.cvvFieldEditingChanged(_:)), for: .editingChanged)
-        
+
         expTextField.textAlignment = .center
         cvvTextField.textAlignment = .center
-        
+
         setNumericKeyboard()
-        
+
         setButtonImage()
     }
-    
+
     override func setElementAttributes() {
-        
+
         super.setElementAttributes()
-        
+
         expTextField.keyboardType = .numberPad
         expTextField.backgroundColor = self.fieldBkdColor
         expTextField.textColor = self.textColor
@@ -485,12 +518,12 @@ public class BSCcInputLine: BSBaseTextInput {
         cvvTextField.returnKeyType = UIReturnKeyType.done
         cvvTextField.borderStyle = .none
         cvvTextField.placeholder = cvvPlaceholder
-        
+
         cvvTextField.borderStyle = textField.borderStyle
         expTextField.borderStyle = textField.borderStyle
         cvvTextField.layer.borderWidth = fieldBorderWidth
         expTextField.layer.borderWidth = fieldBorderWidth
-        
+
         if let fieldBorderColor = self.fieldBorderColor {
             cvvTextField.layer.borderColor = fieldBorderColor.cgColor
             expTextField.layer.borderColor = fieldBorderColor.cgColor
@@ -498,12 +531,12 @@ public class BSCcInputLine: BSBaseTextInput {
     }
 
     override func resizeElements() {
-        
+
         super.resizeElements()
-        
+
         expTextField.font = textField.font
         cvvTextField.font = textField.font
-        
+
         if ccnIsOpen == true {
             expTextField.alpha = 0
             cvvTextField.alpha = 0
@@ -515,7 +548,7 @@ public class BSCcInputLine: BSBaseTextInput {
         let fieldEndX = getFieldX() + self.actualLast4Width
         let cvvFieldX = self.frame.width - actualCvvWidth - self.actualRightMargin
         let expFieldX = (fieldEndX + cvvFieldX - actualExpWidth) / 2.0
-        let fieldY = (self.frame.height-actualFieldHeight)/2
+        let fieldY = (self.frame.height - actualFieldHeight) / 2
         expTextField.frame = CGRect(x: expFieldX, y: fieldY, width: actualExpWidth, height: actualFieldHeight)
         cvvTextField.frame = CGRect(x: cvvFieldX, y: fieldY, width: actualCvvWidth, height: actualFieldHeight)
 
@@ -525,47 +558,47 @@ public class BSCcInputLine: BSBaseTextInput {
             cvvTextField.layer.cornerRadius = fieldCornerRadius
             expTextField.layer.cornerRadius = fieldCornerRadius
         }
-        
+
         self.ccnAnimationLabel.font = self.textField.font
         let labelWidth = self.ccnIsOpen ? actualCcnWidth : actualLast4Width
         self.ccnAnimationLabel.frame = CGRect(x: self.textField.frame.minX, y: self.textField.frame.minY, width: labelWidth, height: self.textField.frame.height)
         self.ccnAnimationLabel.alpha = self.ccnIsOpen ? 0 : 1
     }
-    
+
     override func getImageRect() -> CGRect {
-        return CGRect(x: actualRightMargin, y: (self.frame.height-actualImageHeight)/2, width: actualImageWidth, height: actualImageHeight)
+        return CGRect(x: actualRightMargin, y: (self.frame.height - actualImageHeight) / 2, width: actualImageWidth, height: actualImageHeight)
     }
 
     override func getFieldWidth() -> CGFloat {
         return actualCcnWidth
     }
-    
+
     override func getFieldX() -> CGFloat {
         let fieldX = actualLeftMargin + actualImageWidth + actualMiddleMargin
         return fieldX
     }
 
     override func resizeError() {
-        
+
         let labelFont = UIFont(name: self.fontName, size: actualErrorFontSize)
-        
+
         if let errorLabel = errorLabel {
             if labelFont != nil {
                 errorLabel.font = labelFont
             }
             errorLabel.textAlignment = .left
             let x: CGFloat = actualLeftMargin
-            errorLabel.frame = CGRect(x: x, y: self.frame.height-actualErrorHeight, width: actualErrorWidth, height: actualErrorHeight)
+            errorLabel.frame = CGRect(x: x, y: self.frame.height - actualErrorHeight, width: actualErrorWidth, height: actualErrorHeight)
         }
         if let expErrorLabel = expErrorLabel {
             if labelFont != nil {
                 expErrorLabel.font = labelFont
             }
             expErrorLabel.textAlignment = .center
-            let fieldCenter : CGFloat! = expTextField.frame.minX + expTextField.frame.width/2.0
-            let x = fieldCenter - actualErrorWidth/2.0
+            let fieldCenter: CGFloat! = expTextField.frame.minX + expTextField.frame.width / 2.0
+            let x = fieldCenter - actualErrorWidth / 2.0
             expErrorLabel.textAlignment = .center
-            expErrorLabel.frame = CGRect(x: x, y: self.frame.height-actualErrorHeight, width: actualErrorWidth, height: actualErrorHeight)
+            expErrorLabel.frame = CGRect(x: x, y: self.frame.height - actualErrorHeight, width: actualErrorWidth, height: actualErrorHeight)
         }
         if let cvvErrorLabel = cvvErrorLabel {
             if labelFont != nil {
@@ -574,13 +607,13 @@ public class BSCcInputLine: BSBaseTextInput {
             cvvErrorLabel.textAlignment = .right
             let x = self.frame.width - rightMargin - actualErrorWidth
             cvvErrorLabel.textAlignment = .right
-            cvvErrorLabel.frame = CGRect(x: x, y: self.frame.height-actualErrorHeight, width: actualErrorWidth, height: actualErrorHeight)
+            cvvErrorLabel.frame = CGRect(x: x, y: self.frame.height - actualErrorHeight, width: actualErrorWidth, height: actualErrorHeight)
         }
 
     }
 
     // MARK: TextFieldDelegate functions
-    
+
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
@@ -590,7 +623,7 @@ public class BSCcInputLine: BSBaseTextInput {
      ignoring empty values, but allow exiting the field even if there is an error.
     */
     func textFieldShouldEndEditing(_ sender: UITextField) -> Bool {
-        
+
         if closing {
             closing = false
             return true
@@ -612,25 +645,25 @@ public class BSCcInputLine: BSBaseTextInput {
         }
         return true
     }
-    
+
     // MARK: Numeric Keyboard 'done' button enhancement
-    
+
     override internal func setNumericKeyboard() {
-        
+
         let viewForDoneButtonOnKeyboard = createDoneButtonForKeyboard()
         self.textField.inputAccessoryView = viewForDoneButtonOnKeyboard
         self.expTextField.inputAccessoryView = viewForDoneButtonOnKeyboard
         self.cvvTextField.inputAccessoryView = viewForDoneButtonOnKeyboard
     }
-    
+
 
     // MARK: extra error handling
-    
+
     /*
      Shows the given text as an error below the exp text field
      */
-    public func showExpError(_ errorText : String?) {
-        
+    public func showExpError(_ errorText: String?) {
+
         if expErrorLabel == nil {
             expErrorLabel = UILabel()
             expErrorLabel!.accessibilityIdentifier = "ExpErrorLabel"
@@ -638,11 +671,12 @@ public class BSCcInputLine: BSBaseTextInput {
         }
         showErrorByField(field: self.expTextField, errorLabel: expErrorLabel, errorText: errorText)
     }
+
     /*
      Shows the given text as an error below the exp text field
      */
-    public func showCvvError(_ errorText : String?) {
-        
+    public func showCvvError(_ errorText: String?) {
+
         if cvvErrorLabel == nil {
             cvvErrorLabel = UILabel()
             cvvErrorLabel!.accessibilityIdentifier = "CvvErrorLabel"
@@ -655,15 +689,15 @@ public class BSCcInputLine: BSBaseTextInput {
 
         hideErrorByField(field: expTextField, errorLabel: expErrorLabel)
     }
-    
+
     func hideCvvError() {
-        
+
         hideErrorByField(field: cvvTextField, errorLabel: cvvErrorLabel)
     }
-    
-    
+
+
     // MARK: focus on fields
-    
+
     func focusOnCcnField() {
         DispatchQueue.global(qos: .userInteractive).async {
             DispatchQueue.main.async {
@@ -673,7 +707,7 @@ public class BSCcInputLine: BSBaseTextInput {
             }
         }
     }
-    
+
     func focusOnExpField() {
         DispatchQueue.global(qos: .userInteractive).async {
             DispatchQueue.main.async {
@@ -683,7 +717,7 @@ public class BSCcInputLine: BSBaseTextInput {
             }
         }
     }
-    
+
     func focusOnCvvField() {
         DispatchQueue.global(qos: .userInteractive).async {
             DispatchQueue.main.async {
@@ -693,11 +727,11 @@ public class BSCcInputLine: BSBaseTextInput {
             }
         }
     }
-    
+
     func focusOnNextField() {
         DispatchQueue.global(qos: .userInteractive).async {
             DispatchQueue.main.async {
-                let nextTage = self.tag+1;
+                let nextTage = self.tag + 1;
                 let nextResponder = self.superview?.viewWithTag(nextTage) as? BSInputLine
                 if nextResponder != nil {
                     nextResponder?.textField.becomeFirstResponder()
@@ -705,37 +739,37 @@ public class BSCcInputLine: BSBaseTextInput {
             }
         }
     }
-    
+
 
     // MARK: event handlers
-    
+
     override func fieldCoverButtonTouchUpInside(_ sender: Any) {
-        
+
         openCcn(animated: true)
     }
-    
+
     override public func textFieldDidBeginEditing(_ sender: UITextField) {
         //hideError(textField)
     }
-    
+
     override public func textFieldDidEndEditing(_ sender: UITextField) {
         delegate?.endEditCreditCard()
     }
-    
+
     override func textFieldEditingChanged(_ sender: UITextField) {
-        
+
         self.ccn = self.textField.text!
         BSValidator.ccnEditingChanged(textField)
-        
+
         let ccn = BSStringUtils.removeNoneDigits(textField.text ?? "")
         let ccnLength = ccn.count
-        
+
         if ccnLength >= 6 {
             cardType = BSValidator.getCCTypeByRegex(textField.text ?? "")?.lowercased() ?? ""
         } else {
             cardType = ""
         }
-        let maxLength : Int = BSValidator.getCcLengthByCardType(cardType)
+        let maxLength: Int = BSValidator.getCcLengthByCardType(cardType)
         if checkMaxLength(textField: sender, maxLength: maxLength) == true {
             if ccnLength == maxLength {
                 if self.textField.canResignFirstResponder {
@@ -746,12 +780,12 @@ public class BSCcInputLine: BSBaseTextInput {
     }
 
     @objc func expFieldDidBeginEditing(_ sender: UITextField) {
-        
+
         //hideError(expTextField)
     }
-    
+
     @objc func expFieldEditingChanged(_ sender: UITextField) {
-        
+
         BSValidator.expEditingChanged(sender)
         if checkMaxLength(textField: sender, maxLength: 5) == true {
             if sender.text?.count == 5 {
@@ -763,12 +797,12 @@ public class BSCcInputLine: BSBaseTextInput {
     }
 
     @objc func cvvFieldDidBeginEditing(_ sender: UITextField) {
-        
+
         //hideError(cvvTextField)
     }
-    
+
     @objc func cvvFieldEditingChanged(_ sender: UITextField) {
-        
+
         BSValidator.cvvEditingChanged(sender)
         let cvvLength = BSValidator.getCvvLength(cardType: self.cardType)
         if checkMaxLength(textField: sender, maxLength: cvvLength) == true {
@@ -779,24 +813,24 @@ public class BSCcInputLine: BSBaseTextInput {
             }
         }
     }
-    
+
     @objc func nextArrowClick() {
-        
+
         if textField.canResignFirstResponder {
             focusOnExpField()
         }
     }
 
     // MARK: Validation methods
-    
+
     func validateCCN() -> Bool {
-        
+
         let result = BSValidator.validateCCN(input: self)
         return result
     }
-    
-    func validateExp(ignoreIfEmpty : Bool) -> Bool {
-        
+
+    func validateExp(ignoreIfEmpty: Bool) -> Bool {
+
         if ccnIsOpen {
             return true
         }
@@ -806,9 +840,9 @@ public class BSCcInputLine: BSBaseTextInput {
         }
         return result
     }
-    
-    func validateCvv(ignoreIfEmpty : Bool) -> Bool {
-        
+
+    func validateCvv(ignoreIfEmpty: Bool) -> Bool {
+
         if ccnIsOpen {
             return true
         }
@@ -820,11 +854,11 @@ public class BSCcInputLine: BSBaseTextInput {
     }
 
     // private/internal functions
-    
-    private func closeCcn(animated : Bool) {
-        
+
+    private func closeCcn(animated: Bool) {
+
         self.ccnIsOpen = false
-        
+
         if animated {
             DispatchQueue.main.async {
                 self.setClosedState(before: true, during: false, after: false)
@@ -842,7 +876,7 @@ public class BSCcInputLine: BSBaseTextInput {
         }
         self.showNextButton = true // after first close, this will always be true
     }
-    
+
     private func openCcn(animated: Bool) {
         var canOpen = true
         if cvvTextField.isFirstResponder {
@@ -862,7 +896,7 @@ public class BSCcInputLine: BSBaseTextInput {
             self.hideExpError()
             self.hideCvvError()
             self.ccnIsOpen = true
-            
+
             if animated {
                 DispatchQueue.main.async {
                     self.setOpenState(before: true, during: false, after: false)
@@ -881,9 +915,9 @@ public class BSCcInputLine: BSBaseTextInput {
     }
 
     func adjustNextButton() {
-        
-        let x : CGFloat = self.frame.width - actualRightMargin - actualNextBtnWidth
-        let y : CGFloat = (self.frame.height-actualNextBtnHeight) / 2.0
+
+        let x: CGFloat = self.frame.width - actualRightMargin - actualNextBtnWidth
+        let y: CGFloat = (self.frame.height - actualNextBtnHeight) / 2.0
         nextButton.frame = CGRect(x: x, y: y, width: actualNextBtnWidth, height: actualNextBtnHeight)
         if self.ccnIsOpen && (showNextButton || designMode) {
             nextButton.alpha = 1
@@ -891,10 +925,10 @@ public class BSCcInputLine: BSBaseTextInput {
             nextButton.alpha = 0
         }
     }
-    
+
     private func setButtonImage() {
-        
-        var btnImage : UIImage?
+
+        var btnImage: UIImage?
         if let img = self.nextBtnImage {
             btnImage = img
         } else {
@@ -909,9 +943,9 @@ public class BSCcInputLine: BSBaseTextInput {
         }
     }
 
-    
-    func updateCcIcon(ccType : String?) {
-        
+
+    func updateCcIcon(ccType: String?) {
+
         // change the image in ccIconImage
         if let image = BSImageLibrary.getCcIconByCardType(ccType: ccType) {
             DispatchQueue.main.async {
@@ -919,7 +953,7 @@ public class BSCcInputLine: BSBaseTextInput {
             }
         }
     }
-    
+
     private func checkMaxLength(textField: UITextField!, maxLength: Int) -> Bool {
         if (BSStringUtils.removeNoneDigits(textField.text!).count > maxLength) {
             textField.deleteBackward()
@@ -928,21 +962,21 @@ public class BSCcInputLine: BSBaseTextInput {
             return true
         }
     }
-    
+
     private func closeExpCvv() {
-        
+
         self.expTextField.frame = CGRect(x: self.expTextField.frame.maxX, y: self.expTextField.frame.minY, width: 0, height: self.expTextField.frame.height)
         self.cvvTextField.frame = CGRect(x: self.cvvTextField.frame.maxX, y: self.cvvTextField.frame.minY, width: 0, height: self.cvvTextField.frame.height)
     }
-    
+
     private func openExpCvv() {
-        self.expTextField.frame = CGRect(x: self.expTextField.frame.maxX-actualExpWidth, y: self.expTextField.frame.minY, width: actualExpWidth, height: self.expTextField.frame.height)
-        self.cvvTextField.frame = CGRect(x: self.cvvTextField.frame.maxX-actualCvvWidth, y: self.cvvTextField.frame.minY, width: actualCvvWidth, height: self.cvvTextField.frame.height)
+        self.expTextField.frame = CGRect(x: self.expTextField.frame.maxX - actualExpWidth, y: self.expTextField.frame.minY, width: actualExpWidth, height: self.expTextField.frame.height)
+        self.cvvTextField.frame = CGRect(x: self.cvvTextField.frame.maxX - actualCvvWidth, y: self.cvvTextField.frame.minY, width: actualCvvWidth, height: self.cvvTextField.frame.height)
 
     }
-    
+
     private func setClosedState(before: Bool, during: Bool, after: Bool) {
-        
+
         if before {
             closeExpCvv()
             self.ccnAnimationLabel.text = self.ccn
@@ -967,18 +1001,18 @@ public class BSCcInputLine: BSBaseTextInput {
                     _ = self.validateExp(ignoreIfEmpty: true)
                 }
                 if !self.cvvTextField.isFirstResponder {
-                   _ = self.validateCvv(ignoreIfEmpty: true)
+                    _ = self.validateCvv(ignoreIfEmpty: true)
                 }
             }
         }
     }
-    
+
     override func getCoverButtonWidth() -> CGFloat {
         return actualLast4Width
     }
-    
+
     private func setOpenState(before: Bool, during: Bool, after: Bool) {
-        
+
         if before {
             self.ccnAnimationLabel.frame = CGRect(x: self.textField.frame.minX, y: self.textField.frame.minY, width: self.actualLast4Width, height: self.textField.frame.height)
             self.ccnAnimationLabel.alpha = 1
