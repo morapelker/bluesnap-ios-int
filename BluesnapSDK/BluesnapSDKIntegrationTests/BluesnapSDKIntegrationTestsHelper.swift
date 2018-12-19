@@ -123,7 +123,7 @@ class BluesnapSDKIntegrationTestsHelper {
         purchaseAmount: Double,
         purchaseCurrency: String,
         bsToken: BSToken!,
-        completion: @escaping (_ success: Bool, _ data: Data?)->Void) {
+        completion: @escaping (_ isSuccess: Bool, _ data: Data?, _ shopperId: String?)->Void) {
         
         var requestBody = [
             "amount": "\(purchaseAmount)",
@@ -150,7 +150,7 @@ class BluesnapSDKIntegrationTestsHelper {
         
         // fire request
         
-        var result : (success:Bool, data: Data?) = (success:false, data: nil)
+        var result : (isSuccess:Bool, data: Data?, shopperId: String?) = (isSuccess:false, data: nil, shopperId: nil)
         
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
             if let error = error {
@@ -164,14 +164,67 @@ class BluesnapSDKIntegrationTestsHelper {
                         NSLog("Response body = \(result.data!)")
                     }
                     if (httpStatusCode >= 200 && httpStatusCode <= 299) {
-                        result.success = true
+                        result.isSuccess = true
+                        do {
+                            if let json = try JSONSerialization.jsonObject(with: result.data!, options: .allowFragments) as? [String: AnyObject] {
+                                result.shopperId = String(json["vaultedShopperId"] as! Int)
+                            }
+                        } catch let error as NSError {
+                            NSLog("Error parsing BS result on Retrieve vaulted shopper: \(error.localizedDescription)")
+                            result.isSuccess = false
+                        }
                     } else {
                         NSLog("Http error Creating BS Transaction; HTTP status = \(httpStatusCode)")
                     }
                 }
             }
             defer {
-                    completion(result.success, result.data)
+                    completion(result.isSuccess, result.data, result.shopperId)
+                
+            }
+        }
+        task.resume()
+    }
+    
+    static func retrieveVaultedShopper(
+        vaultedShopperId shopperId: String,
+        completion: @escaping (_ isSuccess: Bool, _ data: Data?)->Void) {
+        
+        print("shopperId= \(shopperId)")
+        let authorization = getBasicAuth()
+        
+        let urlStr = BSApiManager.BS_SANDBOX_DOMAIN + "services/2/vaulted-shoppers/" + shopperId;
+        let url = NSURL(string: urlStr)!
+        var request = NSMutableURLRequest(url: url as URL)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(authorization, forHTTPHeaderField: "Authorization")
+        request.httpMethod = "GET"
+        
+        // fire request
+        
+        var result : (isSuccess:Bool, data: Data?) = (isSuccess:false, data: nil)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            if let error = error {
+                NSLog("error in calling retrieve vaulted shopper: \(error.localizedDescription)")
+            } else {
+                let httpResponse = response as? HTTPURLResponse
+                if let httpStatusCode:Int = (httpResponse?.statusCode) {
+                    
+                    if let data = data {
+                        result.data = data
+                        let StringData = String(data: data, encoding: .utf8)
+                        NSLog("Response body = \(StringData ?? "")")
+                    }
+                    if (httpStatusCode >= 200 && httpStatusCode <= 299) {
+                        result.isSuccess = true
+                    } else {
+                        NSLog("Http error Creating BS Transaction; HTTP status = \(httpStatusCode)")
+                    }
+                }
+            }
+            defer {
+                completion(result.isSuccess, result.data)
                 
             }
         }
@@ -196,6 +249,74 @@ class BluesnapSDKIntegrationTestsHelper {
      */
     private static func getBasicAuth() -> String {
         return getBasicAuth(user: BSApiManager.BS_SANDBOX_TEST_USER, password: BSApiManager.BS_SANDBOX_TEST_PASSWORD)
+    }
+    
+    static func parseRetrieveVaultedShopperResponse(responseBody: Data?, fullBillingRequired: Bool, emailRequired: Bool, shippingRequired: Bool)->([String:String], [String:String], [String:String], BSErrors?){
+        var billingData: [String:String] = [:]
+        var ccData: [String:String] = [:]
+        var shippingData: [String:String] = [:]
+
+        var resultError: BSErrors? = nil
+        if let data = responseBody {
+            if !data.isEmpty {
+                do {
+                    // Parse the result JSOn object
+                    if let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject] {
+                        if emailRequired {
+                            billingData["email"] = json["email"] as? String
+                        }
+                        
+                        if let paymentSources = json["paymentSources"] as? [String: AnyObject] {
+                            if let creditCardInfo = paymentSources["creditCardInfo"] as? [[String: Any]] {
+                                for item in creditCardInfo{
+                                    if let billingContactInfo = item["billingContactInfo"] as? [String: AnyObject] {
+                                        billingData["firstName"] = billingContactInfo["firstName"] as? String
+                                        billingData["lastName"] = billingContactInfo["lastName"] as? String
+                                        billingData["country"] = billingContactInfo["country"] as? String
+                                        billingData["state"] = billingContactInfo["state"] as? String
+                                        billingData["address1"] = billingContactInfo["address"] as? String
+                                        billingData["city"] = billingContactInfo["city"] as? String
+                                        billingData["zip"] = billingContactInfo["zip"] as? String
+                                    }
+                                    if let creditCard = item["creditCard"] as? [String: AnyObject] {
+                                        ccData["cardLastFourDigits"] = creditCard["cardLastFourDigits"] as? String
+                                        ccData["cardType"] = creditCard["cardType"] as? String
+                                        ccData["expirationMonth"] = creditCard["expirationMonth"] as? String
+                                        ccData["expirationYear"] = creditCard["expirationYear"] as? String
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if shippingRequired {
+                            if let shippingContactInfo = json["shippingContactInfo"] as? [String: AnyObject] {
+                                shippingData["firstName"] = shippingContactInfo["firstName"] as? String
+                                shippingData["lastName"] = shippingContactInfo["lastName"] as? String
+                                shippingData["country"] = shippingContactInfo["country"] as? String
+                                shippingData["state"] = shippingContactInfo["state"] as? String
+                                shippingData["address1"] = shippingContactInfo["address"] as? String
+                                shippingData["city"] = shippingContactInfo["city"] as? String
+                                shippingData["zip"] = shippingContactInfo["zip"] as? String
+                            }
+                        }
+                        
+                    } else {
+                        NSLog("Error parsing BS result on Retrieve vaulted shopper")
+                        resultError = .unknown
+                    }
+                } catch let error as NSError {
+                    NSLog("Error parsing BS result on Retrieve vaulted shopper: \(error.localizedDescription)")
+                    resultError = .unknown
+                }
+            }
+        } else {
+            NSLog("Error: no data exists")
+            resultError = .unknown
+            
+        }
+        return (ccData ,billingData, shippingData, resultError)
+        
+        
     }
     
     static func parseTransactionResponse(responseBody: Data?)->([String:String], BSErrors?){
@@ -248,7 +369,7 @@ class BluesnapSDKIntegrationTestsHelper {
     }
     
     
-    static func checkTransactionResult(expectedData: [String:String], resultData: [String:String]){
+    static func checkApiCallResult(expectedData: [String:String], resultData: [String:String]){
         for (fieldName, fieldValue) in resultData {
             checkFieldContent(expectedValue: expectedData[fieldName]!, actualValue: fieldValue, fieldName: fieldName)
         }
