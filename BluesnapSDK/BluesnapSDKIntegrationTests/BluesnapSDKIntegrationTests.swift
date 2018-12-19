@@ -94,7 +94,7 @@ class BluesnapSDKIntegrationTests: XCTestCase {
                         XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
                         let (resultData, resultError) = BluesnapSDKIntegrationTestsHelper.parseTransactionResponse(responseBody: data)
                         XCTAssertNil(resultError, "Error parsing BS result on CC transaction submit")
-                        BluesnapSDKIntegrationTestsHelper.checkTransactionResult(expectedData: purchaseData, resultData: resultData)
+                        BluesnapSDKIntegrationTestsHelper.checkApiCallResult(expectedData: purchaseData, resultData: resultData)
                         semaphore.signal()
                 })
             })
@@ -106,19 +106,19 @@ class BluesnapSDKIntegrationTests: XCTestCase {
     func testEndToEndCheckoutFlow2() {
         let purchaseCCData = ["ccn": "4111 1111 1111 1111", "cardLastFourDigits": "1111", "cvv": "123", "exp": "10/2020", "cardType": "VISA"]
         
-        let purchaseBillingData = ["ccn": "4111 1111 1111 1111", "cardLastFourDigits": "1111", "cvv": "123", "exp": "10/2020", "cardType": "VISA",
-                            "email": "test@sdk.com", "firstName": "La", "lastName": "Fleur", "address": "555 Broadway street",
+        let purchaseBillingData = ["email": "test@sdk.com", "firstName": "La", "lastName": "Fleur", "address1": "555 Broadway street",
                             "city": "New York", "zip": "12345", "country": "US", "state": "NY"]
         
         let purchaseShippingData = ["ccn": "4111 1111 1111 1111", "cardLastFourDigits": "1111", "cvv": "123", "exp": "10/2020", "cardType": "VISA",
-                                   "email": "test@sdk.com", "firstName": "La", "lastName": "Fleur", "address": "555 Broadway street",
+                                   "email": "test@sdk.com", "firstName": "La", "lastName": "Fleur", "address1": "555 Broadway street",
                                    "city": "New York", "zip": "12345", "country": "US", "state": "NY"]
         
         let tokenizeRequest = BSTokenizeRequest()
-        tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: purchaseBillingData["ccn"], cvv: purchaseBillingData["cvv"], ccType: nil, expDate: purchaseBillingData["exp"])
-        tokenizeRequest.billingDetails = BSBillingAddressDetails(email: purchaseBillingData["email"], name: "\(purchaseBillingData["firstName"]!) \(purchaseBillingData["lastName"]!)",
-            address: purchaseBillingData["address"], city: purchaseBillingData["city"], zip: purchaseBillingData["zip"], country: purchaseBillingData["country"], state: purchaseBillingData["state"])
+        tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: purchaseCCData["ccn"], cvv: purchaseCCData["cvv"], ccType: nil, expDate: purchaseCCData["exp"])
+        tokenizeRequest.billingDetails = BSBillingAddressDetails(email: purchaseBillingData["email"], name: "\(purchaseBillingData["firstName"]!) \(purchaseBillingData["lastName"]!)", address: purchaseBillingData["address1"], city: purchaseBillingData["city"], zip: purchaseBillingData["zip"], country: purchaseBillingData["country"], state: purchaseBillingData["state"])
         tokenizeRequest.shippingDetails = BSShippingAddressDetails(phone: nil, name: <#T##String!#>, address: <#T##String?#>, city: <#T##String?#>, zip: <#T##String?#>, country: <#T##String?#>, state: <#T##String?#>)
+        tokenizeRequest.shippingDetails = BSShippingAddressDetails(phone: nil, name: "\(purchaseShippingData["firstName"]!) \(purchaseShippingData["lastName"]!)", address: purchaseShippingData["address1"], city: purchaseBillingData["city"], zip: purchaseBillingData["zip"], country: purchaseBillingData["country"], state: purchaseBillingData["state"])
+        
         let semaphore = DispatchSemaphore(value: 0)
         BluesnapSDKIntegrationTestsHelper.createToken(completion: { token, error in
             
