@@ -274,7 +274,7 @@ class BluesnapSDKIntegrationTestsHelper {
                                         billingData["lastName"] = billingContactInfo["lastName"] as? String
                                         billingData["country"] = billingContactInfo["country"] as? String
                                         billingData["state"] = billingContactInfo["state"] as? String
-                                        billingData["address1"] = billingContactInfo["address"] as? String
+                                        billingData["address"] = billingContactInfo["address1"] as? String
                                         billingData["city"] = billingContactInfo["city"] as? String
                                         billingData["zip"] = billingContactInfo["zip"] as? String
                                     }
@@ -294,7 +294,7 @@ class BluesnapSDKIntegrationTestsHelper {
                                 shippingData["lastName"] = shippingContactInfo["lastName"] as? String
                                 shippingData["country"] = shippingContactInfo["country"] as? String
                                 shippingData["state"] = shippingContactInfo["state"] as? String
-                                shippingData["address1"] = shippingContactInfo["address"] as? String
+                                shippingData["address"] = shippingContactInfo["address1"] as? String
                                 shippingData["city"] = shippingContactInfo["city"] as? String
                                 shippingData["zip"] = shippingContactInfo["zip"] as? String
                             }
