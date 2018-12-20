@@ -281,7 +281,19 @@ extension BSApiManager {
             BSApiCaller.createPayPalToken(bsToken: bsToken, purchaseDetails: purchaseDetails, withShipping: withShipping, completion: {
                 resultToken, resultError in
                 NSLog("BlueSnap; createPayPalToken completion")
-                if resultError == .unAuthorised {
+                // todo: ask if error is PAYPAL_TOKEN_ALREADY_USED, if so - call merchant to regenrate token and try again
+                if resultError == .paypalUTokenAlreadyUsed {
+                    NSLog("BlueSnap; paypalUTokenAlreadyUsed; createPayPalToken retry")
+                    // regenerate Token and try again
+                    regenerateToken(executeAfter: {
+                        BSApiCaller.createPayPalToken(bsToken: getBsToken(), purchaseDetails: purchaseDetails, withShipping: withShipping, completion: { resultToken2, resultError2 in
+                            
+                            payPalToken = resultToken2
+                            completion(resultToken2, resultError2)
+                        })
+                    })
+                }
+                else if resultError == .unAuthorised {
                     NSLog("BlueSnap; createPayPalToken retry")
                     BSApiCaller.isTokenExpired(bsToken: bsToken, completion: { isExpired in
                         NSLog("BlueSnap; createPayPalToken retry completion")
