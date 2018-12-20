@@ -12,7 +12,7 @@ import PassKit
  */
   public class BSApplePaySdkResult: BSBaseSdkResult {
     
-    public override init(sdkRequestBase: BSSdkRequestBase) {
+    public override init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init(sdkRequestBase: sdkRequestBase)
         chosenPaymentMethodType = BSPaymentType.ApplePay
     }

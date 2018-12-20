@@ -59,9 +59,9 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         self.firstTime = true
         self.firstTimeShipping = true
         if let data = BlueSnapSDK.sdkRequestBase {
-            self.fullBilling = data.fullBilling
-            self.withEmail = data.withEmail
-            self.withShipping = data.withShipping
+            self.fullBilling = data.shopperConfiguration.fullBilling
+            self.withEmail = data.shopperConfiguration.withEmail
+            self.withShipping = data.shopperConfiguration.withShipping
             self.updateTaxFunc = data.updateTaxFunc
         }
         if let _ = purchaseDetails as? BSExistingCcSdkResult {

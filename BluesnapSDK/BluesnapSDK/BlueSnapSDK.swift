@@ -18,7 +18,7 @@ open class BlueSnapSDK: NSObject {
         .visa
     ]
     static internal var fraudSessionId: String?
-    static internal var sdkRequestBase: BSSdkRequestBase?
+    static internal var sdkRequestBase: BSSdkRequestProtocol?
 
 
     // MARK: SDK functions
@@ -94,13 +94,9 @@ open class BlueSnapSDK: NSObject {
     open class func showCheckoutScreen(
             inNavigationController: UINavigationController!,
             animated: Bool,
-            sdkRequest: BSSdkRequest!) {
+            sdkRequest: BSSdkRequest!) throws {
 
-        do {
             try showCheckoutScreen(inNavigationController: inNavigationController, animated: animated, sdkRequestBase: sdkRequest)
-        } catch {
-            fatalError("Unexpected error: \(error).")
-        }
     }
 
     /**
@@ -305,7 +301,7 @@ open class BlueSnapSDK: NSObject {
     private class func showCheckoutScreen(
             inNavigationController: UINavigationController!,
             animated: Bool,
-            sdkRequestBase: BSSdkRequestBase!) throws {
+            sdkRequestBase: BSSdkRequestProtocol!) throws {
 
         guard !(sdkRequestBase is BSSdkRequestShopperRequirements && BSApiManager.shopper?.vaultedShopperId == nil) else {
             NSLog("Failed to activate Shopper Configuration for Bluesnap SDK. error: Returning Shopper is missing")
@@ -313,35 +309,11 @@ open class BlueSnapSDK: NSObject {
         }
 
         self.sdkRequestBase = sdkRequestBase
-        adjustSdkRequest()
+        self.sdkRequestBase?.adjustSdkRequest()
 
         DispatchQueue.main.async {
             BSViewsManager.showStartScreen(inNavigationController: inNavigationController,
                     animated: animated)
-        }
-    }
-
-    private class func adjustSdkRequest() {
-
-        if var data = sdkRequestBase {
-
-            let defaultCountry = NSLocale.current.regionCode ?? BSCountryManager.US_COUNTRY_CODE
-
-            if data.withShipping {
-                if data.shippingDetails == nil {
-                    data.shippingDetails = BSShippingAddressDetails()
-                }
-            } else if data.shippingDetails != nil {
-                data.shippingDetails = nil
-            }
-
-            if data.billingDetails == nil {
-                data.billingDetails = BSBillingAddressDetails()
-            }
-
-            if data.billingDetails!.country ?? "" == "" {
-                data.billingDetails!.country = defaultCountry
-            }
         }
     }
 

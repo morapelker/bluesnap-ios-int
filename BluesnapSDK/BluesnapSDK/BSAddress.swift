@@ -16,7 +16,7 @@ import Foundation
  For full billing details, everything is mandatory except email which is optional.
  For shipping details all field are mandatory except phone which is optional.
  */
-public class BSBaseAddressDetails: NSObject, BSJson {
+public class BSBaseAddressDetails: NSObject, BSModel {
     public static let FIRST_NAME: String = "firstName";
     public static let LAST_NAME: String = "lastName";
     public static let ADDRESS: String = "address";

@@ -15,7 +15,6 @@ public enum BSPaymentType: String {
     case CreditCard = "CC"
     case ApplePay = "APPLE_PAY"
     case PayPal = "PAYPAL"
-    case Unknown = "UNKNOWN"
 }
 
 /**
@@ -42,7 +41,7 @@ public class BSBaseSdkResult: NSObject {
     /**
     * for Regular Checkout Flow
     */
-    internal init(sdkRequestBase: BSSdkRequestBase) {
+    internal init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init()
         self.isSdkRequestIsShopperRequirements = !(sdkRequestBase is BSSdkRequest)
         self.priceDetails = (isSdkRequestIsShopperRequirements) ? nil : sdkRequestBase.priceDetails.copy() as? BSPriceDetails
@@ -126,18 +125,13 @@ public class BSPriceDetails: NSObject, NSCopying {
     - (optional) Shopper details
     - (optional) function for updating tax amount based on shipping country/state. Only called when 'withShipping
  */
-public class BSSdkRequest: NSObject, BSSdkRequestBase {
-    public var withEmail: Bool = true
-    public var withShipping: Bool = false
-    public var fullBilling: Bool = false
+public class BSSdkRequest: NSObject, BSSdkRequestProtocol {
+    public var shopperConfiguration: BSShopperConfiguration!
     public var allowCurrencyChange: Bool = true
     public var priceDetails: BSPriceDetails! = BSPriceDetails(amount: 0, taxAmount: 0, currency: nil)
 
-    public var billingDetails: BSBillingAddressDetails?
-    public var shippingDetails: BSShippingAddressDetails?
-
     public var purchaseFunc: (BSBaseSdkResult?) -> Void
-    public var updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)?
+    public var updateTaxFunc: ((String, String?, BSPriceDetails) -> Void)?
 
     public init(
             withEmail: Bool,
@@ -147,31 +141,18 @@ public class BSSdkRequest: NSObject, BSSdkRequestBase {
             billingDetails: BSBillingAddressDetails?,
             shippingDetails: BSShippingAddressDetails?,
             purchaseFunc: @escaping (BSBaseSdkResult?) -> Void,
-            updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)?) {
+            updateTaxFunc: ((String, String?, BSPriceDetails) -> Void)?) {
 
-        self.withEmail = withEmail
-        self.withShipping = withShipping
-        self.fullBilling = fullBilling
+        self.shopperConfiguration = BSShopperConfiguration(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: billingDetails, shippingDetails: shippingDetails)
         self.priceDetails = priceDetails
-        self.billingDetails = billingDetails
-        self.shippingDetails = shippingDetails
         self.purchaseFunc = purchaseFunc
         self.updateTaxFunc = updateTaxFunc
     }
 }
 
-public class BSSdkRequestShopperRequirements: NSObject, BSSdkRequestBase {
-    public var withEmail: Bool = true
-    public var withShipping: Bool = false
-    public var fullBilling: Bool = false
-    public let priceDetails: BSPriceDetails! = nil
-    public var allowCurrencyChange: Bool {get {return false} set {}}
-
-    public var billingDetails: BSBillingAddressDetails?
-    public var shippingDetails: BSShippingAddressDetails?
-
+public class BSSdkRequestShopperRequirements: NSObject, BSSdkRequestProtocol {
+    public var shopperConfiguration: BSShopperConfiguration!
     public var purchaseFunc: (BSBaseSdkResult?) -> Void
-    public let updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)? = nil
 
     public init(
             withEmail: Bool,
@@ -181,27 +162,68 @@ public class BSSdkRequestShopperRequirements: NSObject, BSSdkRequestBase {
             shippingDetails: BSShippingAddressDetails?,
             purchaseFunc: @escaping (BSBaseSdkResult?) -> Void) {
 
-        self.withEmail = withEmail
-        self.withShipping = withShipping
-        self.fullBilling = fullBilling
-        self.billingDetails = billingDetails
-        self.shippingDetails = shippingDetails
+
+        self.shopperConfiguration = BSShopperConfiguration(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: billingDetails, shippingDetails: shippingDetails)
         self.purchaseFunc = purchaseFunc
     }
 }
 
-public protocol BSSdkRequestBase {
-    var withEmail: Bool { get set }
-    var withShipping: Bool { get set }
-    var fullBilling: Bool { get set }
+extension BSSdkRequestProtocol {
+    public var updateTaxFunc: ((String, String?, BSPriceDetails) -> Void)? { return nil }
+    public var priceDetails: BSPriceDetails! { return nil }
+    public var allowCurrencyChange: Bool { get { return false } set { } }
 
-    var billingDetails: BSBillingAddressDetails? { get set }
-    var shippingDetails: BSShippingAddressDetails? { get set }
+    public mutating func adjustSdkRequest() {
 
+        let defaultCountry = NSLocale.current.regionCode ?? BSCountryManager.US_COUNTRY_CODE
+
+        if self.shopperConfiguration.withShipping {
+            if self.shopperConfiguration.shippingDetails == nil {
+                self.shopperConfiguration.shippingDetails = BSShippingAddressDetails()
+            }
+        } else if self.shopperConfiguration.shippingDetails != nil {
+            self.shopperConfiguration.shippingDetails = nil
+        }
+
+        if self.shopperConfiguration.billingDetails == nil {
+            self.shopperConfiguration.billingDetails = BSBillingAddressDetails()
+        }
+
+        if self.shopperConfiguration.billingDetails!.country ?? "" == "" {
+            self.shopperConfiguration.billingDetails!.country = defaultCountry
+        }
+    }
+}
+
+public protocol BSSdkRequestProtocol {
+    var shopperConfiguration: BSShopperConfiguration! {get set}
     var purchaseFunc: (BSBaseSdkResult?) -> Void { get set }
 
     var priceDetails: BSPriceDetails! { get }
     var updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)? { get }
 
-    var allowCurrencyChange: Bool {get set}
+    var allowCurrencyChange: Bool { get set }
+}
+
+public class BSShopperConfiguration {
+    public var withEmail: Bool = true
+    public var withShipping: Bool = false
+    public var fullBilling: Bool = false
+
+    public var billingDetails: BSBillingAddressDetails?
+    public var shippingDetails: BSShippingAddressDetails?
+
+    public init(
+            withEmail: Bool,
+            withShipping: Bool,
+            fullBilling: Bool,
+            billingDetails: BSBillingAddressDetails?,
+            shippingDetails: BSShippingAddressDetails?) {
+
+        self.withEmail = withEmail
+        self.withShipping = withShipping
+        self.fullBilling = fullBilling
+        self.billingDetails = billingDetails
+        self.shippingDetails = shippingDetails
+    }
 }

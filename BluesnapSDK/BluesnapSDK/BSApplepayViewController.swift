@@ -32,12 +32,12 @@ extension BSStartViewController : PaymentOperationDelegate {
             pkPaymentRequest.countryCode = "US"
             pkPaymentRequest.currencyCode = priceDetails.currency
             
-            if sdkRequestBase.withShipping {
+            if sdkRequestBase.shopperConfiguration.withShipping {
                 pkPaymentRequest.requiredShippingAddressFields = [.phone, .postalAddress, .name]
             }
             // even without full billing we need zip code, so we need to ask for postal address...
             pkPaymentRequest.requiredBillingAddressFields = [.name, .postalAddress]
-            if sdkRequestBase.withEmail {
+            if sdkRequestBase.shopperConfiguration.withEmail {
                 pkPaymentRequest.requiredBillingAddressFields.insert(.email)
             }
             

@@ -76,7 +76,7 @@ class BSShopper: BSBaseAddressDetails {
 /**
 Chosen Payment Method for Update Shopper
 */
-public class BSChosenPaymentMethod: NSObject, BSJson {
+public class BSChosenPaymentMethod: NSObject, BSModel {
     public static let CHOSEN_PAYMENT_METHOD_TYPE: String = "chosenPaymentMethodType";
     public static let CREDIT_CARD: String = "creditCard";
 
@@ -110,6 +110,6 @@ public class BSChosenPaymentMethod: NSObject, BSJson {
     }
 }
 
-public protocol BSJson {
+public protocol BSModel {
     func toJson() -> ([String: Any])!
 }

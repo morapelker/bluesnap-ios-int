@@ -79,7 +79,7 @@ class BSExistingCCViewController: UIViewController {
         shippingBoxView.isHidden = true
         shippingLabel.isHidden = true
         if let data = BlueSnapSDK.sdkRequestBase {
-            if data.withShipping {
+            if data.shopperConfiguration.withShipping {
                 shippingBoxView.isHidden = false
                 shippingLabel.isHidden = false
                 shippingAddressTextView.isScrollEnabled = false
@@ -169,7 +169,7 @@ class BSExistingCCViewController: UIViewController {
 
         let sdkRequest = BlueSnapSDK.sdkRequestBase!
         let updateTaxFunc = sdkRequest.updateTaxFunc
-        if updateTaxFunc != nil && sdkRequest.withShipping && purchaseDetails.shippingDetails?.country != nil {
+        if updateTaxFunc != nil && sdkRequest.shopperConfiguration.withShipping && purchaseDetails.shippingDetails?.country != nil {
             let country: String = purchaseDetails.shippingDetails!.country!
             let state: String? = purchaseDetails.shippingDetails?.state
             updateTaxFunc!(country, state, purchaseDetails.priceDetails)
@@ -276,16 +276,16 @@ class BSExistingCCViewController: UIViewController {
             // not validating CC, seeing as it is an existing one
 
             result = BSValidator.isValidName(purchaseDetails.billingDetails.name)
-            if data.withEmail {
+            if data.shopperConfiguration.withEmail {
                 let email = purchaseDetails.billingDetails.email ?? ""
                 if email == "" {
-                    result = !data.fullBilling // email is mandfatory only in full billing
+                    result = !data.shopperConfiguration.fullBilling // email is mandfatory only in full billing
                 } else {
                     result = result && BSValidator.isValidEmail(email)
                 }
             }
             result = result && BSValidator.isValidZip(countryCode: purchaseDetails.billingDetails.country ?? "", zip: purchaseDetails.billingDetails.zip ?? "")
-            if data.fullBilling {
+            if data.shopperConfiguration.fullBilling {
                 let ok1 = BSValidator.isValidCity(purchaseDetails.billingDetails.city ?? "")
                 let ok2 = BSValidator.isValidStreet(purchaseDetails.billingDetails.address ?? "")
                 let ok3 = BSValidator.isValidCountry(countryCode: purchaseDetails.billingDetails.country)
@@ -300,7 +300,7 @@ class BSExistingCCViewController: UIViewController {
 
         var result = true
         if let data = BlueSnapSDK.sdkRequestBase {
-            if data.withShipping {
+            if data.shopperConfiguration.withShipping {
                 if let shippingDetails = purchaseDetails.shippingDetails {
                     let ok1 = BSValidator.isValidName(shippingDetails.name)
                     let ok2 = BSValidator.isValidCity(shippingDetails.city ?? "")
