@@ -11,7 +11,7 @@ import Foundation
 /**
  (PCI-compliant) Credit Card details: result of submitting the CC details to BlueSnap server
  */
-public class BSCreditCard: NSObject, NSCopying, BSJson {
+public class BSCreditCard: NSObject, NSCopying, BSModel {
     private static let CARD_LAST_FOUR_DIGITS: String = "cardLastFourDigits";
     private static let EXPIRATION_MONTH: String = "expirationMonth";
     private static let EXPIRATION_YEAR: String = "expirationYear";
@@ -96,21 +96,21 @@ public class BSCcSdkResult: BSBaseSdkResult {
     public var billingDetails: BSBillingAddressDetails! = BSBillingAddressDetails()
     public var shippingDetails: BSShippingAddressDetails?
 
-    public override init(sdkRequestBase: BSSdkRequestBase) {
+    public override init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init(sdkRequestBase: sdkRequestBase)
         chosenPaymentMethodType = BSPaymentType.CreditCard
 
         if let shopper = BSApiManager.shopper {
             self.billingDetails = BSBillingAddressDetails(email: shopper.email, name: shopper.name, address: shopper.address, city: shopper.city, zip: shopper.zip, country: shopper.country, state: shopper.state)
-        } else if let billingDetails = sdkRequestBase.billingDetails {
+        } else if let billingDetails = sdkRequestBase.shopperConfiguration.billingDetails {
             self.billingDetails = billingDetails.copy() as? BSBillingAddressDetails
         }
-        if !sdkRequestBase.withShipping {
+        if !sdkRequestBase.shopperConfiguration.withShipping {
             self.shippingDetails = nil
         } else if let shippingDetails = BSApiManager.shopper?.shippingDetails {
             self.shippingDetails = shippingDetails.copy() as? BSShippingAddressDetails
             self.shippingDetails?.phone = BSApiManager.shopper?.phone
-        } else if let shippingDetails = sdkRequestBase.shippingDetails {
+        } else if let shippingDetails = sdkRequestBase.shopperConfiguration.shippingDetails {
             self.shippingDetails = shippingDetails.copy() as? BSShippingAddressDetails
         }
     }
@@ -134,11 +134,11 @@ public class BSCcSdkResult: BSBaseSdkResult {
 public class BSExistingCcSdkResult: BSCcSdkResult, NSCopying {
 
     // for copy
-    override private init(sdkRequestBase: BSSdkRequestBase) {
+    override private init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init(sdkRequestBase: sdkRequestBase)
     }
 
-    init(sdkRequestBase: BSSdkRequestBase, shopper: BSShopper!, existingCcDetails: BSCreditCardInfo!) {
+    init(sdkRequestBase: BSSdkRequestProtocol, shopper: BSShopper!, existingCcDetails: BSCreditCardInfo!) {
 
         super.init(sdkRequestBase: sdkRequestBase)
 
@@ -146,18 +146,18 @@ public class BSExistingCcSdkResult: BSCcSdkResult, NSCopying {
 
         if let ccBillingDetails = existingCcDetails.billingDetails {
             self.billingDetails = ccBillingDetails.copy() as? BSBillingAddressDetails
-            if !sdkRequestBase.withEmail {
+            if !sdkRequestBase.shopperConfiguration.withEmail {
                 self.billingDetails.email = nil
             } else if self.billingDetails.email == nil {
                 self.billingDetails.email = shopper.email
             }
-            if !sdkRequestBase.fullBilling {
+            if !sdkRequestBase.shopperConfiguration.fullBilling {
                 self.billingDetails.address = nil
                 self.billingDetails.city = nil
                 self.billingDetails.state = nil
             }
         } else {
-            if let initialBillingDetails = sdkRequestBase.billingDetails {
+            if let initialBillingDetails = sdkRequestBase.shopperConfiguration.billingDetails {
                 self.billingDetails = initialBillingDetails.copy() as? BSBillingAddressDetails
             } else {
                 self.billingDetails = BSBillingAddressDetails()
@@ -165,14 +165,14 @@ public class BSExistingCcSdkResult: BSCcSdkResult, NSCopying {
             if let name = shopper.name {
                 billingDetails.name = name
             }
-            if sdkRequestBase.withEmail {
+            if sdkRequestBase.shopperConfiguration.withEmail {
                 if let email = shopper.email {
                     billingDetails.email = email
                 }
             }
             if let country = shopper.country {
                 billingDetails.country = country
-                if sdkRequestBase.fullBilling {
+                if sdkRequestBase.shopperConfiguration.fullBilling {
                     if let state = shopper.state {
                         billingDetails.state = state
                     }
@@ -189,10 +189,10 @@ public class BSExistingCcSdkResult: BSCcSdkResult, NSCopying {
             }
         }
 
-        if sdkRequestBase.withShipping {
+        if sdkRequestBase.shopperConfiguration.withShipping {
             if let shopperShippingDetails = shopper.shippingDetails {
                 self.shippingDetails = shopperShippingDetails.copy() as? BSShippingAddressDetails
-            } else if let initialShippingDetails = sdkRequestBase.shippingDetails {
+            } else if let initialShippingDetails = sdkRequestBase.shopperConfiguration.shippingDetails {
                 self.shippingDetails = initialShippingDetails.copy() as? BSShippingAddressDetails
             }
             if self.shippingDetails?.name == nil || self.shippingDetails?.name == "" {

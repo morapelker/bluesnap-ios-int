@@ -31,7 +31,7 @@ class ViewController: UIViewController {
 
     fileprivate var bsToken: BSToken?
     fileprivate var shouldInitKount = true
-    fileprivate var sdkRequestBase: BSSdkRequestBase?
+    fileprivate var sdkRequestBase: BSSdkRequestProtocol?
     fileprivate var isShopperRequirements: Bool!
     fileprivate var hideCoverView: Bool = false
     final fileprivate let LOADING_MESSAGE = "Loading, please wait"
@@ -121,10 +121,14 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             // open the purchase screen
             self.fillSdkRequest(isShopperRequirements: false)
-            BlueSnapSDK.showCheckoutScreen(
+            do {
+                try BlueSnapSDK.showCheckoutScreen(
                         inNavigationController: self.navigationController,
                         animated: true,
                         sdkRequest: self.sdkRequestBase as! BSSdkRequest)
+            } catch {
+                fatalError("Unexpected error: \(error).")
+            }
         }
     }
 
@@ -151,9 +155,9 @@ class ViewController: UIViewController {
             self.fillSdkRequest(isShopperRequirements: false)
             do {
                 try BlueSnapSDK.showCreatePaymentScreen(
-                    inNavigationController: self.navigationController,
-                    animated: true,
-                    sdkRequest: self.sdkRequestBase as! BSSdkRequest)
+                        inNavigationController: self.navigationController,
+                        animated: true,
+                        sdkRequest: self.sdkRequestBase as! BSSdkRequest)
             } catch {
                 fatalError("Unexpected error: \(error).")
             }
@@ -212,10 +216,10 @@ class ViewController: UIViewController {
     */
     private func setInitialShopperDetails() {
 
-        sdkRequestBase?.billingDetails = BSBillingAddressDetails(email: "john@gmail.com", name: "John Doe", address: "333 elm st", city: "New York", zip: "532464", country: "US", state: "MA")
+        sdkRequestBase?.shopperConfiguration.billingDetails = BSBillingAddressDetails(email: "john@gmail.com", name: "John Doe", address: "333 elm st", city: "New York", zip: "532464", country: "US", state: "MA")
 
         if withShippingSwitch.isOn {
-            sdkRequestBase?.shippingDetails = BSShippingAddressDetails(phone: "972-528-9999999", name: "Mary Doe", address: "333 elm st", city: "Boston", zip: "111222", country: initialShippingCoutry, state: initialShippingState)
+            sdkRequestBase?.shopperConfiguration.shippingDetails = BSShippingAddressDetails(phone: "972-528-9999999", name: "Mary Doe", address: "333 elm st", city: "Boston", zip: "111222", country: initialShippingCoutry, state: initialShippingState)
         }
     }
 
@@ -303,7 +307,15 @@ class ViewController: UIViewController {
     private func completePurchase(purchaseDetails: BSBaseSdkResult!) {
 
         if purchaseDetails.isShopperRequirements() {
-            NSLog("Shopper Configuration completed Successfully! ChosenPaymentMethodType: \(purchaseDetails.getChosenPaymentMethodType())")
+            NSLog("Shopper Configuration completed Successfully!")
+            NSLog("ChosenPaymentMethodType: \(purchaseDetails.getChosenPaymentMethodType().rawValue)")
+            if purchaseDetails is BSCcSdkResult, let ccPurchaseDetails = purchaseDetails as? BSCcSdkResult{
+                let creditCard = ccPurchaseDetails.creditCard
+                NSLog("CC Expiration: \(creditCard.getExpiration())")
+                NSLog("CC type: \(creditCard.ccType ?? "")")
+                NSLog("CC last 4 digits: \(creditCard.last4Digits ?? "")")
+                NSLog("CC Issuing country: \(creditCard.ccIssuingCountry ?? "")")
+            }
             showThankYouScreen(errorText: nil)
             return // no need to complete purchase via BlueSnap API
         }

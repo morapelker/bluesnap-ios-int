@@ -181,7 +181,7 @@ class BSStartViewController: UIViewController {
             }
 
             DispatchQueue.main.async {
-                BSApiManager.createPayPalToken(purchaseDetails: self.payPalPurchaseDetails, withShipping: BlueSnapSDK.sdkRequestBase!.withShipping, completion: { resultToken, resultError in
+                BSApiManager.createPayPalToken(purchaseDetails: self.payPalPurchaseDetails, withShipping: BlueSnapSDK.sdkRequestBase!.shopperConfiguration.withShipping, completion: { resultToken, resultError in
 
                     if let resultToken = resultToken {
                         self.stopActivityIndicator()

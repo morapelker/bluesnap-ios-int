@@ -16,7 +16,7 @@ import Foundation
     
     public var payPalInvoiceId : String?
     
-    override public init(sdkRequestBase: BSSdkRequestBase) {
+    override public init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init(sdkRequestBase: sdkRequestBase)
         chosenPaymentMethodType = BSPaymentType.PayPal
     }
