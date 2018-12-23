@@ -21,38 +21,6 @@ class BluesnapSDKIntegrationTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        
-        let semaphore = DispatchSemaphore(value: 0)
-        BlueSnapSDK.createSandboxTestToken(completion: { token, error in
-            
-            XCTAssertNotNil(token, "Failed to get token")
-            NSLog("Token: \(token?.getTokenStr() ?? "")")
-            
-            BlueSnapSDK.initBluesnap(bsToken: token, generateTokenFunc: self.generateAndSetBsToken, initKount: false, fraudSessionId: nil, applePayMerchantIdentifier: nil, merchantStoreCurrency: nil, completion: { error in
-                
-                let bsCurrencies = BlueSnapSDK.getCurrencyRates()
-                XCTAssertNotNil(bsCurrencies, "Failed to get currencies")
-                
-                let gbpCurrency : BSCurrency! = bsCurrencies?.getCurrencyByCode(code: "GBP")
-                XCTAssertNotNil(gbpCurrency)
-                NSLog("testGetTokenAndCurrencies; GBP currency name is: \(String(describing: gbpCurrency.getName())), its rate is \(String(describing: gbpCurrency.getRate()))")
-                
-                let eurCurrencyRate : Double! = bsCurrencies?.getCurrencyRateByCurrencyCode(code: "EUR")
-                XCTAssertNotNil(eurCurrencyRate)
-                NSLog("testGetTokeString(describing: nAndCurrencies;) EUR currency rate is: \(String(describing: eurCurrencyRate))")
-                
-                semaphore.signal()
-            })
-            
-        })
-        
-        semaphore.wait()
-    }
-    
-
     
     /**
      Called by the BlueSnapSDK when token expired error is recognized.
@@ -85,12 +53,12 @@ class BluesnapSDKIntegrationTests: XCTestCase {
         tokenizeRequest.shippingDetails = BSShippingAddressDetails(phone: nil, name: "\(purchaseShippingData["firstName"]!) \(purchaseShippingData["lastName"]!)", address: purchaseShippingData["address"], city: purchaseShippingData["city"], zip: purchaseShippingData["zip"], country: purchaseShippingData["country"]?.uppercased(), state: purchaseShippingData["state"])
         
         let semaphore = DispatchSemaphore(value: 0)
-        BluesnapSDKIntegrationTestsHelper.createToken(completion: { token, error in
+        BSIntegrationTestingAPIService.createToken(completion: { token, error in
             
             BlueSnapSDK.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: { (result, error) in
                 XCTAssertNil(error, "error: \(String(describing: error))")
                 
-                BluesnapSDKIntegrationTestsHelper.createTokenizedTransaction(
+                BSIntegrationTestingAPIService.createTokenizedTransaction(
                     purchaseAmount: 22.0,
                     purchaseCurrency: "USD",
                     bsToken: token,
@@ -99,7 +67,7 @@ class BluesnapSDKIntegrationTests: XCTestCase {
                         XCTAssertNotNil(data, "error: \(String(describing: "No data from transaction"))")
                         XCTAssertNotNil(shopperId, "error: \(String(describing: "No shopperId from transaction"))")
                         
-                        BluesnapSDKIntegrationTestsHelper.retrieveVaultedShopper(vaultedShopperId: shopperId!, completion: {
+                        BSIntegrationTestingAPIService.retrieveVaultedShopper(vaultedShopperId: shopperId!, completion: {
                             isSuccess, data in
                             XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
                             let (ccData, billingData, shippingData, error) = BluesnapSDKIntegrationTestsHelper.parseRetrieveVaultedShopperResponse(responseBody: data, fullBillingRequired: true, emailRequired: true, shippingRequired: true)
@@ -118,6 +86,7 @@ class BluesnapSDKIntegrationTests: XCTestCase {
         
     }
 
+    
 }
 
 
