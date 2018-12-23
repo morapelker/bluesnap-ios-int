@@ -9,23 +9,23 @@
 
 // Error Codes
 typedef NS_ENUM(NSInteger, KDataCollectorErrorCode) {
-
+    
     KDataCollectorErrorCodeUnknown = 0,
-
+    
     // A system error occurred
-            KDataCollectorErrorCodeNSError,
-
+    KDataCollectorErrorCodeNSError,
+    
     // A required collector timed out
-            KDataCollectorErrorCodeTimeout,
-
+    KDataCollectorErrorCodeTimeout,
+    
     // A bad parameter was passed into the data collector
-            KDataCollectorErrorCodeBadParameter,
-
+    KDataCollectorErrorCodeBadParameter,
+    
     // A network connection isn't available
-            KDataCollectorErrorCodeNoNetwork,
-
+    KDataCollectorErrorCodeNoNetwork,
+    
     // An error occurred while validating a response from the server
-            KDataCollectorErrorCodeResponseValidation,
+    KDataCollectorErrorCodeResponseValidation,
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,29 +37,29 @@ extern NSString *const KDataCollectorVersion;
 
 // Configuration settings for location collection
 typedef NS_ENUM(NSInteger, KLocationCollectorConfig) {
-
+    
     // Request permission if not currently authorized (default)
-            KLocationCollectorConfigRequestPermission = 0,
-
+    KLocationCollectorConfigRequestPermission = 0, 
+    
     // Only collect if app already has location permissions
     // (use in cases where requesting permission is done by the app itself)
-            KLocationCollectorConfigPassive,
-
+    KLocationCollectorConfigPassive,           
+    
     // Skip location collection
-            KLocationCollectorConfigSkip,
+    KLocationCollectorConfigSkip,          
 };
 
 // Configuration settings Kount collection environment
 typedef NS_ENUM(NSInteger, KEnvironment) {
-
+    
     // Unknown Environment
-            KEnvironmentUnknown = 0,
-
+    KEnvironmentUnknown = 0, 
+    
     // Test Environment
-            KEnvironmentTest,
-
+    KEnvironmentTest,
+    
     // Production Environment
-            KEnvironmentProduction,
+    KEnvironmentProduction,
 };
 
 // KDataCollector enables you to collect device information for the given session
@@ -100,4 +100,5 @@ typedef NS_ENUM(NSInteger, KEnvironment) {
 NS_ASSUME_NONNULL_END
 
 @end
+
 
