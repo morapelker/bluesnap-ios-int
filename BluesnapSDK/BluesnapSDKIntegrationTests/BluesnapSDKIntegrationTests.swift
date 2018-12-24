@@ -30,23 +30,6 @@ class BluesnapSDKIntegrationTests: XCTestCase {
         super.tearDown()
     }
 
-    
-    /**
-     Called by the BlueSnapSDK when token expired error is recognized.
-     Here we generate and set a new token, so that when the action re-tries, it will succeed.
-     */
-    private func generateAndSetBsToken(completion: @escaping (_ token: BSToken?, _ error: BSErrors?)->Void) {
-        
-        NSLog("Got BS token expiration notification!")
-        
-        BlueSnapSDK.createSandboxTestToken(completion: { resultToken, errors in
-            NSLog("Got BS token= \(resultToken?.getTokenStr() ?? "")")
-            DispatchQueue.main.async {
-                completion(resultToken, errors)
-            }
-        })
-    }
-
     func testEndToEndFullBillingWithShippingWithMailCheckoutFlow() {
         let shopper = MockShopper(creditCardInfo: [(purchaseBillingData,purchaseCCData)], email: email, shippingContactInfo: purchaseShippingData, fullBillingRequired: true, emailRequired: true, shippingRequired: true)
 
