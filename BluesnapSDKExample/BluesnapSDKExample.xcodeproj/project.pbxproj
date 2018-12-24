@@ -22,6 +22,7 @@
 		57D13E882064A676F993C974 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8243E4BB77697B4BC726DFC1 /* AVFoundation.framework */; };
 		656BC4430E7C9FD3E9BFA1EB /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7795A84BCD9A86582908E6 /* CoreTelephony.framework */; };
 		6A0D56668683F67E8BCFD6EC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A1D0EF03F84A1CE191C991 /* CoreMedia.framework */; };
+		87A317CC21BFF41800156EA2 /* BluesnapSDKIntegrationTests in Resources */ = {isa = PBXBuildFile; fileRef = 87A317CB21BFF41800156EA2 /* BluesnapSDKIntegrationTests */; };
 		8771F3B721C802DD0030108E /* TestingAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8771F3B621C802DD0030108E /* TestingAPIService.swift */; };
 		8771F3B921C80E200030108E /* DemoTransactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD89AB631EB6038600A1B257 /* DemoTransactions.swift */; };
 		877950D921CF9A0700F7039F /* BSTestingAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877950D821CF9A0700F7039F /* BSTestingAPIService.swift */; };
@@ -129,6 +130,8 @@
 		57BBCD0E0159D220A2D83C91 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		5EE4EA591293E02F03418C9B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8243E4BB77697B4BC726DFC1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		87A317C921BFF3D500156EA2 /* BluesnapSDKIntegrationTests */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BluesnapSDKIntegrationTests; path = ../BluesnapSDK/BluesnapSDKIntegrationTests; sourceTree = "<group>"; };
+		87A317CB21BFF41800156EA2 /* BluesnapSDKIntegrationTests */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BluesnapSDKIntegrationTests; path = ../BluesnapSDK/BluesnapSDKIntegrationTests; sourceTree = "<group>"; };
 		8771F3B621C802DD0030108E /* TestingAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingAPIService.swift; sourceTree = "<group>"; };
 		877950D821CF9A0700F7039F /* BSTestingAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSTestingAPIService.swift; sourceTree = "<group>"; };
 		87A317C921BFF3D500156EA2 /* BluesnapSDKIntegrationTests */ = {isa = PBXFileReference; lastKnownFileType = folder; name = BluesnapSDKIntegrationTests; path = ../BluesnapSDK/BluesnapSDKIntegrationTests; sourceTree = "<group>"; };
