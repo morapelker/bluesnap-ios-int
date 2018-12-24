@@ -24,6 +24,10 @@ class TestingShopper{
     
 }
 
+class TestingShopperCreditCardInfo{
+    
+}
+
 class TestingShopperCheckoutRequirements{
     var fullBillingRequired: Bool
     var emailRequired: Bool
@@ -32,6 +36,9 @@ class TestingShopperCheckoutRequirements{
     
     init(fullBillingRequired: Bool, emailRequired: Bool, shippingRequired: Bool){
         self.fullBillingRequired = fullBillingRequired
+        self.emailRequired = emailRequired
+        self.shippingRequired = shippingRequired
+
         
     }
 }
