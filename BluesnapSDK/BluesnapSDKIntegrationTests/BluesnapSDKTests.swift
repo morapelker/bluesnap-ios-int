@@ -35,7 +35,7 @@ class BluesnapSDKTests: XCTestCase {
         tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: ccn, cvv: cvv, ccType: nil, expDate: exp)
 
         let semaphore = DispatchSemaphore(value: 0)
-        BluesnapSDKIntegrationTestsHelper.createToken(completion: { token, error in
+        BSIntegrationTestingAPIService.createToken(completion: { token, error in
             
             BlueSnapSDK.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: { (result, error) in
                 
@@ -71,7 +71,7 @@ class BluesnapSDKTests: XCTestCase {
     func testGetTokenAndCurrencies() {
         
         let semaphore = DispatchSemaphore(value: 0)
-        BluesnapSDKIntegrationTestsHelper.createToken(completion: { token, error in
+        BSIntegrationTestingAPIService.createToken(completion: { token, error in
             
             BlueSnapSDK.initBluesnap(bsToken: token, generateTokenFunc: {_ in }, initKount: false, fraudSessionId: nil, applePayMerchantIdentifier: nil, merchantStoreCurrency: "USD", completion: { errors in
                 
@@ -105,7 +105,7 @@ class BluesnapSDKTests: XCTestCase {
         let tokenizeRequest = BSTokenizeRequest()
         tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: ccn, cvv: cvv, ccType: nil, expDate: exp)
         
-        BluesnapSDKIntegrationTestsHelper.createToken(completion: { token, error in
+        BSIntegrationTestingAPIService.createToken(completion: { token, error in
             
             BlueSnapSDK.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: {
                 (result, error) in
