@@ -86,7 +86,7 @@ extension BSApiManager {
     static func createSandboxBSToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
         createSandboxBSToken(shopperId: shopperId, domain: BS_SANDBOX_DOMAIN, user: BS_SANDBOX_TEST_USER, password: BS_SANDBOX_TEST_PASSWORD, completion: { bsToken, bsError in
 
-            BSApiManager.setBsToken(bsToken: bsToken)
+            //BSApiManager.setBsToken(bsToken: bsToken)
             completion(bsToken, bsError)
         })
     }
