@@ -11,7 +11,7 @@ import XCTest
 
 @testable import BluesnapSDK
 
-class BSIntegrationTestingAPIService {
+class BSIntegrationTestingAPIHelper {
     
     static func createToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
         createSandboxBSToken(shopperId: shopperId, completion: { bsToken, bsError in

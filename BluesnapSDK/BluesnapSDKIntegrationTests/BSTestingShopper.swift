@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TestingShopper{
+class MockShopper{
     var email: String?
     var creditCardInfo: [String: TestingShopperCreditCardInfo] = [:]
     var shippingContactInfo: [String:String]? = nil

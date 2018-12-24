@@ -12,7 +12,7 @@ import XCTest
 
 class BluesnapSDKIntegrationTestsHelper {
     
-    static func checkRetrieveVaultedShopperResponse(responseBody: Data, shopperInfo: TestingShopper)-> BSErrors? {
+    static func checkRetrieveVaultedShopperResponse(responseBody: Data, shopperInfo: MockShopper)-> BSErrors? {
         var resultError: BSErrors? = nil
         do {
             // Parse the result JSOn object

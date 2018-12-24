@@ -49,7 +49,7 @@ class BluesnapSDKIntegrationTests: XCTestCase {
         let purchaseShippingData = ["firstName": "Taylor", "lastName": "Love", "address1": "AddressTest",
                                     "city": "CityTest", "zip": "12345", "country": "br", "state": "RJ"]
         
-        let shopper = TestingShopper(creditCardInfo: [(purchaseBillingData,purchaseCCData)], email: email, shippingContactInfo: purchaseShippingData, fullBillingRequired: true, emailRequired: true, shippingRequired: true)
+        let shopper = MockShopper(creditCardInfo: [(purchaseBillingData,purchaseCCData)], email: email, shippingContactInfo: purchaseShippingData, fullBillingRequired: true, emailRequired: true, shippingRequired: true)
 
         let tokenizeRequest = BSTokenizeRequest()
         tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: "4111 1111 1111 1111", cvv: "123", ccType: nil, expDate: "\(purchaseCCData["expirationMonth"]!)/\(purchaseCCData["expirationYear"]!)")
@@ -57,12 +57,12 @@ class BluesnapSDKIntegrationTests: XCTestCase {
         tokenizeRequest.shippingDetails = BSShippingAddressDetails(phone: nil, name: "\(purchaseShippingData["firstName"]!) \(purchaseShippingData["lastName"]!)", address: purchaseShippingData["address1"], city: purchaseShippingData["city"], zip: purchaseShippingData["zip"], country: purchaseShippingData["country"]?.uppercased(), state: purchaseShippingData["state"])
         
         let semaphore = DispatchSemaphore(value: 0)
-        BSIntegrationTestingAPIService.createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             
             BlueSnapSDK.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: { (result, error) in
                 XCTAssertNil(error, "error: \(String(describing: error))")
                 
-                BSIntegrationTestingAPIService.createTokenizedTransaction(
+                BSIntegrationTestingAPIHelper.createTokenizedTransaction(
                     purchaseAmount: 22.0,
                     purchaseCurrency: "USD",
                     bsToken: token,
@@ -71,7 +71,7 @@ class BluesnapSDKIntegrationTests: XCTestCase {
                         XCTAssertNotNil(data, "error: \(String(describing: "No data from transaction"))")
                         XCTAssertNotNil(shopperId, "error: \(String(describing: "No shopperId from transaction"))")
                         
-                        BSIntegrationTestingAPIService.retrieveVaultedShopper(vaultedShopperId: shopperId!, completion: {
+                        BSIntegrationTestingAPIHelper.retrieveVaultedShopper(vaultedShopperId: shopperId!, completion: {
                             isSuccess, data in
                             XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
                             let error = BluesnapSDKIntegrationTestsHelper.checkRetrieveVaultedShopperResponse(responseBody: data!, shopperInfo: shopper)
