@@ -12,112 +12,52 @@ import XCTest
 
 class BluesnapSDKIntegrationTestsHelper {
     
-    static func parseRetrieveVaultedShopperResponse(responseBody: Data?, fullBillingRequired: Bool, emailRequired: Bool, shippingRequired: Bool)->([String:String], [String:String], [String:String], BSErrors?){
-        var billingData: [String:String] = [:]
-        var ccData: [String:String] = [:]
-        var shippingData: [String:String] = [:]
+    static func checkRetrieveVaultedShopperResponse(responseBody: Data, shopperInfo: TestingShopper)-> BSErrors? {
+        var resultError: BSErrors? = nil
+        do {
+            // Parse the result JSOn object
+            if let jsonData = try JSONSerialization.jsonObject(with: responseBody, options: .allowFragments) as? [String: AnyObject] {
+                if shopperInfo.shopperCheckoutRequirements.emailRequired {
+                    checkApiCallResult(expectedData: ["email" : shopperInfo.email!] , resultData: jsonData)
+                }
 
-        var resultError: BSErrors? = nil
-        if let data = responseBody {
-            if !data.isEmpty {
-                do {
-                    // Parse the result JSOn object
-                    if let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject] {
-                        if emailRequired {
-                            billingData["email"] = json["email"] as? String
-                        }
-                        
-                        if let paymentSources = json["paymentSources"] as? [String: AnyObject] {
-                            if let creditCardInfo = paymentSources["creditCardInfo"] as? [[String: Any]] {
-                                for item in creditCardInfo{
-                                    if let billingContactInfo = item["billingContactInfo"] as? [String: AnyObject] {
-                                        billingData["firstName"] = billingContactInfo["firstName"] as? String
-                                        billingData["lastName"] = billingContactInfo["lastName"] as? String
-                                        billingData["country"] = billingContactInfo["country"] as? String
-                                        billingData["state"] = billingContactInfo["state"] as? String
-                                        billingData["address"] = billingContactInfo["address1"] as? String
-                                        billingData["city"] = billingContactInfo["city"] as? String
-                                        billingData["zip"] = billingContactInfo["zip"] as? String
-                                    }
-                                    if let creditCard = item["creditCard"] as? [String: AnyObject] {
-                                        ccData["cardLastFourDigits"] = creditCard["cardLastFourDigits"] as? String
-                                        ccData["cardType"] = creditCard["cardType"] as? String
-                                        ccData["expirationMonth"] = creditCard["expirationMonth"] as? String
-                                        ccData["expirationYear"] = creditCard["expirationYear"] as? String
-                                    }
-                                }
+                if let paymentSources = jsonData["paymentSources"] as? [String: AnyObject] {
+                    if let creditCardInfo = paymentSources["creditCardInfo"] as? [[String: Any]] {
+                        for item in creditCardInfo{
+                            if let creditCard = item["creditCard"] as? [String: AnyObject], let billingContactInfo = item["billingContactInfo"] as? [String: AnyObject] {
+                                let cardLastFourDigits = creditCard["cardLastFourDigits"] as? String
+                                checkApiCallResult(expectedData: shopperInfo.creditCardInfo[cardLastFourDigits!]!.billingContactInfo, resultData: billingContactInfo)
+                                checkApiCallResult(expectedData: shopperInfo.creditCardInfo[cardLastFourDigits!]!.creditCard, resultData: creditCard)
                             }
                         }
-                        
-                        if shippingRequired {
-                            if let shippingContactInfo = json["shippingContactInfo"] as? [String: AnyObject] {
-                                shippingData["firstName"] = shippingContactInfo["firstName"] as? String
-                                shippingData["lastName"] = shippingContactInfo["lastName"] as? String
-                                shippingData["country"] = shippingContactInfo["country"] as? String
-                                shippingData["state"] = shippingContactInfo["state"] as? String
-                                shippingData["address"] = shippingContactInfo["address1"] as? String
-                                shippingData["city"] = shippingContactInfo["city"] as? String
-                                shippingData["zip"] = shippingContactInfo["zip"] as? String
-                            }
-                        }
-                        
-                    } else {
-                        NSLog("Error parsing BS result on Retrieve vaulted shopper")
-                        resultError = .unknown
                     }
-                } catch let error as NSError {
-                    NSLog("Error parsing BS result on Retrieve vaulted shopper: \(error.localizedDescription)")
-                    resultError = .unknown
                 }
-            }
-        } else {
-            NSLog("Error: no data exists")
-            resultError = .unknown
-            
-        }
-        return (ccData ,billingData, shippingData, resultError)
-        
-        
-    }
-    
-    static func parseRetrieveVaultedShopperResponseNEW(responseBody: Data?, fullBillingRequired: Bool, emailRequired: Bool, shippingRequired: Bool)->([String: AnyObject], BSErrors?){
-        var jsonData: [String: AnyObject] = [:]
-        var resultError: BSErrors? = nil
-        if let data = responseBody {
-            if !data.isEmpty {
-                do {
-                    // Parse the result JSOn object
-                    if let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject] {
-                        jsonData = json
+                
+                if shopperInfo.shopperCheckoutRequirements.shippingRequired {
+                    if let shippingContactInfo = jsonData["shippingContactInfo"] as? [String: AnyObject] {
+                        checkApiCallResult(expectedData: shopperInfo.shippingContactInfo!, resultData: shippingContactInfo)
                         
-                    } else {
-                        NSLog("Error parsing BS result on Retrieve vaulted shopper")
-                        resultError = .unknown
                     }
-                } catch let error as NSError {
-                    NSLog("Error parsing BS result on Retrieve vaulted shopper: \(error.localizedDescription)")
-                    resultError = .unknown
                 }
+                
+            } else {
+                NSLog("Error parsing BS result on Retrieve vaulted shopper")
+                resultError = .unknown
             }
-        } else {
-            NSLog("Error: no data exists")
+        } catch let error as NSError {
+            NSLog("Error parsing BS result on Retrieve vaulted shopper: \(error.localizedDescription)")
             resultError = .unknown
-            
         }
-        return (jsonData, resultError)
+        
+        return resultError
         
     }
     
     
-    private static func checkRetrieveVaultedShopperResponseNEW(jasonData: [String: AnyObject], expectedData: [String:String], resultData: [String:String]){
-        for (fieldName, fieldValue) in resultData {
-            checkFieldContent(expectedValue: expectedData[fieldName]!, actualValue: fieldValue, fieldName: fieldName)
-        }
-    }
-    
-    static func checkApiCallResult(expectedData: [String:String], resultData: [String:String]){
-        for (fieldName, fieldValue) in resultData {
-            checkFieldContent(expectedValue: expectedData[fieldName]!, actualValue: fieldValue, fieldName: fieldName)
+    static func checkApiCallResult(expectedData: [String:String], resultData: [String: AnyObject]){
+        for (fieldName, fieldValue) in expectedData {
+            let actualValue = resultData[fieldName] as! String
+            checkFieldContent(expectedValue: fieldValue, actualValue: actualValue, fieldName: fieldName)
         }
     }
     

@@ -37,69 +37,24 @@ class BluesnapSDKIntegrationTests: XCTestCase {
             }
         })
     }
-    
-    func testEndToEndCheckoutFlow() {
-        let purchaseCCData = ["ccn": "4111 1111 1111 1111", "cardLastFourDigits": "1111", "cvv": "123", "expirationMonth": "10","expirationYear": "2020", "cardType": "VISA"]
-        
-        let purchaseBillingData = ["email": "test@sdk.com", "firstName": "La", "lastName": "Fleur", "address": "555 Broadway street",
-                            "city": "New York", "zip": "3abc 324a", "country": "us", "state": "NY"]
-        
-        let purchaseShippingData = ["email": "test@sdk.com", "firstName": "Taylor", "lastName": "Love", "address": "AddressTest",
-                                   "city": "CityTest", "zip": "12345", "country": "br", "state": "RJ"]
-        
-        let tokenizeRequest = BSTokenizeRequest()
-        tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: purchaseCCData["ccn"], cvv: purchaseCCData["cvv"], ccType: nil, expDate: "\(purchaseCCData["expirationMonth"]!)/\(purchaseCCData["expirationYear"]!)")
-        tokenizeRequest.billingDetails = BSBillingAddressDetails(email: purchaseBillingData["email"], name: "\(purchaseBillingData["firstName"]!) \(purchaseBillingData["lastName"]!)", address: purchaseBillingData["address"], city: purchaseBillingData["city"], zip: purchaseBillingData["zip"], country: purchaseBillingData["country"]?.uppercased(), state: purchaseBillingData["state"])
-        tokenizeRequest.shippingDetails = BSShippingAddressDetails(phone: nil, name: "\(purchaseShippingData["firstName"]!) \(purchaseShippingData["lastName"]!)", address: purchaseShippingData["address"], city: purchaseShippingData["city"], zip: purchaseShippingData["zip"], country: purchaseShippingData["country"]?.uppercased(), state: purchaseShippingData["state"])
-        
-        let semaphore = DispatchSemaphore(value: 0)
-        BSIntegrationTestingAPIService.createToken(completion: { token, error in
-            
-            BlueSnapSDK.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: { (result, error) in
-                XCTAssertNil(error, "error: \(String(describing: error))")
-                
-                BSIntegrationTestingAPIService.createTokenizedTransaction(
-                    purchaseAmount: 22.0,
-                    purchaseCurrency: "USD",
-                    bsToken: token,
-                    completion: { isSuccess, data, shopperId in
-                        XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
-                        XCTAssertNotNil(data, "error: \(String(describing: "No data from transaction"))")
-                        XCTAssertNotNil(shopperId, "error: \(String(describing: "No shopperId from transaction"))")
-                        
-                        BSIntegrationTestingAPIService.retrieveVaultedShopper(vaultedShopperId: shopperId!, completion: {
-                            isSuccess, data in
-                            XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
-                            let (ccData, billingData, shippingData, error) = BluesnapSDKIntegrationTestsHelper.parseRetrieveVaultedShopperResponse(responseBody: data, fullBillingRequired: true, emailRequired: true, shippingRequired: true)
-                            XCTAssertNil(error, "error: \(String(describing: error))")
-                            
-                            BluesnapSDKIntegrationTestsHelper.checkApiCallResult(expectedData: purchaseBillingData, resultData: billingData)
-                            BluesnapSDKIntegrationTestsHelper.checkApiCallResult(expectedData: purchaseCCData, resultData: ccData)
-                            BluesnapSDKIntegrationTestsHelper.checkApiCallResult(expectedData: purchaseShippingData, resultData: shippingData)
-                            
-                            semaphore.signal()
-                        })
-                })
-            })
-        })
-        semaphore.wait()
-        
-    }
 
     func testEndToEndFullBillingWithShippingWithMailCheckoutFlow() {
-//        let shopper = TestingShopper(billingContactInfo: <#T##[String : String]#>, creditCardInfo: <#T##[([String : String], [String : String])]#>, fullBillingRequired: <#T##Bool#>, emailRequired: <#T##Bool#>, shippingRequired: <#T##Bool#>)
-        let purchaseCCData = ["ccn": "4111 1111 1111 1111", "cardLastFourDigits": "1111", "cvv": "123", "expirationMonth": "10","expirationYear": "2020", "cardType": "VISA"]
+        let email = "test@sdk.com"
+
+        let purchaseCCData = ["cardLastFourDigits": "1111", "expirationMonth": "10","expirationYear": "2020", "cardType": "VISA"]
         
-        let purchaseBillingData = ["email": "test@sdk.com", "firstName": "La", "lastName": "Fleur", "address": "555 Broadway street",
+        let purchaseBillingData = [ "firstName": "La", "lastName": "Fleur", "address1": "555 Broadway street",
                                    "city": "New York", "zip": "3abc 324a", "country": "us", "state": "NY"]
         
-        let purchaseShippingData = ["email": "test@sdk.com", "firstName": "Taylor", "lastName": "Love", "address": "AddressTest",
+        let purchaseShippingData = ["firstName": "Taylor", "lastName": "Love", "address1": "AddressTest",
                                     "city": "CityTest", "zip": "12345", "country": "br", "state": "RJ"]
         
+        let shopper = TestingShopper(creditCardInfo: [(purchaseBillingData,purchaseCCData)], email: email, shippingContactInfo: purchaseShippingData, fullBillingRequired: true, emailRequired: true, shippingRequired: true)
+
         let tokenizeRequest = BSTokenizeRequest()
-        tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: purchaseCCData["ccn"], cvv: purchaseCCData["cvv"], ccType: nil, expDate: "\(purchaseCCData["expirationMonth"]!)/\(purchaseCCData["expirationYear"]!)")
-        tokenizeRequest.billingDetails = BSBillingAddressDetails(email: purchaseBillingData["email"], name: "\(purchaseBillingData["firstName"]!) \(purchaseBillingData["lastName"]!)", address: purchaseBillingData["address"], city: purchaseBillingData["city"], zip: purchaseBillingData["zip"], country: purchaseBillingData["country"]?.uppercased(), state: purchaseBillingData["state"])
-        tokenizeRequest.shippingDetails = BSShippingAddressDetails(phone: nil, name: "\(purchaseShippingData["firstName"]!) \(purchaseShippingData["lastName"]!)", address: purchaseShippingData["address"], city: purchaseShippingData["city"], zip: purchaseShippingData["zip"], country: purchaseShippingData["country"]?.uppercased(), state: purchaseShippingData["state"])
+        tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: "4111 1111 1111 1111", cvv: "123", ccType: nil, expDate: "\(purchaseCCData["expirationMonth"]!)/\(purchaseCCData["expirationYear"]!)")
+        tokenizeRequest.billingDetails = BSBillingAddressDetails(email: email, name: "\(purchaseBillingData["firstName"]!) \(purchaseBillingData["lastName"]!)", address: purchaseBillingData["address1"], city: purchaseBillingData["city"], zip: purchaseBillingData["zip"], country: purchaseBillingData["country"]?.uppercased(), state: purchaseBillingData["state"])
+        tokenizeRequest.shippingDetails = BSShippingAddressDetails(phone: nil, name: "\(purchaseShippingData["firstName"]!) \(purchaseShippingData["lastName"]!)", address: purchaseShippingData["address1"], city: purchaseShippingData["city"], zip: purchaseShippingData["zip"], country: purchaseShippingData["country"]?.uppercased(), state: purchaseShippingData["state"])
         
         let semaphore = DispatchSemaphore(value: 0)
         BSIntegrationTestingAPIService.createToken(completion: { token, error in
@@ -119,13 +74,10 @@ class BluesnapSDKIntegrationTests: XCTestCase {
                         BSIntegrationTestingAPIService.retrieveVaultedShopper(vaultedShopperId: shopperId!, completion: {
                             isSuccess, data in
                             XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
-                            let (ccData, billingData, shippingData, error) = BluesnapSDKIntegrationTestsHelper.parseRetrieveVaultedShopperResponse(responseBody: data, fullBillingRequired: true, emailRequired: true, shippingRequired: true)
+                            let error = BluesnapSDKIntegrationTestsHelper.checkRetrieveVaultedShopperResponse(responseBody: data!, shopperInfo: shopper)
+
                             XCTAssertNil(error, "error: \(String(describing: error))")
-                            
-                            BluesnapSDKIntegrationTestsHelper.checkApiCallResult(expectedData: purchaseBillingData, resultData: billingData)
-                            BluesnapSDKIntegrationTestsHelper.checkApiCallResult(expectedData: purchaseCCData, resultData: ccData)
-                            BluesnapSDKIntegrationTestsHelper.checkApiCallResult(expectedData: purchaseShippingData, resultData: shippingData)
-                            
+              
                             semaphore.signal()
                         })
                 })
