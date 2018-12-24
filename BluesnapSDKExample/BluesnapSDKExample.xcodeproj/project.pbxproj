@@ -14,7 +14,6 @@
 		2D4E27881E8808A700C56C46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E27861E8808A700C56C46 /* Main.storyboard */; };
 		2D4E278A1E8808A700C56C46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E27891E8808A700C56C46 /* Assets.xcassets */; };
 		2D4E278D1E8808A700C56C46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E278B1E8808A700C56C46 /* LaunchScreen.storyboard */; };
-		2D4E27981E8808A800C56C46 /* BluesnapSDKExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4E27971E8808A800C56C46 /* BluesnapSDKExampleTests.swift */; };
 		2D4E27A31E8808A800C56C46 /* BluesnapSDKExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4E27A21E8808A800C56C46 /* BluesnapSDKExampleUITests.swift */; };
 		2DD7F1161E8824FB002C5571 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD7F1131E88245D002C5571 /* BluesnapSDK.framework */; };
 		2DD7F1181E882504002C5571 /* BluesnapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD7F1131E88245D002C5571 /* BluesnapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -40,13 +39,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2D4E27941E8808A800C56C46 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2D4E27771E8808A700C56C46 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2D4E277E1E8808A700C56C46;
-			remoteInfo = BluesnapSDKExample;
-		};
 		2D4E279F1E8808A800C56C46 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2D4E27771E8808A700C56C46 /* Project object */;
@@ -101,9 +93,6 @@
 		2D4E27891E8808A700C56C46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D4E278C1E8808A700C56C46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D4E278E1E8808A700C56C46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2D4E27931E8808A800C56C46 /* BluesnapSDKExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluesnapSDKExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D4E27971E8808A800C56C46 /* BluesnapSDKExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluesnapSDKExampleTests.swift; sourceTree = "<group>"; };
-		2D4E27991E8808A800C56C46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D4E279E1E8808A800C56C46 /* BluesnapSDKExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluesnapSDKExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D4E27A21E8808A800C56C46 /* BluesnapSDKExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluesnapSDKExampleUITests.swift; sourceTree = "<group>"; };
 		2D4E27A41E8808A800C56C46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -171,13 +160,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2D4E27901E8808A800C56C46 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2D4E279B1E8808A800C56C46 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -211,7 +193,6 @@
 			children = (
 				2DD7F10D1E88245C002C5571 /* BluesnapSDK.xcodeproj */,
 				2D4E27811E8808A700C56C46 /* BluesnapSDKExample */,
-				2D4E27961E8808A800C56C46 /* BluesnapSDKExampleTests */,
 				2D4E27A11E8808A800C56C46 /* BluesnapSDKExampleUITests */,
 				2D4E27801E8808A700C56C46 /* Products */,
 				2D374F501E88122500AE2A81 /* Frameworks */,
@@ -223,7 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				2D4E277F1E8808A700C56C46 /* BluesnapSDKExample.app */,
-				2D4E27931E8808A800C56C46 /* BluesnapSDKExampleTests.xctest */,
 				2D4E279E1E8808A800C56C46 /* BluesnapSDKExampleUITests.xctest */,
 			);
 			name = Products;
@@ -247,15 +227,6 @@
 				DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */,
 			);
 			path = BluesnapSDKExample;
-			sourceTree = "<group>";
-		};
-		2D4E27961E8808A800C56C46 /* BluesnapSDKExampleTests */ = {
-			isa = PBXGroup;
-			children = (
-				2D4E27971E8808A800C56C46 /* BluesnapSDKExampleTests.swift */,
-				2D4E27991E8808A800C56C46 /* Info.plist */,
-			);
-			path = BluesnapSDKExampleTests;
 			sourceTree = "<group>";
 		};
 		2D4E27A11E8808A800C56C46 /* BluesnapSDKExampleUITests */ = {
@@ -302,24 +273,6 @@
 			productReference = 2D4E277F1E8808A700C56C46 /* BluesnapSDKExample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2D4E27921E8808A800C56C46 /* BluesnapSDKExampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2D4E27AA1E8808A800C56C46 /* Build configuration list for PBXNativeTarget "BluesnapSDKExampleTests" */;
-			buildPhases = (
-				2D4E278F1E8808A800C56C46 /* Sources */,
-				2D4E27901E8808A800C56C46 /* Frameworks */,
-				2D4E27911E8808A800C56C46 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2D4E27951E8808A800C56C46 /* PBXTargetDependency */,
-			);
-			name = BluesnapSDKExampleTests;
-			productName = BluesnapSDKExampleTests;
-			productReference = 2D4E27931E8808A800C56C46 /* BluesnapSDKExampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		2D4E279D1E8808A800C56C46 /* BluesnapSDKExampleUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D4E27AD1E8808A800C56C46 /* Build configuration list for PBXNativeTarget "BluesnapSDKExampleUITests" */;
@@ -356,13 +309,6 @@
 								enabled = 1;
 							};
 						};
-					};
-					2D4E27921E8808A800C56C46 = {
-						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = AYTGDKG3D8;
-						LastSwiftMigration = 1000;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 2D4E277E1E8808A700C56C46;
 					};
 					2D4E279D1E8808A800C56C46 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -414,7 +360,6 @@
 			projectRoot = "";
 			targets = (
 				2D4E277E1E8808A700C56C46 /* BluesnapSDKExample */,
-				2D4E27921E8808A800C56C46 /* BluesnapSDKExampleTests */,
 				2D4E279D1E8808A800C56C46 /* BluesnapSDKExampleUITests */,
 			);
 		};
@@ -449,13 +394,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2D4E27911E8808A800C56C46 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2D4E279C1E8808A800C56C46 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -475,14 +413,6 @@
 				2D4E27831E8808A700C56C46 /* AppDelegate.swift in Sources */,
 				FD89AB641EB6038600A1B257 /* DemoTransactions.swift in Sources */,
 				DEB34D679B4735BD2B2F6DD5 /* Configuration.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2D4E278F1E8808A800C56C46 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2D4E27981E8808A800C56C46 /* BluesnapSDKExampleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,11 +436,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2D4E27951E8808A800C56C46 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2D4E277E1E8808A700C56C46 /* BluesnapSDKExample */;
-			targetProxy = 2D4E27941E8808A800C56C46 /* PBXContainerItemProxy */;
-		};
 		2D4E27A01E8808A800C56C46 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2D4E277E1E8808A700C56C46 /* BluesnapSDKExample */;
@@ -626,7 +551,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -681,6 +606,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -752,46 +678,6 @@
 			};
 			name = Release;
 		};
-		2D4E27AB1E8808A800C56C46 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = AYTGDKG3D8;
-				INFOPLIST_FILE = BluesnapSDKExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BluesnapSDKExample.app/BluesnapSDKExample";
-			};
-			name = Debug;
-		};
-		2D4E27AC1E8808A800C56C46 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = AYTGDKG3D8;
-				INFOPLIST_FILE = BluesnapSDKExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExampleTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BluesnapSDKExample.app/BluesnapSDKExample";
-			};
-			name = Release;
-		};
 		2D4E27AE1E8808A800C56C46 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -851,15 +737,6 @@
 			buildConfigurations = (
 				2D4E27A81E8808A800C56C46 /* Debug */,
 				2D4E27A91E8808A800C56C46 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		2D4E27AA1E8808A800C56C46 /* Build configuration list for PBXNativeTarget "BluesnapSDKExampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2D4E27AB1E8808A800C56C46 /* Debug */,
-				2D4E27AC1E8808A800C56C46 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
