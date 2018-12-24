@@ -10,6 +10,15 @@ import XCTest
 @testable import BluesnapSDK
 
 class BluesnapSDKIntegrationTests: XCTestCase {
+    let email = "test@sdk.com"
+    
+    let purchaseCCData = ["cardLastFourDigits": "1111", "expirationMonth": "10","expirationYear": "2020", "cardType": "VISA"]
+    
+    let purchaseBillingData = [ "firstName": "La", "lastName": "Fleur", "address1": "555 Broadway street",
+                                "city": "New York", "zip": "3abc 324a", "country": "us", "state": "NY"]
+    
+    let purchaseShippingData = ["firstName": "Taylor", "lastName": "Love", "address1": "AddressTest",
+                                "city": "CityTest", "zip": "12345", "country": "br", "state": "RJ"]
     
     override func setUp() {
         super.setUp()
@@ -39,16 +48,6 @@ class BluesnapSDKIntegrationTests: XCTestCase {
     }
 
     func testEndToEndFullBillingWithShippingWithMailCheckoutFlow() {
-        let email = "test@sdk.com"
-
-        let purchaseCCData = ["cardLastFourDigits": "1111", "expirationMonth": "10","expirationYear": "2020", "cardType": "VISA"]
-        
-        let purchaseBillingData = [ "firstName": "La", "lastName": "Fleur", "address1": "555 Broadway street",
-                                   "city": "New York", "zip": "3abc 324a", "country": "us", "state": "NY"]
-        
-        let purchaseShippingData = ["firstName": "Taylor", "lastName": "Love", "address1": "AddressTest",
-                                    "city": "CityTest", "zip": "12345", "country": "br", "state": "RJ"]
-        
         let shopper = MockShopper(creditCardInfo: [(purchaseBillingData,purchaseCCData)], email: email, shippingContactInfo: purchaseShippingData, fullBillingRequired: true, emailRequired: true, shippingRequired: true)
 
         let tokenizeRequest = BSTokenizeRequest()
