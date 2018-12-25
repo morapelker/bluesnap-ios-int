@@ -71,6 +71,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2D374F1F1E880E7200AE2A81"
+            BuildableName = "BluesnapSDK.framework"
+            BlueprintName = "BluesnapSDK"
+            ReferencedContainer = "container:BluesnapSDK.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
