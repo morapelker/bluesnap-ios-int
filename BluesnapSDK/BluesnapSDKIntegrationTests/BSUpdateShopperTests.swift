@@ -1,18 +1,17 @@
 //
-//  BSApiManagerTests.swift
+//  BSUpdateShopperTests.swift
 //  BluesnapSDK
 //
-//  Created by Shevie Chen on 20/08/2017.
+//  Created by Roy Biber on 2018-12-25.
 //  Copyright © 2017 Bluesnap. All rights reserved.
 //
 
-import Foundation
 import XCTest
 @testable import BluesnapSDK
 
 class BSUpdateShopperTests: XCTestCase {
     static var cc: [String: String] = [:]
-    static var bsToken: String = ""
+    static var bsToken: BSToken = BSToken(tokenStr: "_")
     static var vaultedShopperId: Int = 0
     static var shopper: BSShopper = BSShopper()
     static var set2: Bool = true
@@ -66,121 +65,6 @@ class BSUpdateShopperTests: XCTestCase {
     //------------------------------------------------------
     // MARK: private functions Shopper, Address & CC Creation
     //------------------------------------------------------
-
-    private func createShopper() {
-        BSUpdateShopperTests.cc = getVisa()
-        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
-
-        let semaphore = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: nil, completion: { token, error in
-            BSUpdateShopperTests.bsToken = token!.getTokenStr()!
-            NSLog("token: \(BSUpdateShopperTests.bsToken)")
-            self.submitCCDetails(ccDetails: self.getVisa(), billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
-                semaphore.signal()
-            })
-        })
-        semaphore.wait()
-
-        let semaphore2 = DispatchSemaphore(value: 0)
-        createTokenizedTransaction(bsToken: BSUpdateShopperTests.bsToken, completion: { success, data in
-            assert(success == true, "true")
-            if let data = data {
-                BSUpdateShopperTests.vaultedShopperId = data["vaultedShopperId"] as! Int
-            } else {
-                NSLog("Error: no data exists")
-            }
-            semaphore2.signal()
-        })
-        semaphore2.wait()
-    }
-
-    private func checkSdkData() {
-        let semaphore4 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
-            token, error in
-
-            if let error = error {
-                fatalError("Create Token with shopper ID failed. error: \(error)")
-            }
-            self.getSdkData(shopper: BSUpdateShopperTests.shopper, completion: { error in
-                semaphore4.signal()
-            })
-
-        })
-        semaphore4.wait()
-    }
-
-    private func updateShopperApplePay() {
-        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
-
-        let semaphore3 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
-            token, error in
-            BSUpdateShopperTests.bsToken = token!.getTokenStr()!
-            NSLog("token: \(BSUpdateShopperTests.bsToken)")
-            BSUpdateShopperTests.shopper = self.createShopperForUpdate(add2: BSUpdateShopperTests.set2, vaultedShopperId: BSUpdateShopperTests.vaultedShopperId, chosenPaymentMethodType: BSPaymentType.ApplePay.rawValue)
-            BSUpdateShopperTests.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperTests.set2)
-            BSApiManager.shopper = BSUpdateShopperTests.shopper
-            BSApiManager.updateShopper(completion: {
-                (result, error) in
-
-                XCTAssert(error == nil, "error: \(String(describing: error))")
-                semaphore3.signal()
-            })
-        })
-        semaphore3.wait()
-    }
-
-    private func updateShopperPayPal() {
-        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
-
-        let semaphore3 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
-            token, error in
-            BSUpdateShopperTests.bsToken = token!.getTokenStr()!
-            NSLog("token: \(BSUpdateShopperTests.bsToken)")
-            BSUpdateShopperTests.shopper = self.createShopperForUpdate(add2: BSUpdateShopperTests.set2, vaultedShopperId: BSUpdateShopperTests.vaultedShopperId, chosenPaymentMethodType: BSPaymentType.PayPal.rawValue)
-            BSUpdateShopperTests.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperTests.set2)
-            BSApiManager.shopper = BSUpdateShopperTests.shopper
-            BSApiManager.updateShopper(completion: {
-                (result, error) in
-
-                XCTAssert(error == nil, "error: \(String(describing: error))")
-                semaphore3.signal()
-            })
-        })
-        semaphore3.wait()
-    }
-
-    private func updateShopperCreditCard() {
-        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
-
-        let semaphore3 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
-            token, error in
-            BSUpdateShopperTests.bsToken = token!.getTokenStr()!
-            NSLog("token: \(BSUpdateShopperTests.bsToken)")
-
-            let semaphore4 = DispatchSemaphore(value: 1)
-            BSUpdateShopperTests.cc = self.getMasterCard()
-            self.submitCCDetails(ccDetails: BSUpdateShopperTests.cc, billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
-                semaphore4.signal()
-            })
-            semaphore4.wait()
-
-            BSUpdateShopperTests.shopper = self.createShopperForUpdate(add2: BSUpdateShopperTests.set2, vaultedShopperId: BSUpdateShopperTests.vaultedShopperId,
-                    chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue, creditCard: self.getBSCreditCard())
-            BSUpdateShopperTests.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperTests.set2)
-            BSApiManager.shopper = BSUpdateShopperTests.shopper
-            BSApiManager.updateShopper(completion: {
-                (result, error) in
-
-                XCTAssert(error == nil, "error: \(String(describing: error))")
-                semaphore3.signal()
-            })
-        })
-        semaphore3.wait()
-    }
 
     private func createShopperForUpdate(add2: Bool, vaultedShopperId: Int, chosenPaymentMethodType: String, creditCard: BSCreditCard? = nil) -> BSShopper {
         let shopper = BSShopper()
@@ -247,6 +131,120 @@ class BSUpdateShopperTests: XCTestCase {
     // MARK: private functions API Calls
     //------------------------------------------------------
 
+    private func createShopper() {
+        BSUpdateShopperTests.cc = getVisa()
+        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
+
+        let semaphore = DispatchSemaphore(value: 0)
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
+            BSUpdateShopperTests.bsToken = BSToken(tokenStr: token!.getTokenStr()!)
+            NSLog("token: \(BSUpdateShopperTests.bsToken.tokenStr)")
+            self.submitCCDetails(ccDetails: self.getVisa(), billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
+                semaphore.signal()
+            })
+        })
+        semaphore.wait()
+
+        let semaphore2 = DispatchSemaphore(value: 0)
+        BSIntegrationTestingAPIHelper.createTokenizedTransaction(purchaseAmount: 10, purchaseCurrency: "USD", bsToken: BSUpdateShopperTests.bsToken, completion: { isSuccess, data, shopperId in
+            assert(isSuccess == true, "true")
+            if let shopperId = shopperId {
+                BSUpdateShopperTests.vaultedShopperId = Int(shopperId)!
+            } else {
+                NSLog("Error: no data exists")
+            }
+            semaphore2.signal()
+        })
+        semaphore2.wait()
+    }
+
+    private func checkSdkData() {
+        let semaphore4 = DispatchSemaphore(value: 0)
+        BSIntegrationTestingAPIHelper.createToken(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
+            token, error in
+
+            if let error = error {
+                fatalError("Create Token with shopper ID failed. error: \(error)")
+            }
+            self.getSdkData(shopper: BSUpdateShopperTests.shopper, completion: { error in
+                semaphore4.signal()
+            })
+
+        })
+        semaphore4.wait()
+    }
+
+    private func updateShopperApplePay() {
+        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
+
+        let semaphore3 = DispatchSemaphore(value: 0)
+        BSIntegrationTestingAPIHelper.createToken(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
+            token, error in
+            BSUpdateShopperTests.bsToken = BSToken(tokenStr: token!.getTokenStr()!)
+            NSLog("token: \(BSUpdateShopperTests.bsToken.tokenStr)")
+            BSUpdateShopperTests.shopper = self.createShopperForUpdate(add2: BSUpdateShopperTests.set2, vaultedShopperId: BSUpdateShopperTests.vaultedShopperId, chosenPaymentMethodType: BSPaymentType.ApplePay.rawValue)
+            BSUpdateShopperTests.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperTests.set2)
+            BSApiManager.shopper = BSUpdateShopperTests.shopper
+            BSApiManager.updateShopper(completion: {
+                (result, error) in
+
+                XCTAssert(error == nil, "error: \(String(describing: error))")
+                semaphore3.signal()
+            })
+        })
+        semaphore3.wait()
+    }
+
+    private func updateShopperPayPal() {
+        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
+
+        let semaphore3 = DispatchSemaphore(value: 0)
+        BSIntegrationTestingAPIHelper.createToken(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
+            token, error in
+            BSUpdateShopperTests.bsToken = BSToken(tokenStr: token!.getTokenStr()!)
+            NSLog("token: \(BSUpdateShopperTests.bsToken.tokenStr)")
+            BSUpdateShopperTests.shopper = self.createShopperForUpdate(add2: BSUpdateShopperTests.set2, vaultedShopperId: BSUpdateShopperTests.vaultedShopperId, chosenPaymentMethodType: BSPaymentType.PayPal.rawValue)
+            BSUpdateShopperTests.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperTests.set2)
+            BSApiManager.shopper = BSUpdateShopperTests.shopper
+            BSApiManager.updateShopper(completion: {
+                (result, error) in
+
+                XCTAssert(error == nil, "error: \(String(describing: error))")
+                semaphore3.signal()
+            })
+        })
+        semaphore3.wait()
+    }
+
+    private func updateShopperCreditCard() {
+        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
+
+        let semaphore3 = DispatchSemaphore(value: 0)
+        BSIntegrationTestingAPIHelper.createToken(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
+            token, error in
+            BSUpdateShopperTests.bsToken = BSToken(tokenStr: token!.getTokenStr()!)
+            NSLog("token: \(BSUpdateShopperTests.bsToken.tokenStr)")
+
+            let semaphore4 = DispatchSemaphore(value: 1)
+            BSUpdateShopperTests.cc = self.getMasterCard()
+            self.submitCCDetails(ccDetails: BSUpdateShopperTests.cc, billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
+                semaphore4.signal()
+            })
+            semaphore4.wait()
+
+            BSUpdateShopperTests.shopper = self.createShopperForUpdate(add2: BSUpdateShopperTests.set2, vaultedShopperId: BSUpdateShopperTests.vaultedShopperId,
+                    chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue, creditCard: self.getBSCreditCard())
+            BSUpdateShopperTests.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperTests.set2)
+            BSApiManager.shopper = BSUpdateShopperTests.shopper
+            BSApiManager.updateShopper(completion: {
+                (result, error) in
+
+                XCTAssert(error == nil, "error: \(String(describing: error))")
+                semaphore3.signal()
+            })
+        })
+        semaphore3.wait()
+    }
 
     private func getSdkData(shopper: BSShopper, completion: @escaping (BSErrors?) -> Void) {
         BSApiManager.getSdkData(baseCurrency: nil, completion: {
@@ -291,16 +289,6 @@ class BSUpdateShopperTests: XCTestCase {
         })
     }
 
-    private func createTokenWithShopperId(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
-
-        BSApiManager.createSandboxBSToken(shopperId: shopperId, completion: { bsToken, error in
-
-            XCTAssertNil(error)
-            XCTAssertNotNil(bsToken)
-            completion(bsToken, error)
-        })
-    }
-
     private func submitCCDetails(ccDetails: [String: String], billingDetails: BSBillingAddressDetails?, shippingDetails: BSShippingAddressDetails?, completion: @escaping (BSErrors?) -> Void) {
         BSApiManager.submitPurchaseDetails(ccNumber: ccDetails["ccn"], expDate: ccDetails["exp"], cvv: ccDetails["cvv"],
                 last4Digits: nil, cardType: nil, billingDetails: billingDetails ?? nil, shippingDetails: shippingDetails ?? nil, fraudSessionId: nil, completion: {
@@ -317,82 +305,5 @@ class BSUpdateShopperTests: XCTestCase {
             completion(error)
         })
 
-    }
-
-    private func createTokenizedTransaction(
-            bsToken: String!,
-            completion: @escaping (_ success: Bool, _ data: [String: AnyObject]?) -> Void) {
-
-        var requestBody = [
-            "amount": 10,
-            "recurringTransaction": "ECOMMERCE",
-            "softDescriptor": "MobileSDKtest",
-            "currency": "USD",
-            "cardTransactionType": "AUTH_CAPTURE",
-            "pfToken": "\(bsToken!)",
-        ] as [String: Any]
-        print("requestBody= \(requestBody)")
-        let authorization = getBasicAuth()
-
-        let urlStr = "https://sandbox.bluesnap.com/services/2/transactions";
-        let url = NSURL(string: urlStr)!
-        var request = NSMutableURLRequest(url: url as URL)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue(authorization, forHTTPHeaderField: "Authorization")
-        request.httpMethod = "POST"
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
-        } catch let error {
-            NSLog("Error serializing CC details: \(error.localizedDescription)")
-        }
-
-        // fire request
-
-        var result: (success: Bool, data: [String: AnyObject]?) = (success: false, data: nil)
-
-        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error) in
-            if let error = error {
-                NSLog("error calling create transaction: \(error.localizedDescription)")
-            } else {
-                let httpResponse = response as? HTTPURLResponse
-                if let httpStatusCode: Int = (httpResponse?.statusCode) {
-                    if (httpStatusCode >= 200 && httpStatusCode <= 299) {
-                        result.success = true
-                        if let data = data {
-                            do {
-                                // Parse the result JSOn object
-                                if let json = try JSONSerialization.jsonObject(with: data) as? [String: AnyObject] {
-                                    result.data = json
-                                } else {
-                                    NSLog("Error parsing BS result on CC transaction submit")
-                                }
-                            } catch let error as NSError {
-                                NSLog("Error parsing BS result on CC transaction submit: \(error.localizedDescription)")
-                            }
-                        }
-                    } else {
-                        NSLog("Http error Creating BS Transaction; HTTP status = \(httpStatusCode)")
-                    }
-                }
-            }
-            defer {
-                completion(result.success, result.data)
-            }
-        }
-        task.resume()
-    }
-
-
-    /**
-     Build the basic authentication header from username/password
-     */
-    func getBasicAuth() -> String {
-        let BS_SANDBOX_TEST_USER: String = BSApiManager.bsAPIUser
-        let BS_SANDBOX_TEST_PASS: String = BSApiManager.bsAPIPassword
-        let loginStr = String(format: "%@:%@", BS_SANDBOX_TEST_USER, BS_SANDBOX_TEST_PASS)
-        let loginData = loginStr.data(using: String.Encoding.utf8)!
-        let base64LoginStr = loginData.base64EncodedString()
-        return "Basic \(base64LoginStr)"
     }
 }
