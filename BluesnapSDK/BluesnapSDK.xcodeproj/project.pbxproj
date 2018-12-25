@@ -14,8 +14,8 @@
 		2DADB9D51EC31F3200C1A2D2 /* BlueSnap.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DADB9D71EC31F3200C1A2D2 /* BlueSnap.storyboard */; };
 		2DBB606B1F8CB8F800E80254 /* libKountDataCollector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */; };
 		2DD7F11D1E8828B2002C5571 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
+		4EC9F12D21D287240041BE5A /* BSUpdateShopperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */; };
 		660300EAA5412A9B2F51C177 /* BSSdkRequestResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030FD5BA5AD398A2EF004D /* BSSdkRequestResultTests.swift */; };
-		6603081A3D06BD8206E5FE8C /* BSUpdateShopperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */; };
 		8746CA1821CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746CA1721CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift */; };
 		8746CA1A21CFD60E00E7D3DA /* BSMockShopper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746CA1921CFD60E00E7D3DA /* BSMockShopper.swift */; };
 		87A317BB21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */; };
@@ -573,7 +573,6 @@
 				FD9197451F496C04008C266A /* BSStringUtilssTests.swift in Sources */,
 				FD9197471F49B649008C266A /* BSValidatorTests.swift in Sources */,
 				660300EAA5412A9B2F51C177 /* BSSdkRequestResultTests.swift in Sources */,
-				6603081A3D06BD8206E5FE8C /* BSUpdateShopperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +580,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EC9F12D21D287240041BE5A /* BSUpdateShopperTests.swift in Sources */,
 				87A317CD21C0224000156EA2 /* BluesnapSDKTests.swift in Sources */,
 				8746CA1A21CFD60E00E7D3DA /* BSMockShopper.swift in Sources */,
 				8746CA1821CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift in Sources */,
