@@ -15,7 +15,7 @@
 		2DBB606B1F8CB8F800E80254 /* libKountDataCollector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */; };
 		2DD7F11D1E8828B2002C5571 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
 		660300EAA5412A9B2F51C177 /* BSSdkRequestResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030FD5BA5AD398A2EF004D /* BSSdkRequestResultTests.swift */; };
-        66030C66780EAE82B08D839D /* BSUpdateShopperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030372A007A601640B2121 /* BSUpdateShopperTests.swift */; };
+		6603081A3D06BD8206E5FE8C /* BSUpdateShopperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */; };
 		8746CA1821CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746CA1721CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift */; };
 		8746CA1A21CFD60E00E7D3DA /* BSMockShopper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746CA1921CFD60E00E7D3DA /* BSMockShopper.swift */; };
 		87A317BB21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */; };
@@ -23,7 +23,6 @@
 		87A317CD21C0224000156EA2 /* BluesnapSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D374F2E1E880E7300AE2A81 /* BluesnapSDKTests.swift */; };
 		87A317CE21C0224000156EA2 /* BSApiManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9197421F49630E008C266A /* BSApiManagerTests.swift */; };
 		87A317D021C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A317CF21C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift */; };
-		DEB03A9C85F648C1BCBDEC42 /* Kount-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = DEB84D43DE95794744F74D97 /* Kount-Bridging-Header.h */; };
 		DEB03A9C85F648C1BCBDEC42 /* Kount-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = DEB84D43DE95794744F74D97 /* Kount-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DEB2956B373F197BF3547EC7 /* KDataCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = DEBEC07006625D7C0FFAF7B2 /* KDataCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DEB2DD0B164B99C6E7DE417C /* BSApplepayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB753629162521B2FF3F4AC /* BSApplepayViewController.swift */; };
@@ -101,8 +100,8 @@
 		2D374F421E880EF100AE2A81 /* BlueSnapSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlueSnapSDK.swift; sourceTree = "<group>"; };
 		2DADB9D81EC31F4200C1A2D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/BlueSnap.storyboard; sourceTree = "<group>"; };
 		2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKountDataCollector.a; sourceTree = "<group>"; };
-		66030372A007A601640B2121 /* BSUpdateShopperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSUpdateShopperTests.swift; sourceTree = "<group>"; };
-        66030FD5BA5AD398A2EF004D /* BSSdkRequestResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSSdkRequestResultTests.swift; sourceTree = "<group>"; };
+		66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSUpdateShopperTests.swift; sourceTree = "<group>"; };
+		66030FD5BA5AD398A2EF004D /* BSSdkRequestResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSSdkRequestResultTests.swift; sourceTree = "<group>"; };
 		8746CA1721CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSIntegrationTestingAPIHelper.swift; sourceTree = "<group>"; };
 		8746CA1921CFD60E00E7D3DA /* BSMockShopper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSMockShopper.swift; sourceTree = "<group>"; };
 		87A317B821BFD77400156EA2 /* BluesnapSDKIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluesnapSDKIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,7 +258,6 @@
 				FD6479F21FBC37D900403E7D /* BSCurrencyTests.swift */,
 				2D374F301E880E7300AE2A81 /* Info.plist */,
 				66030FD5BA5AD398A2EF004D /* BSSdkRequestResultTests.swift */,
-				66030372A007A601640B2121 /* BSUpdateShopperTests.swift */,
 			);
 			path = BluesnapSDKTests;
 			sourceTree = "<group>";
@@ -274,6 +272,7 @@
 				87A317BC21BFD77400156EA2 /* Info.plist */,
 				8746CA1721CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift */,
 				8746CA1921CFD60E00E7D3DA /* BSMockShopper.swift */,
+				66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */,
 			);
 			path = BluesnapSDKIntegrationTests;
 			sourceTree = "<group>";
@@ -574,7 +573,7 @@
 				FD9197451F496C04008C266A /* BSStringUtilssTests.swift in Sources */,
 				FD9197471F49B649008C266A /* BSValidatorTests.swift in Sources */,
 				660300EAA5412A9B2F51C177 /* BSSdkRequestResultTests.swift in Sources */,
-				66030C66780EAE82B08D839D /* BSUpdateShopperTests.swift in Sources */,
+				6603081A3D06BD8206E5FE8C /* BSUpdateShopperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
