@@ -35,38 +35,38 @@ class BSUpdateShopperTests: XCTestCase {
     //------------------------------------------------------
 
     func testUpdateShopperApplePay() {
-        createShopper()
-        updateShopperApplePay()
-        checkSdkData()
+        BSUpdateShopperTests.createShopper()
+        BSUpdateShopperTests.updateShopperApplePay()
+        BSUpdateShopperTests.checkSdkData()
     }
 
     func testUpdateShopperPayPal() {
-        createShopper()
-        updateShopperPayPal()
-        checkSdkData()
+        BSUpdateShopperTests.createShopper()
+        BSUpdateShopperTests.updateShopperPayPal()
+        BSUpdateShopperTests.checkSdkData()
     }
 
     func testUpdateCreditCard() {
-        createShopper()
-        updateShopperCreditCard()
-        checkSdkData()
+        BSUpdateShopperTests.createShopper()
+        BSUpdateShopperTests.updateShopperCreditCard()
+        BSUpdateShopperTests.checkSdkData()
     }
 
     func testUpdateAll() {
-        createShopper()
-        updateShopperPayPal()
-        checkSdkData()
-        updateShopperCreditCard()
-        checkSdkData()
-        updateShopperApplePay()
-        checkSdkData()
+        BSUpdateShopperTests.createShopper()
+        BSUpdateShopperTests.updateShopperPayPal()
+        BSUpdateShopperTests.checkSdkData()
+        BSUpdateShopperTests.updateShopperCreditCard()
+        BSUpdateShopperTests.checkSdkData()
+        BSUpdateShopperTests.updateShopperApplePay()
+        BSUpdateShopperTests.checkSdkData()
     }
 
     //------------------------------------------------------
     // MARK: private functions Shopper, Address & CC Creation
     //------------------------------------------------------
 
-    private func createShopperForUpdate(add2: Bool, vaultedShopperId: Int, chosenPaymentMethodType: String, creditCard: BSCreditCard? = nil) -> BSShopper {
+    static func createShopperForUpdate(add2: Bool, vaultedShopperId: Int, chosenPaymentMethodType: String, creditCard: BSCreditCard? = nil) -> BSShopper {
         let shopper = BSShopper()
 
         shopper.name = "John Doe" + (add2 ? "2" : "")
@@ -86,7 +86,7 @@ class BSUpdateShopperTests: XCTestCase {
         return shopper
     }
 
-    private func getShippingDetails(add2: Bool) -> BSShippingAddressDetails {
+    static func getShippingDetails(add2: Bool) -> BSShippingAddressDetails {
         let shippingDetails = BSShippingAddressDetails()
         shippingDetails.name = "Shipping John" + (add2 ? "2" : "")
         shippingDetails.country = "BR"
@@ -97,7 +97,7 @@ class BSUpdateShopperTests: XCTestCase {
         return shippingDetails
     }
 
-    private func getBillingDetails(add2: Bool) -> BSBillingAddressDetails {
+    static func getBillingDetails(add2: Bool) -> BSBillingAddressDetails {
         let billlingDetails = BSBillingAddressDetails()
         billlingDetails.name = "Billing John" + (add2 ? "2" : "")
         billlingDetails.country = "CA"
@@ -109,15 +109,15 @@ class BSUpdateShopperTests: XCTestCase {
         return billlingDetails
     }
 
-    private func getVisa() -> [String: String] {
+    static func getVisa() -> [String: String] {
         return ["ccn": "4111111111111111", "exp": "10/2020", "cvv": "111", "ccType": "VISA", "last4Digits": "1111", "issuingCountry": "US"]
     }
 
-    private func getMasterCard() -> [String: String] {
+    static func getMasterCard() -> [String: String] {
         return ["ccn": "5555555555555557", "exp": "11/2021", "cvv": "123", "ccType": "MASTERCARD", "last4Digits": "5557", "issuingCountry": "BR"]
     }
 
-    private func getBSCreditCard() -> BSCreditCard {
+    static func getBSCreditCard() -> BSCreditCard {
         let creditCard: BSCreditCard = BSCreditCard()
         creditCard.ccType = BSUpdateShopperTests.cc["ccType"]
         creditCard.last4Digits = BSUpdateShopperTests.cc["last4Digits"]
@@ -131,7 +131,7 @@ class BSUpdateShopperTests: XCTestCase {
     // MARK: private functions API Calls
     //------------------------------------------------------
 
-    private func createShopper() {
+    static func createShopper() -> Int? {
         BSUpdateShopperTests.cc = getVisa()
         BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
 
@@ -139,7 +139,7 @@ class BSUpdateShopperTests: XCTestCase {
         BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             BSUpdateShopperTests.bsToken = BSToken(tokenStr: token!.getTokenStr()!)
             NSLog("token: \(BSUpdateShopperTests.bsToken.tokenStr)")
-            self.submitCCDetails(ccDetails: self.getVisa(), billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
+            BSUpdateShopperTests.submitCCDetails(ccDetails: self.getVisa(), billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
                 semaphore.signal()
             })
         })
@@ -156,9 +156,10 @@ class BSUpdateShopperTests: XCTestCase {
             semaphore2.signal()
         })
         semaphore2.wait()
+        return BSUpdateShopperTests.vaultedShopperId
     }
 
-    private func checkSdkData() {
+    private static func checkSdkData() {
         let semaphore4 = DispatchSemaphore(value: 0)
         BSIntegrationTestingAPIHelper.createToken(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
             token, error in
@@ -166,7 +167,7 @@ class BSUpdateShopperTests: XCTestCase {
             if let error = error {
                 fatalError("Create Token with shopper ID failed. error: \(error)")
             }
-            self.getSdkData(shopper: BSUpdateShopperTests.shopper, completion: { error in
+            BSUpdateShopperTests.getSdkData(shopper: BSUpdateShopperTests.shopper, completion: { error in
                 semaphore4.signal()
             })
 
@@ -174,7 +175,7 @@ class BSUpdateShopperTests: XCTestCase {
         semaphore4.wait()
     }
 
-    private func updateShopperApplePay() {
+    private static func updateShopperApplePay() {
         BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
 
         let semaphore3 = DispatchSemaphore(value: 0)
@@ -195,7 +196,7 @@ class BSUpdateShopperTests: XCTestCase {
         semaphore3.wait()
     }
 
-    private func updateShopperPayPal() {
+    private static func updateShopperPayPal() {
         BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
 
         let semaphore3 = DispatchSemaphore(value: 0)
@@ -216,7 +217,7 @@ class BSUpdateShopperTests: XCTestCase {
         semaphore3.wait()
     }
 
-    private func updateShopperCreditCard() {
+    private static func updateShopperCreditCard() {
         BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
 
         let semaphore3 = DispatchSemaphore(value: 0)
@@ -227,7 +228,7 @@ class BSUpdateShopperTests: XCTestCase {
 
             let semaphore4 = DispatchSemaphore(value: 1)
             BSUpdateShopperTests.cc = self.getMasterCard()
-            self.submitCCDetails(ccDetails: BSUpdateShopperTests.cc, billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
+            BSUpdateShopperTests.submitCCDetails(ccDetails: BSUpdateShopperTests.cc, billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
                 semaphore4.signal()
             })
             semaphore4.wait()
@@ -246,7 +247,7 @@ class BSUpdateShopperTests: XCTestCase {
         semaphore3.wait()
     }
 
-    private func getSdkData(shopper: BSShopper, completion: @escaping (BSErrors?) -> Void) {
+    private static func getSdkData(shopper: BSShopper, completion: @escaping (BSErrors?) -> Void) {
         BSApiManager.getSdkData(baseCurrency: nil, completion: {
             sdkData, errors in
 
@@ -289,7 +290,7 @@ class BSUpdateShopperTests: XCTestCase {
         })
     }
 
-    private func submitCCDetails(ccDetails: [String: String], billingDetails: BSBillingAddressDetails?, shippingDetails: BSShippingAddressDetails?, completion: @escaping (BSErrors?) -> Void) {
+    private static func submitCCDetails(ccDetails: [String: String], billingDetails: BSBillingAddressDetails?, shippingDetails: BSShippingAddressDetails?, completion: @escaping (BSErrors?) -> Void) {
         BSApiManager.submitPurchaseDetails(ccNumber: ccDetails["ccn"], expDate: ccDetails["exp"], cvv: ccDetails["cvv"],
                 last4Digits: nil, cardType: nil, billingDetails: billingDetails ?? nil, shippingDetails: shippingDetails ?? nil, fraudSessionId: nil, completion: {
             (result, error) in
