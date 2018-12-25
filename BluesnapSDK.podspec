@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "BluesnapSDK"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "An iOS SDK for Bluesnap "
   s.description  = <<-DESC
   Integrate payment methods into your iOS native apps quickly and easily.
@@ -9,9 +9,12 @@ Pod::Spec.new do |s|
   s.homepage     = "http://www.bluesnap.com"
   s.license      = { :type => "MIT", :file => "LICENSE.md" }
   s.author             = { "snpori" => "oribsnap@gmail.com" }
-  s.platform     = :ios, "9.0"
+  s.platform = :ios
+  s.ios.deployment_target = '9.3'
+  s.swift_version = '4.2'
   s.source       = { :git => "https://github.com/bluesnap/bluesnap-ios.git", :tag => "#{s.version}" }
   s.source_files  = "BluesnapSDK/**/*.{h,m,swift,a}"
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2', 'ONLY_ACTIVE_ARCH' => 'NO' }
   s.resource_bundles = {
     'BluesnapUI' => [
         'BluesnapSDK/**/*.xib',
@@ -20,15 +23,16 @@ Pod::Spec.new do |s|
         'BluesnapSDK/**/*.strings' 
 	]
   }
-  s.exclude_files = "BluesnapSDK/BluesnapSDKTests/**/*.*"
+  s.exclude_files =  ["BluesnapSDK/BluesnapSDKTests/**/*.*","BluesnapSDK/**/libKountDataCollector.a","BluesnapSDK/**/KDataCollector.{h,m}" ]  
+
+  
   s.resources = "BluesnapSDK/**/Media.xcassets"
   s.frameworks                     = 'Foundation', 'Security', 'WebKit', 'PassKit', 'AddressBook', 'UIKit'
   s.weak_frameworks                = 'Contacts'
   s.requires_arc = true
-
   s.subspec "DataCollector" do |s|
-    s.source_files = "BluesnapSDK/Kount/*.{h,m}"
-    s.public_header_files = "BluesnapSDK/Kount/*.h"
-    s.vendored_library = "BluesnapSDK/Kount/libKountDataCollector.a"
+    s.source_files = "BluesnapSDK/**/KDataCollector.{h,m}"
+    s.public_header_files = "BluesnapSDK/**/KDataCollector*.h"
+    s.vendored_library = "BluesnapSDK/**/libKountDataCollector.a"
   end
 end

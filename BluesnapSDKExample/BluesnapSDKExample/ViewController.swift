@@ -43,6 +43,7 @@ class ViewController: UIViewController {
     final fileprivate let applePayMerchantIdentifier = "merchant.com.example.bluesnap"
     final fileprivate var returningShopperId: Int = 22061813
     final fileprivate var shopperId: Int? = nil
+    let demoTreansactions = DemoTreansactions()
 
 
     // MARK: - UIViewController's methods
@@ -344,18 +345,17 @@ class ViewController: UIViewController {
         // The creation of BlueSnap Demo transaction here should be done in the merchant server!!!
         // This is just for demo purposes
         DispatchQueue.main.async {
-            let demo = DemoTreansactions()
             var result: (success: Bool, data: String?) = (false, nil)
             if let purchaseDetails = purchaseDetails {
-                demo.createTokenizedTransaction(
-                        purchaseDetails: purchaseDetails,
-                        bsToken: self.bsToken!,
-                        completion: { success, data in
-                            result.data = data
-                            result.success = success
-                            self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
-                            self.showThankYouScreen(result)
-                        })
+                self.demoTreansactions.createTokenizedTransaction(
+                    purchaseDetails: purchaseDetails,
+                    bsToken: self.bsToken!,
+                    completion: { success, data in
+                        result.data = data
+                        result.success = success
+                        self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
+                        self.showThankYouScreen(result)
+                })
             }
         }
     }
@@ -440,6 +440,7 @@ class ViewController: UIViewController {
         // Show thank you screen (ThankYouViewController)
         if let thankYouScreen = storyboard?.instantiateViewController(withIdentifier: "ThankYouViewController") as? ThankYouViewController {
             thankYouScreen.errorText = errorText
+            thankYouScreen.vaultedShopperId = demoTreansactions.vaultedShopperId
             self.navigationController?.pushViewController(thankYouScreen, animated: true)
         } else {
             resultTextView.text = "An error occurred trying to show the Thank You screen."
@@ -564,6 +565,7 @@ class ViewController: UIViewController {
 
         BlueSnapSDK.createSandboxTestTokenWithShopperId(shopperId: shopperId, completion: { resultToken, errors in
             self.bsToken = resultToken
+            BlueSnapSDK.setBsToken(bsToken: self.bsToken)
             NSLog("Got BS token= \(self.bsToken?.getTokenStr() ?? "")")
             DispatchQueue.main.async {
                 completion(resultToken, errors)
