@@ -39,6 +39,15 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2D4E279D1E8808A800C56C46"
+            BuildableName = "BluesnapSDKExampleUITests.xctest"
+            BlueprintName = "BluesnapSDKExampleUITests"
+            ReferencedContainer = "container:BluesnapSDKExample/BluesnapSDKExample.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -70,12 +79,21 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2D4E279D1E8808A800C56C46"
+            BuildableName = "BluesnapSDKExampleUITests.xctest"
+            BlueprintName = "BluesnapSDKExampleUITests"
+            ReferencedContainer = "container:BluesnapSDKExample/BluesnapSDKExample.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
