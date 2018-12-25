@@ -64,9 +64,8 @@ class BSApiManagerTests: XCTestCase {
     // test get SDk Data with a valid token
     // If the test fails on the billing/shipping values, run the UI test testShortReturningShopperExistingCcFlowWithEdit in the demo app
     func testGetSdkData() {
-
         let semaphore = DispatchSemaphore(value: 0)
-        let shopperId: Int? = 22061813 //22208751
+        let shopperId: Int? = BSUpdateShopperTests.createShopper() //22061813 //22208751
         createTokenWithShopperId(shopperId: shopperId, completion: { token, error in
 
             if let error = error {
@@ -78,6 +77,8 @@ class BSApiManagerTests: XCTestCase {
                 XCTAssertNil(errors, "Got errors while trying to get currencies")
                 XCTAssertNotNil(sdkData, "Failed to get sdk data")
 
+                let getBilling = BSUpdateShopperTests.getBillingDetails(add2: BSUpdateShopperTests.set2)
+                let getShipping = BSUpdateShopperTests.getShippingDetails(add2: BSUpdateShopperTests.set2)
                 XCTAssertEqual(700000, sdkData?.kountMID)
 
                 let bsCurrencies = sdkData?.currencies
@@ -87,33 +88,34 @@ class BSApiManagerTests: XCTestCase {
 
                 let shopper = sdkData?.shopper
                 XCTAssertNotNil(shopper, "Failed to get shopper")
-                XCTAssertEqual("Slim Aklij", shopper?.name)
-                XCTAssertEqual("Sixty", shopper?.city)
-                XCTAssertEqual("CA", shopper?.state)
-                XCTAssertEqual("123123", shopper?.zip)
-                XCTAssertEqual("us", shopper?.country)
+                XCTAssertEqual(getBilling.name, shopper?.name)
+                XCTAssertEqual(getBilling.city, shopper?.city)
+                XCTAssertEqual(getBilling.state, shopper?.state)
+                XCTAssertEqual(getBilling.zip, shopper?.zip)
+                XCTAssertEqual(getBilling.country?.lowercased(), shopper?.country?.lowercased())
                 //XCTAssertEqual("S@gmail.com", shopper?.email)
-                XCTAssertEqual("strings", shopper?.address)
+                XCTAssertEqual(getBilling.address, shopper?.address)
 
                 let shipping = shopper?.shippingDetails
                 //XCTAssertNil(shipping)
-                XCTAssertEqual("Shevie Chen", shipping?.name)
-                XCTAssertEqual("somecity", shipping?.city)
+                XCTAssertEqual(getShipping.name, shipping?.name)
+                XCTAssertEqual(getShipping.city, shipping?.city)
                 //XCTAssertEqual(nil, shipping?.state)
                 //XCTAssertEqual("il", shipping?.country)
-                XCTAssertEqual("4282300", shipping?.zip)
-                XCTAssertEqual("58 somestreet", shipping?.address)
-                XCTAssertEqual("18008007070", shopper?.phone)
+                XCTAssertEqual(getShipping.zip, shipping?.zip)
+                XCTAssertEqual(getShipping.address, shipping?.address)
+                XCTAssertEqual(getShipping.phone, shopper?.phone)
 
                 if let existingCreditCards = shopper?.existingCreditCards {
                     let ccInfo: BSCreditCardInfo = existingCreditCards[0]
                     let ccDetails: BSCreditCard = ccInfo.creditCard
-                    XCTAssertEqual("1111", ccDetails.last4Digits)
-                    XCTAssertEqual("VISA", ccDetails.ccType)
-                    XCTAssertEqual("11", ccDetails.expirationMonth)
+                    let getVisa = BSUpdateShopperTests.getBSCreditCard()
+                    XCTAssertEqual(getVisa.last4Digits, ccDetails.last4Digits)
+                    XCTAssertEqual(getVisa.ccType, ccDetails.ccType)
+                    XCTAssertEqual(getVisa.expirationMonth, ccDetails.expirationMonth)
                     //XCTAssertEqual("2022", ccDetails.expirationYear)
                     let billing = ccInfo.billingDetails
-                    XCTAssertEqual("Shevie Chen", billing?.name)
+                    XCTAssertEqual(getBilling.name, billing?.name)
                     //XCTAssertEqual("somecity", billing?.city)
                     //XCTAssertEqual("ON", billing?.state)
                     //XCTAssertEqual("ca", billing?.country)
@@ -130,18 +132,6 @@ class BSApiManagerTests: XCTestCase {
                 XCTAssertTrue(applePayIsSupported)
                 let payPalIsSupported = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods)
                 XCTAssertTrue(payPalIsSupported)
-
-                if let chosenPaymentMethod = shopper?.chosenPaymentMethod {
-                    XCTAssertEqual("CC", chosenPaymentMethod.chosenPaymentMethodType)
-                    if let ccDetails = chosenPaymentMethod.creditCard {
-                        XCTAssertEqual("5557", ccDetails.last4Digits)
-                        XCTAssertEqual("MASTERCARD", ccDetails.ccType)
-                        XCTAssertEqual("11", ccDetails.expirationMonth)
-                        XCTAssertEqual("2022", ccDetails.expirationYear)
-                    }
-                } else {
-                    XCTFail("No chosenPaymentMethod in shopper")
-                }
 
                 semaphore.signal()
             })
