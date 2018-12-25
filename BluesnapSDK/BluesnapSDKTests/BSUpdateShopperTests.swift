@@ -11,6 +11,11 @@ import XCTest
 @testable import BluesnapSDK
 
 class BSUpdateShopperTests: XCTestCase {
+    static var cc: [String: String] = [:]
+    static var bsToken: String = ""
+    static var vaultedShopperId: Int = 0
+    static var shopper: BSShopper = BSShopper()
+    static var set2: Bool = true
 
     private var tokenExpiredExpectation: XCTestExpectation?
     private var tokenWasRecreated = false
@@ -30,46 +35,92 @@ class BSUpdateShopperTests: XCTestCase {
     // MARK: Update Shopper
     //------------------------------------------------------
 
+    func testUpdateShopperApplePay() {
+        createShopper()
+        updateShopperApplePay()
+        checkSdkData()
+    }
 
-    func testCreateNewShopperVisa() {
-        BSUpdateShopperHelper.cc = getVisa()
-        BSUpdateShopperHelper.set2 = !BSUpdateShopperHelper.set2
+    func testUpdateShopperPayPal() {
+        createShopper()
+        updateShopperPayPal()
+        checkSdkData()
+    }
+
+    func testUpdateCreditCard() {
+        createShopper()
+        updateShopperCreditCard()
+        checkSdkData()
+    }
+
+    func testUpdateAll() {
+        createShopper()
+        updateShopperPayPal()
+        checkSdkData()
+        updateShopperCreditCard()
+        checkSdkData()
+        updateShopperApplePay()
+        checkSdkData()
+    }
+
+    //------------------------------------------------------
+    // MARK: private functions Shopper, Address & CC Creation
+    //------------------------------------------------------
+
+    private func createShopper() {
+        BSUpdateShopperTests.cc = getVisa()
+        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
 
         let semaphore = DispatchSemaphore(value: 0)
         createTokenWithShopperId(shopperId: nil, completion: { token, error in
-            BSUpdateShopperHelper.bsToken = token!.getTokenStr()!
-            NSLog("token: \(BSUpdateShopperHelper.bsToken)")
-            self.submitCCDetails(ccDetails: self.getVisa(), billingDetails: self.getBillingDetails(add2: BSUpdateShopperHelper.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperHelper.set2), completion: { error in
+            BSUpdateShopperTests.bsToken = token!.getTokenStr()!
+            NSLog("token: \(BSUpdateShopperTests.bsToken)")
+            self.submitCCDetails(ccDetails: self.getVisa(), billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
                 semaphore.signal()
             })
         })
         semaphore.wait()
 
         let semaphore2 = DispatchSemaphore(value: 0)
-        createTokenizedTransaction(bsToken: BSUpdateShopperHelper.bsToken, completion: { success, data in
+        createTokenizedTransaction(bsToken: BSUpdateShopperTests.bsToken, completion: { success, data in
             assert(success == true, "true")
             if let data = data {
-                BSUpdateShopperHelper.vaultedShopperId = data["vaultedShopperId"] as! Int
+                BSUpdateShopperTests.vaultedShopperId = data["vaultedShopperId"] as! Int
             } else {
                 NSLog("Error: no data exists")
             }
             semaphore2.signal()
         })
         semaphore2.wait()
-
     }
 
-    func testUpdateShopperApplePay() {
-        BSUpdateShopperHelper.set2 = !BSUpdateShopperHelper.set2
+    private func checkSdkData() {
+        let semaphore4 = DispatchSemaphore(value: 0)
+        createTokenWithShopperId(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
+            token, error in
+
+            if let error = error {
+                fatalError("Create Token with shopper ID failed. error: \(error)")
+            }
+            self.getSdkData(shopper: BSUpdateShopperTests.shopper, completion: { error in
+                semaphore4.signal()
+            })
+
+        })
+        semaphore4.wait()
+    }
+
+    private func updateShopperApplePay() {
+        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
 
         let semaphore3 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperHelper.vaultedShopperId, completion: {
+        createTokenWithShopperId(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
             token, error in
-            BSUpdateShopperHelper.bsToken = token!.getTokenStr()!
-            NSLog("token: \(BSUpdateShopperHelper.bsToken)")
-            BSUpdateShopperHelper.shopper = self.createShopperForUpdate(add2: BSUpdateShopperHelper.set2, vaultedShopperId: BSUpdateShopperHelper.vaultedShopperId, chosenPaymentMethodType: BSPaymentType.ApplePay.rawValue)
-            BSUpdateShopperHelper.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperHelper.set2)
-            BSApiManager.shopper = BSUpdateShopperHelper.shopper
+            BSUpdateShopperTests.bsToken = token!.getTokenStr()!
+            NSLog("token: \(BSUpdateShopperTests.bsToken)")
+            BSUpdateShopperTests.shopper = self.createShopperForUpdate(add2: BSUpdateShopperTests.set2, vaultedShopperId: BSUpdateShopperTests.vaultedShopperId, chosenPaymentMethodType: BSPaymentType.ApplePay.rawValue)
+            BSUpdateShopperTests.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperTests.set2)
+            BSApiManager.shopper = BSUpdateShopperTests.shopper
             BSApiManager.updateShopper(completion: {
                 (result, error) in
 
@@ -78,33 +129,19 @@ class BSUpdateShopperTests: XCTestCase {
             })
         })
         semaphore3.wait()
-
-        let semaphore4 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperHelper.vaultedShopperId, completion: {
-            token, error in
-
-            if let error = error {
-                fatalError("Create Token with shopper ID failed. error: \(error)")
-            }
-            self.getSdkData(shopper: BSUpdateShopperHelper.shopper, completion: { error in
-                semaphore4.signal()
-            })
-
-        })
-        semaphore4.wait()
     }
 
-    func testUpdateShopperPayPal() {
-        BSUpdateShopperHelper.set2 = !BSUpdateShopperHelper.set2
+    private func updateShopperPayPal() {
+        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
 
         let semaphore3 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperHelper.vaultedShopperId, completion: {
+        createTokenWithShopperId(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
             token, error in
-            BSUpdateShopperHelper.bsToken = token!.getTokenStr()!
-            NSLog("token: \(BSUpdateShopperHelper.bsToken)")
-            BSUpdateShopperHelper.shopper = self.createShopperForUpdate(add2: BSUpdateShopperHelper.set2, vaultedShopperId: BSUpdateShopperHelper.vaultedShopperId, chosenPaymentMethodType: BSPaymentType.PayPal.rawValue)
-            BSUpdateShopperHelper.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperHelper.set2)
-            BSApiManager.shopper = BSUpdateShopperHelper.shopper
+            BSUpdateShopperTests.bsToken = token!.getTokenStr()!
+            NSLog("token: \(BSUpdateShopperTests.bsToken)")
+            BSUpdateShopperTests.shopper = self.createShopperForUpdate(add2: BSUpdateShopperTests.set2, vaultedShopperId: BSUpdateShopperTests.vaultedShopperId, chosenPaymentMethodType: BSPaymentType.PayPal.rawValue)
+            BSUpdateShopperTests.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperTests.set2)
+            BSApiManager.shopper = BSUpdateShopperTests.shopper
             BSApiManager.updateShopper(completion: {
                 (result, error) in
 
@@ -113,42 +150,28 @@ class BSUpdateShopperTests: XCTestCase {
             })
         })
         semaphore3.wait()
-
-        let semaphore4 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperHelper.vaultedShopperId, completion: {
-            token, error in
-
-            if let error = error {
-                fatalError("Create Token with shopper ID failed. error: \(error)")
-            }
-            self.getSdkData(shopper: BSUpdateShopperHelper.shopper, completion: { error in
-                semaphore4.signal()
-            })
-
-        })
-        semaphore4.wait()
     }
 
-    func testUpdateCreditCard() {
-        BSUpdateShopperHelper.set2 = !BSUpdateShopperHelper.set2
+    private func updateShopperCreditCard() {
+        BSUpdateShopperTests.set2 = !BSUpdateShopperTests.set2
 
         let semaphore3 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperHelper.vaultedShopperId, completion: {
+        createTokenWithShopperId(shopperId: BSUpdateShopperTests.vaultedShopperId, completion: {
             token, error in
-            BSUpdateShopperHelper.bsToken = token!.getTokenStr()!
-            NSLog("token: \(BSUpdateShopperHelper.bsToken)")
+            BSUpdateShopperTests.bsToken = token!.getTokenStr()!
+            NSLog("token: \(BSUpdateShopperTests.bsToken)")
 
             let semaphore4 = DispatchSemaphore(value: 1)
-            BSUpdateShopperHelper.cc = self.getMasterCard()
-            self.submitCCDetails(ccDetails: BSUpdateShopperHelper.cc, billingDetails: self.getBillingDetails(add2: BSUpdateShopperHelper.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperHelper.set2), completion: { error in
+            BSUpdateShopperTests.cc = self.getMasterCard()
+            self.submitCCDetails(ccDetails: BSUpdateShopperTests.cc, billingDetails: self.getBillingDetails(add2: BSUpdateShopperTests.set2), shippingDetails: self.getShippingDetails(add2: BSUpdateShopperTests.set2), completion: { error in
                 semaphore4.signal()
             })
             semaphore4.wait()
 
-            BSUpdateShopperHelper.shopper = self.createShopperForUpdate(add2: BSUpdateShopperHelper.set2, vaultedShopperId: BSUpdateShopperHelper.vaultedShopperId,
+            BSUpdateShopperTests.shopper = self.createShopperForUpdate(add2: BSUpdateShopperTests.set2, vaultedShopperId: BSUpdateShopperTests.vaultedShopperId,
                     chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue, creditCard: self.getBSCreditCard())
-            BSUpdateShopperHelper.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperHelper.set2)
-            BSApiManager.shopper = BSUpdateShopperHelper.shopper
+            BSUpdateShopperTests.shopper.shippingDetails = self.getShippingDetails(add2: BSUpdateShopperTests.set2)
+            BSApiManager.shopper = BSUpdateShopperTests.shopper
             BSApiManager.updateShopper(completion: {
                 (result, error) in
 
@@ -157,25 +180,7 @@ class BSUpdateShopperTests: XCTestCase {
             })
         })
         semaphore3.wait()
-
-        let semaphore5 = DispatchSemaphore(value: 0)
-        createTokenWithShopperId(shopperId: BSUpdateShopperHelper.vaultedShopperId, completion: {
-            token, error in
-
-            if let error = error {
-                fatalError("Create Token with shopper ID failed. error: \(error)")
-            }
-            self.getSdkData(shopper: BSUpdateShopperHelper.shopper, completion: { error in
-                semaphore5.signal()
-            })
-
-        })
-        semaphore5.wait()
     }
-
-    //------------------------------------------------------
-    // MARK: private functions Shopper, Address & CC Creation
-    //------------------------------------------------------
 
     private func createShopperForUpdate(add2: Bool, vaultedShopperId: Int, chosenPaymentMethodType: String, creditCard: BSCreditCard? = nil) -> BSShopper {
         let shopper = BSShopper()
@@ -230,9 +235,9 @@ class BSUpdateShopperTests: XCTestCase {
 
     private func getBSCreditCard() -> BSCreditCard {
         let creditCard: BSCreditCard = BSCreditCard()
-        creditCard.ccType = BSUpdateShopperHelper.cc["ccType"]
-        creditCard.last4Digits = BSUpdateShopperHelper.cc["last4Digits"]
-        let expArr = BSUpdateShopperHelper.cc["exp"]?.components(separatedBy: "/")
+        creditCard.ccType = BSUpdateShopperTests.cc["ccType"]
+        creditCard.last4Digits = BSUpdateShopperTests.cc["last4Digits"]
+        let expArr = BSUpdateShopperTests.cc["exp"]?.components(separatedBy: "/")
         creditCard.expirationMonth = expArr![0]
         creditCard.expirationYear = expArr![1]
         return creditCard
