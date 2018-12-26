@@ -65,7 +65,7 @@ class BSApiManagerTests: XCTestCase {
     // If the test fails on the billing/shipping values, run the UI test testShortReturningShopperExistingCcFlowWithEdit in the demo app
     func testGetSdkData() {
         let semaphore = DispatchSemaphore(value: 0)
-        let shopperId: Int? = BSUpdateShopperTests.createShopper() //22061813 //22208751
+        let shopperId: Int? = BSIntegrationTestingAPIHelper.createVaultedShopper(creditCard: BluesnapSDKIntegrationTestsHelper.getVisa()) //22061813 //22208751
         createTokenWithShopperId(shopperId: shopperId, completion: { token, error in
 
             if let error = error {
@@ -77,8 +77,8 @@ class BSApiManagerTests: XCTestCase {
                 XCTAssertNil(errors, "Got errors while trying to get currencies")
                 XCTAssertNotNil(sdkData, "Failed to get sdk data")
 
-                let getBilling = BSUpdateShopperTests.getBillingDetails(add2: BSUpdateShopperTests.set2)
-                let getShipping = BSUpdateShopperTests.getShippingDetails(add2: BSUpdateShopperTests.set2)
+                let getBilling = BluesnapSDKIntegrationTestsHelper.getBillingDetails()
+                let getShipping = BluesnapSDKIntegrationTestsHelper.getShippingDetails()
                 XCTAssertEqual(700000, sdkData?.kountMID)
 
                 let bsCurrencies = sdkData?.currencies
@@ -109,7 +109,7 @@ class BSApiManagerTests: XCTestCase {
                 if let existingCreditCards = shopper?.existingCreditCards {
                     let ccInfo: BSCreditCardInfo = existingCreditCards[0]
                     let ccDetails: BSCreditCard = ccInfo.creditCard
-                    let getVisa = BSUpdateShopperTests.getBSCreditCard()
+                    let getVisa = BluesnapSDKIntegrationTestsHelper.getBSCreditCard(cc: BluesnapSDKIntegrationTestsHelper.getVisa())
                     XCTAssertEqual(getVisa.last4Digits, ccDetails.last4Digits)
                     XCTAssertEqual(getVisa.ccType, ccDetails.ccType)
                     XCTAssertEqual(getVisa.expirationMonth, ccDetails.expirationMonth)
