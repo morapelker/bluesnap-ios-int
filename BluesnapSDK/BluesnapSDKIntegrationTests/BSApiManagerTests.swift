@@ -219,7 +219,7 @@ class BSApiManagerTests: XCTestCase {
         BSApiManager.setGenerateBsTokenFunc(generateTokenFunc: { completion in
             NSLog("*** testGetPayPalTokenTwiceWithSameToken: Recreating token!!!")
             tokenWasRecreated = true
-            BSApiManager.createSandboxBSToken(shopperId: nil, completion: completion)
+            BSIntegrationTestingAPIHelper.createToken(completion: completion)
         })
         
         createToken(completion: { token, error in
@@ -500,7 +500,7 @@ class BSApiManagerTests: XCTestCase {
     
     func createTokenWithShopperId(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
         
-        BSApiManager.createSandboxBSToken(shopperId: shopperId, completion: { bsToken, error in
+        BSIntegrationTestingAPIHelper.createToken(shopperId: shopperId, completion: { bsToken, error in
             
             XCTAssertNil(error)
             XCTAssertNotNil(bsToken)
@@ -525,7 +525,7 @@ class BSApiManagerTests: XCTestCase {
         BSApiManager.setGenerateBsTokenFunc(generateTokenFunc: { completion in
             NSLog("*** Recreating token!!!")
             self.tokenWasRecreated = true
-            BSApiManager.createSandboxBSToken(shopperId: nil, completion: completion)
+            BSIntegrationTestingAPIHelper.createToken(completion: completion)
         })
     }
     
