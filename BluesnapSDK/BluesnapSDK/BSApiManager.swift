@@ -10,17 +10,6 @@
 
 import Foundation
 
-extension BSApiManager {
-    static var bsAPIUser: String {
-        return (Bundle(for: BSApiManager.self).object(forInfoDictionaryKey: "BsAPIUser") as? String) ?? "USER_UNDEFINED"
-    }
-
-    static var bsAPIPassword: String {
-        return (Bundle(for: BSApiManager.self).object(forInfoDictionaryKey: "BsAPIPassword") as? String) ?? "PASSWORD_UNDEFINED"
-    }
-
-}
-
   class BSApiManager: NSObject {
 
     // MARK: Constants
@@ -28,8 +17,7 @@ extension BSApiManager {
     internal static let BS_PRODUCTION_DOMAIN_PART2 = ".bluesnap.com/"
     internal static let BS_SANDBOX_DOMAIN = "https://sandbox.bluesnap.com/"
 //    internal static let BS_SANDBOX_DOMAIN = "https://us-qa-fct02.bluesnap.com/"
-    internal static let BS_SANDBOX_TEST_USER = bsAPIUser
-    internal static let BS_SANDBOX_TEST_PASSWORD = bsAPIPassword
+    
     internal static let TIME_DIFF_TO_RELOAD: Double = -60 * 60
     // every hour (interval should be negative, and in seconds)
  
@@ -75,20 +63,6 @@ extension BSApiManager {
         } else {
             fatalError("BsToken has not been initialized")
         }
-    }
-
-    /**
-     Use this method only in tests to get a token for sandbox
-     - parameters:
-     - shopperId: optional shopper ID for returbning shopper
-     - completion: function to be called after token is generated; will receive optional token and optional error
-     */
-    static func createSandboxBSToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
-        createSandboxBSToken(shopperId: shopperId, domain: BS_SANDBOX_DOMAIN, user: BS_SANDBOX_TEST_USER, password: BS_SANDBOX_TEST_PASSWORD, completion: { bsToken, bsError in
-
-            BSApiManager.setBsToken(bsToken: bsToken)
-            completion(bsToken, bsError)
-        })
     }
     
     static func isProductionToken() -> Bool {
@@ -321,21 +295,6 @@ extension BSApiManager {
 
 
     // MARK: Private/internal functions
-
-    /**
-     Get BlueSnap Token from BlueSnap server
-     Normally you will not do this from the app.
-
-     - parameters:
-     - domain: look at BSApiManager BS_PRODUCTION_DOMAIN / BS_SANDBOX_DOMAIN
-     - user: username
-     - password: password
-     - completion: function to be called after result is fetched; will receive optional token and optional error
-     */
-    internal static func createSandboxBSToken(shopperId: Int?, domain: String, user: String, password: String, completion: @escaping (BSToken?, BSErrors?) -> Void) {
-
-        BSApiCaller.createSandboxBSToken(shopperId: shopperId, user: user, password: password, completion: completion)
-    }
 
     /**
      Submit data to be submitted to BLS server under the current token, to be used later for server-to-server actions
