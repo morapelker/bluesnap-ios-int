@@ -12,6 +12,16 @@ import XCTest
 @testable import BluesnapSDK
 
 class BSIntegrationTestingAPIHelper {
+    static var bsAPIUser: String {
+        return (Bundle(for: BSApiManager.self).object(forInfoDictionaryKey: "BsAPIUser") as? String) ?? "USER_UNDEFINED"
+    }
+    
+    static var bsAPIPassword: String {
+        return (Bundle(for: BSApiManager.self).object(forInfoDictionaryKey: "BsAPIPassword") as? String) ?? "PASSWORD_UNDEFINED"
+    }
+    
+    internal static let BS_SANDBOX_TEST_USER = bsAPIUser
+    internal static let BS_SANDBOX_TEST_PASSWORD = bsAPIPassword
     
     static func createToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
         createSandboxBSToken(shopperId: shopperId, completion: { bsToken, bsError in
@@ -226,7 +236,7 @@ class BSIntegrationTestingAPIHelper {
      Build the basic authentication header from username/password
      */
     private static func getBasicAuth() -> String {
-        return getBasicAuth(user: BSApiManager.BS_SANDBOX_TEST_USER, password: BSApiManager.BS_SANDBOX_TEST_PASSWORD)
+        return getBasicAuth(user: BS_SANDBOX_TEST_USER, password: BS_SANDBOX_TEST_PASSWORD)
     }
     
     /**
