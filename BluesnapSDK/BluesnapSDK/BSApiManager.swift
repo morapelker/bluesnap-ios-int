@@ -65,6 +65,20 @@ import Foundation
         }
     }
     
+    /**
+     Use this method only in tests to get a token for sandbox
+     - parameters:
+     - shopperId: optional shopper ID for returbning shopper
+     - completion: function to be called after token is generated; will receive optional token and optional error
+     */
+    static func createSandboxBSToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
+        createSandboxBSToken(shopperId: shopperId, domain: BS_SANDBOX_DOMAIN, user: BS_SANDBOX_TEST_USER, password: BS_SANDBOX_TEST_PASSWORD, completion: { bsToken, bsError in
+
+            BSApiManager.setBsToken(bsToken: bsToken)
+            completion(bsToken, bsError)
+        })
+    }
+    
     static func isProductionToken() -> Bool {
         
         let bsToken = getBsToken()
@@ -91,7 +105,7 @@ import Foundation
             if resultError == .unAuthorised {
                 
                 // regenerate Token and try again
-                regenerateToken(executeAfter: { 
+                regenerateToken(executeAfter: {
                     BSApiCaller.getSdkData(bsToken: getBsToken(), baseCurrency: baseCurrency, completion: { sdkData2, resultError2 in
                         
                         if resultError2 == nil {
@@ -193,7 +207,7 @@ import Foundation
                 BSApiCaller.isTokenExpired(bsToken: bsToken, completion: { isExpired in
                     if isExpired {
                         // regenerate Token and try again
-                        regenerateToken(executeAfter: { 
+                        regenerateToken(executeAfter: {
                             NSLog("BlueSnap; getSupportedPaymentMethods retry")
                             BSApiCaller.getSupportedPaymentMethods(bsToken: getBsToken(), completion: { resultSupportedPaymentMethods2, resultError2 in
                                 
@@ -273,7 +287,7 @@ import Foundation
                         NSLog("BlueSnap; createPayPalToken retry completion")
                         if isExpired {
                             // regenerate Token and try again
-                            regenerateToken(executeAfter: { 
+                            regenerateToken(executeAfter: {
                                 BSApiCaller.createPayPalToken(bsToken: getBsToken(), purchaseDetails: purchaseDetails, withShipping: withShipping, completion: { resultToken2, resultError2 in
                                     
                                     payPalToken = resultToken2
@@ -397,10 +411,45 @@ import Foundation
             if error == BSErrors.expiredToken || error == BSErrors.tokenNotFound {
                 // regenerate Token and try again
                 NSLog("BlueSnap; submitCcDetails retry")
-                regenerateToken(executeAfter: { 
+                regenerateToken(executeAfter: {
                     BSApiCaller.submitPaymentDetails(bsToken: getBsToken(), requestBody: requestBody, parseFunction: BSApiCaller.parseCCResponse, completion: checkErrorAndComplete)
                 })
-            } else {	
+            } else {
+                checkErrorAndComplete(resultData, error)
+            }
+        })
+    }
+
+    /**
+     update Shopper to BLS server under the current token, to be used later for server-to-server actions
+     */
+    open class func updateShopper(completion: @escaping ([String: String], BSErrors?) -> Void) {
+        let shopper: BSShopper = self.shopper!
+        var requestBody: [String: Any] = shopper.toJson()
+        if shopper.chosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.CreditCard.rawValue {
+            requestBody["paymentSources"] = ["creditCardInfo": [["pfToken": getBsToken()!.tokenStr]]]
+        }
+
+        let checkErrorAndComplete: ([String: String], BSErrors?) -> Void = { resultData, error in
+            if let error = error {
+                completion(resultData, error)
+                debugPrint(error.description())
+                return
+            }
+            completion(resultData, nil)
+        }
+
+        var parseFunction: (Int, Data?) -> ([String: String], BSErrors?) = BSApiCaller.parseGenericResponse
+
+        BSApiCaller.updateShopper(bsToken: getBsToken(), requestBody: requestBody, parseFunction: parseFunction, completion: { resultData, error in
+            NSLog("BlueSnap; updateShopper completion")
+            if error == BSErrors.expiredToken || error == BSErrors.tokenNotFound {
+                // regenerate Token and try again
+                NSLog("BlueSnap; updateShopper retry")
+                regenerateToken(executeAfter: {
+                    BSApiCaller.updateShopper(bsToken: getBsToken(), requestBody: requestBody, parseFunction: parseFunction, completion: checkErrorAndComplete)
+                })
+            } else {
                 checkErrorAndComplete(resultData, error)
             }
         })

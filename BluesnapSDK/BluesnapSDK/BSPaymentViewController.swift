@@ -27,6 +27,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
     fileprivate var existingPurchaseDetails : BSCcSdkResult?
     fileprivate var updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)?
     fileprivate var countryManager = BSCountryManager.getInstance()
+    @IBOutlet var menuButton: [UIBarButtonItem]!
     
     // MARK: - Outlets
     
@@ -57,10 +58,10 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         
         self.firstTime = true
         self.firstTimeShipping = true
-        if let data = BlueSnapSDK.sdkRequest {
-            self.fullBilling = data.fullBilling
-            self.withEmail = data.withEmail
-            self.withShipping = data.withShipping
+        if let data = BlueSnapSDK.sdkRequestBase {
+            self.fullBilling = data.shopperConfiguration.fullBilling
+            self.withEmail = data.shopperConfiguration.withEmail
+            self.withShipping = data.shopperConfiguration.withShipping
             self.updateTaxFunc = data.updateTaxFunc
         }
         if let _ = purchaseDetails as? BSExistingCcSdkResult {
@@ -190,7 +191,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
                 let merchantControllerIndex = viewControllers.count - (inShippingScreen ? 4 : 3)
                 _ = navigationController.popToViewController(viewControllers[merchantControllerIndex], animated: false)
                 // execute callback
-                BlueSnapSDK.sdkRequest?.purchaseFunc(self.purchaseDetails)
+                BlueSnapSDK.sdkRequestBase?.purchaseFunc(self.purchaseDetails)
             } else {
                 // error
                 if inShippingScreen {
@@ -339,7 +340,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         } else {
             ccInputLine.isHidden = false
             existingCcView.isHidden = true
-            topMenuButton.isEnabled = true
+            // check if is allowed to show currency if not do not give option to change if yes do change
+            topMenuButton.isEnabled = BlueSnapSDK.sdkRequestBase?.allowCurrencyChange ?? true
         }
         
         if newCardMode && self.ccInputLine.ccnIsOpen {
@@ -363,7 +365,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
             cityInputLine.isHidden = hideFields
             updateState()
             shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
-            subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0
+            subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0 || purchaseDetails.isShopperRequirements()
             updateZipFieldLocation()
         }
     }
@@ -412,8 +414,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         let subtotalAmount = purchaseDetails.getAmount() ?? 0.0
         let taxAmount = purchaseDetails.getTaxAmount() ?? 0.0
         subtotalAndTaxDetailsView.setAmounts(subtotalAmount: subtotalAmount, taxAmount: taxAmount, currency: toCurrency)
-        
-        if newCardMode {
+
+        if newCardMode && !purchaseDetails.isShopperRequirements(){
             payButtonText = BSViewsManager.getPayButtonText(subtotalAmount: subtotalAmount, taxAmount: taxAmount, toCurrency: toCurrency)
         } else {
             payButtonText = BSLocalizedStrings.getString(BSLocalizedString.Keyboard_Done_Button_Text)

@@ -11,14 +11,18 @@ import Foundation
 /**
  (PCI-compliant) Credit Card details: result of submitting the CC details to BlueSnap server
  */
-  public class BSCreditCard : NSObject, NSCopying {
-    
-    public var ccType : String?
-    public var last4Digits : String?
-    public var ccIssuingCountry : String?
+public class BSCreditCard: NSObject, NSCopying, BSModel {
+    private static let CARD_LAST_FOUR_DIGITS: String = "cardLastFourDigits";
+    private static let EXPIRATION_MONTH: String = "expirationMonth";
+    private static let EXPIRATION_YEAR: String = "expirationYear";
+    private static let CARD_TYPE: String = "cardType";
+
+    public var ccType: String?
+    public var last4Digits: String?
+    public var ccIssuingCountry: String?
     public var expirationMonth: String?
     public var expirationYear: String?
-    
+
     public func copy(with zone: NSZone? = nil) -> Any {
         let copy = BSCreditCard()
         copy.ccType = ccType
@@ -28,13 +32,32 @@ import Foundation
         copy.expirationYear = expirationYear
         return copy
     }
-    
+
     public func getExpiration() -> String {
         return (expirationMonth ?? "") + " / " + (expirationYear ?? "")
     }
-    
+
     func getExpirationForSubmit() -> String {
         return (expirationMonth ?? "") + "/" + (expirationYear ?? "")
+    }
+
+    public func toJson() -> ([String: Any])! {
+        var ccDetailsBody: [String: Any] = [:]
+
+        if let expirationMonth = expirationMonth {
+            ccDetailsBody[BSCreditCard.EXPIRATION_MONTH] = expirationMonth
+        }
+        if let expirationYear = expirationYear {
+            ccDetailsBody[BSCreditCard.EXPIRATION_YEAR] = expirationYear
+        }
+        if let ccLast4Digits = last4Digits {
+            ccDetailsBody[BSCreditCard.CARD_LAST_FOUR_DIGITS] = ccLast4Digits
+        }
+        if let ccType = ccType {
+            ccDetailsBody[BSCreditCard.CARD_TYPE] = ccType
+        }
+
+        return ccDetailsBody
     }
 }
 
@@ -42,20 +65,20 @@ import Foundation
  (PCI-compliant) Existing credit card info as we get it from BlueSnap API when getting the shopper information
  */
 class BSCreditCardInfo: BSPaymentInfo, NSCopying {
-    
+
     public var creditCard: BSCreditCard!
     public var billingDetails: BSBillingAddressDetails?
-    
+
     private init() {
         super.init(paymentType: BSPaymentType.CreditCard)
     }
-    
+
     public init(creditCard: BSCreditCard!, billingDetails: BSBillingAddressDetails?) {
         super.init(paymentType: BSPaymentType.CreditCard)
         self.creditCard = creditCard
         self.billingDetails = billingDetails
     }
-    
+
     public func copy(with zone: NSZone? = nil) -> Any {
         let copy = BSCreditCardInfo()
         copy.billingDetails = billingDetails?.copy(with: zone) as? BSBillingAddressDetails
@@ -67,39 +90,40 @@ class BSCreditCardInfo: BSPaymentInfo, NSCopying {
 /**
  New CC details for the purchase
  */
-  public class BSCcSdkResult : BSBaseSdkResult {
-    
-    public var creditCard: BSCreditCard = BSCreditCard()
-    public var billingDetails : BSBillingAddressDetails! = BSBillingAddressDetails()
-    public var shippingDetails : BSShippingAddressDetails?
+public class BSCcSdkResult: BSBaseSdkResult {
 
-    public override init(sdkRequest: BSSdkRequest) {
-        super.init(sdkRequest: sdkRequest)
-        
+    public var creditCard: BSCreditCard = BSCreditCard()
+    public var billingDetails: BSBillingAddressDetails! = BSBillingAddressDetails()
+    public var shippingDetails: BSShippingAddressDetails?
+
+    public override init(sdkRequestBase: BSSdkRequestProtocol) {
+        super.init(sdkRequestBase: sdkRequestBase)
+        chosenPaymentMethodType = BSPaymentType.CreditCard
+
         if let shopper = BSApiManager.shopper {
-            self.billingDetails = BSBillingAddressDetails(email: shopper.email, name: shopper.name, address: shopper.address, city: shopper.city, zip: shopper.zip, country: shopper.countryCode, state: shopper.stateCode)
-        } else if let billingDetails = sdkRequest.billingDetails {
+            self.billingDetails = BSBillingAddressDetails(email: shopper.email, name: shopper.name, address: shopper.address, city: shopper.city, zip: shopper.zip, country: shopper.country, state: shopper.state)
+        } else if let billingDetails = sdkRequestBase.shopperConfiguration.billingDetails {
             self.billingDetails = billingDetails.copy() as? BSBillingAddressDetails
         }
-        if !sdkRequest.withShipping {
+        if !sdkRequestBase.shopperConfiguration.withShipping {
             self.shippingDetails = nil
         } else if let shippingDetails = BSApiManager.shopper?.shippingDetails {
             self.shippingDetails = shippingDetails.copy() as? BSShippingAddressDetails
             self.shippingDetails?.phone = BSApiManager.shopper?.phone
-        } else if let shippingDetails = sdkRequest.shippingDetails {
+        } else if let shippingDetails = sdkRequestBase.shopperConfiguration.shippingDetails {
             self.shippingDetails = shippingDetails.copy() as? BSShippingAddressDetails
         }
     }
-    
+
     public func getBillingDetails() -> BSBillingAddressDetails! {
         return billingDetails
     }
-    
+
     public func getShippingDetails() -> BSShippingAddressDetails? {
         return shippingDetails
     }
-    
-    public func setShippingDetails(shippingDetails : BSShippingAddressDetails?) {
+
+    public func setShippingDetails(shippingDetails: BSShippingAddressDetails?) {
         self.shippingDetails = shippingDetails
     }
 }
@@ -107,33 +131,33 @@ class BSCreditCardInfo: BSPaymentInfo, NSCopying {
 /**
  Existing CC details for the purchase
  */
-  public class BSExistingCcSdkResult : BSCcSdkResult, NSCopying {
-        
+public class BSExistingCcSdkResult: BSCcSdkResult, NSCopying {
+
     // for copy
-    override private init(sdkRequest: BSSdkRequest) {
-         super.init(sdkRequest: sdkRequest)
+    override private init(sdkRequestBase: BSSdkRequestProtocol) {
+        super.init(sdkRequestBase: sdkRequestBase)
     }
-    
-    init(sdkRequest: BSSdkRequest, shopper: BSShopper!, existingCcDetails: BSCreditCardInfo!) {
-        
-        super.init(sdkRequest: sdkRequest)
-        
+
+    init(sdkRequestBase: BSSdkRequestProtocol, shopper: BSShopper!, existingCcDetails: BSCreditCardInfo!) {
+
+        super.init(sdkRequestBase: sdkRequestBase)
+
         self.creditCard = existingCcDetails.creditCard.copy() as! BSCreditCard
-        
+
         if let ccBillingDetails = existingCcDetails.billingDetails {
             self.billingDetails = ccBillingDetails.copy() as? BSBillingAddressDetails
-            if !sdkRequest.withEmail {
+            if !sdkRequestBase.shopperConfiguration.withEmail {
                 self.billingDetails.email = nil
             } else if self.billingDetails.email == nil {
                 self.billingDetails.email = shopper.email
             }
-            if !sdkRequest.fullBilling {
+            if !sdkRequestBase.shopperConfiguration.fullBilling {
                 self.billingDetails.address = nil
                 self.billingDetails.city = nil
                 self.billingDetails.state = nil
             }
         } else {
-            if let initialBillingDetails = sdkRequest.billingDetails {
+            if let initialBillingDetails = sdkRequestBase.shopperConfiguration.billingDetails {
                 self.billingDetails = initialBillingDetails.copy() as? BSBillingAddressDetails
             } else {
                 self.billingDetails = BSBillingAddressDetails()
@@ -141,15 +165,15 @@ class BSCreditCardInfo: BSPaymentInfo, NSCopying {
             if let name = shopper.name {
                 billingDetails.name = name
             }
-            if sdkRequest.withEmail {
+            if sdkRequestBase.shopperConfiguration.withEmail {
                 if let email = shopper.email {
                     billingDetails.email = email
                 }
             }
-            if let country = shopper.countryCode {
-                billingDetails.country =  country
-                if sdkRequest.fullBilling {
-                    if let state = shopper.stateCode {
+            if let country = shopper.country {
+                billingDetails.country = country
+                if sdkRequestBase.shopperConfiguration.fullBilling {
+                    if let state = shopper.state {
                         billingDetails.state = state
                     }
                     if let address = shopper.address {
@@ -164,11 +188,11 @@ class BSCreditCardInfo: BSPaymentInfo, NSCopying {
                 }
             }
         }
-        
-        if sdkRequest.withShipping {
+
+        if sdkRequestBase.shopperConfiguration.withShipping {
             if let shopperShippingDetails = shopper.shippingDetails {
                 self.shippingDetails = shopperShippingDetails.copy() as? BSShippingAddressDetails
-            } else if let initialShippingDetails = sdkRequest.shippingDetails {
+            } else if let initialShippingDetails = sdkRequestBase.shopperConfiguration.shippingDetails {
                 self.shippingDetails = initialShippingDetails.copy() as? BSShippingAddressDetails
             }
             if self.shippingDetails?.name == nil || self.shippingDetails?.name == "" {
@@ -186,10 +210,10 @@ class BSCreditCardInfo: BSPaymentInfo, NSCopying {
             }
         }
     }
-    
-    
+
+
     public func copy(with zone: NSZone? = nil) -> Any {
-        let copy = BSExistingCcSdkResult(sdkRequest: BlueSnapSDK.sdkRequest!)
+        let copy = BSExistingCcSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
         copy.creditCard = self.creditCard.copy() as! BSCreditCard
         copy.billingDetails = self.billingDetails.copy() as? BSBillingAddressDetails
         if let shippingDetails = self.shippingDetails {

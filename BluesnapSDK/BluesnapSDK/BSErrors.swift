@@ -8,8 +8,13 @@
 
 import Foundation
 
-  public enum BSErrors : Int {
-    
+
+public enum BSSdkRequestBaseError: Error {
+    case invalid(String)
+}
+
+public enum BSErrors: Int {
+
     // CC
     case invalidCcNumber
     case invalidCvv
@@ -32,17 +37,17 @@ import Foundation
     case tokenAlreadyUsed
     case unAuthorised
     case unknown
-    
+
     public func description() -> String {
         switch self {
-            
+
         case .invalidCcNumber:
             return "invalidCcNumber";
         case .invalidCvv:
             return "invalidCvv";
         case .invalidExpDate:
             return "invalidExpDate";
-            
+
         case .cantMakePaymentError:
             return "cantMakePaymentError";
         case .applePayOperationError:

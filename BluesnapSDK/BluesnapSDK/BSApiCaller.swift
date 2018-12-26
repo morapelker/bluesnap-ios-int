@@ -15,6 +15,7 @@ import Foundation
     internal static let PAYPAL_SERVICE = "services/2/tokenized-services/paypal-token?amount="
     internal static let PAYPAL_SHIPPING = "&req-confirm-shipping=0&no-shipping=2"
     internal static let TOKENIZED_SERVICE = "services/2/payment-fields-tokens/"
+    internal static let UPDATE_SHOPPER = "services/2/tokenized-services/shopper"
     internal static let BLUESNAP_VERSION_HEADER = "BLUESNAP_VERSION_HEADER"
     internal static let BLUESNAP_VERSION_HEADER_VAL = "2.0"
     internal static let SDK_VERSION_HEADER = "BLUESNAP_ORIGIN_HEADER"
@@ -200,28 +201,48 @@ import Foundation
                                     requestBody: [String: String],
                                     parseFunction: @escaping (Int, Data?) -> ([String:String],BSErrors?),
                                     completion: @escaping ([String:String], BSErrors?) -> Void) {
-        
+        createHttpRequest(bsToken: bsToken, requestBody: requestBody, parseFunction: parseFunction, urlStringWithoutDomain: TOKENIZED_SERVICE, httpMethod: "PUT", completion: completion)
+    }
+
+    /**
+    Update Shopper
+    */
+    static func updateShopper(bsToken: BSToken!,
+                              requestBody: [String: Any],
+                              parseFunction: @escaping (Int, Data?) -> ([String: String], BSErrors?),
+                              completion: @escaping ([String: String], BSErrors?) -> Void) {
+        createHttpRequest(bsToken: bsToken, requestBody: requestBody, parseFunction: parseFunction, urlStringWithoutDomain: UPDATE_SHOPPER, httpMethod: "PUT", completion: completion)
+    }
+
+    /**
+    Create Http Request
+    */
+    static func createHttpRequest(bsToken: BSToken!,
+                              requestBody: [String: Any],
+                              parseFunction: @escaping (Int, Data?) -> ([String:String],BSErrors?),
+                              urlStringWithoutDomain: String,
+                              httpMethod: String,
+                              completion: @escaping ([String:String], BSErrors?) -> Void) {
+
         let domain: String! = bsToken!.serverUrl
-        // If you want to test expired token, use this:
-        //let urlStr = domain + TOKENIZED_SERVICE + "fcebc8db0bcda5f8a7a5002ca1395e1106ea668f21200d98011c12e69dd6bceb_"
-        let urlStr = domain + TOKENIZED_SERVICE + bsToken!.getTokenStr()
+        let urlStr = (TOKENIZED_SERVICE == urlStringWithoutDomain) ? domain + urlStringWithoutDomain + bsToken!.getTokenStr() : domain + urlStringWithoutDomain
         var request = createRequest(urlStr, bsToken: bsToken)
-        request.httpMethod = "PUT"
+        request.httpMethod = httpMethod
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
         } catch let error {
-            NSLog("Error serializing CC details: \(error.localizedDescription)")
+            NSLog("Error update shopper: \(error.localizedDescription)")
         }
 
         // fire request
-        
+
         var resultError: BSErrors?
-        
+
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-            var resultData: [String:String] = [:]
+            var resultData: [String: String] = [:]
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error submitting BS Payment details - \(errorType). Error: \(error.localizedDescription)")
+                NSLog("error createHttpRequest - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
                 completion(resultData, .unknown)
                 return
             }
@@ -229,7 +250,7 @@ import Foundation
             if let httpStatusCode: Int = (httpResponse?.statusCode) {
                 (resultData, resultError) = parseFunction(httpStatusCode, data)
             } else {
-                NSLog("Error getting response from BS on submitting Payment details")
+                NSLog("Error getting response from BS on createHttpRequest")
             }
             defer {
                 completion(resultData, resultError)
@@ -237,11 +258,11 @@ import Foundation
         }
         task.resume()
     }
-    
-    
-    static func parseCCResponse(httpStatusCode: Int, data: Data?) -> ([String:String], BSErrors?) {
-        
-        var resultData: [String:String] = [:]
+
+
+    static func parseCCResponse(httpStatusCode: Int, data: Data?) -> ([String: String], BSErrors?) {
+
+        var resultData: [String: String] = [:]
         var resultError: BSErrors?
         
         if (httpStatusCode >= 200 && httpStatusCode <= 299) {
@@ -470,10 +491,10 @@ import Foundation
             shopper.email = email
         }
         if let country = json["country"] as? String {
-            shopper.countryCode = country
+            shopper.country = country
         }
         if let state = json["state"] as? String {
-            shopper.stateCode = state
+            shopper.state = state
         }
         if let address = json["address"] as? String {
             shopper.address = address
@@ -482,7 +503,7 @@ import Foundation
             if (shopper.address == nil) {
                 shopper.address = address2
             } else {
-                shopper.address = shopper.address! + " " + address2
+                shopper.address2 = address2
             }
         }
         if let city = json["city"] as? String {
@@ -523,9 +544,6 @@ import Foundation
             if let zip = shipping["zip"] as? String {
                 shippingDetails.zip = zip
             }
-            if let phone = shipping["phone"] as? String {
-                shippingDetails.phone = phone
-            }
         }
         if let paymentSources = json["paymentSources"] as? [String: AnyObject] {
             if let creditCardInfo = paymentSources["creditCardInfo"] as? [[String: AnyObject]] {
@@ -560,29 +578,46 @@ import Foundation
                             billingDetails?.zip = zip
                         }
                     }
-                    let cc = BSCreditCard()
+
                     if let creditCardJson = ccDetailsJson["creditCard"] as? [String: AnyObject] {
-                        if let cardLastFourDigits = creditCardJson["cardLastFourDigits"] as? String {
-                            cc.last4Digits = cardLastFourDigits
+                        let cc = parseCreditCardJSON(creditCardJson: creditCardJson)
+
+                        // add the CC only if it's not expired
+                        let validCc: (Bool, String) = BSValidator.isCcValidExpiration(mm: cc.expirationMonth ?? "", yy: cc.expirationYear ?? "")
+                        if validCc.0 {
+                            let ccInfo = BSCreditCardInfo(creditCard: cc, billingDetails: billingDetails)
+                            shopper.existingCreditCards.append(ccInfo)
                         }
-                        if let cardType = creditCardJson["cardType"] as? String {
-                            cc.ccType = cardType
-                        }
-                        if let expirationMonth = creditCardJson["expirationMonth"] as? String, let expirationYear = creditCardJson["expirationYear"] as? String {
-                            cc.expirationMonth = expirationMonth
-                            cc.expirationYear = expirationYear
-                        }
-                    }
-                    // add the CC only if it's not expired
-                    let validCc : (Bool, String) = BSValidator.isCcValidExpiration(mm: cc.expirationMonth ?? "", yy: cc.expirationYear ?? "")
-                    if validCc.0 {
-                        let ccInfo = BSCreditCardInfo(creditCard: cc, billingDetails: billingDetails)
-                        shopper.existingCreditCards.append(ccInfo)
                     }
                 }
             }
         }
+
+        if let chosenPaymentMethod = json["chosenPaymentMethod"] as? [String: AnyObject] {
+            let methods = parseChosenPaymentMethodsJSON(json: chosenPaymentMethod)
+            shopper.chosenPaymentMethod = methods
+        }
+
+        if let vaultedShopperId = json["vaultedShopperId"] as? Int {
+            shopper.vaultedShopperId = vaultedShopperId
+        }
+
         return shopper
+    }
+
+    private static func parseCreditCardJSON(creditCardJson: [String: AnyObject]) -> (BSCreditCard) {
+        let cc = BSCreditCard()
+        if let cardLastFourDigits = creditCardJson["cardLastFourDigits"] as? String {
+            cc.last4Digits = cardLastFourDigits
+        }
+        if let cardType = creditCardJson["cardType"] as? String {
+            cc.ccType = cardType
+        }
+        if let expirationMonth = creditCardJson["expirationMonth"] as? String, let expirationYear = creditCardJson["expirationYear"] as? String {
+            cc.expirationMonth = expirationMonth
+            cc.expirationYear = expirationYear
+        }
+        return cc
     }
 
     private static func parsePayPalTokenJSON(data: Data?) -> (String?, BSErrors?) {
@@ -653,7 +688,21 @@ import Foundation
         }
          return resultArr
     }
-    
+
+    private static func parseChosenPaymentMethodsJSON(json: [String: AnyObject]) -> BSChosenPaymentMethod? {
+
+        let chosenPaymentMethod = BSChosenPaymentMethod()
+        if let chosenPaymentMethodType = json["chosenPaymentMethodType"] as? String {
+            chosenPaymentMethod.chosenPaymentMethodType = chosenPaymentMethodType
+        }
+        if let creditCard = json["creditCard"] as? [String: AnyObject] {
+            let cc = parseCreditCardJSON(creditCardJson: creditCard)
+            chosenPaymentMethod.creditCard = cc
+        }
+
+        return chosenPaymentMethod
+    }
+
     private static func extractTokenFromResponse(httpResponse: HTTPURLResponse?) -> BSToken? {
         
         var result: BSToken?
