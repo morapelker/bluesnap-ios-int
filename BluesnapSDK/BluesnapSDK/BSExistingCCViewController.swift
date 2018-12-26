@@ -94,6 +94,7 @@ class BSExistingCCViewController: UIViewController {
             }
         }
 
+        // check if is allowed to show currency if not do not give option to change if yes do change
         topMenuButton.isEnabled = BlueSnapSDK.sdkRequestBase?.allowCurrencyChange ?? true
     }
 
@@ -195,6 +196,10 @@ class BSExistingCCViewController: UIViewController {
                 }
             }
 
+            defer {
+                self.finishSubmitPaymentFields(error: error)
+            }
+
             if (self.purchaseDetails!.isShopperRequirements()) {
                 BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue)
                 BSApiManager.shopper?.chosenPaymentMethod?.creditCard = self.purchaseDetails.creditCard
@@ -206,14 +211,9 @@ class BSExistingCCViewController: UIViewController {
                         let message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
                         self.showError(message)
                     }
-
-                    self.finishSubmitPaymentFields(error: error)
                 })
-            } else {
-                self.finishSubmitPaymentFields(error: error)
             }
         })
-
     }
 
     private func finishSubmitPaymentFields(error: BSErrors?) {
