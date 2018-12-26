@@ -340,6 +340,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         } else {
             ccInputLine.isHidden = false
             existingCcView.isHidden = true
+            // check if is allowed to show currency if not do not give option to change if yes do change
             topMenuButton.isEnabled = BlueSnapSDK.sdkRequestBase?.allowCurrencyChange ?? true
         }
         

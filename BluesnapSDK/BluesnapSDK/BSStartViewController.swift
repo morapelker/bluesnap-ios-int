@@ -86,20 +86,10 @@ class BSStartViewController: UIViewController {
 
         if BlueSnapSDK.sdkRequestBase is BSSdkRequestShopperRequirements {
             BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.ApplePay.rawValue)
-            BlueSnapSDK.updateShopper(completion: { (result, error) in
+            BlueSnapSDK.updateShopper(completion: { (isSuccess, message) in
                 DispatchQueue.main.async {
-                    if let error = error {
-                        var message: String
-                        if (error == .expiredToken) {
-                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_expired)
-                        } else if (error == .tokenNotFound) {
-                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
-                        } else {
-                            NSLog("Unexpected error Updating Shopper to BS")
-                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
-                        }
-
-                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_Apple_Pay, message: message)
+                    if (!isSuccess) {
+                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_Apple_Pay, message: message!)
                         self.present(alert, animated: true, completion: nil)
                         return
                     } else {
@@ -151,20 +141,10 @@ class BSStartViewController: UIViewController {
 
         if BlueSnapSDK.sdkRequestBase is BSSdkRequestShopperRequirements {
             BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.PayPal.rawValue)
-            BlueSnapSDK.updateShopper(completion: { (result, error) in
+            BlueSnapSDK.updateShopper(completion: { (isSuccess, message) in
                 DispatchQueue.main.async {
-                    if let error = error {
-                        var message: String
-                        if (error == .expiredToken) {
-                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_expired)
-                        } else if (error == .tokenNotFound) {
-                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
-                        } else {
-                            NSLog("Unexpected error Updating Shopper to BS")
-                            message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
-                        }
-
-                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_PayPal, message: message)
+                    if (!isSuccess) {
+                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_PayPal, message: message!)
                         self.present(alert, animated: true, completion: nil)
                         return
                     } else {

@@ -141,8 +141,21 @@ open class BlueSnapSDK: NSObject {
     /**
   Update Shopper to BLS server under the current token
   */
-    open class func updateShopper(completion: @escaping ([String: String], BSErrors?) -> Void) {
-        BSApiManager.updateShopper(completion: completion)
+    open class func updateShopper(completion: @escaping (Bool, String?) -> Void) {
+        BSApiManager.updateShopper(completion: { (result, error) in
+                if let error = error {
+                    var message: String
+                    if (error == .tokenNotFound) {
+                        message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
+                    } else {
+                        NSLog("Unexpected error Updating Shopper to BS")
+                        message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
+                    }
+                    completion(false, message)
+                } else {
+                    completion(true, nil)
+                }
+        })
     }
 
 //    /**

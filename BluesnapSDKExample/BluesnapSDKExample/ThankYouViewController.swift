@@ -32,7 +32,12 @@ class ThankYouViewController: UIViewController {
             successLabel.text = "Success!"
             somethingWentWrongLabel.isHidden = true
             errorTextView.text = ""
-            vaultedShopperIdLabel.text = "Shopper Id: \(vaultedShopperId!)"
+            if let vaultedShopperId = vaultedShopperId {
+                vaultedShopperIdLabel.text = "Shopper Id: \(vaultedShopperId)"    
+            } else {
+                vaultedShopperIdLabel.text = "Shopper Configuration Choose Payment Scenario"
+            }
+
         }
     }
 
