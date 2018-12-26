@@ -395,6 +395,12 @@ public class BSCcInputLine: BSBaseTextInput {
                 }
             }
 
+            defer {
+                DispatchQueue.main.async {
+                    self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+                }
+            }
+            
             if (purchaseDetails!.isShopperRequirements()) {
                 BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue)
                 BSApiManager.shopper?.chosenPaymentMethod?.creditCard = creditCard
@@ -420,15 +426,7 @@ public class BSCcInputLine: BSBaseTextInput {
                             }
                         }
                     }
-
-                    DispatchQueue.main.async {
-                        self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
-                    }
                 })
-            } else {
-                DispatchQueue.main.async {
-                    self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
-                }
             }
         })
     }
