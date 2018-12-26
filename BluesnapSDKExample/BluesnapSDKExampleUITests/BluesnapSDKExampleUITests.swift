@@ -447,7 +447,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         paymentHelper.setFieldValues(billingDetails: billingDetails, sdkRequest: sdkRequest, ignoreCountry: ignoreCountry)
         
         // check that the values are in correctly
-        sdkRequest.billingDetails = billingDetails
+        sdkRequest.shopperConfiguration.billingDetails = billingDetails
         paymentHelper.checkInputs(sdkRequest: sdkRequest)
     }
     
@@ -456,7 +456,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let paymentHelper = BSShippingScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
         
         // make sure fields are shown according to configuration
-        sdkRequest.shippingDetails = BSShippingAddressDetails()
+        sdkRequest.shopperConfiguration.shippingDetails = BSShippingAddressDetails()
         // This fails because name field contains hint "John Doe" and the XCT returns it as the field value
         //paymentHelper.checkInputs(sdkRequest: sdkRequest)
         
@@ -464,7 +464,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         paymentHelper.setFieldValues(shippingDetails: shippingDetails, sdkRequest: sdkRequest)
         
         // check that the values are in correctly
-        sdkRequest.shippingDetails = shippingDetails
+        sdkRequest.shopperConfiguration.shippingDetails = shippingDetails
         paymentHelper.checkInputs(sdkRequest: sdkRequest)
         
         return paymentHelper
@@ -515,21 +515,21 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let withShippingSwitch = app.switches["WithShippingSwitch"]
         waitForElementToExist(element: withShippingSwitch, waitTime: 120)
         let withShippingSwitchValue = (withShippingSwitch.value as? String) ?? "0"
-        if (withShippingSwitchValue == "0" && sdkRequest.withShipping) || (withShippingSwitchValue == "1" && !sdkRequest.withShipping) {
+        if (withShippingSwitchValue == "0" && sdkRequest.shopperConfiguration.withShipping) || (withShippingSwitchValue == "1" && !sdkRequest.shopperConfiguration.withShipping) {
             withShippingSwitch.tap()
         }
         
         // set full billing switch = on
         let fullBillingSwitch = app.switches["FullBillingSwitch"]
         let fullBillingSwitchValue = (fullBillingSwitch.value as? String) ?? "0"
-        if (fullBillingSwitchValue == "0" && sdkRequest.fullBilling) || (fullBillingSwitchValue == "1" && !sdkRequest.fullBilling) {
+        if (fullBillingSwitchValue == "0" && sdkRequest.shopperConfiguration.fullBilling) || (fullBillingSwitchValue == "1" && !sdkRequest.shopperConfiguration.fullBilling) {
             fullBillingSwitch.tap()
         }
         
         // set with Email switch = on
         let withEmailSwitch = app.switches["WithEmailSwitch"]
         let withEmailSwitchValue = (withEmailSwitch.value as? String) ?? "0"
-        if (withEmailSwitchValue == "0" && sdkRequest.withEmail) || (withEmailSwitchValue == "1" && !sdkRequest.withEmail) {
+        if (withEmailSwitchValue == "0" && sdkRequest.shopperConfiguration.withEmail) || (withEmailSwitchValue == "1" && !sdkRequest.shopperConfiguration.withEmail) {
             withEmailSwitch.tap()
         }
         

@@ -16,12 +16,12 @@ class BSStartViewController: UIViewController {
     internal var supportedPaymentMethods: [String]?
 
     var paymentSummaryItems: [PKPaymentSummaryItem] = [];
-    internal var activityIndicator : UIActivityIndicatorView?
+    internal var activityIndicator: UIActivityIndicatorView?
     internal var payPalPurchaseDetails: BSPayPalSdkResult!
-    internal var existingCardViews : [BSExistingCcUIView] = []
-    internal var showPayPal : Bool = false
-    internal var showApplePay : Bool = false
-    internal var bottomOfLastIcon : CGFloat = 0
+    internal var existingCardViews: [BSExistingCcUIView] = []
+    internal var showPayPal: Bool = false
+    internal var showApplePay: Bool = false
+    internal var bottomOfLastIcon: CGFloat = 0
 
     // MARK: Outlets
 
@@ -31,16 +31,16 @@ class BSStartViewController: UIViewController {
     @IBOutlet weak var payPalButton: BSPaymentTypeView!
 
     // MARK: init
-    
+
     func initScreen() {
-        
+
         self.supportedPaymentMethods = BSApiManager.supportedPaymentMethods
     }
-    
+
     // MARK: UIViewController functions
 
     override func viewWillAppear(_ animated: Bool) {
-        
+
         super.viewWillAppear(animated)
         self.navigationController!.isNavigationBarHidden = false
 
@@ -48,12 +48,12 @@ class BSStartViewController: UIViewController {
         showPayPal = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods)
         showApplePay = BlueSnapSDK.applePaySupported(supportedPaymentMethods: supportedPaymentMethods, supportedNetworks: BlueSnapSDK.applePaySupportedNetworks).canMakePayments
         //self.hideShowElements()
-        
+
         // Localize strings
         self.title = BSLocalizedStrings.getString(BSLocalizedString.Title_Payment_Type)
     }
 
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         stopActivityIndicator()
@@ -84,27 +84,43 @@ class BSStartViewController: UIViewController {
             return;
         }
 
-
-        applePayPressed(sender, completion: { (error) in
-            DispatchQueue.main.async
-            {
-                NSLog("Apple pay completion")
-                if error == BSErrors.applePayCanceled {
-                    NSLog("Apple Pay operation canceled")
-                    return
-                } else if error != nil {
-                    let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_Apple_Pay, message: BSLocalizedString.Error_General_ApplePay_error)
-                    self.present(alert, animated: true, completion: nil)
-                    return
-                } else {
-                    _ = self.navigationController?.popViewController(animated: false)
-                    // execute callback
-                    let applePayPurchaseDetails = BSApplePaySdkResult(sdkRequest: BlueSnapSDK.sdkRequest!)
-                    BlueSnapSDK.sdkRequest?.purchaseFunc(applePayPurchaseDetails)
+        if BlueSnapSDK.sdkRequestBase is BSSdkRequestShopperRequirements {
+            BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.ApplePay.rawValue)
+            BlueSnapSDK.updateShopper(completion: { (isSuccess, message) in
+                DispatchQueue.main.async {
+                    if (!isSuccess) {
+                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_Apple_Pay, message: message!)
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    } else {
+                        _ = self.navigationController?.popViewController(animated: false)
+                        // execute callback
+                        let applePayPurchaseDetails = BSApplePaySdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
+                        BlueSnapSDK.sdkRequestBase?.purchaseFunc(applePayPurchaseDetails)
+                    }
+                }
+            })
+        } else {
+            applePayPressed(sender, completion: { (error) in
+                DispatchQueue.main.async {
+                    NSLog("Apple pay completion")
+                    if error == BSErrors.applePayCanceled {
+                        NSLog("Apple Pay operation canceled")
+                        return
+                    } else if error != nil {
+                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_Apple_Pay, message: BSLocalizedString.Error_General_ApplePay_error)
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    } else {
+                        _ = self.navigationController?.popViewController(animated: false)
+                        // execute callback
+                        let applePayPurchaseDetails = BSApplePaySdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
+                        BlueSnapSDK.sdkRequestBase?.purchaseFunc(applePayPurchaseDetails)
+                    }
                 }
             }
+            )
         }
-           )
 
     }
 
@@ -118,55 +134,73 @@ class BSStartViewController: UIViewController {
             _ = BSViewsManager.showCCDetailsScreen(existingCcPurchaseDetails: nil, inNavigationController: self.navigationController, animated: animate)
         })
     }
-    
+
     @IBAction func payPalClicked(_ sender: Any) {
-        
-        payPalPurchaseDetails = BSPayPalSdkResult(sdkRequest: BlueSnapSDK.sdkRequest!)
-        
-        DispatchQueue.main.async {
-            self.startActivityIndicator()
-        }
-        
-        DispatchQueue.main.async {
-            BSApiManager.createPayPalToken(purchaseDetails: self.payPalPurchaseDetails, withShipping: BlueSnapSDK.sdkRequest!.withShipping, completion: { resultToken, resultError in
-                
-                if let resultToken = resultToken {
-                    self.stopActivityIndicator()
-                    DispatchQueue.main.async {
-                        BSViewsManager.showBrowserScreen(inNavigationController: self.navigationController, url: resultToken, shouldGoToUrlFunc: self.paypalUrlListener)
+
+        payPalPurchaseDetails = BSPayPalSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
+
+        if BlueSnapSDK.sdkRequestBase is BSSdkRequestShopperRequirements {
+            BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.PayPal.rawValue)
+            BlueSnapSDK.updateShopper(completion: { (isSuccess, message) in
+                DispatchQueue.main.async {
+                    if (!isSuccess) {
+                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_PayPal, message: message!)
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    } else {
+                        _ = self.navigationController?.popViewController(animated: false)
+                        // execute callback
+                        let payPalPurchaseDetails = BSPayPalSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!)
+                        BlueSnapSDK.sdkRequestBase?.purchaseFunc(payPalPurchaseDetails)
                     }
-                } else {
-                    let errMsg = resultError == .paypalUnsupportedCurrency ? BSLocalizedString.Error_PayPal_Currency_Not_Supported : BSLocalizedString.Error_General_PayPal_error
-                    let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_PayPal, message: errMsg)
-                    self.stopActivityIndicator()
-                    self.present(alert, animated: true, completion: nil)
                 }
             })
+        } else {
+            DispatchQueue.main.async {
+                self.startActivityIndicator()
+            }
+
+            DispatchQueue.main.async {
+                BSApiManager.createPayPalToken(purchaseDetails: self.payPalPurchaseDetails, withShipping: BlueSnapSDK.sdkRequestBase!.shopperConfiguration.withShipping, completion: { resultToken, resultError in
+
+                    if let resultToken = resultToken {
+                        self.stopActivityIndicator()
+                        DispatchQueue.main.async {
+                            BSViewsManager.showBrowserScreen(inNavigationController: self.navigationController, url: resultToken, shouldGoToUrlFunc: self.paypalUrlListener)
+                        }
+                    } else {
+                        let errMsg = resultError == .paypalUnsupportedCurrency ? BSLocalizedString.Error_PayPal_Currency_Not_Supported : BSLocalizedString.Error_General_PayPal_error
+                        let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_PayPal, message: errMsg)
+                        self.stopActivityIndicator()
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                })
+            }
         }
     }
-    
+
 
     // Mark: private functions
 
-    
+
     private func hideShowElements() {
-        
+
         var existingCreditCards: [BSCreditCardInfo] = []
         if let shopper = BSApiManager.shopper {
             existingCreditCards = shopper.existingCreditCards
         }
         let numSections = existingCreditCards.count +
-            ((showPayPal && showApplePay) ? 3 : (!showPayPal && !showApplePay) ? 1 : 2)
-        var sectionNum : CGFloat = 0
-        let sectionY : CGFloat = (centeredView.frame.height / CGFloat(numSections+1)).rounded()
-        
+                ((showPayPal && showApplePay) ? 3 : (!showPayPal && !showApplePay) ? 1 : 2)
+        var sectionNum: CGFloat = 0
+        let sectionY: CGFloat = (centeredView.frame.height / CGFloat(numSections + 1)).rounded()
+
         if showApplePay {
             applePayButton.isHidden = false
             sectionNum = sectionNum + 1
             applePayButton.center.y = sectionY * sectionNum
             bottomOfLastIcon = applePayButton.frame.maxY
         } else {
-            
+
             applePayButton.isHidden = true
         }
         sectionNum = sectionNum + 1
@@ -181,11 +215,11 @@ class BSStartViewController: UIViewController {
             payPalButton.isHidden = true
         }
         bottomOfLastIcon = payPalButton.frame.maxY
-        
+
         let newCcRect = self.ccnButton.frame
-        
+
         if existingCreditCards.count > 0 && existingCardViews.count == 0 {
-            var tag : Int = 0
+            var tag: Int = 0
             for existingCreditCard in existingCreditCards {
                 let cardView = BSExistingCcUIView()
                 self.centeredView.addSubview(cardView)
@@ -194,9 +228,9 @@ class BSStartViewController: UIViewController {
                 cardView.center.y = sectionY * sectionNum
                 bottomOfLastIcon = cardView.frame.maxY
                 cardView.setCc(
-                    ccType: existingCreditCard.creditCard.ccType ?? "",
-                    last4Digits: existingCreditCard.creditCard.last4Digits ?? "",
-                    expiration: existingCreditCard.creditCard.getExpiration())
+                        ccType: existingCreditCard.creditCard.ccType ?? "",
+                        last4Digits: existingCreditCard.creditCard.last4Digits ?? "",
+                        expiration: existingCreditCard.creditCard.getExpiration())
                 cardView.resizeElements()
                 cardView.addTarget(self, action: #selector(BSStartViewController.existingCCTouchUpInside(_:)), for: .touchUpInside)
                 cardView.tag = tag
@@ -209,21 +243,21 @@ class BSStartViewController: UIViewController {
             }
         }
     }
-    
+
     @objc func existingCCTouchUpInside(_ sender: Any) {
-        
+
         if let existingCcUIView = sender as? BSExistingCcUIView, let existingCreditCards = BSApiManager.shopper?.existingCreditCards {
             let ccIdx = existingCcUIView.tag
             let cc = existingCreditCards[ccIdx]
             animateToPaymentScreen(startY: existingCcUIView.frame.minY, completion: { animate in
-                
-                let purchaseDetails = BSExistingCcSdkResult(sdkRequest: BlueSnapSDK.sdkRequest!, shopper: BSApiManager.shopper, existingCcDetails: cc)
+
+                let purchaseDetails = BSExistingCcSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!, shopper: BSApiManager.shopper, existingCcDetails: cc)
                 _ = BSViewsManager.showExistingCCDetailsScreen(purchaseDetails: purchaseDetails, inNavigationController: self.navigationController, animated: animate)
             })
         }
-        
+
     }
-    
+
     private func animateToPaymentScreen(startY: CGFloat, completion: ((Bool) -> Void)!) {
 
         let moveUpBy = self.centeredView.frame.minY + startY - 48
@@ -235,51 +269,51 @@ class BSStartViewController: UIViewController {
         })
     }
 
-    
+
     private func paypalUrlListener(url: String) -> Bool {
-        
+
         if BSPaypalHandler.isPayPalProceedUrl(url: url) {
             // paypal success!
-            
+
             BSPaypalHandler.parsePayPalResultDetails(url: url, purchaseDetails: self.payPalPurchaseDetails)
-            
+
             // return to merchant screen
             if let viewControllers = navigationController?.viewControllers {
                 let merchantControllerIndex = viewControllers.count - 3
                 _ = navigationController?.popToViewController(viewControllers[merchantControllerIndex], animated: false)
             }
-            
+
             // execute callback
-            BlueSnapSDK.sdkRequest?.purchaseFunc(self.payPalPurchaseDetails)
+            BlueSnapSDK.sdkRequestBase?.purchaseFunc(self.payPalPurchaseDetails)
             return false
-            
+
         } else if BSPaypalHandler.isPayPalCancelUrl(url: url) {
             // PayPal cancel URL detected - close web screen
             _ = navigationController?.popViewController(animated: false)
             return false
-            
+
         }
         return true
     }
-    
+
     // MARK: Prevent rotation, support only Portrait mode
-    
+
     override var shouldAutorotate: Bool {
         return false
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.portrait
     }
-    
+
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
         return UIInterfaceOrientation.portrait
     }
-    
+
     // Activity indicator
-    
+
     func startActivityIndicator() {
-        
+
         if self.activityIndicator == nil {
             activityIndicator = BSViewsManager.createActivityIndicator(view: self.view)
         }

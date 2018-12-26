@@ -266,4 +266,57 @@ class BSIntegrationTestingAPIHelper {
         return request
 
     }
+
+    //------------------------------------------------------
+    // MARK: functions API Calls
+    //------------------------------------------------------
+
+    static func createVaultedShopper(creditCard: [String: String], set2: Bool = false) -> Int? {
+        var bsToken: BSToken = BSToken(tokenStr: "_")
+        var vaultedShopperId: Int = 0
+
+        let semaphore = DispatchSemaphore(value: 0)
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
+            bsToken = BSToken(tokenStr: token!.getTokenStr()!)
+            NSLog("token: \(bsToken.tokenStr)")
+            submitCCDetails(ccDetails: creditCard, billingDetails: BluesnapSDKIntegrationTestsHelper.getBillingDetails(add2: set2),
+                    shippingDetails: BluesnapSDKIntegrationTestsHelper.getShippingDetails(add2: set2), completion: { error in
+                semaphore.signal()
+            })
+        })
+        semaphore.wait()
+
+        let semaphore2 = DispatchSemaphore(value: 0)
+        BSIntegrationTestingAPIHelper.createTokenizedTransaction(purchaseAmount: 10, purchaseCurrency: "USD", bsToken: bsToken, completion: { isSuccess, data, shopperId in
+            assert(isSuccess == true, "true")
+            if let shopperId = shopperId {
+                vaultedShopperId = Int(shopperId)!
+            } else {
+                NSLog("Error: no data exists")
+            }
+            semaphore2.signal()
+        })
+        semaphore2.wait()
+        return vaultedShopperId
+    }
+
+
+
+    static func submitCCDetails(ccDetails: [String: String], billingDetails: BSBillingAddressDetails?, shippingDetails: BSShippingAddressDetails?, completion: @escaping (BSErrors?) -> Void) {
+        BSApiManager.submitPurchaseDetails(ccNumber: ccDetails["ccn"], expDate: ccDetails["exp"], cvv: ccDetails["cvv"],
+                last4Digits: nil, cardType: nil, billingDetails: billingDetails ?? nil, shippingDetails: shippingDetails ?? nil, fraudSessionId: nil, completion: {
+            (result, error) in
+
+            XCTAssert(error == nil, "error: \(error)")
+            let ccType = result.ccType
+            let last4 = result.last4Digits
+            let country = result.ccIssuingCountry
+            NSLog("Result: ccType=\(ccType!), last4Digits=\(last4!), ccIssuingCountry=\(country!)")
+            assert(last4 == ccDetails["last4Digits"], "last4 should be \(ccDetails["last4Digits"])")
+            assert(ccType == ccDetails["ccType"], "CC Type should be \(ccDetails["ccType"])")
+            assert(country == ccDetails["issuingCountry"], "country should be \(ccDetails["issuingCountry"])")
+            completion(error)
+        })
+
+    }
 }

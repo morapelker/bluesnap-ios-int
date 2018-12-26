@@ -17,8 +17,8 @@ extension BSStartViewController : PaymentOperationDelegate {
 
         let InternalQueue = OperationQueue();
 
-        if let sdkRequest = BlueSnapSDK.sdkRequest {
-            let priceDetails = sdkRequest.priceDetails!
+        if let sdkRequestBase = BlueSnapSDK.sdkRequestBase {
+            let priceDetails = sdkRequestBase.priceDetails!
             let tax = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(floatLiteral: priceDetails.taxAmount.doubleValue), type: .final)
             let total = PKPaymentSummaryItem(label: "Payment", amount: NSDecimalNumber(floatLiteral: priceDetails.amount.doubleValue), type: .final)
             
@@ -32,12 +32,12 @@ extension BSStartViewController : PaymentOperationDelegate {
             pkPaymentRequest.countryCode = "US"
             pkPaymentRequest.currencyCode = priceDetails.currency
             
-            if sdkRequest.withShipping {
+            if sdkRequestBase.shopperConfiguration.withShipping {
                 pkPaymentRequest.requiredShippingAddressFields = [.phone, .postalAddress, .name]
             }
             // even without full billing we need zip code, so we need to ask for postal address...
             pkPaymentRequest.requiredBillingAddressFields = [.name, .postalAddress]
-            if sdkRequest.withEmail {
+            if sdkRequestBase.shopperConfiguration.withEmail {
                 pkPaymentRequest.requiredBillingAddressFields.insert(.email)
             }
             

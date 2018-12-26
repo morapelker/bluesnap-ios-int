@@ -40,7 +40,7 @@ class BSExistingCcScreenUITestHelper {
         assert(billingNameLabel.exists)
         assert(billingAddressLabel.exists)
         assert(editBillingButton.exists)
-        if sdkRequest.withShipping {
+        if sdkRequest.shopperConfiguration.withShipping {
             assert(shippingNameLabel.exists)
             assert(shippingAddressLabel.exists)
             assert(editShippingButton.exists)

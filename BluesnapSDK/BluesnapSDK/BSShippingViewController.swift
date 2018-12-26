@@ -51,7 +51,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         self.submitPaymentFields = submitPaymentFields
         self.firstTime = true
         self.validateOnEntry = validateOnEntry
-        self.updateTaxFunc = BlueSnapSDK.sdkRequest?.updateTaxFunc
+        self.updateTaxFunc = BlueSnapSDK.sdkRequestBase?.updateTaxFunc
     }
     
     // MARK: Keyboard functions
@@ -367,7 +367,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         subtotalAndTaxDetailsView.setAmounts(subtotalAmount: subtotalAmount, taxAmount: taxAmount, currency: toCurrency)
         
         var payButtonText = "";
-        if newCardMode {
+        if newCardMode && !purchaseDetails.isShopperRequirements() {
             payButtonText = BSViewsManager.getPayButtonText(subtotalAmount: subtotalAmount, taxAmount: taxAmount, toCurrency: toCurrency)
         } else {
             payButtonText = BSLocalizedStrings.getString(BSLocalizedString.Keyboard_Done_Button_Text)
