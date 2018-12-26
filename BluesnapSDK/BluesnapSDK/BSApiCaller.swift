@@ -270,42 +270,7 @@ import Foundation
                                     requestBody: [String: String],
                                     parseFunction: @escaping (Int, Data?) -> ([String:String],BSErrors?),
                                     completion: @escaping ([String:String], BSErrors?) -> Void) {
-        
-        let domain: String! = bsToken!.serverUrl
-        // If you want to test expired token, use this:
-        //let urlStr = domain + TOKENIZED_SERVICE + "fcebc8db0bcda5f8a7a5002ca1395e1106ea668f21200d98011c12e69dd6bceb_"
-        let urlStr = domain + TOKENIZED_SERVICE + bsToken!.getTokenStr()
-        var request = createRequest(urlStr, bsToken: bsToken)
-        request.httpMethod = "PUT"
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
-        } catch let error {
-            NSLog("Error serializing CC details: \(error.localizedDescription)")
-        }
-
-        // fire request
-        
-        var resultError: BSErrors?
-        
-        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-            var resultData: [String:String] = [:]
-            if let error = error {
-                let errorType = type(of: error)
-                NSLog("error submitting BS Payment details - \(errorType). Error: \(error.localizedDescription)")
-                completion(resultData, .unknown)
-                return
-            }
-            let httpResponse = response as? HTTPURLResponse
-            if let httpStatusCode: Int = (httpResponse?.statusCode) {
-                (resultData, resultError) = parseFunction(httpStatusCode, data)
-            } else {
-                NSLog("Error getting response from BS on submitting Payment details")
-            }
-            defer {
-                completion(resultData, resultError)
-            }
-        }
-        task.resume()
+        createHttpRequest(bsToken: bsToken, requestBody: requestBody, parseFunction: parseFunction, urlStringWithoutDomain: TOKENIZED_SERVICE, httpMethod: "PUT", completion: completion)
     }
 
     /**
@@ -315,11 +280,23 @@ import Foundation
                               requestBody: [String: Any],
                               parseFunction: @escaping (Int, Data?) -> ([String: String], BSErrors?),
                               completion: @escaping ([String: String], BSErrors?) -> Void) {
+        createHttpRequest(bsToken: bsToken, requestBody: requestBody, parseFunction: parseFunction, urlStringWithoutDomain: UPDATE_SHOPPER, httpMethod: "PUT", completion: completion)
+    }
+
+    /**
+    Create Http Request
+    */
+    static func createHttpRequest(bsToken: BSToken!,
+                              requestBody: [String: Any],
+                              parseFunction: @escaping (Int, Data?) -> ([String:String],BSErrors?),
+                              urlStringWithoutDomain: String,
+                              httpMethod: String,
+                              completion: @escaping ([String:String], BSErrors?) -> Void) {
 
         let domain: String! = bsToken!.serverUrl
-        let urlStr = domain + UPDATE_SHOPPER
+        let urlStr = (TOKENIZED_SERVICE == urlStringWithoutDomain) ? domain + urlStringWithoutDomain + bsToken!.getTokenStr() : domain + urlStringWithoutDomain
         var request = createRequest(urlStr, bsToken: bsToken)
-        request.httpMethod = "PUT"
+        request.httpMethod = httpMethod
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
         } catch let error {
@@ -334,7 +311,7 @@ import Foundation
             var resultData: [String: String] = [:]
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error update shopper - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                NSLog("error createHttpRequest - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
                 completion(resultData, .unknown)
                 return
             }
@@ -342,7 +319,7 @@ import Foundation
             if let httpStatusCode: Int = (httpResponse?.statusCode) {
                 (resultData, resultError) = parseFunction(httpStatusCode, data)
             } else {
-                NSLog("Error getting response from BS on update shopper")
+                NSLog("Error getting response from BS on createHttpRequest")
             }
             defer {
                 completion(resultData, resultError)
