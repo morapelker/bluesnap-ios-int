@@ -35,7 +35,7 @@ class ThankYouViewController: UIViewController {
             if let vaultedShopperId = vaultedShopperId {
                 vaultedShopperIdLabel.text = "Shopper Id: \(vaultedShopperId)"    
             } else {
-                vaultedShopperIdLabel.text = "Shopper Configuration Choose Payment Scenario"
+                vaultedShopperIdLabel.text = "No Shopper Id Provided"
             }
 
         }

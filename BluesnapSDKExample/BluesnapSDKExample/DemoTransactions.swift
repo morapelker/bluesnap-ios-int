@@ -103,8 +103,9 @@ class DemoTreansactions {
             do {
                 // Parse the result JSOn object
                 if let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: AnyObject] {
-                    vaultedShopperId = String(json["vaultedShopperId"] as! Int)
-                    
+                    if let vaultedShopperId = json["vaultedShopperId"] {
+                        self.vaultedShopperId = String(vaultedShopperId as! Int)
+                    }
                 } else {
                     NSLog("Error parsing BS result on CC transaction submit")
                 }
