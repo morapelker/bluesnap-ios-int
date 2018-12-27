@@ -51,6 +51,29 @@ class BSStartViewController: UIViewController {
 
         // Localize strings
         self.title = BSLocalizedStrings.getString(BSLocalizedString.Title_Payment_Type)
+
+        if (BlueSnapSDK.sdkRequestBase is BSSdkRequest && (BlueSnapSDK.sdkRequestBase as! BSSdkRequest).isForCreatePaymentScenario) {
+            if BSApiManager.shopper?.chosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.CreditCard.rawValue {
+                let creditCard: BSCreditCard = (BSApiManager.shopper?.chosenPaymentMethod?.creditCard)!
+                for creditCardInfo in (BSApiManager.shopper?.existingCreditCards)! {
+                    if (creditCard.last4Digits == creditCardInfo.creditCard.last4Digits
+                            && creditCard.expirationMonth == creditCardInfo.creditCard.expirationMonth
+                            && creditCard.expirationYear == creditCardInfo.creditCard.expirationYear
+                            && creditCard.ccType == creditCardInfo.creditCard.ccType) {
+                        _ = self.navigationController?.popViewController(animated: false)
+                        let purchaseDetails = BSExistingCcSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!, shopper: BSApiManager.shopper, existingCcDetails: creditCardInfo)
+                        // execute callback
+                        BlueSnapSDK.sdkRequestBase?.purchaseFunc(purchaseDetails)
+                        return
+                    }
+                }
+            } else if BSApiManager.shopper?.chosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.ApplePay.rawValue {
+                applePayButton.sendActions(for: .touchUpInside)
+            } else if BSApiManager.shopper?.chosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.PayPal.rawValue {
+                payPalButton.sendActions(for: .touchUpInside)
+            }
+
+        }
     }
 
 
