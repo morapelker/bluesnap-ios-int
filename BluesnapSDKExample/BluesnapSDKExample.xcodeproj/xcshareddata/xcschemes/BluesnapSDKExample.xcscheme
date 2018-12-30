@@ -38,16 +38,6 @@
                ReferencedContainer = "container:BluesnapSDKExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D4E27921E8808A800C56C46"
-               BuildableName = "BluesnapSDKExampleTests.xctest"
-               BlueprintName = "BluesnapSDKExampleTests"
-               ReferencedContainer = "container:BluesnapSDKExample.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

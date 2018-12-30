@@ -65,20 +65,6 @@ import Foundation
         }
     }
     
-    /**
-     Use this method only in tests to get a token for sandbox
-     - parameters:
-     - shopperId: optional shopper ID for returbning shopper
-     - completion: function to be called after token is generated; will receive optional token and optional error
-     */
-    static func createSandboxBSToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
-        createSandboxBSToken(shopperId: shopperId, domain: BS_SANDBOX_DOMAIN, user: BS_SANDBOX_TEST_USER, password: BS_SANDBOX_TEST_PASSWORD, completion: { bsToken, bsError in
-
-            BSApiManager.setBsToken(bsToken: bsToken)
-            completion(bsToken, bsError)
-        })
-    }
-    
     static func isProductionToken() -> Bool {
         
         let bsToken = getBsToken()
