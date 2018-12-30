@@ -31,7 +31,7 @@ class BSApiManagerTests: XCTestCase {
     func testIsTokenExpiredExpectsFalse() {
 
         let semaphore = DispatchSemaphore(value: 0)
-        createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
 
             NSLog("testIsTokenExpiredExpectsFalse; token str=\(String(describing: token!.getTokenStr()))")
 
@@ -66,7 +66,7 @@ class BSApiManagerTests: XCTestCase {
     func testGetSdkData() {
         let semaphore = DispatchSemaphore(value: 0)
         let shopperId: Int? = BSIntegrationTestingAPIHelper.createVaultedShopper(creditCard: BluesnapSDKIntegrationTestsHelper.getVisa()) //22061813 //22208751
-        createTokenWithShopperId(shopperId: shopperId, completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(shopperId: shopperId, completion: { token, error in
 
             if let error = error {
                 fatalError("Create Token with shopper ID failed. error: \(error)")
@@ -151,7 +151,7 @@ class BSApiManagerTests: XCTestCase {
 
         let semaphore = DispatchSemaphore(value: 0)
 
-        createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             BSApiManager.createPayPalToken(purchaseDetails: purchaseDetails, withShipping: false, completion: { resultToken, resultError in
 
                 XCTAssertNil(resultError)
@@ -224,7 +224,7 @@ class BSApiManagerTests: XCTestCase {
             BSIntegrationTestingAPIHelper.createToken(completion: completion)
         })
 
-        createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             BSApiManager.createPayPalToken(purchaseDetails: purchaseDetails, withShipping: false, completion: { resultToken, resultError in
 
                 XCTAssertNil(resultError)
@@ -261,7 +261,7 @@ class BSApiManagerTests: XCTestCase {
 
         let semaphore = DispatchSemaphore(value: 0)
 
-        createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             BSApiManager.getSupportedPaymentMethods(completion: { resultPaymentMethods, resultError in
 
                 XCTAssertNil(resultError)
@@ -319,7 +319,7 @@ class BSApiManagerTests: XCTestCase {
         let exp = "10/2020"
 
         let semaphore = DispatchSemaphore(value: 0)
-        createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
 
             self.submitCcDetails(ccNumber: ccn, expDate: exp, cvv: cvv, completion: {
                 (result, error) in
@@ -394,7 +394,7 @@ class BSApiManagerTests: XCTestCase {
         let ccn = "4111 1111 1111 1111"
 
         let semaphore = DispatchSemaphore(value: 0)
-        createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
 
             BSApiManager.submitCcn(ccNumber: ccn, completion: {
                 (result, error) in
@@ -417,7 +417,7 @@ class BSApiManagerTests: XCTestCase {
 
         let ccn = "4111"
         let semaphore = DispatchSemaphore(value: 0)
-        createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             BSApiManager.submitCcn(ccNumber: ccn, completion: {
                 (result, error) in
                 XCTAssert(error == BSErrors.invalidCcNumber, "error: \(String(describing: error)) should have been BSErrors.invalidCcNumber")
@@ -431,7 +431,7 @@ class BSApiManagerTests: XCTestCase {
 
         let ccn = ""
         let semaphore = DispatchSemaphore(value: 0)
-        createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             BSApiManager.submitCcn(ccNumber: ccn, completion: {
                 (result, error) in
                 XCTAssert(error == BSErrors.invalidCcNumber, "error: \(String(describing: error)) should have been BSErrors.invalidCcNumber")
@@ -474,7 +474,7 @@ class BSApiManagerTests: XCTestCase {
     private func submitCCDetailsExpectError(ccn: String!, cvv: String!, exp: String!, expectedError: BSErrors) {
 
         let semaphore = DispatchSemaphore(value: 0)
-        createToken(completion: { token, error in
+        BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
 
             self.submitCcDetails(ccNumber: ccn, expDate: exp, cvv: cvv, completion: {
                 (result, error) in
@@ -492,23 +492,7 @@ class BSApiManagerTests: XCTestCase {
     }
 
 
-    /**
-    Create token in async manner
-     */
-    func createToken(completion: @escaping (BSToken?, BSErrors?) -> Void) {
-
-        createTokenWithShopperId(shopperId: nil, completion: completion)
-    }
-
-    func createTokenWithShopperId(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
-        
-        BSIntegrationTestingAPIHelper.createToken(shopperId: shopperId, completion: { bsToken, error in
-            
-            XCTAssertNil(error)
-            XCTAssertNotNil(bsToken)
-            completion(bsToken, error)
-        })
-    }
+    
 
     func createExpiredTokenNoRegeneration() {
 
