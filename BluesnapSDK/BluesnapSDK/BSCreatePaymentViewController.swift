@@ -9,7 +9,7 @@ import UIKit
 class BSCreatePaymentViewController: BSStartViewController {
     private var inNavigationController: UINavigationController = UINavigationController()
 
-    func start(inNavigationController: UINavigationController!) {
+    func start(inNavigationController: UINavigationController!) throws {
         self.inNavigationController = inNavigationController
         self.supportedPaymentMethods = BSApiManager.supportedPaymentMethods
 
@@ -17,23 +17,15 @@ class BSCreatePaymentViewController: BSStartViewController {
         showPayPal = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods)
         showApplePay = BlueSnapSDK.applePaySupported(supportedPaymentMethods: supportedPaymentMethods, supportedNetworks: BlueSnapSDK.applePaySupportedNetworks).canMakePayments
 
-        if BSApiManager.shopper?.chosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.CreditCard.rawValue {
-            let creditCard: BSCreditCard = (BSApiManager.shopper?.chosenPaymentMethod?.creditCard)!
-            for creditCardInfo in (BSApiManager.shopper?.existingCreditCards)! {
-                if (creditCard.last4Digits == creditCardInfo.creditCard.last4Digits
-                        && creditCard.expirationMonth == creditCardInfo.creditCard.expirationMonth
-                        && creditCard.expirationYear == creditCardInfo.creditCard.expirationYear
-                        && creditCard.ccType == creditCardInfo.creditCard.ccType) {
-                    // return to merchant screen
-                    let purchaseDetails = BSExistingCcSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!, shopper: BSApiManager.shopper, existingCcDetails: creditCardInfo)
-                    // execute callback
-                    BlueSnapSDK.sdkRequestBase?.purchaseFunc(purchaseDetails)
-                    return
-                }
-            }
-        } else if BSApiManager.shopper?.chosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.ApplePay.rawValue {
+        let getChosenPaymentMethod = try BSApiManager.shopper?.getChosenPaymentMethod()
+        if (getChosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.CreditCard.rawValue) {
+            // return to merchant screen
+            let purchaseDetails = BSExistingCcSdkResult(sdkRequestBase: BlueSnapSDK.sdkRequestBase!, shopper: BSApiManager.shopper, existingCcDetails: getChosenPaymentMethod?.creditCardInfo)
+            // execute callback
+            BlueSnapSDK.sdkRequestBase?.purchaseFunc(purchaseDetails)
+        } else if getChosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.ApplePay.rawValue {
             applePayClick(self.inNavigationController)
-        } else if BSApiManager.shopper?.chosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.PayPal.rawValue {
+        } else if getChosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.PayPal.rawValue {
             payPalClicked(self.inNavigationController)
         }
     }

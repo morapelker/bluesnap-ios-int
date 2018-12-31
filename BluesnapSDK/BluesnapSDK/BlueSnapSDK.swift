@@ -134,17 +134,11 @@ open class BlueSnapSDK: NSObject {
             throw BSSdkRequestBaseError.missingReturningShopper(msg)
         }
 
-        guard (BSApiManager.shopper?.chosenPaymentMethod?.chosenPaymentMethodType != nil) else {
-            let msg: String = "Failed to activate Create Payment for Bluesnap Shopper Configuration, chosenPaymentMethod is missing"
-            NSLog(msg)
-            throw BSSdkRequestBaseError.missingPaymentMethod(msg)
-        }
-
         self.sdkRequestBase = sdkRequest
         self.sdkRequestBase?.adjustSdkRequest()
 
         let createPaymentViewController: BSCreatePaymentViewController = BSCreatePaymentViewController()
-        createPaymentViewController.start(inNavigationController: inNavigationController)
+        try createPaymentViewController.start(inNavigationController: inNavigationController)
     }
 
     /**
