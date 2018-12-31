@@ -41,9 +41,9 @@ class ViewController: UIViewController {
     final fileprivate let initialShippingState = "MA"
     final fileprivate var storeCurrency = "USD"
     final fileprivate let applePayMerchantIdentifier = "merchant.com.example.bluesnap"
-    final fileprivate var returningShopperId: Int = 22061813
-    final fileprivate var shopperId: Int? = nil
-    let demoTreansactions = DemoTreansactions()
+    final fileprivate var returningShopperId : Int = 22061813
+    final fileprivate var shopperId : Int? = nil
+    final fileprivate let demoAPIHelper = DemoAPIHelper()
 
 
     // MARK: - UIViewController's methods
@@ -349,7 +349,7 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             var result: (success: Bool, data: String?) = (false, nil)
             if let purchaseDetails = purchaseDetails {
-                self.demoTreansactions.createTokenizedTransaction(
+                self.demoAPIHelper.demoTreansactions.createTokenizedTransaction(
                     purchaseDetails: purchaseDetails,
                     bsToken: self.bsToken!,
                     completion: { success, data in
@@ -442,7 +442,7 @@ class ViewController: UIViewController {
         // Show thank you screen (ThankYouViewController)
         if let thankYouScreen = storyboard?.instantiateViewController(withIdentifier: "ThankYouViewController") as? ThankYouViewController {
             thankYouScreen.errorText = errorText
-            thankYouScreen.vaultedShopperId = demoTreansactions.vaultedShopperId
+            thankYouScreen.vaultedShopperId = demoAPIHelper.demoTreansactions.vaultedShopperId
             self.navigationController?.pushViewController(thankYouScreen, animated: true)
         } else {
             resultTextView.text = "An error occurred trying to show the Thank You screen."
@@ -514,9 +514,9 @@ class ViewController: UIViewController {
         hideCoverView = true
 
         shopperId = returningShopper ? returningShopperId : nil
-
-        BlueSnapSDK.createSandboxTestTokenWithShopperId(shopperId: shopperId, completion: { resultToken, errors in
-
+        
+        demoAPIHelper.createToken(shopperId: shopperId, completion: { resultToken, errors in
+            
             if let resultToken = resultToken {
                 self.bsToken = resultToken
                 self.initBluesnap()
@@ -564,8 +564,8 @@ class ViewController: UIViewController {
     func generateAndSetBsToken(completion: @escaping (_ token: BSToken?, _ error: BSErrors?) -> Void) {
 
         NSLog("Got BS token expiration notification!")
-
-        BlueSnapSDK.createSandboxTestTokenWithShopperId(shopperId: shopperId, completion: { resultToken, errors in
+        
+        demoAPIHelper.createToken(shopperId: shopperId, completion: { resultToken, errors in
             self.bsToken = resultToken
             BlueSnapSDK.setBsToken(bsToken: self.bsToken)
             NSLog("Got BS token= \(self.bsToken?.getTokenStr() ?? "")")
