@@ -96,7 +96,7 @@ open class BlueSnapSDK: NSObject {
             animated: Bool,
             sdkRequest: BSSdkRequest!) throws {
 
-            try showCheckoutScreen(inNavigationController: inNavigationController, animated: animated, sdkRequestBase: sdkRequest)
+        try showCheckoutScreen(inNavigationController: inNavigationController, animated: animated, sdkRequestBase: sdkRequest)
     }
 
     /**
@@ -128,9 +128,16 @@ open class BlueSnapSDK: NSObject {
             animated: Bool,
             sdkRequest: BSSdkRequest!) throws {
 
+        guard !(BSApiManager.shopper?.vaultedShopperId == nil) else {
+            let msg: String = "Failed to activate Shopper Configuration for Bluesnap SDK, Returning Shopper is missing"
+            NSLog(msg)
+            throw BSSdkRequestBaseError.missingReturningShopper(msg)
+        }
+
         guard (BSApiManager.shopper?.chosenPaymentMethod?.chosenPaymentMethodType != nil) else {
-            NSLog("Failed to activate Create Payment for Bluesnap Shopper Configuration. error: chosenPaymentMethod is missing")
-            throw BSSdkRequestBaseError.invalid("Failed to activate Create Payment for Bluesnap Shopper Configuration. error: chosenPaymentMethod is missing")
+            let msg: String = "Failed to activate Create Payment for Bluesnap Shopper Configuration, chosenPaymentMethod is missing"
+            NSLog(msg)
+            throw BSSdkRequestBaseError.missingPaymentMethod(msg)
         }
 
         self.sdkRequestBase = sdkRequest
@@ -152,18 +159,18 @@ open class BlueSnapSDK: NSObject {
   */
     open class func updateShopper(completion: @escaping (Bool, String?) -> Void) {
         BSApiManager.updateShopper(completion: { (result, error) in
-                if let error = error {
-                    var message: String
-                    if (error == .tokenNotFound) {
-                        message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
-                    } else {
-                        NSLog("Unexpected error Updating Shopper to BS")
-                        message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
-                    }
-                    completion(false, message)
+            if let error = error {
+                var message: String
+                if (error == .tokenNotFound) {
+                    message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
                 } else {
-                    completion(true, nil)
+                    NSLog("Unexpected error Updating Shopper to BS")
+                    message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
                 }
+                completion(false, message)
+            } else {
+                completion(true, nil)
+            }
         })
     }
 
@@ -242,7 +249,7 @@ open class BlueSnapSDK: NSObject {
 
 
     // MARK: Utility functions for quick testing
-    
+
 
 //    /**
 //    Objective C helper method for returning sandbox token
@@ -306,8 +313,9 @@ open class BlueSnapSDK: NSObject {
             sdkRequestBase: BSSdkRequestProtocol!) throws {
 
         guard !(sdkRequestBase is BSSdkRequestShopperRequirements && BSApiManager.shopper?.vaultedShopperId == nil) else {
-            NSLog("Failed to activate Shopper Configuration for Bluesnap SDK. error: Returning Shopper is missing")
-            throw BSSdkRequestBaseError.invalid("Failed to activate Shopper Configuration for Bluesnap SDK. error: returning shopper is missing")
+            let msg: String = "Failed to activate Shopper Configuration for Bluesnap SDK, Returning Shopper is missing"
+            NSLog(msg)
+            throw BSSdkRequestBaseError.missingReturningShopper(msg)
         }
 
         self.sdkRequestBase = sdkRequestBase
