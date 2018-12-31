@@ -129,7 +129,6 @@ public class BSSdkRequest: NSObject, BSSdkRequestProtocol {
     public var shopperConfiguration: BSShopperConfiguration!
     public var allowCurrencyChange: Bool = true
     public var priceDetails: BSPriceDetails! = BSPriceDetails(amount: 0, taxAmount: 0, currency: nil)
-    var isForCreatePaymentScenario: Bool = false
 
     public var purchaseFunc: (BSBaseSdkResult?) -> Void
     public var updateTaxFunc: ((String, String?, BSPriceDetails) -> Void)?

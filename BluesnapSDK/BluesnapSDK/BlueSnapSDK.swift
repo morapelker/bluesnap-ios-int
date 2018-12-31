@@ -133,8 +133,11 @@ open class BlueSnapSDK: NSObject {
             throw BSSdkRequestBaseError.invalid("Failed to activate Create Payment for Bluesnap Shopper Configuration. error: chosenPaymentMethod is missing")
         }
 
-        sdkRequest.isForCreatePaymentScenario = true
-        try showCheckoutScreen(inNavigationController: inNavigationController, animated: animated, sdkRequestBase: sdkRequest)
+        self.sdkRequestBase = sdkRequest
+        self.sdkRequestBase?.adjustSdkRequest()
+
+        let createPaymentViewController: BSCreatePaymentViewController = BSCreatePaymentViewController()
+        createPaymentViewController.start(inNavigationController: inNavigationController)
     }
 
     /**
