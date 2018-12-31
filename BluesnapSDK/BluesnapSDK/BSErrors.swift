@@ -11,6 +11,8 @@ import Foundation
 
 public enum BSSdkRequestBaseError: Error {
     case invalid(String)
+    case missingPaymentMethod(String)
+    case missingReturningShopper(String)
 }
 
 public enum BSErrors: Int {
