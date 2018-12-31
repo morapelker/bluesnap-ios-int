@@ -151,6 +151,8 @@ class ViewController: UIViewController {
 
     @IBAction func createButtonAction(_ sender: UIButton) {
         buttonGeneralAction()
+        coverAllView.isHidden = true
+        hideCoverView = false
         DispatchQueue.main.async {
             // open the purchase screen
             self.fillSdkRequest(isShopperRequirements: false)
