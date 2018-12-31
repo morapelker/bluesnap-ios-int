@@ -61,6 +61,17 @@ public class BSCreditCard: NSObject, NSCopying, BSModel {
     }
 }
 
+func == (leftCreditCardA: BSCreditCard, rightCreditCard: BSCreditCard) -> Bool {
+    var returnValue = false
+    if (leftCreditCardA.last4Digits == rightCreditCard.last4Digits
+            && leftCreditCardA.expirationMonth == rightCreditCard.expirationMonth
+            && leftCreditCardA.expirationYear == rightCreditCard.expirationYear
+            && leftCreditCardA.ccType == rightCreditCard.ccType) {
+        returnValue = true
+    }
+    return returnValue
+}
+
 /**
  (PCI-compliant) Existing credit card info as we get it from BlueSnap API when getting the shopper information
  */

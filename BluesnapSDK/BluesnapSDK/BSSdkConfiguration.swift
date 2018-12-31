@@ -71,6 +71,29 @@ class BSShopper: BSBaseAddressDetails {
         }
         return shopperDetails
     }
+
+    func getChosenPaymentMethod() throws -> (BSChosenPaymentMethod?) {
+        var checkCreditCard: Bool = true
+        if self.chosenPaymentMethod?.chosenPaymentMethodType == BSPaymentType.CreditCard.rawValue {
+            checkCreditCard = false
+            let creditCard: BSCreditCard = (self.chosenPaymentMethod?.creditCard)!
+            for creditCardInfo in (self.existingCreditCards) {
+                if (creditCard == creditCardInfo.creditCard as BSCreditCard) {
+                    checkCreditCard = true
+                    self.chosenPaymentMethod?.creditCardInfo = creditCardInfo
+                    return self.chosenPaymentMethod
+                }
+            }
+        }
+
+        guard (checkCreditCard) else {
+            let msg: String = "Failed to activate Create Payment for Bluesnap Shopper Configuration, chosenPaymentMethod is missing"
+            NSLog(msg)
+            throw BSSdkRequestBaseError.missingPaymentMethod(msg)
+        }
+
+        return self.chosenPaymentMethod
+    }
 }
 
 /**
@@ -81,6 +104,7 @@ public class BSChosenPaymentMethod: NSObject, BSModel {
     public static let CREDIT_CARD: String = "creditCard";
 
     var creditCard: BSCreditCard?
+    var creditCardInfo: BSCreditCardInfo?
     var chosenPaymentMethodType: String?
 
     public init(chosenPaymentMethodType: String, creditCard: BSCreditCard? = nil) {
