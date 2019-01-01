@@ -113,13 +113,13 @@ class BSPaymentScreenUITestHelper {
         let cvvTextField = getCvvInputFieldElement()
         
         if shouldBeOpen {
-            assert(ccnTextField.exists)
-            assert(!expTextField.exists)
-            assert(!cvvTextField.exists)
+            XCTAssertTrue(ccnTextField.exists)
+            XCTAssertTrue(!expTextField.exists)
+            XCTAssertTrue(!cvvTextField.exists)
         } else {
-            assert(!ccnTextField.exists)
-            assert(expTextField.exists)
-            assert(cvvTextField.exists)
+            XCTAssertTrue(!ccnTextField.exists)
+            XCTAssertTrue(expTextField.exists)
+            XCTAssertTrue(cvvTextField.exists)
         }
     }
     
@@ -229,15 +229,15 @@ class BSPaymentScreenUITestHelper {
     func checkInput(input: XCUIElement, expectedExists: Bool, expectedValue: String, expectedLabelText: String) {
         
         let textField = getInputFieldElement(input)
-        assert(textField.exists == expectedExists)
+        XCTAssertTrue(textField.exists == expectedExists, "\(input.identifier) expected to be exists: \(expectedExists), but was exists: \(textField.exists)")
         
         if textField.exists {
             let value = textField.value as! String
-            assert(expectedValue == value)
-
+            XCTAssertTrue(expectedValue == value, "\(input.identifier) expected value: \(expectedValue), actual value: \(value)")
+            
             let label = getInputLabelElement(input)
             let labelText: String = label.label //label.value as! String
-            assert(labelText == expectedLabelText)
+            XCTAssertTrue(labelText == expectedLabelText, "\(input.identifier) expected value: \(expectedValue), actual value: \(value)")
         }
     }
 }
