@@ -34,7 +34,7 @@ extension PKContact: DictionaryConvertible {
     public func toDictionary() -> [String: Any] {
         var map = [String: Any]();
         map.setValueIfExists(value: self.emailAddress, for: "email");
-        map.setValueIfExists(value: self.phoneNumber?.stringValue, for: "phone");
+//        map.setValueIfExists(value: self.phoneNumber?.stringValue, for: "phone");
         if let address = self.postalAddress {
             var addressMap = [String: Any]();
             addressMap["line1"] = address.street;

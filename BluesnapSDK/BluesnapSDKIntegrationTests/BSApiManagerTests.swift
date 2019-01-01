@@ -104,7 +104,7 @@ class BSApiManagerTests: XCTestCase {
                 //XCTAssertEqual("il", shipping?.country)
                 XCTAssertEqual(getShipping.zip, shipping?.zip)
                 XCTAssertEqual(getShipping.address, shipping?.address)
-                XCTAssertEqual(getShipping.phone, shopper?.phone)
+//                XCTAssertEqual(getShipping.phone, shopper?.phone)
 
                 if let existingCreditCards = shopper?.existingCreditCards {
                     let ccInfo: BSCreditCardInfo = existingCreditCards[0]
