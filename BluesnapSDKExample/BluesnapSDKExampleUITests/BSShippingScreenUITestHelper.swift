@@ -14,7 +14,6 @@ class BSShippingScreenUITestHelper {
     
     var app: XCUIApplication!
     var nameInput : XCUIElement!
-    var phoneInput : XCUIElement!
     var zipInput : XCUIElement!
     var cityInput : XCUIElement!
     var streetInput : XCUIElement!
@@ -27,7 +26,6 @@ class BSShippingScreenUITestHelper {
         self.app = app
         let elementsQuery = app.scrollViews.otherElements
         nameInput = elementsQuery.element(matching: .any, identifier: "ShippingName")
-        phoneInput = elementsQuery.element(matching: .any, identifier: "ShippingPhone")
         zipInput = elementsQuery.element(matching: .any, identifier: "ShippingZip")
         cityInput = elementsQuery.element(matching: .any, identifier: "ShippingCity")
         streetInput = elementsQuery.element(matching: .any, identifier: "ShippingStreet")
@@ -72,7 +70,6 @@ class BSShippingScreenUITestHelper {
         
         if let shippingDetails = sdkRequest.shopperConfiguration.shippingDetails {
             checkInput(input: nameInput, expectedExists: true, expectedValue: shippingDetails.name ?? "", expectedLabelText: "Name")
-            checkInput(input: phoneInput, expectedExists: true, expectedValue: shippingDetails.phone ?? "", expectedLabelText: "Phone")
             checkInput(input: cityInput, expectedExists: true, expectedValue: shippingDetails.city ?? "", expectedLabelText: "City")
             checkInput(input: streetInput, expectedExists: true, expectedValue: shippingDetails.address ?? "", expectedLabelText: "Street")
             // zip should be hidden only for country that does not have zip; label also changes according to country
@@ -96,7 +93,6 @@ class BSShippingScreenUITestHelper {
     func setFieldValues(shippingDetails: BSShippingAddressDetails, sdkRequest: BSSdkRequest) {
         
         setInputValue(input: nameInput, value: shippingDetails.name ?? "")
-        setInputValue(input: phoneInput, value: shippingDetails.phone ?? "")
         setInputValue(input: zipInput, value: shippingDetails.zip ?? "")
         setInputValue(input: cityInput, value: shippingDetails.city ?? "")
         setInputValue(input: streetInput, value: shippingDetails.address ?? "")

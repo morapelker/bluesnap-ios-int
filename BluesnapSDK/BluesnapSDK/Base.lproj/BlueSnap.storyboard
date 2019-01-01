@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -135,24 +135,8 @@
                                                     <action selector="nameEditingDidEnd:" destination="PPS-Pq-6Wu" eventType="editingDidEnd" id="y0Q-RU-Oq9"/>
                                                 </connections>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3n5-zz-YeP" userLabel="Phone Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
-                                                <rect key="frame" x="20" y="57.5" width="280" height="36.5"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <accessibility key="accessibilityConfiguration" identifier="ShippingPhone"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Phone"/>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="labelBkdColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="editingDidBegin:" destination="PPS-Pq-6Wu" eventType="editingDidBegin" id="1Ky-hk-Okw"/>
-                                                    <action selector="phoneEditingChanged:" destination="PPS-Pq-6Wu" eventType="editingChanged" id="dua-54-uMb"/>
-                                                    <action selector="phoneEditingDidEnd:" destination="PPS-Pq-6Wu" eventType="editingDidEnd" id="eqw-ms-D9e"/>
-                                                </connections>
-                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7GX-8o-fbs" userLabel="Zip Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
-                                                <rect key="frame" x="20" y="95" width="280" height="37"/>
+                                                <rect key="frame" x="20" y="57.5" width="280" height="36.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingZip"/>
                                                 <userDefinedRuntimeAttributes>
@@ -165,7 +149,7 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jMo-vo-Aht" userLabel="Street Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
-                                                <rect key="frame" x="20" y="133" width="280" height="36.5"/>
+                                                <rect key="frame" x="20" y="95" width="280" height="37"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingStreet"/>
                                                 <userDefinedRuntimeAttributes>
@@ -178,7 +162,7 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M8Q-CA-XJP" userLabel="City Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
-                                                <rect key="frame" x="20" y="170.5" width="280" height="36.5"/>
+                                                <rect key="frame" x="20" y="133" width="280" height="36.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingCity"/>
                                                 <userDefinedRuntimeAttributes>
@@ -191,7 +175,7 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qye-kG-IzH" userLabel="State Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
-                                                <rect key="frame" x="20" y="208" width="280" height="36.5"/>
+                                                <rect key="frame" x="20" y="170.5" width="280" height="36.5"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingState"/>
                                                 <userDefinedRuntimeAttributes>
@@ -215,13 +199,10 @@
                                             <constraint firstItem="Qye-kG-IzH" firstAttribute="leading" secondItem="Xjb-2n-SG7" secondAttribute="leading" constant="20" symbolic="YES" id="LWW-In-Bsf"/>
                                             <constraint firstAttribute="trailing" secondItem="jMo-vo-Aht" secondAttribute="trailing" constant="16" id="NN1-g5-NZB"/>
                                             <constraint firstAttribute="trailing" secondItem="Qye-kG-IzH" secondAttribute="trailing" constant="16" id="QTa-CE-eWB"/>
-                                            <constraint firstItem="3n5-zz-YeP" firstAttribute="top" secondItem="5Tf-NL-jP3" secondAttribute="bottom" constant="1" id="U1O-XE-eZn"/>
                                             <constraint firstAttribute="trailing" secondItem="5Tf-NL-jP3" secondAttribute="trailing" constant="16" id="VjE-Q7-7nw"/>
-                                            <constraint firstItem="7GX-8o-fbs" firstAttribute="top" secondItem="3n5-zz-YeP" secondAttribute="bottom" constant="1" id="bm4-kJ-i1c"/>
+                                            <constraint firstItem="7GX-8o-fbs" firstAttribute="top" secondItem="5Tf-NL-jP3" secondAttribute="bottom" constant="1" id="bm4-kJ-i1c"/>
                                             <constraint firstItem="Qye-kG-IzH" firstAttribute="top" secondItem="M8Q-CA-XJP" secondAttribute="bottom" constant="1" id="hZc-6q-NlO"/>
                                             <constraint firstItem="5Tf-NL-jP3" firstAttribute="top" secondItem="Xjb-2n-SG7" secondAttribute="top" constant="20" symbolic="YES" id="j2I-GE-Xvx"/>
-                                            <constraint firstItem="3n5-zz-YeP" firstAttribute="leading" secondItem="Xjb-2n-SG7" secondAttribute="leading" constant="20" symbolic="YES" id="jnN-Rr-zTU"/>
-                                            <constraint firstAttribute="trailing" secondItem="3n5-zz-YeP" secondAttribute="trailing" constant="16" id="md0-S9-9Il"/>
                                             <constraint firstItem="jMo-vo-Aht" firstAttribute="top" secondItem="7GX-8o-fbs" secondAttribute="bottom" constant="1" id="vnx-Xb-LVM"/>
                                             <constraint firstAttribute="trailing" secondItem="7GX-8o-fbs" secondAttribute="trailing" constant="16" id="w4a-SO-IrB"/>
                                             <constraint firstItem="M8Q-CA-XJP" firstAttribute="top" secondItem="jMo-vo-Aht" secondAttribute="bottom" constant="1" id="zbf-pL-a2k"/>
@@ -264,7 +245,6 @@
                         <constraints>
                             <constraint firstItem="jMo-vo-Aht" firstAttribute="height" secondItem="KnJ-zC-fwY" secondAttribute="height" multiplier="43/667" id="1cb-ng-Cpb"/>
                             <constraint firstItem="lFE-br-NNC" firstAttribute="top" secondItem="zAV-S1-BNT" secondAttribute="bottom" constant="3" id="5Kh-DF-bHQ"/>
-                            <constraint firstItem="3n5-zz-YeP" firstAttribute="height" secondItem="KnJ-zC-fwY" secondAttribute="height" multiplier="43/667" id="704-gN-YTh"/>
                             <constraint firstItem="7GX-8o-fbs" firstAttribute="height" secondItem="KnJ-zC-fwY" secondAttribute="height" multiplier="43/667" id="9qJ-I3-WbU"/>
                             <constraint firstItem="BiT-2P-8ND" firstAttribute="leading" secondItem="KnJ-zC-fwY" secondAttribute="leadingMargin" constant="-16" id="Anb-um-E8p"/>
                             <constraint firstItem="zAV-S1-BNT" firstAttribute="width" secondItem="KnJ-zC-fwY" secondAttribute="width" multiplier="240/375" id="Bjg-nb-YCF"/>
@@ -287,7 +267,6 @@
                         <outlet property="fieldsView" destination="Xjb-2n-SG7" id="Bd2-zq-zjH"/>
                         <outlet property="nameInputLine" destination="5Tf-NL-jP3" id="smj-ra-V3T"/>
                         <outlet property="payUIButton" destination="lFE-br-NNC" id="X1a-Qu-bCK"/>
-                        <outlet property="phoneInputLine" destination="3n5-zz-YeP" id="4Uy-u2-0lF"/>
                         <outlet property="scrollView" destination="BiT-2P-8ND" id="anU-3o-hb0"/>
                         <outlet property="stateInputLine" destination="Qye-kG-IzH" id="UsF-BN-FWV"/>
                         <outlet property="streetInputLine" destination="jMo-vo-Aht" id="3XO-UG-1RJ"/>

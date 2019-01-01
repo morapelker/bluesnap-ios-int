@@ -423,7 +423,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     private func getDummyShippingDetails(countryCode: String? = "CA", stateCode: String? = "ON") -> BSShippingAddressDetails {
         
-        let shippingDetails = BSShippingAddressDetails(phone: "18008007070", name: "Shevie Chen", address: "58 somestreet", city : "somecity", zip : "4282300", country : countryCode, state : stateCode)
+        let shippingDetails = BSShippingAddressDetails(name: "Shevie Chen", address: "58 somestreet", city : "somecity", zip : "4282300", country : countryCode, state : stateCode)
         return shippingDetails
     }
     

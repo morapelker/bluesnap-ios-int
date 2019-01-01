@@ -120,7 +120,6 @@ public class BSCcSdkResult: BSBaseSdkResult {
             self.shippingDetails = nil
         } else if let shippingDetails = BSApiManager.shopper?.shippingDetails {
             self.shippingDetails = shippingDetails.copy() as? BSShippingAddressDetails
-            self.shippingDetails?.phone = BSApiManager.shopper?.phone
         } else if let shippingDetails = sdkRequestBase.shopperConfiguration.shippingDetails {
             self.shippingDetails = shippingDetails.copy() as? BSShippingAddressDetails
         }
@@ -216,9 +215,9 @@ public class BSExistingCcSdkResult: BSCcSdkResult, NSCopying {
                 self.shippingDetails!.address = billingDetails.address
                 self.shippingDetails!.name = billingDetails.name
             }
-            if let phone = shopper.phone {
-                self.shippingDetails?.phone = phone
-            }
+//            if let phone = shopper.phone {
+//                self.shippingDetails?.phone = phone
+//            }
         }
     }
 
