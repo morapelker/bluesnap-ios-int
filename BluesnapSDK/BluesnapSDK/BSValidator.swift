@@ -79,16 +79,16 @@ public class BSValidator: NSObject {
         return result
     }
 
-    // no validation yet, this is just a preparation
-    class func validatePhone(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSShippingAddressDetails?) -> Bool {
-        
-        let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces) ?? ""
-        input.setValue(newValue)
-        if let addressDetails = addressDetails {
-            addressDetails.phone = newValue
-        }
-        return true
-    }
+//     // no validation yet, this is just a preparation
+//    class func validatePhone(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSShippingAddressDetails?) -> Bool {
+//
+//        let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces) ?? ""
+//        input.setValue(newValue)
+//        if let addressDetails = addressDetails {
+//            addressDetails.phone = newValue
+//        }
+//        return true
+//    }
 
     class func validateStreet(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
         
@@ -270,12 +270,12 @@ public class BSValidator: NSObject {
         sender.setValue(input)
     }
     
-    class func phoneEditingChanged(_ sender: BSInputLine) {
-        
-        var input : String = sender.getValue() ?? ""
-        input = BSStringUtils.cutToMaxLength(input, maxLength: 30)
-        sender.setValue(input)
-    }
+//    class func phoneEditingChanged(_ sender: BSInputLine) {
+//        
+//        var input : String = sender.getValue() ?? ""
+//        input = BSStringUtils.cutToMaxLength(input, maxLength: 30)
+//        sender.setValue(input)
+//    }
 
     class func emailEditingChanged(_ sender: BSInputLine) {
         

@@ -378,9 +378,9 @@ import Foundation
             if let zip = shippingDetails.zip {
                 requestBody["shippingZip"] = zip
             }
-            if let phone = shippingDetails.phone {
-                requestBody["phone"] = phone
-            }
+//            if let phone = shippingDetails.phone {
+//                requestBody["phone"] = phone
+//            }
         }
         
         let checkErrorAndComplete : ([String:String], BSErrors?) -> Void = { resultData, error in
