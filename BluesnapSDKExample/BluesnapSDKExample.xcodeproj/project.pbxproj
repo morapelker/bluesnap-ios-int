@@ -21,7 +21,6 @@
 		57D13E882064A676F993C974 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8243E4BB77697B4BC726DFC1 /* AVFoundation.framework */; };
 		656BC4430E7C9FD3E9BFA1EB /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7795A84BCD9A86582908E6 /* CoreTelephony.framework */; };
 		6A0D56668683F67E8BCFD6EC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A1D0EF03F84A1CE191C991 /* CoreMedia.framework */; };
-		8771F3B921C80E200030108E /* DemoTransactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD89AB631EB6038600A1B257 /* DemoTransactions.swift */; };
 		879F3E3B21CA976800A03583 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */; };
 		87A317CC21BFF41800156EA2 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		87C8FCAA21D39EDC00486646 /* DemoAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8771F3B621C802DD0030108E /* DemoAPIHelper.swift */; };
@@ -35,7 +34,6 @@
 		FD5022931F67AD6B00C820AC /* BSShippingScreenUITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD5022921F67AD6B00C820AC /* BSShippingScreenUITestHelper.swift */; };
 		FD6479EE1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6479ED1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift */; };
 		FD68146D1F405EAD00FAE1ED /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FD68146F1F405EAD00FAE1ED /* Localizable.strings */; };
-		FD89AB641EB6038600A1B257 /* DemoTransactions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD89AB631EB6038600A1B257 /* DemoTransactions.swift */; };
 		FDF2217C1F25CAB10078217C /* ThankYouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF2217B1F25CAB10078217C /* ThankYouViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -131,7 +129,6 @@
 		FD5B44431E881FB100507A98 /* BluesnapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BluesnapSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/BluesnapIOS-furswmzhhushocevhthezmvziaep/Build/Products/Debug-iphonesimulator/BluesnapSDK.framework"; sourceTree = "<group>"; };
 		FD6479ED1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSExistingCcScreenUITestHelper.swift; sourceTree = "<group>"; };
 		FD68146E1F405EAD00FAE1ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		FD89AB631EB6038600A1B257 /* DemoTransactions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoTransactions.swift; sourceTree = "<group>"; };
 		FDF2217B1F25CAB10078217C /* ThankYouViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThankYouViewController.swift; sourceTree = "<group>"; };
 		FDF8D73E1F7A76B300CE19A5 /* sq */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sq; path = sq.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FDF8D73F1F7A76F000CE19A5 /* bg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bg; path = bg.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -235,7 +232,6 @@
 				2D4E27891E8808A700C56C46 /* Assets.xcassets */,
 				2D4E278B1E8808A700C56C46 /* LaunchScreen.storyboard */,
 				2D4E278E1E8808A700C56C46 /* Info.plist */,
-				FD89AB631EB6038600A1B257 /* DemoTransactions.swift */,
 				FD68146F1F405EAD00FAE1ED /* Localizable.strings */,
 				DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */,
 			);
@@ -434,7 +430,6 @@
 				2D4E27851E8808A700C56C46 /* ViewController.swift in Sources */,
 				FDF2217C1F25CAB10078217C /* ThankYouViewController.swift in Sources */,
 				2D4E27831E8808A700C56C46 /* AppDelegate.swift in Sources */,
-				FD89AB641EB6038600A1B257 /* DemoTransactions.swift in Sources */,
 				DEB34D679B4735BD2B2F6DD5 /* Configuration.swift in Sources */,
 				87C8FCAA21D39EDC00486646 /* DemoAPIHelper.swift in Sources */,
 			);
@@ -451,7 +446,6 @@
 				FD6479EE1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift in Sources */,
 				FD5022911F61399300C820AC /* BSPaymentScreenUITestHelper.swift in Sources */,
 				879F3E3B21CA976800A03583 /* Configuration.swift in Sources */,
-				8771F3B921C80E200030108E /* DemoTransactions.swift in Sources */,
 				DEB4DCB77A919FB8115F65E5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
