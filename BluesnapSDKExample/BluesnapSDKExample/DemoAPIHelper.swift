@@ -26,16 +26,14 @@ class DemoAPIHelper {
     internal static let BS_SANDBOX_TEST_USER = bsAPIUser
     internal static let BS_SANDBOX_TEST_PASSWORD = bsAPIPassword
     
-    let demoTreansactions = DemoTreansactions()
-
-    func createToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
+    static func createToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
         createSandboxBSToken(shopperId: shopperId, completion: { bsToken, bsError in
             BlueSnapSDK.setBsToken(bsToken: bsToken)
             completion(bsToken, bsError)
         })
     }
 
-    func createToken(completion: @escaping (BSToken?, BSErrors?) -> Void) {
+    static func createToken(completion: @escaping (BSToken?, BSErrors?) -> Void) {
         createToken(shopperId: nil, completion: completion)
     }
 
@@ -48,7 +46,7 @@ class DemoAPIHelper {
      - password: password
      - completion: callback function for after the token is created; recfeives optional token and optional error
      */
-    func createSandboxBSToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
+    static func createSandboxBSToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
 
         let domain: String = DemoAPIHelper.BS_SANDBOX_DOMAIN
 
@@ -101,7 +99,7 @@ class DemoAPIHelper {
     }
 
 
-    private func extractTokenFromResponse(httpResponse: HTTPURLResponse?) -> BSToken? {
+    static private func extractTokenFromResponse(httpResponse: HTTPURLResponse?) -> BSToken? {
 
         var result: BSToken?
         if let location: String = httpResponse?.allHeaderFields["Location"] as? String {
@@ -118,6 +116,79 @@ class DemoAPIHelper {
     }
 
     /**
+     Here all the data is on the token, we only need to send amount and currency
+     */
+    static func createTokenizedTransaction(
+        purchaseDetails: BSBaseSdkResult!,
+        bsToken: BSToken!,
+        completion: @escaping (_ isSuccess: Bool, _ data: String?, _ shopperId: String?)->Void) {
+        
+        var responseData: Data!
+        var requestBody = [
+            "amount": "\(purchaseDetails.getAmount()!)",
+            "recurringTransaction": "ECOMMERCE",
+            "softDescriptor": "MobileSDKtest",
+            "currency": "\(purchaseDetails.getCurrency()!)",
+            "cardTransactionType": "AUTH_CAPTURE",
+            "pfToken": "\(bsToken.getTokenStr()!)",
+            ] as [String : Any]
+        print("requestBody= \(requestBody)")
+        let authorization = getBasicAuth()
+        
+        let urlStr = bsToken.getServerUrl() + "services/2/transactions";
+        let url = NSURL(string: urlStr)!
+        var request = NSMutableURLRequest(url: url as URL)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(authorization, forHTTPHeaderField: "Authorization")
+        request.httpMethod = "POST"
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
+        } catch let error {
+            NSLog("Error serializing CC details: \(error.localizedDescription)")
+        }
+        
+        // fire request
+        
+        var result : (isSuccess:Bool, data: String?, shopperId: String?) = (isSuccess:false, data: nil, shopperId: nil)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            if let error = error {
+                NSLog("error calling create transaction: \(error.localizedDescription)")
+            } else {
+                let httpResponse = response as? HTTPURLResponse
+                if let httpStatusCode:Int = (httpResponse?.statusCode) {
+                    
+                    if let data = data {
+                        responseData = data
+                        result.data = String(data: data, encoding: .utf8)
+                        NSLog("Response body = \(result.data ?? "")")
+                    }
+                    if (httpStatusCode >= 200 && httpStatusCode <= 299) {
+                        do {
+                            if let json = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments) as? [String: AnyObject] {
+                                //Extract shopper ID from transaction API response
+                                result.shopperId = String(json["vaultedShopperId"] as! Int)
+                                result.isSuccess = true
+                            }
+                        } catch let error as NSError {
+                            NSLog("Error parsing BS result on Retrieve vaulted shopper: \(error.localizedDescription)")
+                        }
+                        
+                    } else {
+                        NSLog("Http error Creating BS Transaction; HTTP status = \(httpStatusCode)")
+                    }
+                }
+            }
+            defer {
+                DispatchQueue.main.async {
+                    completion(result.isSuccess, result.data, result.shopperId)
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    /**
      Get shopper information from BlueSnap server by a shopper Id
      Normally you will not do this from the app.
 
@@ -125,7 +196,7 @@ class DemoAPIHelper {
      - shopperId: shopper Id
      - completion: callback function for after the call returns; receives optional token and optional error
      */
-    func retrieveVaultedShopper(
+    static func retrieveVaultedShopper(
         vaultedShopperId shopperId: String,
         completion: @escaping (_ isSuccess: Bool, _ data: Data?)->Void) {
 
@@ -172,7 +243,7 @@ class DemoAPIHelper {
      - user: username
      - password: password
      */
-    private func getBasicAuth(user: String!, password: String!) -> String {
+    static private func getBasicAuth(user: String!, password: String!) -> String {
         let loginStr = String(format: "%@:%@", user, password)
         let loginData = loginStr.data(using: String.Encoding.utf8)!
         let base64LoginStr = loginData.base64EncodedString()
@@ -182,7 +253,7 @@ class DemoAPIHelper {
     /**
      Build the basic authentication header from username/password
      */
-    private func getBasicAuth() -> String {
+    static private func getBasicAuth() -> String {
         return getBasicAuth(user: DemoAPIHelper.BS_SANDBOX_TEST_USER, password: DemoAPIHelper.BS_SANDBOX_TEST_PASSWORD)
     }
 
@@ -193,7 +264,7 @@ class DemoAPIHelper {
      - httpMethod: operationt type to request
      - ContentType: content type of the request
      */
-    private func getURLRequest(urlStr: String, httpMethod: String, contentType: String, requestBody: Any? = nil) -> NSMutableURLRequest {
+    static private func getURLRequest(urlStr: String, httpMethod: String, contentType: String, requestBody: Any? = nil) -> NSMutableURLRequest {
         let authorization = getBasicAuth()
         let url = NSURL(string: urlStr)!
         let request = NSMutableURLRequest(url: url as URL)
