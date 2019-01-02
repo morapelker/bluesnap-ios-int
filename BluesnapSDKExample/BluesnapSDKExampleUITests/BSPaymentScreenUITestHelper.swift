@@ -127,10 +127,11 @@ class BSPaymentScreenUITestHelper {
     func checkInputs(sdkRequest: BSSdkRequest) {
         
         if let billingDetails = sdkRequest.shopperConfiguration.billingDetails {
-            checkInput(input: nameInput, expectedExists: true, expectedValue: billingDetails.name ?? "", expectedLabelText: "Name")
+            checkInput(input: nameInput, expectedValue: billingDetails.name ?? "", expectedLabelText: "Name")
             checkInput(input: emailInput, expectedExists: sdkRequest.shopperConfiguration.withEmail, expectedValue: billingDetails.email ?? "", expectedLabelText: "Email")
             checkInput(input: cityInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails.city ?? "", expectedLabelText: "City")
             checkInput(input: streetInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails.address ?? "", expectedLabelText: "Street")
+
             // zip should be hidden only for country that does not have zip; label also changes according to country
             let expectedZipLabelText = (billingDetails.country == "US") ? "Billing Zip" : "Postal Code"
             let zipShouldBeVisible = !BSCountryManager.getInstance().countryHasNoZip(countryCode: billingDetails.country ?? "")
@@ -154,34 +155,52 @@ class BSPaymentScreenUITestHelper {
         }
     }
     
-    func checkInvalidInputs(sdkRequest: BSSdkRequest) {
-        
-        if let billingDetails = sdkRequest.shopperConfiguration.billingDetails {
-            checkInput(input: nameInput, expectedExists: true, expectedValue: billingDetails.name ?? "", expectedLabelText: "Name", expectedValid: false)
-            checkInput(input: emailInput, expectedExists: sdkRequest.shopperConfiguration.withEmail, expectedValue: billingDetails.email ?? "", expectedLabelText: "Email", expectedValid: false)
-            checkInput(input: cityInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails.city ?? "", expectedLabelText: "City", expectedValid: false)
-            checkInput(input: streetInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails.address ?? "", expectedLabelText: "Street", expectedValid: false)
-            // zip should be hidden only for country that does not have zip; label also changes according to country
-            let expectedZipLabelText = (billingDetails.country == "US") ? "Billing Zip" : "Postal Code"
-            let zipShouldBeVisible = !BSCountryManager.getInstance().countryHasNoZip(countryCode: billingDetails.country ?? "")
-            checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: billingDetails.zip ?? "", expectedLabelText: expectedZipLabelText)
-            if let countryCode = billingDetails.country {
-                // check country image - this does not work, don;t know how to access the image
-                //let countryFlagButton = getInputImageButtonElement(nameInput)
-                //assert(countryFlagButton.exists)
-                //let countryImage = countryFlagButton.otherElements.images[countryCode]
-                //assert(countryImage.exists)
-                
-                // state should be visible for US/Canada/Brazil
-                let stateIsVisible = sdkRequest.shopperConfiguration.fullBilling && BSCountryManager.getInstance().countryHasStates(countryCode: countryCode)
-                var expectedStateValue = ""
-                if let stateName = bsCountryManager.getStateName(countryCode : countryCode, stateCode: billingDetails.state ?? "") {
-                    expectedStateValue = stateName
-                }
-                checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: expectedStateValue, expectedLabelText: "State")
-            }
-            
-        }
+    func checkInvalidNameInputs() {
+        validateInput(input: nameInput, value: "", expectedLabelText: "Name", expectedValid: false)
+        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true)
+        validateInput(input: nameInput, value: "Sawyer", expectedLabelText: "Name", expectedValid: false)
+        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true)
+        validateInput(input: nameInput, value: "L Fleur", expectedLabelText: "Name", expectedValid: false)
+        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true)
+        validateInput(input: nameInput, value: "La F", expectedLabelText: "Name", expectedValid: false)
+        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true)
+    }
+    
+    func checkInvalidEmailInputs() {
+        validateInput(input: nameInput, value: "", expectedLabelText: "Email", expectedValid: false)
+        validateInput(input: nameInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true)
+        validateInput(input: nameInput, value: "broadwaydancecenter.com", expectedLabelText: "Email", expectedValid: false)
+        validateInput(input: nameInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true)
+        validateInput(input: nameInput, value: "broadwaydancecenter@gmail", expectedLabelText: "Email", expectedValid: false)
+        validateInput(input: nameInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true)
+        validateInput(input: nameInput, value: "broadwaydancecenter*@gmail.com", expectedLabelText: "Email", expectedValid: false)
+        validateInput(input: nameInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true)
+    }
+    
+    //Pre-condition: country is USA
+    func checkInvalidZipInputs() {
+        validateInput(input: nameInput, value: "", expectedLabelText: "Billing Zip", expectedValid: false)
+        validateInput(input: nameInput, value: "12345", expectedLabelText: "Billing Zip", expectedValid: true)
+        validateInput(input: nameInput, value: "12345*", expectedLabelText: "Postal Code", expectedValid: false)
+        validateInput(input: nameInput, value: "12345 abcde", expectedLabelText: "Billing Zip", expectedValid: true)
+    }
+    
+    func checkInvalidStreetInputs() {
+        validateInput(input: nameInput, value: "", expectedLabelText: "Street", expectedValid: false)
+        validateInput(input: nameInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true)
+        validateInput(input: nameInput, value: "a", expectedLabelText: "Street", expectedValid: false)
+        validateInput(input: nameInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true)
+        validateInput(input: nameInput, value: "         ", expectedLabelText: "Street", expectedValid: false)
+        validateInput(input: nameInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true)
+    }
+    
+    func checkInvalidCityInputs() {
+        validateInput(input: nameInput, value: "", expectedLabelText: "City", expectedValid: false)
+        validateInput(input: nameInput, value: "New York", expectedLabelText: "City", expectedValid: true)
+        validateInput(input: nameInput, value: "a", expectedLabelText: "Email", expectedValid: false)
+        validateInput(input: nameInput, value: "New York", expectedLabelText: "City", expectedValid: true)
+        validateInput(input: nameInput, value: "       ", expectedLabelText: "Email", expectedValid: false)
+        validateInput(input: nameInput, value: "New York", expectedLabelText: "City", expectedValid: true)
     }
     
     func setFieldValues(billingDetails: BSBillingAddressDetails, sdkRequest: BSSdkRequest, ignoreCountry: Bool? = false) {
@@ -256,7 +275,7 @@ class BSPaymentScreenUITestHelper {
         }
     }
     
-    func checkInput(input: XCUIElement, expectedExists: Bool, expectedValue: String, expectedLabelText: String, expectedValid: Bool = true) {
+    func checkInput(input: XCUIElement, expectedExists: Bool = true, expectedValue: String, expectedLabelText: String, expectedValid: Bool = true) {
         
         XCTAssertTrue(input.exists == expectedExists, "\(input.identifier) expected to be exists: \(expectedExists), but was exists: \(input.exists)")
         
@@ -274,6 +293,12 @@ class BSPaymentScreenUITestHelper {
             XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(expectedValid), but was exists: \(errorLabel.exists)")
             
         }
+    }
+    
+    func validateInput(input: XCUIElement, value: String, expectedLabelText: String, expectedValid: Bool) {
+        setInputValue(input: input, value: value)
+        checkInput(input: input, expectedValue: value, expectedLabelText: expectedLabelText, expectedValid: expectedValid)
+        
     }
     
 }
