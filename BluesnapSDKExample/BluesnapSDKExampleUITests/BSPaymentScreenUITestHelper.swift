@@ -119,20 +119,14 @@ class BSPaymentScreenUITestHelper {
         
         if shouldBeOpen {
             XCTAssertTrue(ccnTextField.exists)
+            waitForElementToDisappear(expTextField, 3)
             XCTAssertTrue(!expTextField.exists)
             XCTAssertTrue(!cvvTextField.exists)
-            assert(ccnTextField.exists)
-            waitForElementToDisappear(expTextField, 3)
-            assert(!expTextField.exists)
-            assert(!cvvTextField.exists)
         } else {
             XCTAssertTrue(!ccnTextField.exists)
+            waitForElementToExistFunc(expTextField, 3)
             XCTAssertTrue(expTextField.exists)
             XCTAssertTrue(cvvTextField.exists)
-            assert(!ccnTextField.exists)
-            waitForElementToExistFunc(expTextField, 3)
-            assert(expTextField.exists)
-            assert(cvvTextField.exists)
         }
     }
 
@@ -169,51 +163,46 @@ class BSPaymentScreenUITestHelper {
     }
     
     func checkInvalidNameInputs() {
-        validateInput(input: nameInput, value: "", expectedLabelText: "Name", expectedValid: false)
-        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true)
-        validateInput(input: nameInput, value: "Sawyer", expectedLabelText: "Name", expectedValid: false)
-        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true)
-        validateInput(input: nameInput, value: "L Fleur", expectedLabelText: "Name", expectedValid: false)
-        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true)
-        validateInput(input: nameInput, value: "La F", expectedLabelText: "Name", expectedValid: false)
-        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true)
+        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true, inputToTap: emailInput)
+        validateInput(input: nameInput, value: "Sawyer", expectedLabelText: "Name", expectedValid: false, inputToTap: emailInput)
+        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true, inputToTap: emailInput)
+        validateInput(input: nameInput, value: "L Fleur", expectedLabelText: "Name", expectedValid: false, inputToTap: emailInput)
+        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true, inputToTap: emailInput)
+        validateInput(input: nameInput, value: "La F", expectedLabelText: "Name", expectedValid: false, inputToTap: emailInput)
+        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true, inputToTap: emailInput)
     }
     
     func checkInvalidEmailInputs() {
-        validateInput(input: nameInput, value: "", expectedLabelText: "Email", expectedValid: false)
-        validateInput(input: nameInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true)
-        validateInput(input: nameInput, value: "broadwaydancecenter.com", expectedLabelText: "Email", expectedValid: false)
-        validateInput(input: nameInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true)
-        validateInput(input: nameInput, value: "broadwaydancecenter@gmail", expectedLabelText: "Email", expectedValid: false)
-        validateInput(input: nameInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true)
-        validateInput(input: nameInput, value: "broadwaydancecenter*@gmail.com", expectedLabelText: "Email", expectedValid: false)
-        validateInput(input: nameInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true)
+        validateInput(input: emailInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true, inputToTap: zipInput)
+        validateInput(input: emailInput, value: "broadwaydancecenter.com", expectedLabelText: "Email", expectedValid: false, inputToTap: zipInput)
+        validateInput(input: emailInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true, inputToTap: zipInput)
+        validateInput(input: emailInput, value: "broadwaydancecenter@gmail", expectedLabelText: "Email", expectedValid: false, inputToTap: zipInput)
+        validateInput(input: emailInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true, inputToTap: zipInput)
+        validateInput(input: emailInput, value: "broadwaydancecenter*@gmail.com", expectedLabelText: "Email", expectedValid: false, inputToTap: zipInput)
+        validateInput(input: emailInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true, inputToTap: zipInput)
     }
     
     //Pre-condition: country is USA
     func checkInvalidZipInputs() {
-        validateInput(input: nameInput, value: "", expectedLabelText: "Billing Zip", expectedValid: false)
-        validateInput(input: nameInput, value: "12345", expectedLabelText: "Billing Zip", expectedValid: true)
-        validateInput(input: nameInput, value: "12345*", expectedLabelText: "Postal Code", expectedValid: false)
-        validateInput(input: nameInput, value: "12345 abcde", expectedLabelText: "Billing Zip", expectedValid: true)
+        validateInput(input: zipInput, value: "12345", expectedLabelText: "Billing Zip", expectedValid: true, inputToTap: streetInput)
+        validateInput(input: zipInput, value: "12345*", expectedLabelText: "Postal Code", expectedValid: false, inputToTap: streetInput)
+        validateInput(input: zipInput, value: "12345 abcde", expectedLabelText: "Billing Zip", expectedValid: true, inputToTap: streetInput)
     }
     
     func checkInvalidStreetInputs() {
-        validateInput(input: nameInput, value: "", expectedLabelText: "Street", expectedValid: false)
-        validateInput(input: nameInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true)
-        validateInput(input: nameInput, value: "a", expectedLabelText: "Street", expectedValid: false)
-        validateInput(input: nameInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true)
-        validateInput(input: nameInput, value: "         ", expectedLabelText: "Street", expectedValid: false)
-        validateInput(input: nameInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true)
+        validateInput(input: streetInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true, inputToTap: cityInput)
+        validateInput(input: streetInput, value: "a", expectedLabelText: "Street", expectedValid: false, inputToTap: cityInput)
+        validateInput(input: streetInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true, inputToTap: cityInput)
+        validateInput(input: streetInput, value: "         ", expectedLabelText: "Street", expectedValid: false, inputToTap: cityInput)
+        validateInput(input: streetInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true, inputToTap: cityInput)
     }
     
     func checkInvalidCityInputs() {
-        validateInput(input: nameInput, value: "", expectedLabelText: "City", expectedValid: false)
-        validateInput(input: nameInput, value: "New York", expectedLabelText: "City", expectedValid: true)
-        validateInput(input: nameInput, value: "a", expectedLabelText: "Email", expectedValid: false)
-        validateInput(input: nameInput, value: "New York", expectedLabelText: "City", expectedValid: true)
-        validateInput(input: nameInput, value: "       ", expectedLabelText: "Email", expectedValid: false)
-        validateInput(input: nameInput, value: "New York", expectedLabelText: "City", expectedValid: true)
+        validateInput(input: cityInput, value: "New York", expectedLabelText: "City", expectedValid: true, inputToTap: nameInput)
+        validateInput(input: cityInput, value: "a", expectedLabelText: "Email", expectedValid: false, inputToTap: nameInput)
+        validateInput(input: cityInput, value: "New York", expectedLabelText: "City", expectedValid: true, inputToTap: nameInput)
+        validateInput(input: cityInput, value: "       ", expectedLabelText: "Email", expectedValid: false, inputToTap: nameInput)
+        validateInput(input: cityInput, value: "New York", expectedLabelText: "City", expectedValid: true, inputToTap: nameInput)
     }
     
     func setFieldValues(billingDetails: BSBillingAddressDetails, sdkRequest: BSSdkRequest, ignoreCountry: Bool? = false) {
@@ -308,8 +297,9 @@ class BSPaymentScreenUITestHelper {
         }
     }
     
-    func validateInput(input: XCUIElement, value: String, expectedLabelText: String, expectedValid: Bool) {
+    func validateInput(input: XCUIElement, value: String, expectedLabelText: String, expectedValid: Bool, inputToTap: XCUIElement) {
         setInputValue(input: input, value: value)
+        getInputFieldElement(inputToTap).tap()
         checkInput(input: input, expectedValue: value, expectedLabelText: expectedLabelText, expectedValid: expectedValid)
         
     }
