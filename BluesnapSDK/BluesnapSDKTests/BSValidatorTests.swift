@@ -403,20 +403,20 @@ class BSValidatorTests: XCTestCase {
         XCTAssertEqual(input.getValue(), "Aaaa Aaaa Bbbb Bbbb Cccc Cccc Dddd Dddd Eeee Eeee Aaaa Aaaa Bbbb Bbbb Cccc Cccc Dddd Dddd Eeee Eeee ")
     }
 
-    func testPhoneEditingChanged() {
-
-        let input = BSInputLine()
-        BSValidator.phoneEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "")
-
-        input.setValue("1")
-        BSValidator.phoneEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "1")
-
-        input.setValue("123456789 123456789 123456789 555")
-        BSValidator.phoneEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "123456789 123456789 123456789 ")
-    }
+//    func testPhoneEditingChanged() {
+//
+//        let input = BSInputLine()
+//        BSValidator.phoneEditingChanged(input)
+//        XCTAssertEqual(input.getValue(), "")
+//
+//        input.setValue("1")
+//        BSValidator.phoneEditingChanged(input)
+//        XCTAssertEqual(input.getValue(), "1")
+//
+//        input.setValue("123456789 123456789 123456789 555")
+//        BSValidator.phoneEditingChanged(input)
+//        XCTAssertEqual(input.getValue(), "123456789 123456789 123456789 ")
+//    }
 
     func testEmailEditingChanged() {
 

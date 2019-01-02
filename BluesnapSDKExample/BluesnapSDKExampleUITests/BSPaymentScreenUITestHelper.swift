@@ -9,6 +9,7 @@
 import Foundation
 import XCTest
 import BluesnapSDK
+import PassKit
 
 class BSPaymentScreenUITestHelper {
     
@@ -22,10 +23,12 @@ class BSPaymentScreenUITestHelper {
     var stateInput : XCUIElement!
     var keyBoardIsVisible = false
     var keyboardIsHidden = true
+    var waitForElementToExistFunc : (XCUIElement, TimeInterval)->Void;
+    var waitForElementToDisappear : (XCUIElement, TimeInterval)->Void;
 
     let bsCountryManager = BSCountryManager.getInstance()
 
-    init(app: XCUIApplication!, keyboardIsHidden : Bool) {
+    init(app: XCUIApplication!, keyboardIsHidden : Bool, waitForElementToExistFunc : @escaping (XCUIElement, TimeInterval)->Void, waitForElementToDisappear : @escaping (XCUIElement, TimeInterval)->Void) {
         self.app = app
         let elementsQuery = app.scrollViews.otherElements
         ccInput = elementsQuery.element(matching: .any, identifier: "CCN")
@@ -36,6 +39,8 @@ class BSPaymentScreenUITestHelper {
         streetInput = elementsQuery.element(matching: .any, identifier: "Street")
         stateInput = elementsQuery.element(matching: .any, identifier: "State")
         self.keyboardIsHidden = keyboardIsHidden
+        self.waitForElementToExistFunc = waitForElementToExistFunc
+        self.waitForElementToDisappear = waitForElementToDisappear
     }
     
     func getCcInputFieldElement() -> XCUIElement {
@@ -114,15 +119,17 @@ class BSPaymentScreenUITestHelper {
         
         if shouldBeOpen {
             assert(ccnTextField.exists)
+            waitForElementToDisappear(expTextField, 3)
             assert(!expTextField.exists)
             assert(!cvvTextField.exists)
         } else {
             assert(!ccnTextField.exists)
+            waitForElementToExistFunc(expTextField, 3)
             assert(expTextField.exists)
             assert(cvvTextField.exists)
         }
     }
-    
+
     // check visibility of inputs - make sure fields are shown according to configuration
     func checkInputs(sdkRequest: BSSdkRequest) {
         

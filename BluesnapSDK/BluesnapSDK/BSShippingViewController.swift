@@ -32,7 +32,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var zipInputLine: BSInputLine!
     @IBOutlet weak var cityInputLine: BSInputLine!
     @IBOutlet weak var stateInputLine: BSInputLine!
-    @IBOutlet weak var phoneInputLine: BSInputLine!
+//    @IBOutlet weak var phoneInputLine: BSInputLine!
     @IBOutlet weak var zipTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var subtotalAndTaxDetailsView: BSSubtotalUIView!
@@ -151,7 +151,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         
         if let shippingDetails = self.purchaseDetails.getShippingDetails() {
             nameInputLine.setValue(shippingDetails.name)
-            phoneInputLine.setValue(shippingDetails.phone)
+//            phoneInputLine.setValue(shippingDetails.phone)
             streetInputLine.setValue(shippingDetails.address)
             cityInputLine.setValue(shippingDetails.city)
             zipInputLine.setValue(shippingDetails.zip)
@@ -168,7 +168,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
                 _ = validateForm()
             } else {
                 nameInputLine.hideError()
-                phoneInputLine.hideError()
+//                phoneInputLine.hideError()
                 streetInputLine.hideError()
                 zipInputLine.hideError()
                 cityInputLine.hideError()
@@ -221,8 +221,8 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         let ok3 = validateCity(ignoreIfEmpty: false)
         let ok4 = validateZip(ignoreIfEmpty: false)
         let ok5 = validateState(ignoreIfEmpty: false)
-        let ok6 = validatePhone(ignoreIfEmpty: true)
-        return ok1 && ok2 && ok3 && ok4 && ok5 && ok6
+//        let ok6 = validatePhone(ignoreIfEmpty: true)
+        return ok1 && ok2 && ok3 && ok4 && ok5 //11&& ok6
     }
     
     func validateName(ignoreIfEmpty : Bool) -> Bool {
@@ -263,11 +263,11 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         return result
     }
     
-    func validatePhone(ignoreIfEmpty : Bool) -> Bool {
-        
-        let result : Bool = BSValidator.validatePhone(ignoreIfEmpty: ignoreIfEmpty, input: phoneInputLine, addressDetails: purchaseDetails.getShippingDetails())
-        return result
-    }
+//    func validatePhone(ignoreIfEmpty : Bool) -> Bool {
+//
+//        let result : Bool = BSValidator.validatePhone(ignoreIfEmpty: ignoreIfEmpty, input: phoneInputLine, addressDetails: purchaseDetails.getShippingDetails())
+//        return result
+//    }
 
     
     // MARK: real-time formatting and Validations on text fields
@@ -334,13 +334,13 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
             updateFunc: updateWithNewCountry)
     }
     
-    @IBAction func phoneEditingChanged(_ sender: BSInputLine) {
-        BSValidator.phoneEditingChanged(sender)
-    }
+//    @IBAction func phoneEditingChanged(_ sender: BSInputLine) {
+//        BSValidator.phoneEditingChanged(sender)
+//    }
     
-    @IBAction func phoneEditingDidEnd(_ sender: BSInputLine) {
-        _ = validatePhone(ignoreIfEmpty: true)
-    }
+//    @IBAction func phoneEditingDidEnd(_ sender: BSInputLine) {
+//        _ = validatePhone(ignoreIfEmpty: true)
+//    }
     
     // MARK: private functions
     
@@ -379,7 +379,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
 
         self.title = BSLocalizedStrings.getString(BSLocalizedString.Title_Shipping_Screen)
         self.nameInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Name)
-        self.phoneInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Phone)
+//        self.phoneInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Phone)
         self.streetInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Street)
         self.cityInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_City)
         self.stateInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_State)
@@ -414,7 +414,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         
         self.zipInputLine.labelText = BSValidator.getZipLabelText(countryCode: countryCode, forBilling: false)
         self.zipInputLine.fieldKeyboardType = BSValidator.getZipKeyboardType(countryCode: countryCode)
-        self.phoneInputLine.fieldKeyboardType = .phonePad
+//        self.phoneInputLine.fieldKeyboardType = .phonePad
         zipInputLine.isHidden = hideZip
         zipInputLine.hideError()
         updateZipFieldLocation()
@@ -442,7 +442,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         if !zipInputLine.isHidden {
             zipTopConstraint.constant = zipTopConstraintOriginalConstant ?? 1
         } else {
-            zipTopConstraint.constant = -1 * phoneInputLine.frame.height
+            zipTopConstraint.constant = -1 * nameInputLine.frame.height
         }
     }
 
