@@ -154,6 +154,36 @@ class BSPaymentScreenUITestHelper {
         }
     }
     
+    func checkInvalidInputs(sdkRequest: BSSdkRequest) {
+        
+        if let billingDetails = sdkRequest.shopperConfiguration.billingDetails {
+            checkInput(input: nameInput, expectedExists: true, expectedValue: billingDetails.name ?? "", expectedLabelText: "Name", expectedValid: false)
+            checkInput(input: emailInput, expectedExists: sdkRequest.shopperConfiguration.withEmail, expectedValue: billingDetails.email ?? "", expectedLabelText: "Email", expectedValid: false)
+            checkInput(input: cityInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails.city ?? "", expectedLabelText: "City", expectedValid: false)
+            checkInput(input: streetInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails.address ?? "", expectedLabelText: "Street", expectedValid: false)
+            // zip should be hidden only for country that does not have zip; label also changes according to country
+            let expectedZipLabelText = (billingDetails.country == "US") ? "Billing Zip" : "Postal Code"
+            let zipShouldBeVisible = !BSCountryManager.getInstance().countryHasNoZip(countryCode: billingDetails.country ?? "")
+            checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: billingDetails.zip ?? "", expectedLabelText: expectedZipLabelText)
+            if let countryCode = billingDetails.country {
+                // check country image - this does not work, don;t know how to access the image
+                //let countryFlagButton = getInputImageButtonElement(nameInput)
+                //assert(countryFlagButton.exists)
+                //let countryImage = countryFlagButton.otherElements.images[countryCode]
+                //assert(countryImage.exists)
+                
+                // state should be visible for US/Canada/Brazil
+                let stateIsVisible = sdkRequest.shopperConfiguration.fullBilling && BSCountryManager.getInstance().countryHasStates(countryCode: countryCode)
+                var expectedStateValue = ""
+                if let stateName = bsCountryManager.getStateName(countryCode : countryCode, stateCode: billingDetails.state ?? "") {
+                    expectedStateValue = stateName
+                }
+                checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: expectedStateValue, expectedLabelText: "State")
+            }
+            
+        }
+    }
+    
     func setFieldValues(billingDetails: BSBillingAddressDetails, sdkRequest: BSSdkRequest, ignoreCountry: Bool? = false) {
     
         setInputValue(input: nameInput, value: billingDetails.name ?? "")
@@ -226,18 +256,24 @@ class BSPaymentScreenUITestHelper {
         }
     }
     
-    func checkInput(input: XCUIElement, expectedExists: Bool, expectedValue: String, expectedLabelText: String) {
+    func checkInput(input: XCUIElement, expectedExists: Bool, expectedValue: String, expectedLabelText: String, expectedValid: Bool = true) {
         
-        let textField = getInputFieldElement(input)
-        XCTAssertTrue(textField.exists == expectedExists, "\(input.identifier) expected to be exists: \(expectedExists), but was exists: \(textField.exists)")
+        XCTAssertTrue(input.exists == expectedExists, "\(input.identifier) expected to be exists: \(expectedExists), but was exists: \(input.exists)")
         
-        if textField.exists {
+        if input.exists {
+            let textField = getInputFieldElement(input)
             let value = textField.value as! String
             XCTAssertTrue(expectedValue == value, "\(input.identifier) expected value: \(expectedValue), actual value: \(value)")
             
-            let label = getInputLabelElement(input)
-            let labelText: String = label.label //label.value as! String
-            XCTAssertTrue(labelText == expectedLabelText, "\(input.identifier) expected value: \(expectedValue), actual value: \(value)")
+            let titleLabel = getInputLabelElement(input)
+            let titleLabelText: String = titleLabel.label //label.value as! String
+            XCTAssertTrue(titleLabelText == expectedLabelText, "\(input.identifier) expected value: \(expectedLabelText), actual value: \(titleLabelText)")
+            
+            
+            let errorLabel = getInputErrorLabelElement(input)
+            XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(expectedValid), but was exists: \(errorLabel.exists)")
+            
         }
     }
+    
 }

@@ -154,11 +154,33 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     /* -------------------------------- New tests ---------------------------------------- */
     
-    func testFlowFullBillingNoShippingNoEmailNEW() {
-        let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: false, withEmail: false, amount: 30, currency: "USD")
+    func testViews() {
         
+        let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: false, withEmail: true, amount: 30, currency: "USD")
         
+        gotoPaymentScreen(sdkRequest: sdkRequest)
         
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        
+        fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getInvalidBillingDetails())
+        
+        // fill CC values
+        paymentHelper.setCcDetails(isOpen: true, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333")
+        
+        // fill field values
+        paymentHelper.setFieldValues(billingDetails: getInvalidBillingDetails(), sdkRequest: sdkRequest, ignoreCountry: true)
+        
+        // check that the values are in correctly
+        sdkRequest.shopperConfiguration.billingDetails = getInvalidBillingDetails()
+        paymentHelper.checkInputs(sdkRequest: sdkRequest)
+        
+        let payButton = checkPayButton(app: app, expectedPayText: "Pay $ 30.00")
+        paymentHelper.closeKeyboard()
+        payButton.tap()
+        
+        checkResult(expectedSuccessText:  "Success!")
+        
+        print("done")
     }
 
     
@@ -203,7 +225,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let payButton = checkPayButton(app: app, expectedPayText: "Shipping >")
         
         payButton.tap()
-//        waitForShippingScreen(app: app)
+        waitForShippingScreen(app: app)
         
         let shippingPayButton = checkAPayButton(app: app, buttonId: "ShippingPayButton", expectedPayText: "Pay $ 31.50")
         let shippingHelper = fillShippingDetails(app: app, sdkRequest: sdkRequest, shippingDetails: getDummyShippingDetails())
@@ -240,7 +262,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let payButton = checkPayButton(app: app, expectedPayText: "Shipping >")
         
         payButton.tap()
-//        waitForShippingScreen(app: app)
+        waitForShippingScreen(app: app)
         
         let shippingDetails = getDummyShippingDetails()
         shippingDetails.country = "GB"
@@ -280,7 +302,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let payButton = checkPayButton(app: app, expectedPayText: "Shipping >")
         
         payButton.tap()
-//        waitForShippingScreen(app: app)
+        waitForShippingScreen(app: app)
         
         let shippingDetails = getDummyShippingDetails()
         shippingDetails.country = "GH"
@@ -414,6 +436,18 @@ class BluesnapSDKExampleUITests: XCTestCase {
         return shippingDetails
     }
     
+    private func getInvalidBillingDetails(countryCode: String? = "CA", stateCode: String? = "ON") -> BSBillingAddressDetails {
+        
+        let billingDetails = BSBillingAddressDetails(email: "sivani.com", name: "Sivan Y", address: "a", city : "a", zip : "12345*", country : countryCode, state : stateCode)
+        return billingDetails
+    }
+    
+    private func getInvalidShippingDetails(countryCode: String? = "CA", stateCode: String? = "ON") -> BSBillingAddressDetails {
+        
+        let billingDetails = BSBillingAddressDetails(email: "shevie@gmail.com", name: "Shevie Chen", address: "58 somestreet", city : "somecity", zip : "4282300", country : countryCode, state : stateCode)
+        return billingDetails
+    }
+    
     private func prepareSdkRequest(fullBilling: Bool, withShipping: Bool, withEmail: Bool, amount: Double!, currency: String) -> BSSdkRequest {
 
         let taxAmount = amount * 0.05 // according to updateTax() in ViewController
@@ -423,6 +457,22 @@ class BluesnapSDKExampleUITests: XCTestCase {
     }
     
     private func fillBillingDetails(paymentHelper: BSPaymentScreenUITestHelper, sdkRequest: BSSdkRequest, ccn: String, exp: String, cvv: String, billingDetails: BSBillingAddressDetails, ignoreCountry: Bool? = false) {
+        
+        // fill CC values
+        paymentHelper.setCcDetails(isOpen: true, ccn: ccn, exp: exp, cvv: cvv)
+        
+        // make sure fields are shown according to configuration
+        paymentHelper.checkInputs(sdkRequest: sdkRequest)
+        
+        // fill field values
+        paymentHelper.setFieldValues(billingDetails: billingDetails, sdkRequest: sdkRequest, ignoreCountry: ignoreCountry)
+        
+        // check that the values are in correctly
+        sdkRequest.shopperConfiguration.billingDetails = billingDetails
+        paymentHelper.checkInputs(sdkRequest: sdkRequest)
+    }
+    
+    private func fillInvalidBillingDetails(paymentHelper: BSPaymentScreenUITestHelper, sdkRequest: BSSdkRequest, ccn: String, exp: String, cvv: String, billingDetails: BSBillingAddressDetails, ignoreCountry: Bool? = false) {
         
         // fill CC values
         paymentHelper.setCcDetails(isOpen: true, ccn: ccn, exp: exp, cvv: cvv)
@@ -470,7 +520,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // wait for payment type screen to load
         
         let ccButton = paymentTypeHelper.getCcButtonElement()
-//        waitForElementToExist(element: ccButton, waitTime: 120)
+        waitForElementToExist(element: ccButton, waitTime: 120)
         
         // make sure payment type buttons are visible
         paymentTypeHelper.checkPaymentTypes(expectedApplePay: true, expectedPayPal: true, expectedCC: true)
@@ -489,18 +539,18 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         // set new/returning shopper
         let returningShopperSwitch = app.switches["ReturningShopperSwitch"]
-//        waitForElementToExist(element: returningShopperSwitch, waitTime: 120)
+        waitForElementToExist(element: returningShopperSwitch, waitTime: 120)
         let returningShopperSwitchValue = (returningShopperSwitch.value as? String) ?? "0"
         if (returningShopperSwitchValue == "0" && returningShopper) || (returningShopperSwitchValue == "1" && !returningShopper) {
             returningShopperSwitch.tap()
             // wait for action to finish
             let coverView = app.otherElements.element(matching: .any, identifier: "CoverView")
-//            waitForEllementToDisa789ppear(element: coverView, waitTime: 30)
+            waitForEllementToDisappear(element: coverView, waitTime: 30)
         }
         
         // set with Shipping switch = on
         let withShippingSwitch = app.switches["WithShippingSwitch"]
-//        waitForElementToExist(element: withShippingSwitch, waitTime: 120)
+        waitForElementToExist(element: withShippingSwitch, waitTime: 120)
         let withShippingSwitchValue = (withShippingSwitch.value as? String) ?? "0"
         if (withShippingSwitchValue == "0" && sdkRequest.shopperConfiguration.withShipping) || (withShippingSwitchValue == "1" && !sdkRequest.shopperConfiguration.withShipping) {
             withShippingSwitch.tap()
@@ -535,38 +585,38 @@ class BluesnapSDKExampleUITests: XCTestCase {
     private func waitForExistingCcScreen(app: XCUIApplication) -> BSExistingCcScreenUITestHelper {
         
         let existingCcHelper = BSExistingCcScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
-//        waitForElementToExist(element: existingCcHelper.billingNameLabel, waitTime: 60)
+        waitForElementToExist(element: existingCcHelper.billingNameLabel, waitTime: 60)
         return existingCcHelper
     }
     
-//    private func waitForPaymentScreen(app: XCUIApplication) {
-//
-//        let payButton = app.buttons["PayButton"]
-//        waitForElementToExist(element: payButton, waitTime: 60)
-//    }
+    private func waitForPaymentScreen(app: XCUIApplication) {
+
+        let payButton = app.buttons["PayButton"]
+        waitForElementToExist(element: payButton, waitTime: 60)
+    }
     
-//    private func waitForShippingScreen(app: XCUIApplication) {
-//
-//        let payButton = app.buttons["ShippingPayButton"]
-//        waitForElementToExist(element: payButton, waitTime: 60)
-//    }
+    private func waitForShippingScreen(app: XCUIApplication) {
+
+        let payButton = app.buttons["ShippingPayButton"]
+        waitForElementToExist(element: payButton, waitTime: 60)
+    }
     
     private func waitForElementToExist(element: XCUIElement, waitTime: TimeInterval) {
 
         let exists = NSPredicate(format: "exists == 1")
         let ex: XCTestExpectation = expectation(for: exists, evaluatedWith: element)
         wait(for: [ex], timeout: waitTime)
-        //waitForExpectations(timeout: waitTime, handler: { error in
-         //   NSLog("Finished waiting")
-        //})
+//        waitForExpectations(timeout: waitTime, handler: { error in
+//            NSLog("Finished waiting")
+//        })
     }
     
-//    private func waitForEllementToDisappear(element: XCUIElement, waitTime: TimeInterval) {
-//
-//        let exists = NSPredicate(format: "exists == 0")
-//        let ex: XCTestExpectation = expectation(for: exists, evaluatedWith: element)
-//        wait(for: [ex], timeout: waitTime)
-//    }
+    private func waitForEllementToDisappear(element: XCUIElement, waitTime: TimeInterval) {
+
+        let exists = NSPredicate(format: "exists == 0")
+        let ex: XCTestExpectation = expectation(for: exists, evaluatedWith: element)
+        wait(for: [ex], timeout: waitTime)
+    }
 }
 
 //extension XCTestCase {
