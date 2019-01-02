@@ -51,6 +51,7 @@ class BSStartViewController: UIViewController {
 
         // Localize strings
         self.title = BSLocalizedStrings.getString(BSLocalizedString.Title_Payment_Type)
+
     }
 
 
@@ -166,7 +167,7 @@ class BSStartViewController: UIViewController {
                     if let resultToken = resultToken {
                         self.stopActivityIndicator()
                         DispatchQueue.main.async {
-                            BSViewsManager.showBrowserScreen(inNavigationController: self.navigationController, url: resultToken, shouldGoToUrlFunc: self.paypalUrlListener)
+                            BSViewsManager.showBrowserScreen(inNavigationController: (nil != self.navigationController) ? self.navigationController : sender as! UINavigationController, url: resultToken, shouldGoToUrlFunc: self.paypalUrlListener)
                         }
                     } else {
                         let errMsg = resultError == .paypalUnsupportedCurrency ? BSLocalizedString.Error_PayPal_Currency_Not_Supported : BSLocalizedString.Error_General_PayPal_error
@@ -270,7 +271,7 @@ class BSStartViewController: UIViewController {
     }
 
 
-    private func paypalUrlListener(url: String) -> Bool {
+    func paypalUrlListener(url: String) -> Bool {
 
         if BSPaypalHandler.isPayPalProceedUrl(url: url) {
             // paypal success!

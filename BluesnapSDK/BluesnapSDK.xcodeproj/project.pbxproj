@@ -16,6 +16,7 @@
 		2DD7F11D1E8828B2002C5571 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
 		4EC9F12D21D287240041BE5A /* BSUpdateShopperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */; };
 		660300EAA5412A9B2F51C177 /* BSSdkRequestResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030FD5BA5AD398A2EF004D /* BSSdkRequestResultTests.swift */; };
+		6603063876E32FC9C6232507 /* BSCreatePaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030DB8FB7B234A62BFC735 /* BSCreatePaymentViewController.swift */; };
 		8746CA1821CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746CA1721CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift */; };
 		8746CA1A21CFD60E00E7D3DA /* BSMockShopper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746CA1921CFD60E00E7D3DA /* BSMockShopper.swift */; };
 		87A317BB21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */; };
@@ -101,6 +102,7 @@
 		2DADB9D81EC31F4200C1A2D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/BlueSnap.storyboard; sourceTree = "<group>"; };
 		2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKountDataCollector.a; sourceTree = "<group>"; };
 		66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSUpdateShopperTests.swift; sourceTree = "<group>"; };
+		66030DB8FB7B234A62BFC735 /* BSCreatePaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSCreatePaymentViewController.swift; sourceTree = "<group>"; };
 		66030FD5BA5AD398A2EF004D /* BSSdkRequestResultTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSSdkRequestResultTests.swift; sourceTree = "<group>"; };
 		8746CA1721CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSIntegrationTestingAPIHelper.swift; sourceTree = "<group>"; };
 		8746CA1921CFD60E00E7D3DA /* BSMockShopper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSMockShopper.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				FD1ACDEC1E9F66170010C983 /* BSCurrencyTableViewCell.swift */,
 				FDA077301EAC94CF0045E920 /* BSCountryTableViewCell.swift */,
 				FD52D50D1EBF3F6500360863 /* BSStateTableViewCell.swift */,
+				66030DB8FB7B234A62BFC735 /* BSCreatePaymentViewController.swift */,
 			);
 			name = Screens;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				DEBAC1114FFA55F1852DCB78 /* BSPKContactExtention.swift in Sources */,
 				DEB3C8BC3806435452EEB052 /* BSApplepayOperation.swift in Sources */,
 				FD461F581F4073FC0050F0FD /* BSLocalizedStrings.swift in Sources */,
+				6603063876E32FC9C6232507 /* BSCreatePaymentViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -151,6 +151,8 @@ class ViewController: UIViewController {
 
     @IBAction func createButtonAction(_ sender: UIButton) {
         buttonGeneralAction()
+        coverAllView.isHidden = true
+        hideCoverView = false
         DispatchQueue.main.async {
             // open the purchase screen
             self.fillSdkRequest(isShopperRequirements: false)
@@ -220,7 +222,7 @@ class ViewController: UIViewController {
         sdkRequestBase?.shopperConfiguration.billingDetails = BSBillingAddressDetails(email: "john@gmail.com", name: "John Doe", address: "333 elm st", city: "New York", zip: "532464", country: "US", state: "MA")
 
         if withShippingSwitch.isOn {
-            sdkRequestBase?.shopperConfiguration.shippingDetails = BSShippingAddressDetails(phone: "972-528-9999999", name: "Mary Doe", address: "333 elm st", city: "Boston", zip: "111222", country: initialShippingCoutry, state: initialShippingState)
+            sdkRequestBase?.shopperConfiguration.shippingDetails = BSShippingAddressDetails(name: "Mary Doe", address: "333 elm st", city: "Boston", zip: "111222", country: initialShippingCoutry, state: initialShippingState)
         }
     }
 
@@ -477,7 +479,6 @@ class ViewController: UIViewController {
 
             if let shippingDetails = purchaseDetails.getShippingDetails() {
                 NSLog("Shipping Data: Name:\(shippingDetails.name ?? "")")
-                NSLog(" Phone:\(shippingDetails.phone ?? "")")
                 NSLog(" Zip code:\(shippingDetails.zip ?? "")")
                 NSLog(" Street address:\(shippingDetails.address ?? "")")
                 NSLog(" City:\(shippingDetails.city ?? "")")

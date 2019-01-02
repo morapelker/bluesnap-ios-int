@@ -99,7 +99,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         existingCcHelper.editBillingButton.tap()
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         paymentHelper.setFieldValues(billingDetails: getDummyBillingDetails(), sdkRequest: sdkRequest)
         paymentHelper.closeKeyboard()
         let editBillingPayButton = checkPayButton(app: app, expectedPayText: "Done")
@@ -132,7 +132,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         gotoPaymentScreen(sdkRequest: sdkRequest, returningShopper: true)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
         
@@ -192,7 +192,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         gotoPaymentScreen(sdkRequest: sdkRequest)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
 
         fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
         
@@ -211,7 +211,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         gotoPaymentScreen(sdkRequest: sdkRequest)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         let _ = checkPayButton(app: app, expectedPayText: "Pay $ 31.50")
 
@@ -248,7 +248,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let billingDetails = getDummyBillingDetails()
         billingDetails.country = "IL"
         billingDetails.state = nil
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         let _ = checkPayButton(app: app, expectedPayText: "Pay $ 21.00")
         
@@ -290,7 +290,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let billingDetails = getDummyBillingDetails()
         billingDetails.country = "GH"
         billingDetails.state = nil
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
 
         fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: billingDetails)
         
@@ -325,7 +325,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         gotoPaymentScreen(sdkRequest: sdkRequest)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
         
         let payButton = checkPayButton(app: app, expectedPayText: "Pay $ 30.00")
@@ -344,7 +344,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         gotoPaymentScreen(sdkRequest: sdkRequest)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
 
         fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
         
@@ -364,7 +364,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         gotoPaymentScreen(sdkRequest: sdkRequest)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
 
         fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
         
@@ -384,7 +384,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         gotoPaymentScreen(sdkRequest: sdkRequest)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
         
@@ -432,7 +432,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     private func getDummyShippingDetails(countryCode: String? = "CA", stateCode: String? = "ON") -> BSShippingAddressDetails {
         
-        let shippingDetails = BSShippingAddressDetails(phone: "18008007070", name: "Shevie Chen", address: "58 somestreet", city : "somecity", zip : "4282300", country : countryCode, state : stateCode)
+        let shippingDetails = BSShippingAddressDetails(name: "Shevie Chen", address: "58 somestreet", city : "somecity", zip : "4282300", country : countryCode, state : stateCode)
         return shippingDetails
     }
     

@@ -14,7 +14,7 @@ import Foundation
  State is mandfatopry only if the country has state (USA, Canada and Brazil).
  For not-full billing details, only name, country and zip are filled, email is optional
  For full billing details, everything is mandatory except email which is optional.
- For shipping details all field are mandatory except phone which is optional.
+ For shipping details all field are mandatory.
  */
 public class BSBaseAddressDetails: NSObject, BSModel {
     public static let FIRST_NAME: String = "firstName";
@@ -109,19 +109,16 @@ public class BSBillingAddressDetails: BSBaseAddressDetails, NSCopying {
 }
 
 /**
- Shopper shipping details - basically address + phone
+ Shopper shipping details - basically address
  */
 public class BSShippingAddressDetails: BSBaseAddressDetails, NSCopying {
-
-    public var phone: String?
 
     public override init() {
         super.init()
     }
 
-    public init(phone: String?, name: String!, address: String?, city: String?, zip: String?, country: String?, state: String?) {
+    public init(name: String!, address: String?, city: String?, zip: String?, country: String?, state: String?) {
         super.init()
-        self.phone = phone
         self.name = name
         self.address = address
         self.city = city
@@ -131,7 +128,7 @@ public class BSShippingAddressDetails: BSBaseAddressDetails, NSCopying {
     }
 
     public func copy(with zone: NSZone? = nil) -> Any {
-        let copy = BSShippingAddressDetails(phone: phone, name: name, address: address, city: city, zip: zip, country: country, state: state)
+        let copy = BSShippingAddressDetails(name: name, address: address, city: city, zip: zip, country: country, state: state)
         return copy
     }
 
