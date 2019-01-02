@@ -472,22 +472,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
         paymentHelper.checkInputs(sdkRequest: sdkRequest)
     }
     
-    private func fillInvalidBillingDetails(paymentHelper: BSPaymentScreenUITestHelper, sdkRequest: BSSdkRequest, ccn: String, exp: String, cvv: String, billingDetails: BSBillingAddressDetails, ignoreCountry: Bool? = false) {
-        
-        // fill CC values
-        paymentHelper.setCcDetails(isOpen: true, ccn: ccn, exp: exp, cvv: cvv)
-        
-        // make sure fields are shown according to configuration
-        paymentHelper.checkInputs(sdkRequest: sdkRequest)
-        
-        // fill field values
-        paymentHelper.setFieldValues(billingDetails: billingDetails, sdkRequest: sdkRequest, ignoreCountry: ignoreCountry)
-        
-        // check that the values are in correctly
-        sdkRequest.shopperConfiguration.billingDetails = billingDetails
-        paymentHelper.checkInputs(sdkRequest: sdkRequest)
-    }
-    
     private func fillShippingDetails(app: XCUIApplication, sdkRequest: BSSdkRequest, shippingDetails: BSShippingAddressDetails) -> BSShippingScreenUITestHelper {
         
         let paymentHelper = BSShippingScreenUITestHelper(app:app, keyboardIsHidden: keyboardIsHidden)
