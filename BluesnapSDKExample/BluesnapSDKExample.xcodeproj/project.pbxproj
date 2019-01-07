@@ -21,6 +21,7 @@
 		57D13E882064A676F993C974 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8243E4BB77697B4BC726DFC1 /* AVFoundation.framework */; };
 		656BC4430E7C9FD3E9BFA1EB /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7795A84BCD9A86582908E6 /* CoreTelephony.framework */; };
 		6A0D56668683F67E8BCFD6EC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A1D0EF03F84A1CE191C991 /* CoreMedia.framework */; };
+		8713189221E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */; };
 		879F3E3B21CA976800A03583 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */; };
 		87A317CC21BFF41800156EA2 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		87C8FCAA21D39EDC00486646 /* DemoAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8771F3B621C802DD0030108E /* DemoAPIHelper.swift */; };
@@ -116,6 +117,7 @@
 		57BBCD0E0159D220A2D83C91 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		5EE4EA591293E02F03418C9B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8243E4BB77697B4BC726DFC1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSCreditCardScreenUITestHelperBase.swift; sourceTree = "<group>"; };
 		8771F3B621C802DD0030108E /* DemoAPIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAPIHelper.swift; sourceTree = "<group>"; };
 		BEEF86EB87F386F09F86E0A4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D4C1F041334E92065E9D2639 /* Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				2D4E27A21E8808A800C56C46 /* BluesnapSDKExampleUITests.swift */,
 				2D4E27A41E8808A800C56C46 /* Info.plist */,
 				FD50228E1F6137A900C820AC /* BSPaymentTypeScreenUITestHelper.swift */,
+				8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */,
 				FD5022901F61399300C820AC /* BSPaymentScreenUITestHelper.swift */,
 				FD5022921F67AD6B00C820AC /* BSShippingScreenUITestHelper.swift */,
 				FD6479ED1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift */,
@@ -447,6 +450,7 @@
 				FD5022911F61399300C820AC /* BSPaymentScreenUITestHelper.swift in Sources */,
 				879F3E3B21CA976800A03583 /* Configuration.swift in Sources */,
 				DEB4DCB77A919FB8115F65E5 /* AppDelegate.swift in Sources */,
+				8713189221E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -55,6 +55,18 @@ class BSPaymentScreenUITestHelper {
         return ccInput.textFields["CvvTextField"]
     }
     
+    func getCcInputErrorLabelElement() -> XCUIElement {
+        return ccInput.staticTexts["errorLabel"]
+    }
+    
+    func getExpInputErrorLabelElement() -> XCUIElement {
+        return ccInput.staticTexts["expErrorLabel"]
+    }
+    
+    func getCvvInputErrorLabelElement() -> XCUIElement {
+        return ccInput.staticTexts["cvvErrorLabel"]
+    }
+    
     func getInputFieldElement(_ input : XCUIElement) -> XCUIElement {
         return input.textFields["TextField"]
     }
@@ -162,47 +174,36 @@ class BSPaymentScreenUITestHelper {
         }
     }
     
-    func checkInvalidNameInputs() {
-        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true, inputToTap: emailInput)
-        validateInput(input: nameInput, value: "Sawyer", expectedLabelText: "Name", expectedValid: false, inputToTap: emailInput)
-        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true, inputToTap: emailInput)
-        validateInput(input: nameInput, value: "L Fleur", expectedLabelText: "Name", expectedValid: false, inputToTap: emailInput)
-        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true, inputToTap: emailInput)
-        validateInput(input: nameInput, value: "La F", expectedLabelText: "Name", expectedValid: false, inputToTap: emailInput)
-        validateInput(input: nameInput, value: "Fanny Brice", expectedLabelText: "Name", expectedValid: true, inputToTap: emailInput)
+    //Pre-condition: country is USA- for state existence and "Billing Zip" label text
+    //Pre-condition: all input fields are empty
+    func checkEmptyInputs() {
+        app.buttons["PayButton"].tap()
+        checkInput(input: nameInput, expectedValue: "John Doe", expectedLabelText: "Name", expectedValid: false)
+        checkInput(input: emailInput, expectedValue: "", expectedLabelText: "Email", expectedValid: false)
+        checkInput(input: zipInput, expectedValue: "", expectedLabelText: "Billing Zip", expectedValid: false)
+        checkInput(input: streetInput, expectedValue: "", expectedLabelText: "Street", expectedValid: false)
+        checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
     }
     
-    func checkInvalidEmailInputs() {
-        validateInput(input: emailInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true, inputToTap: zipInput)
-        validateInput(input: emailInput, value: "broadwaydancecenter.com", expectedLabelText: "Email", expectedValid: false, inputToTap: zipInput)
-        validateInput(input: emailInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true, inputToTap: zipInput)
-        validateInput(input: emailInput, value: "broadwaydancecenter@gmail", expectedLabelText: "Email", expectedValid: false, inputToTap: zipInput)
-        validateInput(input: emailInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true, inputToTap: zipInput)
-        validateInput(input: emailInput, value: "broadwaydancecenter*@gmail.com", expectedLabelText: "Email", expectedValid: false, inputToTap: zipInput)
-        validateInput(input: emailInput, value: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", expectedValid: true, inputToTap: zipInput)
+    func checkInvalidBillingInfoInputs() {
+        checkInvalidFieldInputs(input: nameInput, invalidValuesToCheck: ["Sawyer", "L Fleur", "La F"], validValue: "Fanny Brice", expectedLabelText: "Name", inputToTap: emailInput)
+        
+        checkInvalidFieldInputs(input: emailInput, invalidValuesToCheck: ["broadwaydancecenter.com", "broadwaydancecenter@gmail"], validValue: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", inputToTap: zipInput)
+        
+        //Pre-condition: country is USA
+        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Billing Zip", inputToTap: streetInput)
+        
+        checkInvalidFieldInputs(input: streetInput, invalidValuesToCheck: ["ab"], validValue: "Broadway 777", expectedLabelText: "Street", inputToTap: cityInput)
+        
+        checkInvalidFieldInputs(input: cityInput, invalidValuesToCheck: ["ab"], validValue: "New York", expectedLabelText: "City", inputToTap: nameInput)
     }
     
-    //Pre-condition: country is USA
-    func checkInvalidZipInputs() {
-        validateInput(input: zipInput, value: "12345", expectedLabelText: "Billing Zip", expectedValid: true, inputToTap: streetInput)
-        validateInput(input: zipInput, value: "12345*", expectedLabelText: "Postal Code", expectedValid: false, inputToTap: streetInput)
-        validateInput(input: zipInput, value: "12345 abcde", expectedLabelText: "Billing Zip", expectedValid: true, inputToTap: streetInput)
-    }
-    
-    func checkInvalidStreetInputs() {
-        validateInput(input: streetInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true, inputToTap: cityInput)
-        validateInput(input: streetInput, value: "a", expectedLabelText: "Street", expectedValid: false, inputToTap: cityInput)
-        validateInput(input: streetInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true, inputToTap: cityInput)
-        validateInput(input: streetInput, value: "         ", expectedLabelText: "Street", expectedValid: false, inputToTap: cityInput)
-        validateInput(input: streetInput, value: "Broadway 777", expectedLabelText: "Street", expectedValid: true, inputToTap: cityInput)
-    }
-    
-    func checkInvalidCityInputs() {
-        validateInput(input: cityInput, value: "New York", expectedLabelText: "City", expectedValid: true, inputToTap: nameInput)
-        validateInput(input: cityInput, value: "a", expectedLabelText: "Email", expectedValid: false, inputToTap: nameInput)
-        validateInput(input: cityInput, value: "New York", expectedLabelText: "City", expectedValid: true, inputToTap: nameInput)
-        validateInput(input: cityInput, value: "       ", expectedLabelText: "Email", expectedValid: false, inputToTap: nameInput)
-        validateInput(input: cityInput, value: "New York", expectedLabelText: "City", expectedValid: true, inputToTap: nameInput)
+    func checkInvalidFieldInputs(input: XCUIElement, invalidValuesToCheck: [String], validValue: String, expectedLabelText: String, inputToTap: XCUIElement) {
+        for invalidValue in invalidValuesToCheck{
+            validateInput(input: input, value: validValue, expectedLabelText: expectedLabelText, expectedValid: true, inputToTap: inputToTap)
+            validateInput(input: input, value: invalidValue, expectedLabelText: expectedLabelText, expectedValid: false, inputToTap: inputToTap)
+        }
+        validateInput(input: input, value: validValue, expectedLabelText: expectedLabelText, expectedValid: true, inputToTap: inputToTap)
     }
     
     func setFieldValues(billingDetails: BSBillingAddressDetails, sdkRequest: BSSdkRequest, ignoreCountry: Bool? = false) {
