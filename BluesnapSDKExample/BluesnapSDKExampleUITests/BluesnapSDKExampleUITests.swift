@@ -168,12 +168,11 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // chenag country to USA to have state and zip
         paymentHelper.setCountry(countryCode: "US")
         
+        // check trying to pay with empty fields
+        paymentHelper.checkEmptyInputs()
+        
         // check invalid inputs
-        paymentHelper.checkInvalidNameInputs()
-        paymentHelper.checkInvalidZipInputs()
-        paymentHelper.checkInvalidEmailInputs()
-        paymentHelper.checkInvalidStreetInputs()
-        paymentHelper.checkInvalidCityInputs()
+        paymentHelper.checkInvalidBillingInfoInputs()
         
         //app.buttons["PayButton"].tap()
                 
