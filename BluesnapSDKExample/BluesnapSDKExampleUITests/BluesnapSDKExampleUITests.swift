@@ -179,6 +179,10 @@ class BluesnapSDKExampleUITests: XCTestCase {
         print("done")
     }
 
+    func testFullBilling(){
+        
+    }
+
     
     /* -------------------------------- New shopper tests ---------------------------------------- */
     
@@ -458,14 +462,14 @@ class BluesnapSDKExampleUITests: XCTestCase {
         paymentHelper.setCcDetails(isOpen: true, ccn: ccn, exp: exp, cvv: cvv)
         
         // make sure fields are shown according to configuration
-        paymentHelper.checkInputs(sdkRequest: sdkRequest)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest)
         
         // fill field values
         paymentHelper.setFieldValues(billingDetails: billingDetails, sdkRequest: sdkRequest, ignoreCountry: ignoreCountry)
         
         // check that the values are in correctly
         sdkRequest.shopperConfiguration.billingDetails = billingDetails
-        paymentHelper.checkInputs(sdkRequest: sdkRequest)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest)
     }
     
     private func fillShippingDetails(app: XCUIApplication, sdkRequest: BSSdkRequest, shippingDetails: BSShippingAddressDetails) -> BSShippingScreenUITestHelper {
@@ -482,7 +486,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         // check that the values are in correctly
         sdkRequest.shopperConfiguration.shippingDetails = shippingDetails
-        paymentHelper.checkInputs(sdkRequest: sdkRequest)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest)
         
         return paymentHelper
     }
