@@ -19,9 +19,9 @@ class BSExistingCcScreenUITestHelper {
     var shippingAddressLabel : XCUIElement!
     var editBillingButton : XCUIElement!
     var editShippingButton : XCUIElement!
-    var keyboardIsHidden : Bool  = true
+//    var keyboardIsHidden : Bool  = true
 
-    init(app: XCUIApplication!, keyboardIsHidden : Bool) {
+    init(app: XCUIApplication!) {
         self.app = app
 //        let elementsQuery = app.scrollViews.otherElements
         billingNameLabel = app.staticTexts["BillingName"] //elementsQuery.element(matching: .any, identifier: "BillingName")
@@ -30,7 +30,7 @@ class BSExistingCcScreenUITestHelper {
         shippingAddressLabel = app.staticTexts["ShippingAddress"] //elementsQuery.element(matching: .any, identifier: "ShippingAddress")
         editBillingButton = app.buttons["EditBillingButton"] //elementsQuery.element(matching: .any, identifier: "EditBillingButton")
         editShippingButton = app.buttons["EditShippingButton"] //elementsQuery.element(matching: .any, identifier: "EditShippingButton")
-        self.keyboardIsHidden = keyboardIsHidden
+//        self.keyboardIsHidden = keyboardIsHidden
     }
     
     

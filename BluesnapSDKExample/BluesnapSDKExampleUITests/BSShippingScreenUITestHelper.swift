@@ -12,8 +12,8 @@ import BluesnapSDK
 
 class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     
-    override init(app: XCUIApplication!, keyboardIsHidden : Bool) {
-        super.init(app: app, keyboardIsHidden: keyboardIsHidden)
+    override init(app: XCUIApplication!) {
+        super.init(app: app)
         
         let elementsQuery = app.scrollViews.otherElements
         nameInput = elementsQuery.element(matching: .any, identifier: "ShippingName")
@@ -43,6 +43,13 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: expectedStateValue, expectedLabelText: "State")
         }
         
+    }
+    
+    override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest) {
+        super.checkPayWithEmptyInputs(sdkRequest: sdkRequest)
+        checkInput(input: streetInput, expectedValue: "", expectedLabelText: "Street", expectedValid: false)
+        checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
+        checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
     }
 
     func setFieldValues(shippingDetails: BSShippingAddressDetails, sdkRequest: BSSdkRequest) {

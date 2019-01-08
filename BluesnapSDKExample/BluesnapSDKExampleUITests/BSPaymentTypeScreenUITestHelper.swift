@@ -11,13 +11,13 @@ import XCTest
 
 class BSPaymentTypeScreenUITestHelper {
     
-    var keyboardIsHidden = true
+//    var keyboardIsHidden = true
 
     var app: XCUIApplication!
     
-    init(app: XCUIApplication!, keyboardIsHidden : Bool) {
+    init(app: XCUIApplication!) {
         self.app = app
-        self.keyboardIsHidden = keyboardIsHidden
+//        self.keyboardIsHidden = keyboardIsHidden
     }
     
     func getApplePayButtonElement() -> XCUIElement{
