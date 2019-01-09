@@ -344,17 +344,17 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
             topMenuButton.isEnabled = BlueSnapSDK.sdkRequestBase?.allowCurrencyChange ?? true
         }
         
-        if newCardMode && self.ccInputLine.ccnIsOpen {
-            // hide everything
-            nameInputLine.isHidden = true
-            emailInputLine.isHidden = true
-            streetInputLine.isHidden = true
-            cityInputLine.isHidden = true
-            zipInputLine.isHidden = true
-            stateInputLine.isHidden = true
-            shippingSameAsBillingView.isHidden = true
-            subtotalAndTaxDetailsView.isHidden = true
-        } else {
+//        if newCardMode && self.ccInputLine.ccnIsOpen {
+//            // hide everything
+//            nameInputLine.isHidden = true
+//            emailInputLine.isHidden = true
+//            streetInputLine.isHidden = true
+//            cityInputLine.isHidden = true
+//            zipInputLine.isHidden = true
+//            stateInputLine.isHidden = true
+//            shippingSameAsBillingView.isHidden = true
+//            subtotalAndTaxDetailsView.isHidden = true
+//        } else {
             nameInputLine.isHidden = false
             emailInputLine.isHidden = !self.withEmail
             let hideFields = !self.fullBilling
@@ -367,7 +367,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
             shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
             subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0 || purchaseDetails.isShopperRequirements()
             updateZipFieldLocation()
-        }
+//        }
     }
     
     /*func deviceDidRotate() {
@@ -404,11 +404,11 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
     
     private func updateAmounts() {
 
-        if self.ccInputLine.ccnIsOpen {
-            subtotalAndTaxDetailsView.isHidden = true
-        } else {
+//        if self.ccInputLine.ccnIsOpen {
+//            subtotalAndTaxDetailsView.isHidden = true
+//        } else {
             subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0
-        }
+//        }
 
         let toCurrency = purchaseDetails.getCurrency() ?? ""
         let subtotalAmount = purchaseDetails.getAmount() ?? 0.0
