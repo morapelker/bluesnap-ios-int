@@ -67,6 +67,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         setCcNumber(isOpen: isOpen, ccn: "4111 1111 1111 1111")
     
         let expTextField = getExpInputFieldElement()
+        waitForElementToExistFunc(expTextField, 3)
         expTextField.typeText("1126")
         
         let cvvTextField = getCvvInputFieldElement()
