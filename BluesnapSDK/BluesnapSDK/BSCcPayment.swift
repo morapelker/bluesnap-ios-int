@@ -102,7 +102,14 @@ class BSCreditCardInfo: BSPaymentInfo, NSCopying {
  New CC details for the purchase
  */
 public class BSCcSdkResult: BSBaseSdkResult {
-
+    override var storeCard: Bool! {
+        get {
+            return super.isShopperRequirements() ? true : super.storeCard
+        }
+        set {
+            super.storeCard = newValue
+        }
+    }
     public var creditCard: BSCreditCard = BSCreditCard()
     public var billingDetails: BSBillingAddressDetails! = BSBillingAddressDetails()
     public var shippingDetails: BSShippingAddressDetails?
@@ -110,6 +117,7 @@ public class BSCcSdkResult: BSBaseSdkResult {
     public override init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init(sdkRequestBase: sdkRequestBase)
         chosenPaymentMethodType = BSPaymentType.CreditCard
+        storeCard = false
 
         if let shopper = BSApiManager.shopper {
             self.billingDetails = BSBillingAddressDetails(email: shopper.email, name: shopper.name, address: shopper.address, city: shopper.city, zip: shopper.zip, country: shopper.country, state: shopper.state)
@@ -143,6 +151,12 @@ public class BSCcSdkResult: BSBaseSdkResult {
  Existing CC details for the purchase
  */
 public class BSExistingCcSdkResult: BSCcSdkResult, NSCopying {
+    override var storeCard: Bool! {
+        get {
+            return true
+        }
+        set {}
+    }
 
     // for copy
     override private init(sdkRequestBase: BSSdkRequestProtocol) {

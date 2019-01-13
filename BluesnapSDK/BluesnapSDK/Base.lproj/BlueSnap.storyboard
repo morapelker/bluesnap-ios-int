@@ -889,7 +889,12 @@
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vwF-7y-FIh" userLabel="Store Card Switch">
                                         <rect key="frame" x="260" y="0.0" width="51" height="36"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="StoreCardSwitch"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="StoreCardSwitch">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
+                                        <connections>
+                                            <action selector="storeCardValueChanged:" destination="W0G-M6-3dM" eventType="valueChanged" id="UbT-uo-830"/>
+                                        </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.54000002145767212" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Securely store my card for future purchases" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="9jx-od-DTQ" userLabel="Store Card Label">
                                         <rect key="frame" x="46" y="0.0" width="201" height="36"/>
@@ -959,6 +964,9 @@
                         <outlet property="shippingSameAsBillingSwitch" destination="XWl-8L-gmv" id="XV9-nJ-CaA"/>
                         <outlet property="shippingSameAsBillingView" destination="yCg-Wt-HfE" id="CdY-hJ-sZj"/>
                         <outlet property="stateInputLine" destination="EKc-lR-XxG" id="Yje-Ab-5bX"/>
+                        <outlet property="storeCardLabel" destination="9jx-od-DTQ" id="v1W-ir-ha8"/>
+                        <outlet property="storeCardSwitch" destination="vwF-7y-FIh" id="7DG-A5-qcE"/>
+                        <outlet property="storeCardView" destination="USP-6z-lgl" id="aSD-3X-VUW"/>
                         <outlet property="streetInputLine" destination="8Vk-vx-UOS" id="1hu-iI-rby"/>
                         <outlet property="subtotalAndTaxDetailsView" destination="yFX-qm-9XX" id="hMe-w6-Soy"/>
                         <outlet property="topMenuButton" destination="ODe-4v-aVb" id="iIr-n7-oqo"/>
