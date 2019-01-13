@@ -98,6 +98,7 @@ public enum BSLocalizedString : String {
     case Label_Tax_Amount
     
     case Label_Shipping_Same_As_Billing
+    case Label_Store_Card
 
     case Payment_Pay_Button_Format
     case Payment_subtotal_and_tax_format
