@@ -142,7 +142,7 @@ class BSUpdateShopperTests: XCTestCase {
 
             let semaphore4 = DispatchSemaphore(value: 1)
             BSIntegrationTestingAPIHelper.submitCCDetails(ccDetails: creditCard, billingDetails: BluesnapSDKIntegrationTestsHelper.getBillingDetails(add2: set2),
-                    shippingDetails: shopper.shippingDetails, completion: { error in
+                    shippingDetails: shopper.shippingDetails, storeCard: true, completion: { error in
                 semaphore4.signal()
             })
             semaphore4.wait()

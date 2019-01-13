@@ -517,6 +517,6 @@ class BSApiManagerTests: XCTestCase {
 
     private func submitCcDetails(ccNumber: String, expDate: String, cvv: String, completion: @escaping (BSCreditCard, BSErrors?) -> Void) {
 
-        BSApiManager.submitPurchaseDetails(ccNumber: ccNumber, expDate: expDate, cvv: cvv, last4Digits: nil, cardType: nil, billingDetails: nil, shippingDetails: nil, fraudSessionId: nil, completion: completion)
+        BSApiManager.submitPurchaseDetails(ccNumber: ccNumber, expDate: expDate, cvv: cvv, last4Digits: nil, cardType: nil, billingDetails: nil, shippingDetails: nil, storeCard: nil, fraudSessionId: nil, completion: completion)
     }
 }
