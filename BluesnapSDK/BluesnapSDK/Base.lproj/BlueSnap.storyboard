@@ -888,7 +888,7 @@
                                 <rect key="frame" x="16" y="488" width="307" height="36"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vwF-7y-FIh" userLabel="Store Card Switch">
-                                        <rect key="frame" x="260" y="0.0" width="51" height="36"/>
+                                        <rect key="frame" x="243" y="0.0" width="51" height="36"/>
                                         <accessibility key="accessibilityConfiguration" identifier="StoreCardSwitch">
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
@@ -897,7 +897,7 @@
                                         </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.54000002145767212" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Securely store my card for future purchases" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="9jx-od-DTQ" userLabel="Store Card Label">
-                                        <rect key="frame" x="46" y="0.0" width="201" height="36"/>
+                                        <rect key="frame" x="46" y="0.0" width="184" height="36"/>
                                         <accessibility key="accessibilityConfiguration" identifier="StoreCardLabel" label="Store Card Label"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="184" id="67r-5T-th4"/>
@@ -1016,13 +1016,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="CurrencyUILabel" text="Currency" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lvq-lv-yB8">
-                                                    <rect key="frame" x="0.0" y="10.5" width="270" height="18.5"/>
+                                                    <rect key="frame" x="0.0" y="10.5" width="325" height="18.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue_check_mark" translatesAutoresizingMaskIntoConstraints="NO" id="SPl-dB-Ocj" userLabel="checkMark">
-                                                    <rect key="frame" x="272" y="13.5" width="16" height="13"/>
+                                                    <rect key="frame" x="327" y="13.5" width="16" height="13"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                                                     </accessibility>
@@ -1124,7 +1124,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue_check_mark" translatesAutoresizingMaskIntoConstraints="NO" id="MdR-u1-48S" userLabel="checkMark">
-                                                    <rect key="frame" x="249" y="16" width="16" height="14"/>
+                                                    <rect key="frame" x="304" y="16" width="16" height="14"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                                                     </accessibility>

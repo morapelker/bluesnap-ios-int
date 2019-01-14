@@ -540,6 +540,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
     @IBAction func storeCardValueChanged(_ sender: Any) {
         purchaseDetails.storeCard = storeCardSwitch.isOn
+        storeCardLabel.textColor = UIColor.black
     }
 
     private func callUpdateTax(ifSameAsBilling: Bool, ifNotSameAsBilling: Bool) {
@@ -602,7 +603,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
         let ok1 = validateName(ignoreIfEmpty: false)
         let ok2 = newCardMode ? ccInputLine.validate() : true
-        var result = ok1 && ok2
+        let ok3 = validateStoreCard(isShopperRequirements: purchaseDetails.isShopperRequirements())
+        var result = ok1 && ok2 && ok3
 
         if fullBilling {
             let ok1 = validateEmail(ignoreIfEmpty: false)
@@ -682,6 +684,15 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
     func validateState(ignoreIfEmpty: Bool) -> Bool {
 
         let result: Bool = BSValidator.validateState(ignoreIfEmpty: ignoreIfEmpty, input: stateInputLine, addressDetails: purchaseDetails.getBillingDetails())
+        return result
+    }
+
+    func validateStoreCard(isShopperRequirements: Bool) -> Bool {
+        let result: Bool = BSValidator.validateStoreCard(isShopperRequirements: isShopperRequirements, switchIsOn: storeCardSwitch.isOn)
+        if !result {
+            storeCardLabel.textColor = UIColor.red
+            storeCardSwitch.tintColor = UIColor.red
+        }
         return result
     }
 

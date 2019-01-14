@@ -271,7 +271,7 @@ class BSIntegrationTestingAPIHelper {
     // MARK: functions API Calls
     //------------------------------------------------------
 
-    static func createVaultedShopper(creditCard: [String: String], set2: Bool = false) -> Int? {
+    static func createVaultedShopper(creditCard: [String: String], set2: Bool = false, storeCard:Bool = true) -> Int? {
         var bsToken: BSToken = BSToken(tokenStr: "_")
         var vaultedShopperId: Int = 0
 
@@ -280,7 +280,7 @@ class BSIntegrationTestingAPIHelper {
             bsToken = BSToken(tokenStr: token!.getTokenStr()!)
             NSLog("token: \(bsToken.tokenStr)")
             submitCCDetails(ccDetails: creditCard, billingDetails: BluesnapSDKIntegrationTestsHelper.getBillingDetails(add2: set2),
-                    shippingDetails: BluesnapSDKIntegrationTestsHelper.getShippingDetails(add2: set2), storeCard: true, completion: { error in
+                    shippingDetails: BluesnapSDKIntegrationTestsHelper.getShippingDetails(add2: set2), storeCard: storeCard, completion: { error in
                 semaphore.signal()
             })
         })

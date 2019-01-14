@@ -31,8 +31,8 @@ public class BSPaymentInfo: NSObject {
 /**
  Base class for payment request; this will be the result of the payment flow (one of the inherited classes: BSCcSdkResult/BSApplePaySdkResult/BSPayPalSdkResult)
  */
-public class BSBaseSdkResult: NSObject, BSBaseSdkResultProtocol {
-    fileprivate var isSdkRequestIsShopperRequirements: Bool! = nil
+public class BSBaseSdkResult: NSObject {
+    private var isSdkRequestIsShopperRequirements: Bool! = nil
     var storeCard: Bool! = nil
     var fraudSessionId: String?
     var priceDetails: BSPriceDetails!
@@ -44,6 +44,7 @@ public class BSBaseSdkResult: NSObject, BSBaseSdkResultProtocol {
     internal init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init()
         self.isSdkRequestIsShopperRequirements = !(sdkRequestBase is BSSdkRequest)
+        self.storeCard = self.isSdkRequestIsShopperRequirements
         self.priceDetails = (isSdkRequestIsShopperRequirements) ? nil : sdkRequestBase.priceDetails.copy() as? BSPriceDetails
         self.fraudSessionId = BlueSnapSDK.fraudSessionId
     }
@@ -74,22 +75,6 @@ public class BSBaseSdkResult: NSObject, BSBaseSdkResultProtocol {
         return isSdkRequestIsShopperRequirements
     }
 }
-
-extension BSBaseSdkResultProtocol {
-    var storeCard: Bool! {
-        get {
-            return isSdkRequestIsShopperRequirements
-        }
-        set {
-        }
-    }
-}
-
-private protocol BSBaseSdkResultProtocol {
-    var isSdkRequestIsShopperRequirements: Bool! {get set}
-    var storeCard: Bool! { get set }
-}
-
 
 /**
  price details: amount, tax and currency

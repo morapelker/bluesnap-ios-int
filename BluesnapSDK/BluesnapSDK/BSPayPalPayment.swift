@@ -18,6 +18,7 @@ import Foundation
     
     override public init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init(sdkRequestBase: sdkRequestBase)
+        storeCard = nil
         chosenPaymentMethodType = BSPaymentType.PayPal
     }
   }
