@@ -174,8 +174,12 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // check trying to pay with empty fields
         paymentHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest)
         
-        // check invalid inputs
-        paymentHelper.checkInvalidBillingInfoInputs()
+        // check invalid cc line inputs
+        // TODO: fix this.
+//        paymentHelper.checkInvalidCCLineInputs()
+        
+        // check invalid billing inputs
+        paymentHelper.checkInvalidInfoInputs()
         
         //app.buttons["PayButton"].tap()
                 

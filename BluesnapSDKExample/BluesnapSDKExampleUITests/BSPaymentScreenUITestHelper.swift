@@ -61,31 +61,6 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         return ccInput.staticTexts["CvvErrorLabel"]
     }
     
-
-    // fill CC details 
-    func setCcDetails(isOpen: Bool, ccn: String, exp: String, cvv: String) {
-        setCcNumber(isOpen: isOpen, ccn: "4111 1111 1111 1111")
-    
-        let expTextField = getExpInputFieldElement()
-        waitForElementToExistFunc(expTextField, 3)
-        expTextField.typeText("1126")
-        
-        let cvvTextField = getCvvInputFieldElement()
-        cvvTextField.typeText("333")
-    }
-    
-    func setCcNumber(isOpen: Bool, ccn: String) {
-        if (!isOpen) {
-            let ccnCoverButton = getInputCoverButtonElement(ccInput)
-            ccnCoverButton.tap()
-        }
-        let ccnTextField = getCcInputFieldElement()
-//        let last4digitsLabel = getLast4digitsLabelElement()
-//        last4digitsLabel.tap()
-        
-        ccnTextField.typeText(ccn)
-        
-    }
     
     /**
      This test verifies the visibility of the cc line,
@@ -98,34 +73,9 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         checkCcnComponentState(ccnShouldBeOpen: true, ccn: "1234 5678 9012 3456", last4digits: "", exp: "", cvv: "")
         
         //enter a valid cc number to make exp date and cvv
-        setCcNumber(isOpen: true, ccn: "4111 1111 1111 1111")
+        setCcNumber(isOpen: true, ccn: getValidVisaCreditCardNumber())
         
         checkCcnComponentState(ccnShouldBeOpen: false, ccn: "", last4digits: "1111", exp: "MM/YY", cvv: "CVV")
-        
-//        checkCCLineInput(input: getCcInputFieldElement(), expectedExists: true, expectedValue: "1234 5678 9012 3456", invalidError: getCcInputErrorLabelElement(), expectedValid: true)
-//        checkCCLineInput(input: getExpInputFieldElement(), expectedExists: false, expectedValue: "", invalidError: getExpInputErrorLabelElement())
-//        checkCCLineInput(input: getCvvInputFieldElement(), expectedExists: false, expectedValue: "", invalidError: getCvvInputErrorLabelElement())
-//
-//
-//        //enter a valid cc number to make exp date and cvv
-//        setCcNumber(isOpen: true, ccn: "4111 1111 1111 1111")
-//        checkCCLineInput(input: getLast4digitsLabelElement(), expectedExists: true, expectedValue: "1111", invalidError: getCcInputErrorLabelElement(), expectedValid: true)
-//        checkCCLineInput(input: getExpInputFieldElement(), expectedExists: true, expectedValue: "", invalidError: getExpInputErrorLabelElement(), expectedValid: true)
-//        checkCCLineInput(input: getCvvInputFieldElement(), expectedExists: true, expectedValue: "", invalidError: getCvvInputErrorLabelElement(), expectedValid: true)
-//
-        //        XCTAssertTrue(ccInput.exists, "CC line is not displayed")
-        //        XCTAssertTrue(getCcInputFieldElement().exists, "CC number field is not displayed")
-        //        checkCcLineInvalidErrorVisibility(input: getCcInputFieldElement(), invalidError: getCcInputErrorLabelElement(), expectedValid: true)
-        //        XCTAssertTrue(!getExpInputFieldElement().exists, "Exp date field is displayed")
-        //        XCTAssertTrue(!getCvvInputFieldElement().exists, "Cvv field is displayed")
-        //
-        //        //enter a valid cc number to make exp date and cvv
-        //        setCcNumber(isOpen: true, ccn: "4111 1111 1111 1111")
-        //        XCTAssertTrue(getLast4digitsLabelElement().exists, "Last 4 digits field is not displayed")
-        //        XCTAssertTrue(getExpInputFieldElement().exists, "Exp date field is not displayed")
-        //        checkCcLineInvalidErrorVisibility(input: getExpInputFieldElement(), invalidError: getExpInputErrorLabelElement(), expectedValid: true)
-        //        XCTAssertTrue(getCvvInputFieldElement().exists, "Cvv field is not displayed")
-        //        checkCcLineInvalidErrorVisibility(input: getCvvInputFieldElement(), invalidError: getCvvInputErrorLabelElement(), expectedValid: true)
     }
     
     // check CCN component state
@@ -144,21 +94,6 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             checkCCLineInput(input: getCvvInputFieldElement(), expectedExists: true, expectedValue: cvv, invalidError: getCvvInputErrorLabelElement())
         }
         
-        //        let ccnTextField = getCcInputFieldElement()
-        //        let expTextField = getExpInputFieldElement()
-        //        let cvvTextField = getCvvInputFieldElement()
-        //
-        //        if shouldBeOpen {
-        //            XCTAssertTrue(ccnTextField.exists)
-        //            waitForElementToDisappear(expTextField, 3)
-        //            XCTAssertTrue(!expTextField.exists)
-        //            XCTAssertTrue(!cvvTextField.exists)
-        //        } else {
-        //            XCTAssertTrue(!ccnTextField.exists)
-        //            waitForElementToExistFunc(expTextField, 3)
-        //            XCTAssertTrue(expTextField.exists)
-        //            XCTAssertTrue(cvvTextField.exists)
-        //        }
     }
     
     //check a cc line input existance, value and validity
@@ -170,26 +105,16 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             let value = input.value as! String
             XCTAssertTrue(expectedValue == value, "\(input.identifier) expected value: \(expectedValue), actual value: \(value)")
             
-            XCTAssertTrue(invalidError.exists == !expectedValid, "\(input.identifier) error valid expected to be exists: \(!expectedValid), but was exists: \(invalidError.exists)")
+            XCTAssertTrue(invalidError.exists == !expectedValid, "\(input.identifier) invalid error message expected to be exists: \(!expectedValid), but was exists: \(invalidError.exists)")
             
         }
     }
     
-    func checkCcLineInvalidErrorVisibility(input: XCUIElement, invalidError: XCUIElement, expectedValid: Bool) {
-        XCTAssertTrue(invalidError.exists == !expectedValid, "\(input.identifier) error valid expected to be exists: \(!expectedValid), but was exists: \(invalidError.exists)")
-    }
-    
-    // check visibility of cc line
     /**
-     This test verifies the visibility of the cc line,
+     This test verifies the visibility of inputs - make sure fields are shown according to configuration,
      and that they show the correct content.
      It also verifies that the invalid error messages are not displayed.
      */
-    func checkCCLineInputs(sdkRequest: BSSdkRequest) {
-        
-    }
-
-    // check visibility of inputs - make sure fields are shown according to configuration
     override func checkInputsVisibility(sdkRequest: BSSdkRequest) {
         super.checkInputsVisibility(sdkRequest: sdkRequest)
         let billingDetails = sdkRequest.shopperConfiguration.billingDetails
@@ -216,8 +141,6 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         
     }
     
-    
-    
     //Pre-condition: country is USA- for state existence and "Billing Zip" label text
     //Pre-condition: full billing checkout
     //Pre-condition: all cc line and input fields are empty
@@ -228,38 +151,104 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
         checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
         
-        // TODO: add this once the issue is fixed
-//        checkCcLineInvalidErrorVisibility(input: getCcInputFieldElement(), invalidError: getCcInputErrorLabelElement(), expectedValid: false)
+        // TODO: add this once the issue is fixed- check how to open the line
+        //        checkCcLineInvalidErrorVisibility(input: getCcInputFieldElement(), invalidError: getCcInputErrorLabelElement(), expectedValid: false)
         
-        checkCcLineInvalidErrorVisibility(input: getExpInputFieldElement(), invalidError: getExpInputErrorLabelElement(), expectedValid: false)
+        checkCCLineInput(input: getExpInputFieldElement(), expectedValue: "MM/YY", invalidError: getExpInputErrorLabelElement(), expectedValid: false)
         
-        // TODO: add this once the issue is fixed
-//        checkCcLineInvalidErrorVisibility(input: getCvvInputFieldElement(), invalidError: getCvvInputErrorLabelElement(), expectedValid: false)
+        checkCCLineInput(input: getCvvInputFieldElement(), expectedValue: "CVV", invalidError: getCvvInputErrorLabelElement(), expectedValid: false)
     }
     
-    func checkInvalidBillingInfoInputs() {
-        checkInvalidFieldInputs(input: nameInput, invalidValuesToCheck: ["Sawyer", "L Fleur", "La F"], validValue: "Fanny Brice", expectedLabelText: "Name", inputToTap: emailInput)
+    /**
+     This test verifies the invalid error messages appearance for
+     the cc line in payment screen
+     */
+    func checkInvalidCCLineInputs() {
+        checkInvalidCCLineFieldInputs(input: getCcInputFieldElement(), invalidValuesToCheck: [(getInvalidCreditCardNumber(), false), ("557275888601", true)], validValue: getValidVisaCreditCardNumber(), invalidError: getCcInputErrorLabelElement())
         
+        checkInvalidCCLineFieldInputs(input: getExpInputFieldElement(), invalidValuesToCheck: [("2020", false), ("1017", false), ("12", true)], validValue: "1119", invalidError: getExpInputErrorLabelElement())
+        
+        checkInvalidCCLineFieldInputs(input: getCvvInputFieldElement(), invalidValuesToCheck: [("45", true), ("1", true)], validValue: "123", invalidError: getCvvInputErrorLabelElement())
+    }
+    
+    func checkInvalidCCLineFieldInputs(input: XCUIElement, invalidValuesToCheck: [(String, Bool)], validValue: String, invalidError: XCUIElement) {
+        for (invalidValue, tapToFocusOut) in invalidValuesToCheck{
+            setAndValidateCCLineFieldInput(input: input, value: validValue, invalidError: invalidError, expectedValid: true, tapToFocusOut: false)
+            
+            setAndValidateCCLineFieldInput(input: input, value: invalidValue, invalidError: invalidError, expectedValid: false, tapToFocusOut: tapToFocusOut)
+        }
+        
+        setAndValidateCCLineFieldInput(input: input, value: validValue, invalidError: invalidError, expectedValid: true, tapToFocusOut: false)
+    }
+    
+    func setAndValidateCCLineFieldInput(input: XCUIElement, value: String, invalidError: XCUIElement, expectedValid: Bool, tapToFocusOut: Bool) {
+        setCcLineInput(input: input, value: value)
+        
+        if tapToFocusOut {
+            //name iput always exists
+            getInputFieldElement(nameInput).tap()
+        }
+        
+        //checkCCLineInput(input: input, expectedValue: value, invalidError: invalidError, expectedValid: expectedValid)
+    }
+    
+    /**
+     This test verifies the invalid error messages appearance for the billing details
+     in payment screen
+     Pre-condition: country is USA (for zip existence)
+     Pre-condition: full billing is enabled
+     */
+    override func checkInvalidInfoInputs() {
         checkInvalidFieldInputs(input: emailInput, invalidValuesToCheck: ["broadwaydancecenter.com", "broadwaydancecenter@gmail"], validValue: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", inputToTap: zipInput)
         
-        //Pre-condition: country is USA
         checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Billing Zip", inputToTap: streetInput)
-        
-        checkInvalidFieldInputs(input: streetInput, invalidValuesToCheck: ["ab"], validValue: "Broadway 777", expectedLabelText: "Street", inputToTap: cityInput)
-        
-        checkInvalidFieldInputs(input: cityInput, invalidValuesToCheck: ["ab"], validValue: "New York", expectedLabelText: "City", inputToTap: nameInput)
     }
     
-    func checkInvalidFieldInputs(input: XCUIElement, invalidValuesToCheck: [String], validValue: String, expectedLabelText: String, inputToTap: XCUIElement) {
-        for invalidValue in invalidValuesToCheck{
-            validateInput(input: input, value: validValue, expectedLabelText: expectedLabelText, expectedValid: true, inputToTap: inputToTap)
-            validateInput(input: input, value: invalidValue, expectedLabelText: expectedLabelText, expectedValid: false, inputToTap: inputToTap)
+    // fill in CC details
+    func setCcDetails(isOpen: Bool, ccn: String, exp: String, cvv: String) {
+        setCcNumber(isOpen: isOpen, ccn: ccn)
+        
+        let expTextField = getExpInputFieldElement()
+        waitForElementToExistFunc(expTextField, 3)
+//        expTextField.typeText(exp)
+        setCcLineInput(input: expTextField, value: exp)
+        
+        let cvvTextField = getCvvInputFieldElement()
+//        cvvTextField.typeText(cvv)
+        setCcLineInput(input: cvvTextField, value: cvv)
+
+    }
+    
+    func setCcNumber(isOpen: Bool, ccn: String) {
+        if (!isOpen) {
+            let ccnCoverButton = getInputCoverButtonElement(ccInput)
+            ccnCoverButton.tap()
         }
-        validateInput(input: input, value: validValue, expectedLabelText: expectedLabelText, expectedValid: true, inputToTap: inputToTap)
+        let ccnTextField = getCcInputFieldElement()
+        
+        ccnTextField.clearText()
+        ccnTextField.typeText(ccn)
     }
     
-    func setFieldValues(billingDetails: BSBillingAddressDetails, sdkRequest: BSSdkRequest, ignoreCountry: Bool? = false) {
+    func setCcLineInput(input: XCUIElement, value: String) {
+//        if getInputCoverButtonElement(ccInput).exists {
+//            getInputCoverButtonElement(ccInput).tap()
+//            if (input.identifier != "CcTextField"){
+//                getInputFieldElement(nameInput).tap()
+//            }
+//        }
+//        if (openCCNumber) {
+//            let ccnCoverButton = getInputCoverButtonElement(ccInput)
+//            ccnCoverButton.tap()
+//        }
+        
+        input.clearText()
+        input.typeText(value)
+    }
     
+    // fill in billing details
+    func setFieldValues(billingDetails: BSBillingAddressDetails, sdkRequest: BSSdkRequest, ignoreCountry: Bool? = false) {
+        
         setInputValue(input: nameInput, value: billingDetails.name ?? "")
         if sdkRequest.shopperConfiguration.withEmail {
             setInputValue(input: emailInput, value: billingDetails.email ?? "")
@@ -281,6 +270,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         }
     }
     
+    
     func setShippingSameAsBillingSwitch(shouldBeOn: Bool) {
         
         // set with Shipping switch = on
@@ -292,11 +282,17 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     }
 
     
-    func validateInput(input: XCUIElement, value: String, expectedLabelText: String, expectedValid: Bool, inputToTap: XCUIElement) {
-        setInputValue(input: input, value: value)
-        getInputFieldElement(inputToTap).tap()
-        checkInput(input: input, expectedValue: value, expectedLabelText: expectedLabelText, expectedValid: expectedValid)
-        
+    
+    func getValidVisaCreditCardNumber()->String {
+        return "4111111111111111"
+    }
+    
+    func getValidMCCreditCardNumber()->String {
+        return "5572758886015288"
+    }
+    
+    func getInvalidCreditCardNumber()->String {
+        return "5572758881122333"
     }
     
 }

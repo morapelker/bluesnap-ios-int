@@ -116,6 +116,34 @@ class BSCreditCardScreenUITestHelperBase {
         
     }
     
+    /**
+     This test verifies the invalid error messages appearance for the billing/shipping
+     info in the payment/shipping screen
+     Pre-condition: country is USA (for zip existence)
+     Pre-condition: full billing is enabled/it is shipping screen
+     */
+    func checkInvalidInfoInputs() {
+        checkInvalidFieldInputs(input: nameInput, invalidValuesToCheck: ["Sawyer", "L Fleur", "La F"], validValue: "Fanny Brice", expectedLabelText: "Name", inputToTap: zipInput)
+        
+        checkInvalidFieldInputs(input: streetInput, invalidValuesToCheck: ["ab"], validValue: "Broadway 777", expectedLabelText: "Street", inputToTap: cityInput)
+        
+        checkInvalidFieldInputs(input: cityInput, invalidValuesToCheck: ["ab"], validValue: "New York", expectedLabelText: "City", inputToTap: nameInput)
+    }
+    
+    func checkInvalidFieldInputs(input: XCUIElement, invalidValuesToCheck: [String], validValue: String, expectedLabelText: String, inputToTap: XCUIElement) {
+        for invalidValue in invalidValuesToCheck{
+            setAndValidateInput(input: input, value: validValue, expectedLabelText: expectedLabelText, expectedValid: true, inputToTap: inputToTap)
+            setAndValidateInput(input: input, value: invalidValue, expectedLabelText: expectedLabelText, expectedValid: false, inputToTap: inputToTap)
+        }
+        setAndValidateInput(input: input, value: validValue, expectedLabelText: expectedLabelText, expectedValid: true, inputToTap: inputToTap)
+    }
+    
+    func setAndValidateInput(input: XCUIElement, value: String, expectedLabelText: String, expectedValid: Bool, inputToTap: XCUIElement) {
+        setInputValue(input: input, value: value)
+        getInputFieldElement(inputToTap).tap()
+        checkInput(input: input, expectedValue: value, expectedLabelText: expectedLabelText, expectedValid: expectedValid)
+    }
+    
     
     func setCountry(countryCode: String) {
         
@@ -174,6 +202,7 @@ class BSCreditCardScreenUITestHelperBase {
 
 extension XCUIElement {
     func clearText() {
+        tap()
         guard let stringValue = self.value as? String else {
             return
         }
