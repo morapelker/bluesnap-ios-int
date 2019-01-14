@@ -18,6 +18,7 @@
 		66030051DC01AEC167525F5A /* BSStoreCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030242E0E8EE69BF3E073C /* BSStoreCardTests.swift */; };
 		660300EAA5412A9B2F51C177 /* BSShopperConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030FD5BA5AD398A2EF004D /* BSShopperConfigurationTests.swift */; };
 		6603063876E32FC9C6232507 /* BSCreatePaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030DB8FB7B234A62BFC735 /* BSCreatePaymentViewController.swift */; };
+		6603080036356A7A3F4A91E8 /* BSStoreCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030DA3048C1F23770CB761 /* BSStoreCardTests.swift */; };
 		8746CA1821CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746CA1721CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift */; };
 		8746CA1A21CFD60E00E7D3DA /* BSMockShopper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8746CA1921CFD60E00E7D3DA /* BSMockShopper.swift */; };
 		87A317BB21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */; };
@@ -104,6 +105,7 @@
 		2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKountDataCollector.a; sourceTree = "<group>"; };
 		66030242E0E8EE69BF3E073C /* BSStoreCardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSStoreCardTests.swift; sourceTree = "<group>"; };
 		66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSUpdateShopperTests.swift; sourceTree = "<group>"; };
+		66030DA3048C1F23770CB761 /* BSStoreCardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSStoreCardTests.swift; sourceTree = "<group>"; };
 		66030DB8FB7B234A62BFC735 /* BSCreatePaymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSCreatePaymentViewController.swift; sourceTree = "<group>"; };
 		66030FD5BA5AD398A2EF004D /* BSShopperConfigurationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSShopperConfigurationTests.swift; sourceTree = "<group>"; };
 		8746CA1721CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSIntegrationTestingAPIHelper.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				8746CA1721CFCB1000E7D3DA /* BSIntegrationTestingAPIHelper.swift */,
 				8746CA1921CFD60E00E7D3DA /* BSMockShopper.swift */,
 				66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */,
+				66030DA3048C1F23770CB761 /* BSStoreCardTests.swift */,
 			);
 			path = BluesnapSDKIntegrationTests;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				87A317D021C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift in Sources */,
 				87A317CE21C0224000156EA2 /* BSApiManagerTests.swift in Sources */,
 				87A317BB21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift in Sources */,
+				6603080036356A7A3F4A91E8 /* BSStoreCardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
