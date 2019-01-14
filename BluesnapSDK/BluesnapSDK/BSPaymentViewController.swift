@@ -244,7 +244,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         self.navigationController!.isNavigationBarHidden = false
 
         shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
-        storeCardView.isHidden = hideStoreCardSwitch
+        storeCardView.isHidden = self.hideStoreCardSwitch
         storeCardSwitch.isOn = false
 
         // set the 'shipping same as billing' to be true if no shipping name is supplied

@@ -117,7 +117,7 @@ public class BSCcSdkResult: BSBaseSdkResult {
     public override init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init(sdkRequestBase: sdkRequestBase)
         chosenPaymentMethodType = BSPaymentType.CreditCard
-        storeCard = false
+        storeCard = sdkRequestBase.hideStoreCardSwitch
 
         if let shopper = BSApiManager.shopper {
             self.billingDetails = BSBillingAddressDetails(email: shopper.email, name: shopper.name, address: shopper.address, city: shopper.city, zip: shopper.zip, country: shopper.country, state: shopper.state)
