@@ -688,7 +688,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
     }
 
     func validateStoreCard(isShopperRequirements: Bool) -> Bool {
-        let result: Bool = BSValidator.validateStoreCard(isShopperRequirements: isShopperRequirements, switchIsOn: storeCardSwitch.isOn)
+        let result: Bool = BSValidator.validateStoreCard(isShopperRequirements: isShopperRequirements, isStoreCard: storeCardSwitch.isOn)
         if !result {
             storeCardLabel.textColor = UIColor.red
             storeCardSwitch.tintColor = UIColor.red
