@@ -306,8 +306,12 @@ public class BSCcInputLine: BSBaseTextInput {
      Validated the 3 fields; returns true if all are OK; displays errors under the fields if not.
      */
     public func validate() -> Bool {
-
-        let result = validateCCN() && validateExp(ignoreIfEmpty: false) && validateCvv(ignoreIfEmpty: false)
+        
+        let ok1 = validateCCN()
+        let ok2 = validateExp(ignoreIfEmpty: false)
+        let ok3 = validateCvv(ignoreIfEmpty: false)
+        let result = ok1 && ok2 && ok3
+        
         return result
     }
 

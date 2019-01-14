@@ -588,20 +588,18 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         
         let ok1 = validateName(ignoreIfEmpty: false)
         let ok2 = newCardMode ? ccInputLine.validate() : true
-        var result = ok1 && ok2
+        let ok3 = validateEmail(ignoreIfEmpty: false)
+        var result = ok1 && ok2 && ok3
         
         if fullBilling {
-            let ok1 = validateEmail(ignoreIfEmpty: false)
-            let ok2 = validateCity(ignoreIfEmpty: false)
-            let ok3 = validateStreet(ignoreIfEmpty: false)
-            let ok4 = validateCity(ignoreIfEmpty: false)
-            let ok5 = validateZip(ignoreIfEmpty: false)
-            let ok6 = validateState(ignoreIfEmpty: false)
-            result = result && ok1 && ok2 && ok3 && ok4 && ok5 && ok6
+            let ok1 = validateZip(ignoreIfEmpty: false)
+            let ok2 = validateStreet(ignoreIfEmpty: false)
+            let ok3 = validateCity(ignoreIfEmpty: false)
+            let ok4 = validateState(ignoreIfEmpty: false)
+            result = result && ok1 && ok2 && ok3 && ok4
         } else {
-            let ok1 = validateEmail(ignoreIfEmpty: true)
-            let ok2 = zipInputLine.isHidden ? true : validateZip(ignoreIfEmpty: false)
-            result = result && ok1 && ok2
+            let ok1 = zipInputLine.isHidden ? true : validateZip(ignoreIfEmpty: false)
+            result = result && ok1
         }
         
         if result && isShippingSameAsBilling() {
