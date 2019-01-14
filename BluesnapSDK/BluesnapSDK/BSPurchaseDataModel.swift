@@ -205,7 +205,7 @@ public protocol BSSdkRequestProtocol {
     var updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)? { get }
 
     var allowCurrencyChange: Bool { get set }
-    var hideStoreCardSwitch: Bool { get }
+    var hideStoreCardSwitch: Bool { get set }
 }
 
 public class BSShopperConfiguration {
