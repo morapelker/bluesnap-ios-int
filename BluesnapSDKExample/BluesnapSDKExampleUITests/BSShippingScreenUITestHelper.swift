@@ -51,6 +51,15 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
         checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
     }
+    
+    /**
+     This test verifies the invalid error messages appearance for the shipping details
+     in shipping screen
+     Pre-condition: country is USA (for zip existence)
+     */
+    override func checkInvalidInfoInputs() {
+        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Shipping Zip", inputToTap: streetInput)
+    }
 
     func setFieldValues(shippingDetails: BSShippingAddressDetails, sdkRequest: BSSdkRequest) {
         
