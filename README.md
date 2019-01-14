@@ -160,6 +160,8 @@ BSSdkRequest constructor parameters:
 | Callback functions: |
 | `purchaseFunc` | Callback function that handles the purchase (see [Defining your purchase callback function](#defining-your-purchase-callback-function)).|
 | `updateTaxFunc` | Optional. Callback function that handles tax rate updates (see [Handling tax updates](#handling-tax-updates-optional)). |
+| `allowCurrencyChange` | Optional. Will allow the shopper to change currency on pay with credit card screen (default is true). |
+| `hideStoreCardSwitch` | Optional. Allows to hide the Securely store my card for future purchases Switch (default is false). |
 
 #### Defining priceDetails
 `priceDetails` (an instance of `BSPriceDetails`) is a property of `sdkRequest` that contains properties for amount, tax amount, and [currency](https://developers.bluesnap.com/docs/currency-codes). Set these properties to intialize the price details of the checkout page. 
