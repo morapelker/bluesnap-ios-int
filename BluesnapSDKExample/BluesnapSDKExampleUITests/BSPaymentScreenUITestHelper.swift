@@ -124,10 +124,13 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         
         if let countryCode = billingDetails?.country {
             // check country image - this does not work, don;t know how to access the image
-            //let countryFlagButton = getInputImageButtonElement(nameInput)
-            //assert(countryFlagButton.exists)
-            //let countryImage = countryFlagButton.otherElements.images[countryCode]
-            //assert(countryImage.exists)
+            let countryFlagButton = getInputImageButtonElement()
+            XCTAssertTrue(countryFlagButton.exists)
+            let countryImage = countryFlagButton.otherElements.images[countryCode]
+//            XCTAssertTrue(countryImage.exists)
+//            if let expectedImage = BSViewsManager.getImage(imageName: countryCode.uppercased()) {
+//                XCTAssertTrue(expectedImage == countryImage)
+//            }
             
             // state should be visible for US/Canada/Brazil
             let stateIsVisible = sdkRequest.shopperConfiguration.fullBilling && BSCountryManager.getInstance().countryHasStates(countryCode: countryCode)

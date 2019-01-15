@@ -44,8 +44,8 @@ class BSCreditCardScreenUITestHelperBase {
         return input.buttons["FieldCoverButton"]
     }
     
-    func getInputImageButtonElement(_ input : XCUIElement) -> XCUIElement {
-        return input.buttons["ImageButton"]
+    func getInputImageButtonElement() -> XCUIElement {
+        return nameInput.buttons["ImageButton"]
     }
     
     func closeKeyboard() {
@@ -68,10 +68,11 @@ class BSCreditCardScreenUITestHelperBase {
         let shopperDetails: BSBaseAddressDetails?
         shopperDetails = self is BSPaymentScreenUITestHelper ? sdkRequest.shopperConfiguration.billingDetails : sdkRequest.shopperConfiguration.shippingDetails
         
-        checkInput(input: nameInput, expectedValue: shopperDetails?.name ?? "John Doe", expectedLabelText: "Name")
+        checkInput(input: nameInput, expectedValue: shopperDetails?.name.isEmpty ?? true ? "John Doe" : shopperDetails!.name , expectedLabelText: "Name")
         
         // zip should be hidden only for country that does not have zip; label also changes according to country
         let country = shopperDetails?.country ?? "US"
+        //TODO: fix this to support Shipping zip as well
         let expectedZipLabelText = (country == "US") ? "Billing Zip" : "Postal Code"
         let zipShouldBeVisible = checkCountryHasZip(country: country)
         checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: shopperDetails?.zip ?? "", expectedLabelText: expectedZipLabelText)
@@ -148,7 +149,7 @@ class BSCreditCardScreenUITestHelperBase {
     func setCountry(countryCode: String) {
         
         if let countryName = bsCountryManager.getCountryName(countryCode: countryCode) {
-            let countryImageButton = getInputImageButtonElement(nameInput)
+            let countryImageButton = getInputImageButtonElement()
             countryImageButton.tap()
             app.searchFields["Search"].tap()
             app.searchFields["Search"].typeText(countryName)
