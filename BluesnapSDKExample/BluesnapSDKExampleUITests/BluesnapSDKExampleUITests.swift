@@ -16,6 +16,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
 //    let keyboardIsHidden = false
     private var app: XCUIApplication! //using Implicitly Unwrapped Optionals for initialization purpose
+    private var defaultCountry = ""
 
     override func setUp() {
         super.setUp()
@@ -28,6 +29,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
         app = XCUIApplication()
         app.launch()
+        defaultCountry = NSLocale.current.regionCode ?? BSCountryManager.US_COUNTRY_CODE
+
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
@@ -187,7 +190,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     }
 
     func testFullBilling(){
-        
     }
 
     
@@ -460,6 +462,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let taxAmount = amount * 0.05 // according to updateTax() in ViewController
         let priceDetails = BSPriceDetails(amount: amount, taxAmount: taxAmount, currency: currency)
         let sdkRequest = BSSdkRequest(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: {_ in }, updateTaxFunc: nil)
+        sdkRequest.shopperConfiguration.billingDetails = BSBillingAddressDetails()
+        sdkRequest.shopperConfiguration.billingDetails?.country = defaultCountry
         return sdkRequest
     }
     
