@@ -171,15 +171,12 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // change country to USA to have state and zip
         paymentHelper.setCountry(countryCode: "US")
         
-        // delete CCN
-        // TODO: add this once the issue is fixed
-        
         // check trying to pay with empty fields
         paymentHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest)
         
         // check invalid cc line inputs
         // TODO: fix this.
-//        paymentHelper.checkInvalidCCLineInputs()
+        paymentHelper.checkInvalidCCLineInputs()
         
         // check invalid billing inputs
         paymentHelper.checkInvalidInfoInputs()
@@ -612,6 +609,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let ex: XCTestExpectation = expectation(for: exists, evaluatedWith: element)
         wait(for: [ex], timeout: waitTime)
     }
+    
 }
 
 //extension XCTestCase {
