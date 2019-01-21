@@ -72,8 +72,8 @@ class BSCreditCardScreenUITestHelperBase {
         
         // zip should be hidden only for country that does not have zip; label also changes according to country
         let country = shopperDetails?.country ?? "US"
-        //TODO: fix this to support Shipping zip as well
-        let expectedZipLabelText = (country == "US") ? "Billing Zip" : "Postal Code"
+        //TODO: fix this to support Shipping zip as well- check if it works
+        let expectedZipLabelText = (country == "US") ? (self is BSPaymentScreenUITestHelper ? "Billing Zip" : "Shipping Zip") : "Postal Code"
         let zipShouldBeVisible = checkCountryHasZip(country: country)
         checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: shopperDetails?.zip ?? "", expectedLabelText: expectedZipLabelText)
     }
