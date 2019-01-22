@@ -172,16 +172,14 @@ class BluesnapSDKExampleUITests: XCTestCase {
         paymentHelper.setCountry(countryCode: "US")
         
         // check trying to pay with empty fields
-        paymentHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest)
+        paymentHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, payButtonId: "PayButton", zipLabel: "Billing Zip")
         
         // check invalid cc line inputs
         paymentHelper.checkInvalidCCLineInputs()
         
         // check invalid billing inputs
-        paymentHelper.checkInvalidInfoInputs()
+        paymentHelper.checkInvalidInfoInputs(payButtonId: "PayButton")
         
-        //app.buttons["PayButton"].tap()
-                
         print("done")
     }
     
@@ -198,10 +196,10 @@ class BluesnapSDKExampleUITests: XCTestCase {
         shippingHelper.setCountry(countryCode: "US")
         
         // check trying to pay with empty fields
-        shippingHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest)
+        shippingHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, payButtonId: "ShippingPayButton", zipLabel: "Shipping Zip")
         
         // check invalid billing inputs
-        shippingHelper.checkInvalidInfoInputs()
+        shippingHelper.checkInvalidInfoInputs(payButtonId: "ShippingPayButton")
         
         
         print("done")
@@ -536,14 +534,14 @@ class BluesnapSDKExampleUITests: XCTestCase {
         paymentHelper.setCcDetails(isOpen: true, ccn: ccn, exp: exp, cvv: cvv)
         
         // make sure fields are shown according to configuration
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // fill field values
         paymentHelper.setFieldValues(billingDetails: billingDetails, sdkRequest: sdkRequest, ignoreCountry: ignoreCountry)
         
         // check that the values are in correctly
         sdkRequest.shopperConfiguration.billingDetails = billingDetails
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
     }
     
     private func fillShippingDetails(app: XCUIApplication, sdkRequest: BSSdkRequest, shippingDetails: BSShippingAddressDetails) -> BSShippingScreenUITestHelper {
@@ -560,7 +558,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         // check that the values are in correctly
         sdkRequest.shopperConfiguration.shippingDetails = shippingDetails
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest)
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
         
         return shippingHelper
     }
@@ -600,12 +598,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
         
-        paymentHelper.closeKeyboard()
+        paymentHelper.pressPayButton(payButtonId: "PayButton")
         
-        
-        let payButton = app.buttons["PayButton"]
-        
-        payButton.tap()
         waitForShippingScreen()
         
         return BSShippingScreenUITestHelper(app: app)

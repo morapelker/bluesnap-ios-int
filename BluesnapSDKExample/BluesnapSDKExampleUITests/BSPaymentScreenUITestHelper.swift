@@ -118,8 +118,8 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
      and that they show the correct content.
      It also verifies that the invalid error messages are not displayed.
      */
-    override func checkInputsVisibility(sdkRequest: BSSdkRequest) {
-        super.checkInputsVisibility(sdkRequest: sdkRequest)
+    override func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, zipLabel: String) {
+        super.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: shopperDetails, zipLabel: zipLabel)
         let billingDetails = sdkRequest.shopperConfiguration.billingDetails
         checkInput(input: emailInput, expectedExists: sdkRequest.shopperConfiguration.withEmail, expectedValue: billingDetails?.email ?? "", expectedLabelText: "Email")
         checkInput(input: cityInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.city ?? "", expectedLabelText: "City")
@@ -150,8 +150,8 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     //Pre-condition: country is USA- for state existence and "Billing Zip" label text
     //Pre-condition: full billing checkout
     //Pre-condition: all cc line and input fields are empty
-    override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest) {
-        super.checkPayWithEmptyInputs(sdkRequest: sdkRequest)
+    override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipLabel: String) {
+        super.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: shopperDetails, payButtonId: payButtonId, zipLabel: zipLabel)
         checkInput(input: emailInput, expectedValue: "", expectedLabelText: "Email", expectedValid: false)
         checkInput(input: streetInput, expectedValue: "", expectedLabelText: "Street", expectedValid: false)
         checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
@@ -240,8 +240,8 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
      Pre-condition: country is USA (for zip existence)
      Pre-condition: full billing is enabled
      */
-    override func checkInvalidInfoInputs() {
-        super.checkInvalidInfoInputs()
+    override func checkInvalidInfoInputs(payButtonId: String) {
+        super.checkInvalidInfoInputs(payButtonId: payButtonId)
         checkInvalidFieldInputs(input: emailInput, invalidValuesToCheck: ["broadwaydancecenter.com", "broadwaydancecenter@gmail"], validValue: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", inputToTap: zipInput)
         
         checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Billing Zip", inputToTap: streetInput)

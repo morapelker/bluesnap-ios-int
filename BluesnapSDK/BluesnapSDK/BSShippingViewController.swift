@@ -175,9 +175,9 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
                 stateInputLine.hideError()
             }
             updateTexts()
-            updateState()
             updateAmounts()
         }
+        updateState()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -430,7 +430,11 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         if let shippingDetails = purchaseDetails.getShippingDetails() {
             shippingDetails.state = stateCode
         }
-        self.stateInputLine.setValue(stateName)
+//        self.stateInputLine.setValue(stateName)
+//        _ = validateState(ignoreIfEmpty: false)
+
+//        updateState()
+        
         if let shippingDetails = purchaseDetails.getShippingDetails(), let updateTaxFunc = updateTaxFunc {
             updateTaxFunc(shippingDetails.country!, shippingDetails.state, purchaseDetails.priceDetails)
             updateAmounts()

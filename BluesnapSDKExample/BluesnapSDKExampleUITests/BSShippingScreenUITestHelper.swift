@@ -25,8 +25,8 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     
 
     // check visibility of inputs - make sure fields are shown according to configuration
-    override func checkInputsVisibility(sdkRequest: BSSdkRequest) {
-        super.checkInputsVisibility(sdkRequest: sdkRequest)
+    override func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, zipLabel: String) {
+        super.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: shopperDetails, zipLabel: zipLabel)
         let shippingDetails = sdkRequest.shopperConfiguration.shippingDetails
         checkInput(input: cityInput, expectedExists: true, expectedValue: shippingDetails?.city ?? "", expectedLabelText: "City")
         checkInput(input: streetInput, expectedExists: true, expectedValue: shippingDetails?.address ?? "", expectedLabelText: "Street")
@@ -45,8 +45,8 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         
     }
     
-    override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest) {
-        super.checkPayWithEmptyInputs(sdkRequest: sdkRequest)
+    override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipLabel: String) {
+        super.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: shopperDetails, payButtonId: payButtonId, zipLabel: zipLabel)
         checkInput(input: streetInput, expectedValue: "", expectedLabelText: "Street", expectedValid: false)
         checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
         checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
@@ -57,8 +57,8 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
      in shipping screen
      Pre-condition: country is USA (for zip existence)
      */
-    override func checkInvalidInfoInputs() {
-        super.checkInvalidInfoInputs()
+    override func checkInvalidInfoInputs(payButtonId: String) {
+        super.checkInvalidInfoInputs(payButtonId: payButtonId)
         checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Shipping Zip", inputToTap: streetInput)
     }
 
