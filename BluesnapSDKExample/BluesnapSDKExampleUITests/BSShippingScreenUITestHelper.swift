@@ -58,6 +58,7 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
      Pre-condition: country is USA (for zip existence)
      */
     override func checkInvalidInfoInputs() {
+        super.checkInvalidInfoInputs()
         checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Shipping Zip", inputToTap: streetInput)
     }
 

@@ -103,17 +103,26 @@ class BSCreditCardScreenUITestHelperBase {
     //Pre-condition: all cc line and input fields are empty
     func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest) {
         let shopperDetails: BSBaseAddressDetails?
-        shopperDetails = self is BSPaymentScreenUITestHelper ? sdkRequest.shopperConfiguration.billingDetails : sdkRequest.shopperConfiguration.shippingDetails
+        let payButtonId: String!
+        if self is BSPaymentScreenUITestHelper {
+            shopperDetails = sdkRequest.shopperConfiguration.billingDetails
+            payButtonId = "PayButton"
+        }
+        else{
+            shopperDetails = sdkRequest.shopperConfiguration.shippingDetails
+            payButtonId = "ShippingPayButton"
+        }
+//        shopperDetails = self is BSPaymentScreenUITestHelper ? sdkRequest.shopperConfiguration.billingDetails : sdkRequest.shopperConfiguration.shippingDetails
         
         closeKeyboard()
-        app.buttons["PayButton"].tap()
+        app.buttons[payButtonId].tap()
         checkInput(input: nameInput, expectedValue: "John Doe", expectedLabelText: "Name", expectedValid: false)
         
         let country = shopperDetails?.country ?? "US"
         
-        if checkCountryHasZip(country: country){
-            checkInput(input: zipInput, expectedValue: "", expectedLabelText: "Billing Zip", expectedValid: false)
-        }
+        let expectedZipLabelText = (country == "US") ? (self is BSPaymentScreenUITestHelper ? "Billing Zip" : "Shipping Zip") : "Postal Code"
+        checkInput(input: zipInput, expectedValue: "", expectedLabelText: expectedZipLabelText, expectedValid: false)
+        
         
     }
     

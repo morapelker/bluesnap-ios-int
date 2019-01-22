@@ -156,8 +156,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
     }
     
     /* -------------------------------- New tests ---------------------------------------- */
-    
-    func testInputs() {
+    // temp- for testing the tests
+    func testBillingInputs() {
         
         let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: false, withEmail: true, amount: 30, currency: "USD")
         
@@ -175,7 +175,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
         paymentHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest)
         
         // check invalid cc line inputs
-        // TODO: fix this.
         paymentHelper.checkInvalidCCLineInputs()
         
         // check invalid billing inputs
@@ -185,8 +184,29 @@ class BluesnapSDKExampleUITests: XCTestCase {
                 
         print("done")
     }
-
-    func testFullBilling(){
+    
+    // temp- for testing the tests
+    func testShippingInputs(){
+        
+        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: true, withEmail: false, amount: 30, currency: "USD")
+        
+        gotoPaymentScreen(sdkRequest: sdkRequest)
+        
+        let shippingHelper = gotoShippingScreen(sdkRequest: sdkRequest)
+        
+        // change country to USA to have state and zip
+        shippingHelper.setCountry(countryCode: "US")
+        
+        // check trying to pay with empty fields
+        shippingHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest)
+        
+        // check invalid billing inputs
+        shippingHelper.checkInvalidInfoInputs()
+        
+        
+        print("done")
+        
+        
     }
 
     
@@ -408,6 +428,52 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     //------------------------------------ Helper functions ----------------------------
     
+    private func setMerchantCheckoutScreen(app: XCUIApplication, sdkRequest: BSSdkRequest, returningShopper: Bool = false) {
+        
+        // set new/returning shopper
+        let returningShopperSwitch = app.switches["ReturningShopperSwitch"]
+        waitForElementToExist(element: returningShopperSwitch, waitTime: 140)
+        let returningShopperSwitchValue = (returningShopperSwitch.value as? String) ?? "0"
+        if (returningShopperSwitchValue == "0" && returningShopper) || (returningShopperSwitchValue == "1" && !returningShopper) {
+            returningShopperSwitch.tap()
+            // wait for action to finish
+            let coverView = app.otherElements.element(matching: .any, identifier: "CoverView")
+            waitForEllementToDisappear(element: coverView, waitTime: 30)
+        }
+        
+        // set with Shipping switch = on
+        let withShippingSwitch = app.switches["WithShippingSwitch"]
+        waitForElementToExist(element: withShippingSwitch, waitTime: 120)
+        let withShippingSwitchValue = (withShippingSwitch.value as? String) ?? "0"
+        if (withShippingSwitchValue == "0" && sdkRequest.shopperConfiguration.withShipping) || (withShippingSwitchValue == "1" && !sdkRequest.shopperConfiguration.withShipping) {
+            withShippingSwitch.tap()
+        }
+        
+        // set full billing switch = on
+        let fullBillingSwitch = app.switches["FullBillingSwitch"]
+        let fullBillingSwitchValue = (fullBillingSwitch.value as? String) ?? "0"
+        if (fullBillingSwitchValue == "0" && sdkRequest.shopperConfiguration.fullBilling) || (fullBillingSwitchValue == "1" && !sdkRequest.shopperConfiguration.fullBilling) {
+            fullBillingSwitch.tap()
+        }
+        
+        // set with Email switch = on
+        let withEmailSwitch = app.switches["WithEmailSwitch"]
+        let withEmailSwitchValue = (withEmailSwitch.value as? String) ?? "0"
+        if (withEmailSwitchValue == "0" && sdkRequest.shopperConfiguration.withEmail) || (withEmailSwitchValue == "1" && !sdkRequest.shopperConfiguration.withEmail) {
+            withEmailSwitch.tap()
+        }
+        
+        if let priceDetails = sdkRequest.priceDetails {
+            
+            // set amount text field value
+            let amount = "\(priceDetails.amount ?? 0)"
+            let amountField : XCUIElement = app.textFields["AmountField"]
+            amountField.tap()
+            amountField.doubleTap()
+            amountField.typeText(amount)
+        }
+        
+    }
      
     private func checkResult(expectedSuccessText: String) {
         
@@ -499,7 +565,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         return shippingHelper
     }
     
-    private func gotoPaymentScreen(sdkRequest: BSSdkRequest, returningShopper: Bool = false, tapExistingCc: Bool = false) {
+    private func gotoPaymentScreen(sdkRequest: BSSdkRequest, returningShopper: Bool = false, tapExistingCc: Bool = false){
         
         let paymentTypeHelper = BSPaymentTypeScreenUITestHelper(app: app)
         
@@ -527,50 +593,22 @@ class BluesnapSDKExampleUITests: XCTestCase {
         }
     }
     
-    private func setMerchantCheckoutScreen(app: XCUIApplication, sdkRequest: BSSdkRequest, returningShopper: Bool = false) {
+    
+    private func gotoShippingScreen(sdkRequest: BSSdkRequest) -> BSShippingScreenUITestHelper{
         
-        // set new/returning shopper
-        let returningShopperSwitch = app.switches["ReturningShopperSwitch"]
-        waitForElementToExist(element: returningShopperSwitch, waitTime: 140)
-        let returningShopperSwitchValue = (returningShopperSwitch.value as? String) ?? "0"
-        if (returningShopperSwitchValue == "0" && returningShopper) || (returningShopperSwitchValue == "1" && !returningShopper) {
-            returningShopperSwitch.tap()
-            // wait for action to finish
-            let coverView = app.otherElements.element(matching: .any, identifier: "CoverView")
-            waitForEllementToDisappear(element: coverView, waitTime: 30)
-        }
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
-        // set with Shipping switch = on
-        let withShippingSwitch = app.switches["WithShippingSwitch"]
-        waitForElementToExist(element: withShippingSwitch, waitTime: 120)
-        let withShippingSwitchValue = (withShippingSwitch.value as? String) ?? "0"
-        if (withShippingSwitchValue == "0" && sdkRequest.shopperConfiguration.withShipping) || (withShippingSwitchValue == "1" && !sdkRequest.shopperConfiguration.withShipping) {
-            withShippingSwitch.tap()
-        }
+        fillBillingDetails(paymentHelper: paymentHelper, sdkRequest: sdkRequest, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
         
-        // set full billing switch = on
-        let fullBillingSwitch = app.switches["FullBillingSwitch"]
-        let fullBillingSwitchValue = (fullBillingSwitch.value as? String) ?? "0"
-        if (fullBillingSwitchValue == "0" && sdkRequest.shopperConfiguration.fullBilling) || (fullBillingSwitchValue == "1" && !sdkRequest.shopperConfiguration.fullBilling) {
-            fullBillingSwitch.tap()
-        }
+        paymentHelper.closeKeyboard()
         
-        // set with Email switch = on
-        let withEmailSwitch = app.switches["WithEmailSwitch"]
-        let withEmailSwitchValue = (withEmailSwitch.value as? String) ?? "0"
-        if (withEmailSwitchValue == "0" && sdkRequest.shopperConfiguration.withEmail) || (withEmailSwitchValue == "1" && !sdkRequest.shopperConfiguration.withEmail) {
-            withEmailSwitch.tap()
-        }
         
-        if let priceDetails = sdkRequest.priceDetails {
-            
-            // set amount text field value
-            let amount = "\(priceDetails.amount ?? 0)"
-            let amountField : XCUIElement = app.textFields["AmountField"]
-            amountField.tap()
-            amountField.doubleTap()
-            amountField.typeText(amount)
-        }
+        let payButton = app.buttons["PayButton"]
+        
+        payButton.tap()
+        waitForShippingScreen()
+        
+        return BSShippingScreenUITestHelper(app: app)
         
     }
     
