@@ -19,13 +19,11 @@ class BSCreditCardScreenUITestHelperBase {
     var cityInput : XCUIElement!
     var streetInput : XCUIElement!
     var stateInput : XCUIElement!
-//    var keyboardIsHidden = true
     
     let bsCountryManager = BSCountryManager.getInstance()
     
     init(app: XCUIApplication!) {
         self.app = app
-//        self.keyboardIsHidden = keyboardIsHidden
     }
     
     func getInputFieldElement(_ input : XCUIElement) -> XCUIElement {
@@ -64,16 +62,13 @@ class BSCreditCardScreenUITestHelperBase {
      and that they show the correct content.
      It also verifies that the invalid error messages are not displayed.
      */
-    func checkInputsVisibility(sdkRequest: BSSdkRequest) {
-        let shopperDetails: BSBaseAddressDetails?
-        shopperDetails = self is BSPaymentScreenUITestHelper ? sdkRequest.shopperConfiguration.billingDetails : sdkRequest.shopperConfiguration.shippingDetails
-        
+    func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, zipLabel: String) {
         checkInput(input: nameInput, expectedValue: shopperDetails?.name.isEmpty ?? true ? "John Doe" : shopperDetails!.name , expectedLabelText: "Name")
         
         // zip should be hidden only for country that does not have zip; label also changes according to country
         let country = shopperDetails?.country ?? "US"
         //TODO: fix this to support Shipping zip as well- check if it works
-        let expectedZipLabelText = (country == "US") ? (self is BSPaymentScreenUITestHelper ? "Billing Zip" : "Shipping Zip") : "Postal Code"
+        let expectedZipLabelText = (country == "US") ? zipLabel : "Postal Code"
         let zipShouldBeVisible = checkCountryHasZip(country: country)
         checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: shopperDetails?.zip ?? "", expectedLabelText: expectedZipLabelText)
     }
@@ -101,43 +96,38 @@ class BSCreditCardScreenUITestHelperBase {
 
     //Pre-condition: full billing or shipping checkout and country is USA- for state existence and "Billing Zip" label text
     //Pre-condition: all cc line and input fields are empty
-    func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest) {
-        let shopperDetails: BSBaseAddressDetails?
-        let payButtonId: String!
-        if self is BSPaymentScreenUITestHelper {
-            shopperDetails = sdkRequest.shopperConfiguration.billingDetails
-            payButtonId = "PayButton"
-        }
-        else{
-            shopperDetails = sdkRequest.shopperConfiguration.shippingDetails
-            payButtonId = "ShippingPayButton"
-        }
-//        shopperDetails = self is BSPaymentScreenUITestHelper ? sdkRequest.shopperConfiguration.billingDetails : sdkRequest.shopperConfiguration.shippingDetails
-        
-        closeKeyboard()
-        app.buttons[payButtonId].tap()
+    func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipLabel: String) {
+        pressPayButton(payButtonId: payButtonId)
+
         checkInput(input: nameInput, expectedValue: "John Doe", expectedLabelText: "Name", expectedValid: false)
         
         let country = shopperDetails?.country ?? "US"
         
-        let expectedZipLabelText = (country == "US") ? (self is BSPaymentScreenUITestHelper ? "Billing Zip" : "Shipping Zip") : "Postal Code"
+        let expectedZipLabelText = (country == "US") ? zipLabel : "Postal Code"
         checkInput(input: zipInput, expectedValue: "", expectedLabelText: expectedZipLabelText, expectedValid: false)
-        
-        
     }
     
     /**
      This test verifies the invalid error messages appearance for the billing/shipping
      info in the payment/shipping screen
-     Pre-condition: country is USA (for zip existence)
+     Pre-condition: country has zip and state
      Pre-condition: full billing is enabled/it is shipping screen
      */
-    func checkInvalidInfoInputs() {
+    func checkInvalidInfoInputs(payButtonId: String) {
         checkInvalidFieldInputs(input: nameInput, invalidValuesToCheck: ["Sawyer", "L Fleur", "La F"], validValue: "Fanny Brice", expectedLabelText: "Name", inputToTap: zipInput)
         
         checkInvalidFieldInputs(input: streetInput, invalidValuesToCheck: ["ab"], validValue: "Broadway 777", expectedLabelText: "Street", inputToTap: cityInput)
         
         checkInvalidFieldInputs(input: cityInput, invalidValuesToCheck: ["ab"], validValue: "New York", expectedLabelText: "City", inputToTap: nameInput)
+        checkInvalidState(payButtonId: payButtonId)
+    }
+    
+    //Pre-condition: country has state
+    func checkInvalidState(payButtonId: String) {
+        pressPayButton(payButtonId: payButtonId)
+        checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
+        setState(countryCode: "US", stateCode: "NY")
+        checkInput(input: stateInput, expectedValue: "New York", expectedLabelText: "State", expectedValid: true)
     }
     
     func checkInvalidFieldInputs(input: XCUIElement, invalidValuesToCheck: [String], validValue: String, expectedLabelText: String, inputToTap: XCUIElement) {
@@ -206,6 +196,11 @@ class BSCreditCardScreenUITestHelperBase {
         }
         
         return countryHasState
+    }
+    
+    func pressPayButton(payButtonId: String) {
+        closeKeyboard()
+        app.buttons[payButtonId].tap()
     }
     
 }

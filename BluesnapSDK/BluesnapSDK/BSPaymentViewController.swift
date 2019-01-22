@@ -157,11 +157,11 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
     
     
     func startEditCreditCard() {
-        hideShowFields()
+//        hideShowFields()
     }
     
     func endEditCreditCard() {
-        hideShowFields()
+//        hideShowFields()
     }
 
     func willCheckCreditCard() {
@@ -344,30 +344,18 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
             topMenuButton.isEnabled = BlueSnapSDK.sdkRequestBase?.allowCurrencyChange ?? true
         }
         
-//        if newCardMode && self.ccInputLine.ccnIsOpen {
-//            // hide everything
-//            nameInputLine.isHidden = true
-//            emailInputLine.isHidden = true
-//            streetInputLine.isHidden = true
-//            cityInputLine.isHidden = true
-//            zipInputLine.isHidden = true
-//            stateInputLine.isHidden = true
-//            shippingSameAsBillingView.isHidden = true
-//            subtotalAndTaxDetailsView.isHidden = true
-//        } else {
-            nameInputLine.isHidden = false
-            emailInputLine.isHidden = !self.withEmail
-            let hideFields = !self.fullBilling
-            streetInputLine.isHidden = hideFields
-            let countryCode = self.purchaseDetails.getBillingDetails().country ?? ""
-            updateZipByCountry(countryCode: countryCode)
-            updateFlagImage(countryCode: countryCode)
-            cityInputLine.isHidden = hideFields
-            updateState()
-            shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
-            subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0 || purchaseDetails.isShopperRequirements()
-            updateZipFieldLocation()
-//        }
+        nameInputLine.isHidden = false
+        emailInputLine.isHidden = !self.withEmail
+        let hideFields = !self.fullBilling
+        streetInputLine.isHidden = hideFields
+        let countryCode = self.purchaseDetails.getBillingDetails().country ?? ""
+        updateZipByCountry(countryCode: countryCode)
+        updateFlagImage(countryCode: countryCode)
+        cityInputLine.isHidden = hideFields
+        updateState()
+        shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
+        subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0 || purchaseDetails.isShopperRequirements()
+        updateZipFieldLocation()
     }
     
     /*func deviceDidRotate() {
