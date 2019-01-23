@@ -67,7 +67,6 @@ class BSCreditCardScreenUITestHelperBase {
         
         // zip should be hidden only for country that does not have zip; label also changes according to country
         let country = shopperDetails?.country ?? "US"
-        //TODO: fix this to support Shipping zip as well- check if it works
         let expectedZipLabelText = (country == "US") ? zipLabel : "Postal Code"
         let zipShouldBeVisible = checkCountryHasZip(country: country)
         checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: shopperDetails?.zip ?? "", expectedLabelText: expectedZipLabelText)
@@ -87,11 +86,66 @@ class BSCreditCardScreenUITestHelperBase {
             let titleLabelText: String = titleLabel.label //label.value as! String
             XCTAssertTrue(titleLabelText == expectedLabelText, "\(input.identifier) expected value: \(expectedLabelText), actual value: \(titleLabelText)")
 
-
             let errorLabel = getInputErrorLabelElement(input)
             XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(expectedValid), but was exists: \(errorLabel.exists)")
 
         }
+    }
+    
+    /**
+     This test verifies the visibility of zip input field,
+     according to default country and specific countries.
+     */
+    func checkZipVisibility(defaultCountry: String, zipLabel: String) {
+        setCountry(countryCode: defaultCountry)
+        // check whether the zip field is visible to the user or not, according to defaultCountry
+        let expectedZipLabelText = (defaultCountry == "US") ? zipLabel : "Postal Code"
+        let zipShouldBeVisible = checkCountryHasZip(country: defaultCountry)
+        checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: "", expectedLabelText: expectedZipLabelText)
+        
+        // verify that the zip field is visible when changing to USA (has zip)
+        setCountry(countryCode: "US")
+        checkInput(input: zipInput, expectedExists: true, expectedValue: "", expectedLabelText: zipLabel)
+        
+        // verify that the zip field is visible when changing to Angola (doesn't have zip)
+        setCountry(countryCode: "AO")
+        checkInput(input: zipInput, expectedExists: false, expectedValue: "", expectedLabelText: expectedZipLabelText)
+        
+        // verify that the zip field is visible when changing to Israel (has postal code)
+        setCountry(countryCode: "IL")
+        checkInput(input: zipInput, expectedExists: true, expectedValue: "", expectedLabelText: "Postal Code")
+
+    }
+    
+    /**
+     This test verifies the visibility of state input field,
+     according to default country and specific countries.
+     */
+    func checkStateVisibility(defaultCountry: String) {
+        // check whether the state field is visible to the user or not, according to defaultCountry
+        setCountry(countryCode: defaultCountry)
+        let stateIsVisible = BSCountryManager.getInstance().countryHasStates(countryCode: defaultCountry)
+        checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: "", expectedLabelText: "State")
+        
+        // verify that the state field is visible when changing to USA (has state)
+        setCountry(countryCode: "US")
+        checkInput(input: stateInput, expectedExists: true, expectedValue: "", expectedLabelText: "State")
+        
+        // verify that the zip field is visible when changing to Israel (doesn't have state)
+        setCountry(countryCode: "IL")
+        checkInput(input: stateInput, expectedExists: false, expectedValue: "", expectedLabelText: "State")
+        
+        // verify that the state field is visible when changing to Canada (has state)
+        setCountry(countryCode: "CA")
+        checkInput(input: stateInput, expectedExists: true, expectedValue: "", expectedLabelText: "State")
+        
+        // verify that the zip field is visible when changing to Spain (doesn't have state)
+        setCountry(countryCode: "ES")
+        checkInput(input: stateInput, expectedExists: false, expectedValue: "", expectedLabelText: "State")
+        
+        // verify that the state field is visible when changing to Brazil (has state)
+        setCountry(countryCode: "BR")
+        checkInput(input: stateInput, expectedExists: true, expectedValue: "", expectedLabelText: "State")
     }
 
     //Pre-condition: full billing or shipping checkout and country is USA- for state existence and "Billing Zip" label text
@@ -142,6 +196,15 @@ class BSCreditCardScreenUITestHelperBase {
         setInputValue(input: input, value: value)
         getInputFieldElement(inputToTap).tap()
         checkInput(input: input, expectedValue: value, expectedLabelText: expectedLabelText, expectedValid: expectedValid)
+    }
+    
+    /**
+     This test verifies that changing the country in one screen (billing/shipping)
+     doesn't change the country in the other.
+     */
+    func checkCountryChangesPerScreen(defaultCountry: String) {
+        //todo: write this test once we're able to check cuntry image 
+        
     }
     
     

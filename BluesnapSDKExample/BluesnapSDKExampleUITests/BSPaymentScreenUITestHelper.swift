@@ -126,10 +126,11 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         checkInput(input: streetInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.address ?? "", expectedLabelText: "Street")
         
         if let countryCode = billingDetails?.country {
+            //TODO: fix this
             // check country image - this does not work, don;t know how to access the image
             let countryFlagButton = getInputImageButtonElement()
             XCTAssertTrue(countryFlagButton.exists)
-            let countryImage = countryFlagButton.otherElements.images[countryCode]
+//            let countryImage = countryFlagButton.otherElements.images[countryCode]
 //            XCTAssertTrue(countryImage.exists)
 //            if let expectedImage = BSViewsManager.getImage(imageName: countryCode.uppercased()) {
 //                XCTAssertTrue(expectedImage == countryImage)
@@ -144,7 +145,6 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: expectedStateValue, expectedLabelText: "State")
         }
 
-        
     }
     
     //Pre-condition: country is USA- for state existence and "Billing Zip" label text
