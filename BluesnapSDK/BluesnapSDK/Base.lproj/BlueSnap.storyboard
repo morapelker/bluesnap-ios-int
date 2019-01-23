@@ -884,6 +884,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Payment" id="SMO-Vb-QOG" userLabel="Navigation">
                         <barButtonItem key="rightBarButtonItem" image="menu_button" style="done" id="ODe-4v-aVb">
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="MenuButton"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="MenuClick:" destination="W0G-M6-3dM" id="7S4-w1-Lfd"/>
                             </connections>

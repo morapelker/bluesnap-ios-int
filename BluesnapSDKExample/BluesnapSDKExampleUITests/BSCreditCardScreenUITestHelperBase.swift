@@ -266,6 +266,10 @@ class BSCreditCardScreenUITestHelperBase {
         app.buttons[payButtonId].tap()
     }
     
+    func pressBackButton() {
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+    }
+    
 }
 
 extension XCUIElement {

@@ -61,6 +61,10 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         return ccInput.staticTexts["CvvErrorLabel"]
     }
     
+    func getManuButton() -> XCUIElement {
+        return app.buttons["MenuButton"]
+    }
+    
     
     /**
      This test verifies the visibility of the cc line,
@@ -245,6 +249,12 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         checkInvalidFieldInputs(input: emailInput, invalidValuesToCheck: ["broadwaydancecenter.com", "broadwaydancecenter@gmail"], validValue: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", inputToTap: zipInput)
         
         checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Billing Zip", inputToTap: streetInput)
+    }
+    
+    func checkMenuButtonEnabled(expectedEnabled: Bool){
+        let menuButton = getManuButton()
+
+        XCTAssertTrue(menuButton.isEnabled == expectedEnabled, "Menu button expected to be Enabled: \(expectedEnabled), but was Enabled: \(menuButton.isEnabled)")
     }
     
     // fill in CC details
