@@ -168,6 +168,10 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // check cc line visibility
         paymentHelper.checkNewCCLineVisibility()
         
+        paymentHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Billing Zip")
+        
+        paymentHelper.checkStateVisibility(defaultCountry: defaultCountry)
+        
         // change country to USA to have state and zip
         paymentHelper.setCountry(countryCode: "US")
         
@@ -192,6 +196,10 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         let shippingHelper = gotoShippingScreen(sdkRequest: sdkRequest)
         
+        shippingHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Shipping Zip")
+        
+        shippingHelper.checkStateVisibility(defaultCountry: defaultCountry)
+
         // change country to USA to have state and zip
         shippingHelper.setCountry(countryCode: "US")
         
