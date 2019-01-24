@@ -257,6 +257,16 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         XCTAssertTrue(menuButton.isEnabled == expectedEnabled, "Menu button expected to be Enabled: \(expectedEnabled), but was Enabled: \(menuButton.isEnabled)")
     }
     
+    func setCurrency(currencyName: String){
+        let menuButton = getManuButton()
+        menuButton.tap()
+        app.sheets.buttons["Currency"].tap()
+
+//        app.searchFields["Search"].tap()
+//        app.searchFields["Search"].typeText(currencyName)
+        app.tables.staticTexts[currencyName].tap()
+    }
+    
     // fill in CC details
     func setCcDetails(isOpen: Bool, ccn: String, exp: String, cvv: String) {
         setCcNumber(ccn: ccn)

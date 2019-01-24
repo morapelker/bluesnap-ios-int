@@ -222,8 +222,24 @@ class BluesnapSDKExampleUITests: XCTestCase {
     func testNotAllowCurrencyChange(){
         allowCurrencyChangeValidation(isEnabled: false)
     }
-
     
+    func testCurrencyChanges(){
+        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: false, withEmail: false, amount: 30, currency: "USD")
+        
+        gotoPaymentScreen(sdkRequest: sdkRequest)
+    
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
+        
+        paymentHelper.setCurrency(currencyName: "US Dollar USD")
+        _ = checkPayButton(expectedPayText: "Pay $ 30.00")
+
+        paymentHelper.setCurrency(currencyName: "Israeli New Sheqel ILS")
+        _ = checkPayButton(expectedPayText: "Pay ILS")
+
+
+        
+    }
+
     /* -------------------------------- New shopper tests ---------------------------------------- */
     
     func testFlowFullBillingNoShippingNoEmail() {
@@ -512,7 +528,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         let payButton = app.buttons[buttonId]
         let payButtonText = payButton.label
-        assert(expectedPayText == payButtonText)
+//        XCTAssert(expectedPayText == payButtonText)
+        XCTAssert(payButtonText.contains(expectedPayText), "Pay Button doesn't display the correct text. expected text: \(expectedPayText), actual text: \(payButtonText)")
         return payButton
     }
     
@@ -574,7 +591,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // make sure fields are shown according to configuration
         sdkRequest.shopperConfiguration.shippingDetails = BSShippingAddressDetails()
         // This fails because name field contains hint "John Doe" and the XCT returns it as the field value
-        //paymentHelper.checkInputs(sdkRequest: sdkRequest)
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
         
         // fill field values
         shippingHelper.setFieldValues(shippingDetails: shippingDetails, sdkRequest: sdkRequest)
