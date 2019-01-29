@@ -75,12 +75,15 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         XCTAssertTrue(ccInput.exists, "CC line is not displayed")
         
         checkCcnComponentState(ccnShouldBeOpen: true, ccn: "1234 5678 9012 3456", last4digits: "", exp: "", cvv: "")
-        
+    }
+    
+    func checkNewCCLineVisibilityAfterEnteringCCN() {
         //enter a valid cc number to make exp date and cvv
         setCcNumber(ccn: getValidVisaCreditCardNumber())
-        
+
         checkCcnComponentState(ccnShouldBeOpen: false, ccn: "", last4digits: "1111", exp: "MM/YY", cvv: "CVV")
     }
+    
     
     // check CCN component state
     func checkCcnComponentState(ccnShouldBeOpen: Bool, ccn: String, last4digits: String, exp: String, cvv: String) {
@@ -186,6 +189,8 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     }
     
     func checkInvalidCCNInputs() {
+        setAndValidateCCLineFieldInput(input: getCcInputFieldElement(), value: getValidVisaCreditCardNumber(), invalidError: getCcInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false, isCcn: true, last4Digits: "1111")
+        
         setAndValidateCCLineFieldInput(input: getCcInputFieldElement(), value: getInvalidCreditCardNumber(), invalidError: getCcInputErrorLabelElement(), expectedValid: false, tapToFocusOut: false, isCcn: true)
         
         setAndValidateCCLineFieldInput(input: getCcInputFieldElement(), value: getValidVisaCreditCardNumber(), invalidError: getCcInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false, isCcn: true, last4Digits: "1111")
@@ -196,6 +201,8 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     }
     
     func checkInvalidExpInputs() {
+        setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/19", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
+
         setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "20/20", invalidError: getExpInputErrorLabelElement(), expectedValid: false, tapToFocusOut: false)
         
         setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/19", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
@@ -210,6 +217,8 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     }
     
     func checkInvalidCvvInputs() {
+        setAndValidateCCLineFieldInput(input: getCvvInputFieldElement(), value: "123", invalidError: getCvvInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
+
         setAndValidateCCLineFieldInput(input: getCvvInputFieldElement(), value: "45", invalidError: getCvvInputErrorLabelElement(), expectedValid: false, tapToFocusOut: true)
         
         setAndValidateCCLineFieldInput(input: getCvvInputFieldElement(), value: "123", invalidError: getCvvInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
