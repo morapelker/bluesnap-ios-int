@@ -50,7 +50,20 @@ class BluesnapSDKExampleUITests: XCTestCase {
         super.tearDown()
     }
     
-    
+    private func setUpForSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, isReturningShopper: Bool = false, tapExistingCc: Bool = false){
+        
+        // set returning shopper and shipping same as biiling properties
+        self.isReturningShopper = isReturningShopper
+        if (fullBilling && withShipping && !isReturningShopper) {
+            shippingSameAsBilling = true
+        }
+        
+        // prepare sdk request
+        prepareSdkRequest(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, allowCurrencyChange: allowCurrencyChange)
+        
+        // start checkout
+        gotoPaymentScreen(tapExistingCc: tapExistingCc)
+    }
     
     /* -------------------------------- Returning shopper tests ---------------------------------------- */
     
@@ -58,10 +71,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         // no full billing, no shipping, no email, new CC
         
-        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: false, withEmail: false)
-//        sdkRequest.priceDetails = nil
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest, returningShopper: true, tapExistingCc: true)
+        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true, tapExistingCc: true)
         
         let _ = waitForExistingCcScreen()
         
@@ -77,10 +87,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         // no full billing, with shipping, no email, new CC
         
-        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: true, withEmail: false)
-//        sdkRequest.priceDetails = nil
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest, returningShopper: true, tapExistingCc: true)
+        setUpForSdk(fullBilling: false, withShipping: true, withEmail: false, isReturningShopper: true, tapExistingCc: true)
         
         let existingCcHelper = waitForExistingCcScreen()
 
@@ -106,10 +113,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         // full billing, with shipping, no email, new CC
         
-        let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: true, withEmail: false)
-//        sdkRequest.priceDetails = nil
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest, returningShopper: true, tapExistingCc: true)
+        setUpForSdk(fullBilling: true, withShipping: true, withEmail: false, isReturningShopper: true, tapExistingCc: true)
         
         let existingCcHelper = waitForExistingCcScreen()
         
@@ -146,11 +150,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         // no full billing, no shipping, no email, new CC
         
-        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: false, withEmail: false)
-//        sdkRequest.priceDetails = nil
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest, returningShopper: true)
-        
+        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true)
+
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
@@ -175,10 +176,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
     // temp- for testing the tests
     func testBillingInputs() {
         
-        let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: false, withEmail: true)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
-       
+        setUpForSdk(fullBilling: true, withShipping: false, withEmail: true)
+
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         // check cc line visibility
@@ -203,14 +202,12 @@ class BluesnapSDKExampleUITests: XCTestCase {
         print("done")
     }
     
-    // temp- for testing the tests
+    // temp- for testing the new tests
     func testShippingInputs(){
         
-        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: true, withEmail: false)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
-        
-        let shippingHelper = gotoShippingScreen(sdkRequest: sdkRequest)
+        setUpForSdk(fullBilling: false, withShipping: true, withEmail: false)
+
+        let shippingHelper = gotoShippingScreen()
         
         shippingHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Shipping Zip")
         
@@ -245,22 +242,22 @@ class BluesnapSDKExampleUITests: XCTestCase {
      Also, it verifies that after changing to different currencies
      and back to the origin one, the amount remains the same
      */
-//    func testCurrencyChangesInPaymentScreen(){
-////        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: true, withEmail: false, amount: 30, currency: "USD")
-////
-////        gotoPaymentScreen(sdkRequest: sdkRequest)
-////
-////        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-////
-////        paymentHelper.setCurrency(currencyName: "US Dollar USD")
-////        _ = checkPayButton(expectedPayText: "Pay $ 30.00")
-////
-////        paymentHelper.setCurrency(currencyName: "Israeli New Sheqel ILS")
-////        _ = checkPayButton(expectedPayText: "Pay ILS")
+    func testCurrencyChangesInPaymentScreen(){
+//        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: true, withEmail: false, amount: 30, currency: "USD")
 //
-//        testCurrencyChanges(withShipping: false)
+//        gotoPaymentScreen(sdkRequest: sdkRequest)
 //
-//    }
+//        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
+//
+//        paymentHelper.setCurrency(currencyName: "US Dollar USD")
+//        _ = checkPayButton(expectedPayText: "Pay $ 30.00")
+//
+//        paymentHelper.setCurrency(currencyName: "Israeli New Sheqel ILS")
+//        _ = checkPayButton(expectedPayText: "Pay ILS")
+
+        testCurrencyChanges(withShipping: false)
+
+    }
     
     /**
      This test verifies that changing the currency while shipping is enabled
@@ -268,18 +265,16 @@ class BluesnapSDKExampleUITests: XCTestCase {
      Also, it verifies that after changing to different currencies
      and back to the origin one, the amount remains the same
      */
-//    func testCurrencyChangesInShippingScreen(){
-//        testCurrencyChanges(withShipping: true)
-//    }
+    func testCurrencyChangesInShippingScreen(){
+        testCurrencyChanges(withShipping: true)
+    }
     
     /* -------------------------------- New shopper tests ---------------------------------------- */
     
     func testFlowFullBillingNoShippingNoEmail() {
         
-        let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: false, withEmail: false)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
-        
+        setUpForSdk(fullBilling: true, withShipping: false, withEmail: false)
+
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
 
         fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
@@ -295,10 +290,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testFlowFullBillingWithShippingNoEmail() {
         
-        let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: true, withEmail: false)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
-        
+        setUpForSdk(fullBilling: true, withShipping: true, withEmail: false)
+
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         let _ = checkPayButton(expectedPayText: "Pay $ 31.50")
@@ -329,10 +322,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testFlowFullBillingWithShippingWithEmailNostate() {
         
-        let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: true, withEmail: true)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
-        
+        setUpForSdk(fullBilling: true, withShipping: true, withEmail: true)
+
         let billingDetails = getDummyBillingDetails()
         billingDetails.country = "IL"
         billingDetails.state = nil
@@ -371,9 +362,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testFlowFullBillingWithShippingWithEmailNoZip() {
         
-        let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: true, withEmail: true)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
+        setUpForSdk(fullBilling: true, withShipping: true, withEmail: true)
         
         let billingDetails = getDummyBillingDetails()
         billingDetails.country = "GH"
@@ -409,10 +398,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testFlowFullBillingNoShippingWithEmail() {
         
-        let sdkRequest = prepareSdkRequest(fullBilling: true, withShipping: false, withEmail: true)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
-        
+        setUpForSdk(fullBilling: true, withShipping: false, withEmail: true)
+
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
         
@@ -428,9 +415,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testFlowNoFullBillingNoShippingWithEmail() {
         
-        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: false, withEmail: true)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
+        setUpForSdk(fullBilling: false, withShipping: false, withEmail: true)
         
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
 
@@ -448,10 +433,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testFlowNoFullBillingNoShippingNoEmail() {
         
-        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: false, withEmail: false)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
-        
+        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false)
+
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
 
         fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
@@ -467,11 +450,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testShortestFlowNoFullBillingNoShippingNoEmail() {
         
-        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: false, withEmail: false)
-//        sdkRequest.priceDetails = nil
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
-        
+        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false)
+
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
@@ -491,7 +471,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
     //------------------------------------ Helper functions ----------------------------
     
     // DemoApp helpers
-    private func setMerchantCheckoutScreen(sdkRequest: BSSdkRequest, returningShopper: Bool = false, hideCurrency: Bool = false) {
+    private func setMerchantCheckoutScreen(sdkRequest: BSSdkRequest, returningShopper: Bool = false) {
         
         // set new/returning shopper
         setSwitch(switchId: "ReturningShopperSwitch", isDesiredConfig: returningShopper, waitToExist: true, waitToDisappear: true)
@@ -554,18 +534,10 @@ class BluesnapSDKExampleUITests: XCTestCase {
     //
     private func checkPayButton(expectedPayText: String) -> XCUIElement {
         var expectedPayText = ""
-        var taxPrecent = 0.0
         let country = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.country : sdkRequest.shopperConfiguration.shippingDetails?.country
         let state = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.state : sdkRequest.shopperConfiguration.shippingDetails?.state
-        if (country == "US"){
-            taxPrecent = 0.05
-            if (state == "NY"){
-                taxPrecent = 0.08
-            }
-        }
-        else if (country == "CA"){
-            taxPrecent = 0.01
-        }
+        
+        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
         
         let taxAmount = purchaseAmount * (1+taxPrecent)
         
@@ -587,23 +559,30 @@ class BluesnapSDKExampleUITests: XCTestCase {
     }
     
     private func checkShippingPayButton(expectedPayText: String) -> XCUIElement {
-        var taxPrecent = 0.0
+        
         let country = sdkRequest.shopperConfiguration.shippingDetails?.country
         let state = sdkRequest.shopperConfiguration.shippingDetails?.state
         
-        if (country == "US"){
-            taxPrecent = 0.05
-            if (state == "NY"){
-                taxPrecent = 0.08
-            }
-        }
-        else if (country == "CA"){
-            taxPrecent = 0.01
-        }
+        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
         
         let taxAmount = purchaseAmount * (1+taxPrecent)
         
         return checkAPayButton(buttonId: "ShippingPayButton", expectedPayText: "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(taxAmount)")
+    }
+    
+    private func calcTaxFromCuntryAndState(countryCode: String, stateCode: String) -> Double {
+        var taxPrecent = 0.0
+        if (countryCode == "US"){
+            taxPrecent = 0.05
+            if (stateCode == "NY"){
+                taxPrecent = 0.08
+            }
+        }
+        else if (countryCode == "CA"){
+            taxPrecent = 0.01
+        }
+        
+        return taxPrecent
     }
     
     private func checkAPayButton(buttonId: String, expectedPayText: String) -> XCUIElement {
@@ -645,7 +624,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         return shippingDetails
     }
     
-    private func prepareSdkRequest(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true) -> BSSdkRequest {
+    private func prepareSdkRequest(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true) {
 
         let taxAmount = purchaseAmount * taxPercent // according to updateTax() in ViewController
         let priceDetails = BSPriceDetails(amount: purchaseAmount, taxAmount: taxAmount, currency: checkoutCurrency)
@@ -656,11 +635,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
         sdkRequest.shopperConfiguration.shippingDetails?.country = defaultCountry
         sdkRequest.allowCurrencyChange = allowCurrencyChange
         self.sdkRequest = sdkRequest
-        
-        if (fullBilling && withShipping && !isReturningShopper) {
-            shippingSameAsBilling = true
-        }
-        return sdkRequest
     }
     
     private func fillBillingDetails(paymentHelper: BSPaymentScreenUITestHelper, ccn: String, exp: String, cvv: String, billingDetails: BSBillingAddressDetails, ignoreCountry: Bool? = false) {
@@ -708,12 +682,11 @@ class BluesnapSDKExampleUITests: XCTestCase {
         sdkRequest.shopperConfiguration.shippingDetails = shippingDetails
     }
     
-    private func gotoPaymentScreen(sdkRequest: BSSdkRequest, returningShopper: Bool = false, tapExistingCc: Bool = false, hideCurrency: Bool = false){
-        isReturningShopper = returningShopper
+    private func gotoPaymentScreen(tapExistingCc: Bool = false){
         let paymentTypeHelper = BSPaymentTypeScreenUITestHelper(app: app)
         
         // set switches and amounts in merchant checkout screen
-        setMerchantCheckoutScreen(sdkRequest: sdkRequest, returningShopper: returningShopper, hideCurrency: hideCurrency)
+        setMerchantCheckoutScreen(sdkRequest: sdkRequest, returningShopper: isReturningShopper)
         
         // click "Checkout" button
         app.buttons["CheckoutButton"].tap()
@@ -737,7 +710,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
     }
     
     
-    private func gotoShippingScreen(sdkRequest: BSSdkRequest, fillInDetails: Bool = true) -> BSShippingScreenUITestHelper{
+    private func gotoShippingScreen(fillInDetails: Bool = true) -> BSShippingScreenUITestHelper{
         
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         if (fillInDetails){
@@ -753,9 +726,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
     }
     
     private func allowCurrencyChangeValidation(isEnabled: Bool){
-        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
+        setUpForSdk(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled)
         
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
@@ -767,7 +738,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // check currency menu button visibility after opening country screen
         paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
         
-        _ = gotoShippingScreen(sdkRequest: sdkRequest)
+        _ = gotoShippingScreen()
         
         pressBackButton()
         
@@ -777,16 +748,14 @@ class BluesnapSDKExampleUITests: XCTestCase {
     }
     
     func testCurrencyChanges(withShipping: Bool){
-        let sdkRequest = prepareSdkRequest(fullBilling: false, withShipping: withShipping, withEmail: false)
-        
-        gotoPaymentScreen(sdkRequest: sdkRequest)
+        setUpForSdk(fullBilling: false, withShipping: withShipping, withEmail: false)
         
         let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         setAndUpdateCurrency(paymentHelper: paymentHelper, currencyName: "Israeli New Sheqel ILS", currencyCode: "ILS", oldCurrencyCode: checkoutCurrency)
 //        paymentHelper.setCurrency(currencyName: "Israeli New Sheqel ILS")
         if (withShipping){
-            _ = gotoShippingScreen(sdkRequest: sdkRequest, fillInDetails: true)
+            _ = gotoShippingScreen(fillInDetails: true)
             _ = checkShippingPayButton(expectedPayText: "")
             pressBackButton()
         }
@@ -800,7 +769,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
 //        paymentHelper.setCurrency(currencyName: "US Dollar USD")
         
         if (withShipping){
-            _ = gotoShippingScreen(sdkRequest: sdkRequest, fillInDetails: false)
+            _ = gotoShippingScreen(fillInDetails: false)
             _ = checkShippingPayButton(expectedPayText: "")
             pressBackButton()
         }
