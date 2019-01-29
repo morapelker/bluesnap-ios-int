@@ -148,7 +148,7 @@ class BSCreditCardScreenUITestHelperBase {
         checkInput(input: stateInput, expectedExists: true, expectedValue: "", expectedLabelText: "State")
     }
 
-    //Pre-condition: full billing or shipping checkout and country is USA- for state existence and "Billing Zip" label text
+    //Pre-condition: full billing or shipping checkout and country is USA- for state existence and "Billing Zip"/"Shipping Zip" label text
     //Pre-condition: all cc line and input fields are empty
     func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipLabel: String) {
         pressPayButton(payButtonId: payButtonId)
