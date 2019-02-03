@@ -114,12 +114,15 @@ class BSCreditCardScreenUITestHelperBase {
         // verify that the zip field is visible when changing to Israel (has postal code)
         setCountry(countryCode: "IL")
         checkInput(input: zipInput, expectedExists: true, expectedValue: "", expectedLabelText: "Postal Code")
+        
+//        setCountry(countryCode: defaultCountry)
 
     }
     
     /**
      This test verifies the visibility of state input field,
      according to default country and specific countries.
+     (this test ends with default country selected)
      */
     func checkStateVisibility(defaultCountry: String) {
         // check whether the state field is visible to the user or not, according to defaultCountry
@@ -146,6 +149,8 @@ class BSCreditCardScreenUITestHelperBase {
         // verify that the state field is visible when changing to Brazil (has state)
         setCountry(countryCode: "BR")
         checkInput(input: stateInput, expectedExists: true, expectedValue: "", expectedLabelText: "State")
+        
+        setCountry(countryCode: defaultCountry)
     }
 
     //Pre-condition: full billing or shipping checkout and country is USA- for state existence and "Billing Zip"/"Shipping Zip" label text

@@ -173,62 +173,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     }
     
     /* -------------------------------- New tests ---------------------------------------- */
-    // temp- for testing the tests
-    func testBillingInputs() {
-        
-        setUpForSdk(fullBilling: true, withShipping: false, withEmail: true)
-
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        
-        // check cc line visibility
-        paymentHelper.checkNewCCLineVisibility()
-        
-        paymentHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Billing Zip")
-        
-        paymentHelper.checkStateVisibility(defaultCountry: defaultCountry)
-        
-        // change country to USA to have state and zip
-        paymentHelper.setCountry(countryCode: "US")
-        
-        // check trying to pay with empty fields
-        paymentHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, payButtonId: "PayButton", zipLabel: "Billing Zip")
-        
-        // check invalid cc line inputs
-        paymentHelper.checkInvalidCCLineInputs()
-        
-        // check invalid billing inputs
-        paymentHelper.checkInvalidInfoInputs(payButtonId: "PayButton")
-        
-        print("done")
-    }
-    
-    // temp- for testing the new tests
-    func testShippingInputs(){
-        
-        setUpForSdk(fullBilling: false, withShipping: true, withEmail: false)
-
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-
-        let shippingHelper = gotoShippingScreen(paymentHelper: paymentHelper)
-        
-        shippingHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Shipping Zip")
-        
-        shippingHelper.checkStateVisibility(defaultCountry: defaultCountry)
-
-        // change country to USA to have state and zip
-        shippingHelper.setCountry(countryCode: "US")
-        
-        // check trying to pay with empty fields
-        shippingHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, payButtonId: "ShippingPayButton", zipLabel: "Shipping Zip")
-        
-        // check invalid billing inputs
-        shippingHelper.checkInvalidInfoInputs(payButtonId: "ShippingPayButton")
-        
-        
-        print("done")
-        
-        
-    }
     
     func testAllowCurrencyChange(){
         allowCurrencyChangeValidation(isEnabled: true)
@@ -280,6 +224,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
 
         // check pay button
         _ = checkPayButton()
+        
+        print("done")
     }
     
     func testViewsFullBillingNoShippingWithEmail() {
@@ -308,6 +254,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // check invalid billing inputs
         paymentHelper.checkInvalidInfoInputs(payButtonId: "PayButton")
         
+        print("done")
     }
     
     func testViewsFullBillingWithShippingNoEmail() {
@@ -339,6 +286,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
         _ = checkShippingPayButton()
         
         shippingHelper.pressBackButton()
+        
+        print("done")
     }
     
     func testViewsFullBillingWithShippingWithEmail() {
@@ -389,6 +338,117 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // verify that the shipping info has been saved in shipping screen after choosing billing same as billing, and than rewind the choice.
         _ = gotoShippingScreen(paymentHelper: paymentHelper, fillInDetails: false)
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        
+        print("done")
+    }
+    
+    func testViewsNoFullBillingNoShippingNoEmail() {
+        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false)
+        
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
+        
+        // check cc line visibility (including error messages)
+        paymentHelper.checkNewCCLineVisibility()
+        
+        paymentHelper.checkNewCCLineVisibilityAfterEnteringCCN()
+        
+        // check Inputs Fields visibility (including error messages)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        
+        // check pay button
+        _ = checkPayButton()
+        
+        print("done")
+    }
+    
+    func testViewsNoFullBillingNoShippingWithEmail() {
+        setUpForSdk(fullBilling: false, withShipping: false, withEmail: true)
+        
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
+        
+        // check cc line visibility (including error messages)
+        paymentHelper.checkNewCCLineVisibility()
+        
+        // check Inputs Fields visibility (including error messages)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        
+        // check pay button
+        _ = checkPayButton()
+        
+        print("done")
+    }
+    
+    func testViewsNoFullBillingWithShippingNoEmail() {
+        setUpForSdk(fullBilling: false, withShipping: true, withEmail: false)
+        
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
+        
+        // check cc line visibility (including error messages)
+        paymentHelper.checkNewCCLineVisibility()
+        
+        // check Inputs Fields visibility (including error messages)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        
+        // check pay button
+        _ = checkPayButton()
+        
+        // continue to shipping screen
+        let shippingHelper = gotoShippingScreen(paymentHelper: paymentHelper)
+        
+        // check Inputs Fields visibility (including error messages)
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        
+        // check zip input field visibility according to different countries
+        shippingHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Shipping Zip")
+        
+        // check state input field visibility according to different countries
+        shippingHelper.checkStateVisibility(defaultCountry: defaultCountry)
+        
+        // check shipping pay button
+        _ = checkShippingPayButton()
+        
+        // check trying to pay with empty fields
+        shippingHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, payButtonId: "ShippingPayButton", zipLabel: "Shipping Zip")
+        
+        // check invalid shipping inputs
+        shippingHelper.checkInvalidInfoInputs(payButtonId: "ShippingPayButton")
+        
+        setShippingDetails(shippingHelper: shippingHelper, shippingDetails: getDummyShippingDetails(countryCode: "BR", stateCode: "RJ"))
+        
+        // go back and forward
+        shippingHelper.pressBackButton()
+        _ = gotoShippingScreen(paymentHelper: paymentHelper, fillInDetails: false)
+        
+        // verify info has been saved
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        
+        print("done")
+    }
+    
+    func testViewsNoFullBillingWithShippingWithEmail() {
+        setUpForSdk(fullBilling: false, withShipping: true, withEmail: true)
+        
+        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
+        
+        // check cc line visibility (including error messages)
+        paymentHelper.checkNewCCLineVisibility()
+        
+        // check Inputs Fields visibility (including error messages)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        
+        // check pay button
+        _ = checkPayButton()
+        
+        // continue to shipping screen
+        let shippingHelper = gotoShippingScreen(paymentHelper: paymentHelper)
+        
+        // check Inputs Fields visibility (including error messages)
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        
+        // check shipping pay button
+        _ = checkShippingPayButton()
+        
+        print("done")
     }
     
     /* -------------------------------- New shopper end-to-end flow tests ---------------------------------------- */
@@ -859,9 +919,9 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // check currency menu button visibility in payment screen
         paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
         
-        paymentHelper.setCountry(countryCode: "IL")
-        
         // check currency menu button visibility after opening country screen
+        paymentHelper.setCountry(countryCode: "IL")
+
         paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
         
         _ = gotoShippingScreen(paymentHelper: paymentHelper)
