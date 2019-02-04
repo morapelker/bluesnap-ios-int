@@ -293,28 +293,7 @@ For credit card and Apple Pay payments, you'll use the Payment API with your tok
 
 DemoTransactions.swift of demo app shows an example of an Auth Capture request. Please note that these calls are for demonstration purposes only - the transaction should be sent from your server.
 
-### Auth Capture example - Apple Pay payments (Standard Checkout Flow)
-For Apple Pay payments, send an HTTP POST request to `/services/2/transactions` of the relevant BlueSnap environment. 
-
-For example: 
-```cURL
-curl -v -X POST https://sandbox.bluesnap.com/services/2/transactions \
--H 'Content-Type: application/json' \
--H 'Accept: application/json' \ 
--H 'Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=' \
--d '
-{
-	"cardTransactionType": "AUTH_CAPTURE", 
-	"recurringTransaction": "ECOMMERCE", 
-	"softDescriptor": "Mobile SDK test", 
-	"amount": 25.00, 
-	"currency": "USD", 
-	"pfToken": "ae76939fab7275cbfd657495eb8c4d0654e52e704c112170fa61f4127a34bf64_",
-}'
-```
-If successful, the response HTTP status code is 200 OK. Visit our [API Reference](https://developers.bluesnap.com/v8976-JSON/docs/auth-capture) for more details. 
-
-### Auth Capture example - Credit card payments
+### Auth Capture example - Credit card/Apple Pay payments
 For credit card payments, send an HTTP POST request to `/services/2/transactions` of the relevant BlueSnap environment. Your request will look like the following code sample for both new and returning users. 
 
 > **Note:** All the user's details, including their billing/shipping info and credit card details, and the fraud session ID have been submitted to BlueSnap,
