@@ -277,7 +277,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     }
     
     // fill in CC details
-    func setCcDetails(isOpen: Bool, ccn: String, exp: String, cvv: String) {
+    func setCcDetails(ccn: String, exp: String, cvv: String) {
         setCcNumber(ccn: ccn)
         
         let expTextField = getExpInputFieldElement()
