@@ -23,6 +23,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
     private var sdkRequest: BSSdkRequest!
     private var shippingSameAsBilling: Bool = false
     private var isReturningShopper: Bool = false
+    private var paymentHelper: BSPaymentScreenUITestHelper!
+    private var shippingHelper: BSShippingScreenUITestHelper!
     
     
     override func setUp() {
@@ -61,6 +63,12 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // prepare sdk request
         prepareSdkRequest(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, allowCurrencyChange: allowCurrencyChange)
         
+        // initialize required helpers
+        paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
+        if (withShipping){
+            shippingHelper = BSShippingScreenUITestHelper(app: app)
+        }
+        
         // start checkout
         gotoPaymentScreen(tapExistingCc: tapExistingCc)
     }
@@ -94,8 +102,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // edit shipping to make sure we have the right country for tax calculation
         existingCcHelper.editShippingButton.tap()
         
-        let shippingHelper = BSShippingScreenUITestHelper(app: app)
-        setShippingDetails(shippingHelper: shippingHelper, shippingDetails: getDummyShippingDetails(countryCode: "US", stateCode: "MA"))
+        setShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "US", stateCode: "MA"))
 //        shippingHelper.setFieldValues(shippingDetails: getDummyShippingDetails(countryCode: "US", stateCode: "MA"), sdkRequest: sdkRequest)
         shippingHelper.closeKeyboard()
         let editShippingPayButton = checkReturningShopperDoneButton(isPayment: false)
@@ -119,8 +126,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         existingCcHelper.editBillingButton.tap()
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        setBillingDetails(paymentHelper: paymentHelper, billingDetails: getDummyBillingDetails())
+        setBillingDetails(billingDetails: getDummyBillingDetails())
 //        paymentHelper.setFieldValues(billingDetails: getDummyBillingDetails(), sdkRequest: sdkRequest)
         paymentHelper.closeKeyboard()
         let editBillingPayButton = checkReturningShopperDoneButton(isPayment: true)
@@ -128,8 +134,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
         existingCcHelper.editShippingButton.tap()
 
-        let shippingHelper = BSShippingScreenUITestHelper(app: app)
-        setShippingDetails(shippingHelper: shippingHelper, shippingDetails: getDummyShippingDetails(countryCode: "IL", stateCode: nil))
+        setShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "IL", stateCode: nil))
 
 //        shippingHelper.setFieldValues(shippingDetails: getDummyShippingDetails(countryCode: "IL", stateCode: nil), sdkRequest: sdkRequest)
         shippingHelper.closeKeyboard()
@@ -151,10 +156,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // no full billing, no shipping, no email, new CC
         
         setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true)
-
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
-        fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
+        fillBillingDetails(ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
         
         let elementsQuery = app.scrollViews.otherElements
         let textField = elementsQuery.element(matching: .any, identifier: "Name")
@@ -208,8 +211,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     func testViewsFullBillingNoShippingNoEmail() {
         setUpForSdk(fullBilling: true, withShipping: false, withEmail: false)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
         
@@ -230,8 +231,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testViewsFullBillingNoShippingWithEmail() {
         setUpForSdk(fullBilling: true, withShipping: false, withEmail: true)
-        
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -260,8 +259,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     func testViewsFullBillingWithShippingNoEmail() {
         setUpForSdk(fullBilling: true, withShipping: true, withEmail: false)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
         
@@ -271,13 +268,13 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // check pay button when shipping same as billing is on
         _ = checkPayButton()
         
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: false)
+        setShippingSameAsBillingSwitch(shouldBeOn: false)
         
         // check pay button when shipping same as billing is off
         _ = checkPayButton()
         
         // continue to shipping screen
-        let shippingHelper = gotoShippingScreen(paymentHelper: paymentHelper)
+        gotoShippingScreen()
         
         // check Inputs Fields visibility (including error messages)
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
@@ -293,8 +290,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     func testViewsFullBillingWithShippingWithEmail() {
         setUpForSdk(fullBilling: true, withShipping: true, withEmail: true)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
         
@@ -304,13 +299,13 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // check pay button when shipping same as billing is on
         _ = checkPayButton()
         
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: false)
+        setShippingSameAsBillingSwitch(shouldBeOn: false)
         
         // check pay button when shipping same as billing is off
         _ = checkPayButton()
         
         // continue to shipping screen
-        let shippingHelper = gotoShippingScreen(paymentHelper: paymentHelper)
+        gotoShippingScreen()
         
         // check Inputs Fields visibility (including error messages)
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
@@ -319,7 +314,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         _ = checkShippingPayButton()
         
         // fill in shipping details with country without shipping tax
-        _ = fillShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "IL"))
+        fillShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "IL"))
         
         shippingHelper.pressBackButton()
         
@@ -327,16 +322,16 @@ class BluesnapSDKExampleUITests: XCTestCase {
         paymentHelper.checkCcnComponentState(ccnShouldBeOpen: false, ccn: paymentHelper.getValidVisaCreditCardNumber(), last4digits: "1111", exp: "11/26", cvv: "333")
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: true)
+        setShippingSameAsBillingSwitch(shouldBeOn: true)
         // check pay button- for shipping country with tax
         _ = checkPayButton()
         
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: false)
+        setShippingSameAsBillingSwitch(shouldBeOn: false)
         // check pay button- for shipping country without tax
         _ = checkPayButton()
         
         // verify that the shipping info has been saved in shipping screen after choosing billing same as billing, and than rewind the choice.
-        _ = gotoShippingScreen(paymentHelper: paymentHelper, fillInDetails: false)
+        gotoShippingScreen(fillInDetails: false)
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
         
         print("done")
@@ -344,8 +339,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testViewsNoFullBillingNoShippingNoEmail() {
         setUpForSdk(fullBilling: false, withShipping: false, withEmail: false)
-        
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -364,8 +357,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     func testViewsNoFullBillingNoShippingWithEmail() {
         setUpForSdk(fullBilling: false, withShipping: false, withEmail: true)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
         
@@ -381,8 +372,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     func testViewsNoFullBillingWithShippingNoEmail() {
         setUpForSdk(fullBilling: false, withShipping: true, withEmail: false)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
         
@@ -393,7 +382,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         _ = checkPayButton()
         
         // continue to shipping screen
-        let shippingHelper = gotoShippingScreen(paymentHelper: paymentHelper)
+        gotoShippingScreen()
         
         // check Inputs Fields visibility (including error messages)
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
@@ -413,11 +402,11 @@ class BluesnapSDKExampleUITests: XCTestCase {
         // check invalid shipping inputs
         shippingHelper.checkInvalidInfoInputs(payButtonId: "ShippingPayButton")
         
-        setShippingDetails(shippingHelper: shippingHelper, shippingDetails: getDummyShippingDetails(countryCode: "BR", stateCode: "RJ"))
+        setShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "BR", stateCode: "RJ"))
         
         // go back and forward
         shippingHelper.pressBackButton()
-        _ = gotoShippingScreen(paymentHelper: paymentHelper, fillInDetails: false)
+        gotoShippingScreen(fillInDetails: false)
         
         // verify info has been saved
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
@@ -427,8 +416,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     func testViewsNoFullBillingWithShippingWithEmail() {
         setUpForSdk(fullBilling: false, withShipping: true, withEmail: true)
-        
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -440,7 +427,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         _ = checkPayButton()
         
         // continue to shipping screen
-        let shippingHelper = gotoShippingScreen(paymentHelper: paymentHelper)
+        gotoShippingScreen()
         
         // check Inputs Fields visibility (including error messages)
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
@@ -453,55 +440,54 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     /* -------------------------------- New shopper end-to-end flow tests ---------------------------------------- */
     
-    func testFlowFullBillingNoShippingNoEmail() {
+    func newCardBasicCheckoutFlow(fullBilling: Bool, withShipping: Bool, withEmail: Bool, shippingSameAsBilling: Bool = false) {
         
-        setUpForSdk(fullBilling: true, withShipping: false, withEmail: false)
-
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-
-        fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
+        setUpForSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail)
         
-        let payButton = checkPayButton()
-        paymentHelper.closeKeyboard()
-        payButton.tap()
+        newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling)
         
-        checkResult(expectedSuccessText:  "Success!")
+        checkResult(expectedSuccessText: "Success!")
         
         print("done")
+    }
+    
+    func newCardBasicFillInInfoAndPay(shippingSameAsBilling: Bool = false) {
+        // fill in info in payment screen and continue to shipping or paying
+        fillBillingDetails(ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
+        
+        // continue to shipping it's required and fill in info in shipping screen
+        if (sdkRequest.shopperConfiguration.withShipping && !shippingSameAsBilling){
+            if (sdkRequest.shopperConfiguration.fullBilling){
+                setShippingSameAsBillingSwitch(shouldBeOn: false)
+            }
+            gotoShippingScreen(fillInDetails: false)
+            fillShippingDetails(shippingDetails: getDummyShippingDetails())
+            shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
+        }
+        
+        else{
+            paymentHelper.pressPayButton(payButtonId: "PayButton")
+        }
+    }
+    
+    func testFlowFullBillingNoShippingNoEmail() {
+        newCardBasicCheckoutFlow(fullBilling: true, withShipping: false, withEmail: false)
+    }
+    
+    func testFlowFullBillingNoShippingWithEmail() {
+        newCardBasicCheckoutFlow(fullBilling: true, withShipping: false, withEmail: true)
     }
     
     func testFlowFullBillingWithShippingNoEmail() {
-        
-        setUpForSdk(fullBilling: true, withShipping: true, withEmail: false)
-
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        
-        let _ = checkPayButton()
-
-        fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
-        
-        paymentHelper.closeKeyboard()
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: true)
-        let _ = checkPayButton()
-        
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: false)
-        let payButton = checkPayButton()
-        
-        payButton.tap()
-        waitForShippingScreen()
-        
-        let shippingPayButton = checkShippingPayButton()
-        let shippingHelper = fillShippingDetails(shippingDetails: getDummyShippingDetails())
-        let _ = checkShippingPayButton()
-        
-        shippingHelper.closeKeyboard()
-        shippingPayButton.tap()
-        
-        checkResult(expectedSuccessText:  "Success!")
-        
-        print("done")
+        newCardBasicCheckoutFlow(fullBilling: true, withShipping: true, withEmail: false)
     }
     
+    func testFlowFullBillingWithShippingWithEmail() {
+        newCardBasicCheckoutFlow(fullBilling: true, withShipping: true, withEmail: true)
+    }
+    
+    
+    // TODO: do we need this?
     func testFlowFullBillingWithShippingWithEmailNostate() {
         
         setUpForSdk(fullBilling: true, withShipping: true, withEmail: true)
@@ -509,39 +495,27 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let billingDetails = getDummyBillingDetails()
         billingDetails.country = "IL"
         billingDetails.state = nil
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         
-        let _ = checkPayButton()
+        fillBillingDetails(ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: "1126", cvv: "333", billingDetails: billingDetails)
         
-        fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: billingDetails)
+        setShippingSameAsBillingSwitch(shouldBeOn: false)
         
-        paymentHelper.closeKeyboard()
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: true)
-        let _ = checkPayButton()
-        
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: false)
-        let payButton = checkPayButton()
-        
-        payButton.tap()
-        waitForShippingScreen()
+        paymentHelper.pressPayButton(payButtonId: "PayButton")
         
         let shippingDetails = getDummyShippingDetails()
         shippingDetails.country = "GB"
         shippingDetails.state = nil
-
-        let shippingPayButton = checkShippingPayButton()
         
-        let shippingHelper = fillShippingDetails(shippingDetails: shippingDetails)
-        let _ = checkShippingPayButton()
+        fillShippingDetails(shippingDetails: shippingDetails)
         
-        shippingHelper.closeKeyboard()
-        shippingPayButton.tap()
+        shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
         
         checkResult(expectedSuccessText:  "Success!")
         
         print("done")
     }
     
+    // TODO: do we need this?
     func testFlowFullBillingWithShippingWithEmailNoZip() {
         
         setUpForSdk(fullBilling: true, withShipping: true, withEmail: true)
@@ -549,120 +523,53 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let billingDetails = getDummyBillingDetails()
         billingDetails.country = "GH"
         billingDetails.state = nil
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
 
-        fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: billingDetails)
+        fillBillingDetails(ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: "1126", cvv: "333", billingDetails: billingDetails)
         
-        paymentHelper.closeKeyboard()
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: true)
-        let _ = checkPayButton()
-        
-        setShippingSameAsBillingSwitch(paymentHelper: paymentHelper, shouldBeOn: false)
-        let payButton = checkPayButton()
-        
-        payButton.tap()
-        waitForShippingScreen()
+        setShippingSameAsBillingSwitch(shouldBeOn: false)
+        paymentHelper.pressPayButton(payButtonId: "PayButton")
         
         let shippingDetails = getDummyShippingDetails()
         shippingDetails.country = "GH"
         shippingDetails.state = nil
-        let shippingHelper = fillShippingDetails(shippingDetails: shippingDetails)
-        let shippingPayButton = checkShippingPayButton()
+        fillShippingDetails(shippingDetails: shippingDetails)
         
-        shippingHelper.closeKeyboard()
-        shippingPayButton.tap()
+        shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
         
         checkResult(expectedSuccessText:  "Success!")
         
         print("done")
     }
-    
-    
-    func testFlowFullBillingNoShippingWithEmail() {
-        
-        setUpForSdk(fullBilling: true, withShipping: false, withEmail: true)
-
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
-        
-        let payButton = checkPayButton()
-        paymentHelper.closeKeyboard()
-        payButton.tap()
-        
-        checkResult(expectedSuccessText:  "Success!")
-        
-        print("done")
-    }
-    
-    
-    func testFlowNoFullBillingNoShippingWithEmail() {
-        
-        setUpForSdk(fullBilling: false, withShipping: false, withEmail: true)
-        
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-
-        fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
-        
-        let payButton = checkPayButton()
-        paymentHelper.closeKeyboard()
-        payButton.tap()
-        
-        checkResult(expectedSuccessText:  "Success!")
-        
-        print("done")
-    }
-    
     
     func testFlowNoFullBillingNoShippingNoEmail() {
-        
-        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false)
-
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-
-        fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
-        
-        let payButton = checkPayButton()
-        paymentHelper.closeKeyboard()
-        payButton.tap()
-        
-        checkResult(expectedSuccessText: "Success!")
-        
-        print("done")
+        newCardBasicCheckoutFlow(fullBilling: false, withShipping: false, withEmail: false)
     }
     
-    func testShortestFlowNoFullBillingNoShippingNoEmail() {
-        
-        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false)
-
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        
-        fillBillingDetails(paymentHelper: paymentHelper, ccn: "4111 1111 1111 1111", exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
-        
-        paymentHelper.closeKeyboard()
-        
-        let payButton = checkPayButton()
-        paymentHelper.closeKeyboard()
-        payButton.tap()
-        
-        checkResult(expectedSuccessText: "Success!")
-        
-        print("done")
+    func testFlowNoFullBillingNoShippingWithEmail() {
+        newCardBasicCheckoutFlow(fullBilling: false, withShipping: false, withEmail: true)
     }
-
+    
+    func testFlowNoFullBillingWithShippingNoEmail() {
+        newCardBasicCheckoutFlow(fullBilling: false, withShipping: true, withEmail: false)
+    }
+    
+    func testFlowNoFullBillingWithShippingWithEmail() {
+        newCardBasicCheckoutFlow(fullBilling: false, withShipping: true, withEmail: true)
+    }
     
     //------------------------------------ Helper functions ----------------------------
     
     // DemoApp helpers
-    private func setMerchantCheckoutScreen(sdkRequest: BSSdkRequest, returningShopper: Bool = false) {
+    private func setMerchantCheckoutScreen() {
         
         // set new/returning shopper
-        setSwitch(switchId: "ReturningShopperSwitch", isDesiredConfig: returningShopper, waitToExist: true, waitToDisappear: true)
+        setSwitch(switchId: "ReturningShopperSwitch", isDesiredConfig: isReturningShopper, waitToExist: true, waitToDisappear: true)
         
         // set with Shipping switch = on
         setSwitch(switchId: "WithShippingSwitch", isDesiredConfig: sdkRequest.shopperConfiguration.withShipping, waitToExist: true)
         
         // set full billing switch = on
-        setSwitch(switchId: "FullBillingSwitch", isDesiredConfig: sdkRequest.shopperConfiguration.fullBilling)
+        setSwitch(switchId: "FullBillingSwitch", isDesiredConfig: sdkRequest.shopperConfiguration.fullBilling, waitToExist: true)
         
         // set with Email switch = on
         setSwitch(switchId: "WithEmailSwitch", isDesiredConfig: sdkRequest.shopperConfiguration.withEmail)
@@ -688,6 +595,8 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let configSwitch = app.switches[switchId]
         if (waitToExist) {
             waitForElementToExist(element: configSwitch, waitTime: 140)
+            waitForElementToBeEnabled(element: configSwitch, waitTime: 140)
+            waitForElementToBeHittable(element: configSwitch, waitTime: 140)
         }
         let configSwitchValue = (configSwitch.value as? String) ?? "0"
         if (configSwitchValue == "0" && isDesiredConfig) || (configSwitchValue == "1" && !isDesiredConfig) {
@@ -719,13 +628,13 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let country = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.country : sdkRequest.shopperConfiguration.shippingDetails?.country
         let state = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.state : sdkRequest.shopperConfiguration.shippingDetails?.state
         
-        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
+//        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
         
-        let taxAmount = purchaseAmount * (1+taxPrecent)
-        
+        let includeTaxAmount = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
+
         if ((sdkRequest.shopperConfiguration.withShipping && isReturningShopper) ||
             (sdkRequest.shopperConfiguration.withShipping && shippingSameAsBilling)){
-            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(taxAmount)"
+            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)"
         }
             
         else if (sdkRequest.shopperConfiguration.withShipping){
@@ -745,11 +654,11 @@ class BluesnapSDKExampleUITests: XCTestCase {
         let country = sdkRequest.shopperConfiguration.shippingDetails?.country
         let state = sdkRequest.shopperConfiguration.shippingDetails?.state
         
-        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
+//        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
         
-        let taxAmount = purchaseAmount * (1+taxPrecent)
+        let includeTaxAmount = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
         
-        return checkAPayButton(buttonId: "ShippingPayButton", expectedPayText: "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(taxAmount)")
+        return checkAPayButton(buttonId: "ShippingPayButton", expectedPayText: "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)")
     }
     
     private func calcTaxFromCuntryAndState(countryCode: String, stateCode: String) -> Double {
@@ -765,7 +674,9 @@ class BluesnapSDKExampleUITests: XCTestCase {
             taxPrecent = 0.01
         }
         
-        return taxPrecent
+        let includeTaxAmount = purchaseAmount * (1+taxPrecent)
+        
+        return includeTaxAmount
     }
     
     private func checkAPayButton(buttonId: String, expectedPayText: String) -> XCUIElement {
@@ -778,12 +689,6 @@ class BluesnapSDKExampleUITests: XCTestCase {
 //        XCTAssert(expectedPayText == payButtonText)
         XCTAssert(payButtonText.contains(expectedPayText), "Pay Button doesn't display the correct text. expected text: \(expectedPayText), actual text: \(payButtonText)")
         return payButton
-    }
-    
-    private func tapPayButton(buttonId: String, screenHelper: BSCreditCardScreenUITestHelperBase){
-        let aPayButton = app.buttons[buttonId]
-        screenHelper.closeKeyboard()
-        aPayButton.tap()
     }
     
     private func getDummyBillingDetails(countryCode: String? = "CA", stateCode: String? = "ON") -> BSBillingAddressDetails {
@@ -823,45 +728,42 @@ class BluesnapSDKExampleUITests: XCTestCase {
         self.sdkRequest = sdkRequest
     }
     
-    private func fillBillingDetails(paymentHelper: BSPaymentScreenUITestHelper, ccn: String, exp: String, cvv: String, billingDetails: BSBillingAddressDetails, ignoreCountry: Bool? = false) {
+    private func fillBillingDetails(ccn: String, exp: String, cvv: String, billingDetails: BSBillingAddressDetails, ignoreCountry: Bool? = false) {
         
         // fill CC values
-        paymentHelper.setCcDetails(isOpen: true, ccn: ccn, exp: exp, cvv: cvv)
+        paymentHelper.setCcDetails(ccn: ccn, exp: exp, cvv: cvv)
         
         // make sure fields are shown according to configuration
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
-        setBillingDetails(paymentHelper: paymentHelper, billingDetails: billingDetails, ignoreCountry: ignoreCountry)
+        setBillingDetails(billingDetails: billingDetails, ignoreCountry: ignoreCountry)
         
         // check that the values are in correctly
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
     }
     
-    private func setBillingDetails(paymentHelper: BSPaymentScreenUITestHelper, billingDetails: BSBillingAddressDetails, ignoreCountry: Bool? = false){
+    private func setBillingDetails(billingDetails: BSBillingAddressDetails, ignoreCountry: Bool? = false){
         // fill field values
         paymentHelper.setFieldValues(billingDetails: billingDetails, sdkRequest: sdkRequest, ignoreCountry: ignoreCountry)
         
         sdkRequest.shopperConfiguration.billingDetails = billingDetails
     }
     
-    private func fillShippingDetails(shippingDetails: BSShippingAddressDetails) -> BSShippingScreenUITestHelper {
-        
-        let shippingHelper = BSShippingScreenUITestHelper(app:app)
+    private func fillShippingDetails(shippingDetails: BSShippingAddressDetails){
         
         // make sure fields are shown according to configuration
         sdkRequest.shopperConfiguration.shippingDetails = BSShippingAddressDetails()
         // This fails because name field contains hint "John Doe" and the XCT returns it as the field value
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
         
-        setShippingDetails(shippingHelper: shippingHelper, shippingDetails: shippingDetails)
+        setShippingDetails(shippingDetails: shippingDetails)
         
         // check that the values are in correctly
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
         
-        return shippingHelper
     }
     
-    private func setShippingDetails(shippingHelper: BSShippingScreenUITestHelper, shippingDetails: BSShippingAddressDetails){
+    private func setShippingDetails(shippingDetails: BSShippingAddressDetails){
         // fill field values
         shippingHelper.setFieldValues(shippingDetails: shippingDetails, sdkRequest: sdkRequest)
         
@@ -870,9 +772,9 @@ class BluesnapSDKExampleUITests: XCTestCase {
     
     private func gotoPaymentScreen(tapExistingCc: Bool = false){
         let paymentTypeHelper = BSPaymentTypeScreenUITestHelper(app: app)
-        
+
         // set switches and amounts in merchant checkout screen
-        setMerchantCheckoutScreen(sdkRequest: sdkRequest, returningShopper: isReturningShopper)
+        setMerchantCheckoutScreen()
         
         // click "Checkout" button
         app.buttons["CheckoutButton"].tap()
@@ -896,35 +798,29 @@ class BluesnapSDKExampleUITests: XCTestCase {
     }
     
     
-    private func gotoShippingScreen(paymentHelper: BSPaymentScreenUITestHelper, fillInDetails: Bool = true) -> BSShippingScreenUITestHelper{
+    private func gotoShippingScreen(fillInDetails: Bool = true) {
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
         if (fillInDetails){
-            fillBillingDetails(paymentHelper: paymentHelper, ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
+            fillBillingDetails(ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: "1126", cvv: "333", billingDetails: getDummyBillingDetails())
         }
         
         paymentHelper.pressPayButton(payButtonId: "PayButton")
         
         waitForShippingScreen()
-        
-        return BSShippingScreenUITestHelper(app: app)
-        
     }
     
     private func allowCurrencyChangeValidation(isEnabled: Bool){
         setUpForSdk(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        
         // check currency menu button visibility in payment screen
         paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
         
         // check currency menu button visibility after opening country screen
-        paymentHelper.setCountry(countryCode: "IL")
+        paymentHelper.setCountry(countryCode: "US")
 
         paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
         
-        _ = gotoShippingScreen(paymentHelper: paymentHelper)
+        gotoShippingScreen()
         
         pressBackButton()
         
@@ -936,21 +832,19 @@ class BluesnapSDKExampleUITests: XCTestCase {
     private func testCurrencyChanges(withShipping: Bool){
         setUpForSdk(fullBilling: false, withShipping: withShipping, withEmail: false)
         
-        let paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
-        
-        setAndUpdateCurrency(paymentHelper: paymentHelper, currencyName: "Israeli New Sheqel ILS", currencyCode: "ILS", oldCurrencyCode: checkoutCurrency)
+        setAndUpdateCurrency(currencyName: "Israeli New Sheqel ILS", currencyCode: "ILS", oldCurrencyCode: checkoutCurrency)
 
-        testCurrencyInPayButton(paymentHelper: paymentHelper, withShipping: withShipping, fillInDetails: true)
+        testCurrencyInPayButton(withShipping: withShipping, fillInDetails: true)
     
-        setAndUpdateCurrency(paymentHelper: paymentHelper, currencyName: "US Dollar USD", currencyCode: "USD", oldCurrencyCode: "ILS")
+        setAndUpdateCurrency(currencyName: "US Dollar USD", currencyCode: "USD", oldCurrencyCode: "ILS")
         
-        testCurrencyInPayButton(paymentHelper: paymentHelper, withShipping: withShipping, fillInDetails: false)
+        testCurrencyInPayButton(withShipping: withShipping, fillInDetails: false)
 
     }
     
-    private func testCurrencyInPayButton(paymentHelper: BSPaymentScreenUITestHelper, withShipping: Bool, fillInDetails: Bool){
+    private func testCurrencyInPayButton(withShipping: Bool, fillInDetails: Bool){
         if (withShipping){
-            _ = gotoShippingScreen(paymentHelper: paymentHelper, fillInDetails: fillInDetails)
+            gotoShippingScreen(fillInDetails: fillInDetails)
             _ = checkShippingPayButton()
             pressBackButton()
         }
@@ -960,7 +854,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         }
     }
     
-    private func setAndUpdateCurrency(paymentHelper: BSPaymentScreenUITestHelper ,currencyName: String, currencyCode: String, oldCurrencyCode: String){
+    private func setAndUpdateCurrency(currencyName: String, currencyCode: String, oldCurrencyCode: String){
         paymentHelper.setCurrency(currencyName: currencyName)
         checkoutCurrency = currencyCode
         
@@ -978,7 +872,7 @@ class BluesnapSDKExampleUITests: XCTestCase {
         
     }
     
-    private func setShippingSameAsBillingSwitch(paymentHelper: BSPaymentScreenUITestHelper, shouldBeOn: Bool){
+    private func setShippingSameAsBillingSwitch(shouldBeOn: Bool){
         paymentHelper.closeKeyboard()
         paymentHelper.setShippingSameAsBillingSwitch(shouldBeOn: shouldBeOn)
         shippingSameAsBilling = shouldBeOn
@@ -1015,6 +909,26 @@ class BluesnapSDKExampleUITests: XCTestCase {
 //        waitForExpectations(timeout: waitTime, handler: { error in
 //            NSLog("Finished waiting")
 //        })
+    }
+    
+    private func waitForElementToBeEnabled(element: XCUIElement, waitTime: TimeInterval) {
+        
+        let exists = NSPredicate(format: "isEnabled == 1")
+        let ex: XCTestExpectation = expectation(for: exists, evaluatedWith: element)
+        wait(for: [ex], timeout: waitTime)
+        //        waitForExpectations(timeout: waitTime, handler: { error in
+        //            NSLog("Finished waiting")
+        //
+    }
+    
+    private func waitForElementToBeHittable(element: XCUIElement, waitTime: TimeInterval) {
+        
+        let exists = NSPredicate(format: "isHittable == 1")
+        let ex: XCTestExpectation = expectation(for: exists, evaluatedWith: element)
+        wait(for: [ex], timeout: waitTime)
+        //        waitForExpectations(timeout: waitTime, handler: { error in
+        //            NSLog("Finished waiting")
+        //
     }
     
     private func waitForEllementToDisappear(element: XCUIElement, waitTime: TimeInterval) {
