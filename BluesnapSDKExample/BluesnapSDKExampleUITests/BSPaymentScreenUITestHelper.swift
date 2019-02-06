@@ -363,6 +363,13 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         return "4111 1111 1111 1111"
     }
     
+    func getValidExpDate()->String {
+        return "1126"
+    }
+
+    func getValidCvvNumber()->String {
+        return "333"
+    }
     
     func getValidMCCreditCardNumber()->String {
         return "5572 7588 8601 5288"
