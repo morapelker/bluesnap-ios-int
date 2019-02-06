@@ -14,14 +14,17 @@
 		2D4E27881E8808A700C56C46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E27861E8808A700C56C46 /* Main.storyboard */; };
 		2D4E278A1E8808A700C56C46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E27891E8808A700C56C46 /* Assets.xcassets */; };
 		2D4E278D1E8808A700C56C46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D4E278B1E8808A700C56C46 /* LaunchScreen.storyboard */; };
-		2D4E27A31E8808A800C56C46 /* BluesnapSDKExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4E27A21E8808A800C56C46 /* BluesnapSDKExampleUITests.swift */; };
+		2D4E27A31E8808A800C56C46 /* CheckoutNewShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4E27A21E8808A800C56C46 /* CheckoutNewShopperUITests.swift */; };
 		2DD7F1161E8824FB002C5571 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD7F1131E88245D002C5571 /* BluesnapSDK.framework */; };
 		2DD7F1181E882504002C5571 /* BluesnapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD7F1131E88245D002C5571 /* BluesnapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4D5CEB2F763E1F3F19524806 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEF86EB87F386F09F86E0A4 /* SystemConfiguration.framework */; };
 		57D13E882064A676F993C974 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8243E4BB77697B4BC726DFC1 /* AVFoundation.framework */; };
 		656BC4430E7C9FD3E9BFA1EB /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C7795A84BCD9A86582908E6 /* CoreTelephony.framework */; };
 		6A0D56668683F67E8BCFD6EC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7A1D0EF03F84A1CE191C991 /* CoreMedia.framework */; };
+		87114429220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87114428220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift */; };
+		8711442C220A6BD900F36911 /* CheckoutBaseTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */; };
 		8713189221E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */; };
+		87829E5D220A478E00F0BD41 /* BSUITestsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */; };
 		879F3E3B21CA976800A03583 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */; };
 		87A317CC21BFF41800156EA2 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		87C8FCAA21D39EDC00486646 /* DemoAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8771F3B621C802DD0030108E /* DemoAPIHelper.swift */; };
@@ -108,7 +111,7 @@
 		2D4E278C1E8808A700C56C46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D4E278E1E8808A700C56C46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D4E279E1E8808A800C56C46 /* BluesnapSDKExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluesnapSDKExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D4E27A21E8808A800C56C46 /* BluesnapSDKExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluesnapSDKExampleUITests.swift; sourceTree = "<group>"; };
+		2D4E27A21E8808A800C56C46 /* CheckoutNewShopperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutNewShopperUITests.swift; sourceTree = "<group>"; };
 		2D4E27A41E8808A800C56C46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2DC57DD61EF2DB2000CD6946 /* BluesnapSDKExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BluesnapSDKExample.entitlements; sourceTree = "<group>"; };
 		2DD7F1051E8822A4002C5571 /* BluesnapSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BluesnapSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,8 +120,11 @@
 		57BBCD0E0159D220A2D83C91 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		5EE4EA591293E02F03418C9B /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		8243E4BB77697B4BC726DFC1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		87114428220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutReturningShopperUITests.swift; sourceTree = "<group>"; };
+		8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutBaseTester.swift; sourceTree = "<group>"; };
 		8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSCreditCardScreenUITestHelperBase.swift; sourceTree = "<group>"; };
 		8771F3B621C802DD0030108E /* DemoAPIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAPIHelper.swift; sourceTree = "<group>"; };
+		87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSUITestsUtils.swift; sourceTree = "<group>"; };
 		BEEF86EB87F386F09F86E0A4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D4C1F041334E92065E9D2639 /* Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		DD1DA5729FE41DCDE3370A44 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -243,13 +249,16 @@
 		2D4E27A11E8808A800C56C46 /* BluesnapSDKExampleUITests */ = {
 			isa = PBXGroup;
 			children = (
-				2D4E27A21E8808A800C56C46 /* BluesnapSDKExampleUITests.swift */,
+				8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */,
+				2D4E27A21E8808A800C56C46 /* CheckoutNewShopperUITests.swift */,
+				87114428220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift */,
 				2D4E27A41E8808A800C56C46 /* Info.plist */,
 				FD50228E1F6137A900C820AC /* BSPaymentTypeScreenUITestHelper.swift */,
 				8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */,
 				FD5022901F61399300C820AC /* BSPaymentScreenUITestHelper.swift */,
 				FD5022921F67AD6B00C820AC /* BSShippingScreenUITestHelper.swift */,
 				FD6479ED1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift */,
+				87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */,
 			);
 			path = BluesnapSDKExampleUITests;
 			sourceTree = "<group>";
@@ -443,14 +452,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD50228F1F6137A900C820AC /* BSPaymentTypeScreenUITestHelper.swift in Sources */,
-				2D4E27A31E8808A800C56C46 /* BluesnapSDKExampleUITests.swift in Sources */,
+				2D4E27A31E8808A800C56C46 /* CheckoutNewShopperUITests.swift in Sources */,
 				87C8FCAB21D39EDD00486646 /* DemoAPIHelper.swift in Sources */,
 				FD5022931F67AD6B00C820AC /* BSShippingScreenUITestHelper.swift in Sources */,
 				FD6479EE1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift in Sources */,
 				FD5022911F61399300C820AC /* BSPaymentScreenUITestHelper.swift in Sources */,
+				87829E5D220A478E00F0BD41 /* BSUITestsUtils.swift in Sources */,
 				879F3E3B21CA976800A03583 /* Configuration.swift in Sources */,
+				87114429220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift in Sources */,
 				DEB4DCB77A919FB8115F65E5 /* AppDelegate.swift in Sources */,
 				8713189221E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift in Sources */,
+				8711442C220A6BD900F36911 /* CheckoutBaseTester.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

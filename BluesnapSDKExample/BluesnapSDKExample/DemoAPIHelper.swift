@@ -231,7 +231,6 @@ class DemoAPIHelper {
             }
             defer {
                 completion(result.isSuccess, result.data)
-
             }
         }
         task.resume()
