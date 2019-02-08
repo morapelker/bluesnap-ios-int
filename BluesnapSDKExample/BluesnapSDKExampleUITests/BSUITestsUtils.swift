@@ -104,4 +104,88 @@ class BSUITestUtils {
         return countryHasZip
     }
     
+    static func getVisaCard() -> [String: String] {
+        return ["ccn": "4111111111111111", "exp": "10/2020", "cvv": "111", "ccType": "VISA", "last4Digits": "1111", "issuingCountry": "US"]
+    }
+    
+    static func getMasterCard() -> [String: String] {
+        return ["ccn": "5555555555555557", "exp": "11/2021", "cvv": "123", "ccType": "MASTERCARD", "last4Digits": "5557", "issuingCountry": "BR"]
+    }
+    
+    static func getDummyBillingDetails(countryCode: String? = "CA", stateCode: String? = "ON") -> BSBillingAddressDetails {
+        
+        let billingDetails = BSBillingAddressDetails(email: "shevie@gmail.com", name: "Shevie Chen", address: "58 somestreet", city : "somecity", zip : "4282300", country : countryCode, state : stateCode)
+        return billingDetails
+    }
+    
+    static func getDummyShippingDetails(countryCode: String? = "CA", stateCode: String? = "ON") -> BSShippingAddressDetails {
+        
+        let shippingDetails = BSShippingAddressDetails(name: "Funny Brice", address: "77 Rambla street", city : "Barcelona", zip : "4815", country : countryCode, state : stateCode)
+        return shippingDetails
+    }
+    
+    static func getDummyEditBillingDetails(countryCode: String? = "US", stateCode: String? = "NY") -> BSBillingAddressDetails {
+        
+        let billingDetails = BSBillingAddressDetails(email: "test@sdk.com", name: "La Fleur", address: "555 Broadway street", city : "New York", zip : "3abc 324a", country : countryCode, state : stateCode)
+        return billingDetails
+    }
+    
+    static func getDummyEditShippingDetails(countryCode: String? = "CA", stateCode: String? = "ON") -> BSShippingAddressDetails {
+        
+        let shippingDetails = BSShippingAddressDetails(name: "Janet Weiss", address: "75 some street", city : "Denton", zip : "162342", country : countryCode, state : stateCode)
+        return shippingDetails
+    }
+    
+    static func getValidVisaCreditCardNumber()->String {
+        return "4111 1111 1111 1111"
+    }
+    
+    static func getValidVisaCreditCardNumberWithoutSpaces()->String {
+        return "4111111111111111"
+    }
+    
+    static func getValidVisaCCNLast4Digits()->String {
+        return "1111"
+    }
+    
+    static func getValidExpDate()->String {
+        return "1126"
+    }
+    
+    static func getValidExpYear()->String {
+        return "2026"
+    }
+    
+    static func getValidExpMonth()->String {
+        return "11"
+    }
+    
+    static func getValidCvvNumber()->String {
+        return "333"
+    }
+    
+    static func getValidMCCreditCardNumber()->String {
+        return "5572 7588 8601 5288"
+    }
+    
+    
+    static func getInvalidCreditCardNumber()->String {
+        return "5572 7588 8112 2333"
+    }
+    
+}
+
+extension XCUIElement {
+    func clearText() {
+        tap()
+        guard let stringValue = self.value as? String else {
+            return
+        }
+        
+        var deleteString = String()
+        for _ in stringValue {
+            deleteString += XCUIKeyboardKey.delete.rawValue
+        }
+        self.typeText(deleteString)
+    }
 }

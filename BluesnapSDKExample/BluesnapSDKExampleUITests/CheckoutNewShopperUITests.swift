@@ -111,7 +111,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true)
         
-        fillBillingDetails(ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: paymentHelper.getValidExpDate(), cvv: paymentHelper.getValidCvvNumber(), billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
+        fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
         
         let elementsQuery = app.scrollViews.otherElements
         let textField = elementsQuery.element(matching: .any, identifier: "Name")
@@ -273,7 +273,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         shippingHelper.pressBackButton()
         
         // verify that the billing info has been saved in payment screen (including error messages)
-        paymentHelper.checkCcnComponentState(ccnShouldBeOpen: false, ccn: paymentHelper.getValidVisaCreditCardNumber(), last4digits: "1111", exp: "11/26", cvv: "333")
+        paymentHelper.checkCcnComponentState(ccnShouldBeOpen: false, ccn: BSUITestUtils.getValidVisaCreditCardNumber(), last4digits: "1111", exp: "11/26", cvv: "333")
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         setShippingSameAsBillingSwitch(shouldBeOn: true)
@@ -410,7 +410,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
 
         shopperId.removeSubrange(range)
         
-        //TODO: fix this!!!!
         let semaphore = DispatchSemaphore(value: 0)
 
         DemoAPIHelper.retrieveVaultedShopper(vaultedShopperId: shopperId, completion: {
@@ -431,7 +430,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     
     func newCardBasicFillInInfoAndPay(shippingSameAsBilling: Bool = false) {
         // fill in info in payment screen and continue to shipping or paying
-        fillBillingDetails(ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: paymentHelper.getValidExpDate(), cvv: paymentHelper.getValidCvvNumber(), billingDetails: getDummyBillingDetails())
+        fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails())
         
         // continue to shipping it's required and fill in info in shipping screen
         if (sdkRequest.shopperConfiguration.withShipping && !shippingSameAsBilling){
@@ -477,7 +476,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         billingDetails.country = "IL"
         billingDetails.state = nil
         
-        fillBillingDetails(ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: paymentHelper.getValidExpDate(), cvv: paymentHelper.getValidCvvNumber(), billingDetails: billingDetails)
+        fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: billingDetails)
         
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         
@@ -505,7 +504,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         billingDetails.country = "GH"
         billingDetails.state = nil
 
-        fillBillingDetails(ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: paymentHelper.getValidExpDate(), cvv: paymentHelper.getValidCvvNumber(), billingDetails: billingDetails)
+        fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: billingDetails)
         
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         paymentHelper.pressPayButton(payButtonId: "PayButton")
@@ -622,7 +621,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     private func gotoShippingScreen(fillInDetails: Bool = true) {
         
         if (fillInDetails){
-            fillBillingDetails(ccn: paymentHelper.getValidVisaCreditCardNumber(), exp: paymentHelper.getValidExpDate(), cvv: paymentHelper.getValidCvvNumber(), billingDetails: getDummyBillingDetails())
+            fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails())
         }
         
         paymentHelper.pressPayButton(payButtonId: "PayButton")
