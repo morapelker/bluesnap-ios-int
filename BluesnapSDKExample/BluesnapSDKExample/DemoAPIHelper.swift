@@ -193,64 +193,10 @@ class DemoAPIHelper {
         // create request
         let urlStr = DemoAPIHelper.BS_SANDBOX_DOMAIN + "services/2/vaulted-shoppers"
         let url = NSURL(string: urlStr)!
-        let (firstName, lastName) = billingInfo?.getSplitName() ?? ("","")
         
-        // parse cc to requestBody
-        var requestBody = [
-            "firstName" : firstName,
-            "lastName" : lastName
-            ] as [String : Any]
         
-        // parse billing info to requestBody
-        if let billingInfo_ = billingInfo {
-            if (withEmail){
-                requestBody["email"] = billingInfo_.email
-            }
-            
-            let creditCard = [
-                "expirationYear": creditCard.0,
-                "securityCode": creditCard.1,
-                "expirationMonth": creditCard.2,
-                "cardNumber": creditCard.3
-                ] as [String : Any]
-            
-            var billingContactInfo : [String : Any] = [:]
 
-            billingContactInfo["firstName"] = firstName
-            billingContactInfo["lastName"] = lastName
-            billingContactInfo["zip"] = billingInfo_.zip
-            billingContactInfo["country"] = billingInfo_.country
-            
-            if (fullBilling){
-                billingContactInfo["address1"] = billingInfo_.address
-                billingContactInfo["city"] = billingInfo_.city
-                billingContactInfo["state"] = billingInfo_.state
-            }
-            
-            requestBody["paymentSources"] = ["creditCardInfo" : [[
-                "creditCard": creditCard,
-                "billingContactInfo" : billingContactInfo
-                ]]]
-        }
-        
-        // parse shipping info to requestBody
-        if let shippingInfo_ = shippingInfo {
-            let (firstName, lastName) = shippingInfo_.getSplitName()!
-
-            var shippingContactInfo : [String : Any] = [:]
-            shippingContactInfo["firstName"] = firstName
-            shippingContactInfo["lastName"] = lastName
-            shippingContactInfo["country"] = shippingInfo_.country
-            shippingContactInfo["zip"] = shippingInfo_.zip
-            shippingContactInfo["address1"] = shippingInfo_.address
-            shippingContactInfo["city"] = shippingInfo_.city
-            shippingContactInfo["state"] = shippingInfo_.state
-            
-            requestBody["shippingContactInfo"] = shippingContactInfo
-        }
-
-        print("requestBody= \(requestBody)")
-
+        let requestBody = createVaultedShopperDataObject(fullBilling: fullBilling, withEmail: withEmail, withShipping: withShipping, billingInfo: billingInfo, shippingInfo: shippingInfo, creditCard: creditCard)
     
         var request = getURLRequest(urlStr: urlStr, httpMethod: "POST", contentType: "application/json", requestBody: requestBody)
         
@@ -301,6 +247,70 @@ class DemoAPIHelper {
             }
         }
         task.resume()
+    }
+    
+    static func createVaultedShopperDataObject(fullBilling: Bool, withEmail: Bool, withShipping: Bool, billingInfo: BSBillingAddressDetails? = nil, shippingInfo: BSShippingAddressDetails? = nil, creditCard: (Int, Int, String, String)) -> [String : Any]{
+        
+        // parse cc to requestBody
+        let (firstName, lastName) = billingInfo?.getSplitName() ?? ("","")
+
+        var requestBody = [
+            "firstName" : firstName,
+            "lastName" : lastName
+            ] as [String : Any]
+        
+        // parse billing info to requestBody
+        if let billingInfo_ = billingInfo {
+            if (withEmail){
+                requestBody["email"] = billingInfo_.email
+            }
+            
+            let creditCard = [
+                "expirationYear": creditCard.0,
+                "securityCode": creditCard.1,
+                "expirationMonth": creditCard.2,
+                "cardNumber": creditCard.3
+                ] as [String : Any]
+            
+            var billingContactInfo : [String : Any] = [:]
+            
+            billingContactInfo["firstName"] = firstName
+            billingContactInfo["lastName"] = lastName
+            billingContactInfo["zip"] = billingInfo_.zip
+            billingContactInfo["country"] = billingInfo_.country
+            
+            if (fullBilling){
+                billingContactInfo["address1"] = billingInfo_.address
+                billingContactInfo["city"] = billingInfo_.city
+                billingContactInfo["state"] = billingInfo_.state
+            }
+            
+            requestBody["paymentSources"] = ["creditCardInfo" : [[
+                "creditCard": creditCard,
+                "billingContactInfo" : billingContactInfo
+                ]]]
+        }
+        
+        // parse shipping info to requestBody
+        if let shippingInfo_ = shippingInfo {
+            if (withShipping) {
+                let (shippingFirstName, shippingLastName) = shippingInfo_.getSplitName()!
+                
+                var shippingContactInfo : [String : Any] = [:]
+                shippingContactInfo["firstName"] = shippingFirstName
+                shippingContactInfo["lastName"] = shippingLastName
+                shippingContactInfo["country"] = shippingInfo_.country
+                shippingContactInfo["zip"] = shippingInfo_.zip
+                shippingContactInfo["address1"] = shippingInfo_.address
+                shippingContactInfo["city"] = shippingInfo_.city
+                shippingContactInfo["state"] = shippingInfo_.state
+                
+                requestBody["shippingContactInfo"] = shippingContactInfo
+            }
+        }
+        
+        print("requestBody= \(requestBody)")
+        return requestBody
     }
     
     /**

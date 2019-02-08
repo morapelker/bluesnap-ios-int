@@ -139,15 +139,17 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         allowCurrencyChangeValidation(isEnabled: false)
     }
     
+    //TODO: fix these two!!
+    
     /**
      This test verifies that changing the currency while shipping is disabled
      changes the buy button as it should in payment screen.
      Also, it verifies that after changing to different currencies
      and back to the origin one, the amount remains the same
      */
-    func testCurrencyChangesInPaymentScreen(){
+//    func testCurrencyChangesInPaymentScreen(){
 //        testCurrencyChanges(withShipping: false)
-    }
+//    }
     
     /**
      This test verifies that changing the currency while shipping is enabled
@@ -155,9 +157,9 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
      Also, it verifies that after changing to different currencies
      and back to the origin one, the amount remains the same
      */
-    func testCurrencyChangesInShippingScreen(){
+//    func testCurrencyChangesInShippingScreen(){
 //        testCurrencyChanges(withShipping: true)
-    }
+//    }
     
     /* -------------------------------- New shopper views tests ---------------------------------------- */
 
