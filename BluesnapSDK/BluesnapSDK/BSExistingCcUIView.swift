@@ -108,7 +108,9 @@ class BSExistingCcUIView: BSBaseBoxWithShadowView {
      This code needs to run only once (as opposed to sizes that may change).
      */
     internal func buildElements() {
-        
+        last4DigitsLabel.accessibilityIdentifier = "Last4DigitsLabel"
+        expirationLabel.accessibilityIdentifier = "ExpirationLabel"
+
         self.addSubview(self.imageView)
         self.addSubview(self.last4DigitsLabel)
         self.addSubview(self.expirationLabel)

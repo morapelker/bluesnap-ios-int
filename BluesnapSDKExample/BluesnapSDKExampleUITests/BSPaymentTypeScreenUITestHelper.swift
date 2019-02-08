@@ -49,5 +49,23 @@ class BSPaymentTypeScreenUITestHelper {
         let payPalButtonIsVisible = payPalButton.exists
         assert(payPalButtonIsVisible == expectedPayPal)
     }
+    
+    func checkExistingCCLine(index: Int, expectedLastFourDigits: String, expectedExpDate: String) {
+        let identifier = "existingCc\(index)"
+        let existingCCLine = app.buttons[identifier]
+//        let existingCCLine = app.otherElements.element(matching: .any, identifier: identifier)
+        
+        // get the cc line component's labels
+        let lastFourDigitsLabel = existingCCLine.staticTexts["Last4DigitsLabel"]
+        let expDateLabel = existingCCLine.staticTexts["ExpirationLabel"]
+        
+        // verify that the labels match the expected values
+        let lastFourDigitsLabelText: String = lastFourDigitsLabel.label
+        XCTAssertTrue(lastFourDigitsLabelText == expectedLastFourDigits, "Last Four Digits label expected value: \(expectedLastFourDigits), actual value: \(lastFourDigitsLabelText)")
+        
+        let expDateLabelText: String = expDateLabel.label
+        XCTAssertTrue(expDateLabelText == expectedExpDate, "Last Four Digits label expected value: \(expectedExpDate), actual value: \(expDateLabelText)")
+
+    }
 
 }

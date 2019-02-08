@@ -152,6 +152,8 @@ class BSApiManagerTests: XCTestCase {
         let semaphore = DispatchSemaphore(value: 0)
 
         BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
+            assert(error == nil, "Error in creting bs token")
+            assert(token != nil, "Token is nil")
             BSApiManager.createPayPalToken(purchaseDetails: purchaseDetails, withShipping: false, completion: { resultToken, resultError in
 
                 XCTAssertNil(resultError)

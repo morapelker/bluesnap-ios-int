@@ -52,7 +52,7 @@ class CheckoutBaseTester: XCTestCase{
         
     }
     
-    internal func setUpForSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, isReturningShopper: Bool = false, tapExistingCc: Bool = false){
+    internal func setUpForSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, isReturningShopper: Bool = false, shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false){
         
         // set returning shopper and shipping same as biiling properties
         self.isReturningShopper = isReturningShopper
@@ -70,7 +70,7 @@ class CheckoutBaseTester: XCTestCase{
         }
         
         // start checkout
-        gotoPaymentScreen(tapExistingCc: tapExistingCc)
+        gotoPaymentScreen(shopperId: shopperId, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine)
     }
     
     private func prepareSdkRequest(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true) {
@@ -86,11 +86,11 @@ class CheckoutBaseTester: XCTestCase{
         self.sdkRequest = sdkRequest
     }
     
-    private func gotoPaymentScreen(tapExistingCc: Bool = false){
+    private func gotoPaymentScreen(shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false){
         let paymentTypeHelper = BSPaymentTypeScreenUITestHelper(app: app)
         
         // set switches and amounts in merchant checkout screen
-        setMerchantCheckoutScreen()
+        setMerchantCheckoutScreen(shopperId: shopperId)
         
         // click "Checkout" button
         app.buttons["CheckoutButton"].tap()
@@ -104,6 +104,10 @@ class CheckoutBaseTester: XCTestCase{
         paymentTypeHelper.checkPaymentTypes(expectedApplePay: true, expectedPayPal: true, expectedCC: true)
         
         if tapExistingCc {
+            if (checkExistingCcLine) {// check existing CC line
+                paymentTypeHelper.checkExistingCCLine(index: 0, expectedLastFourDigits: "1111", expectedExpDate: "\(BSUITestUtils.getValidExpMonth()) / \(BSUITestUtils.getValidExpYear())")
+            }
+            
             // click existing CC
             app.buttons["existingCc0"].tap()
             
@@ -113,10 +117,21 @@ class CheckoutBaseTester: XCTestCase{
         }
     }
     
-    private func setMerchantCheckoutScreen() {
+    private func setMerchantCheckoutScreen(shopperId: String? = nil) {
         
         // set new/returning shopper
         setSwitch(switchId: "ReturningShopperSwitch", isDesiredConfig: isReturningShopper, waitToExist: true, waitToDisappear: true)
+        
+        if let shopperId = shopperId {
+            let shopperIdField = app.textFields["ReturningShopperId"]
+            shopperIdField.doubleTap()
+            shopperIdField.clearText()
+            shopperIdField.typeText(shopperId)
+            let amountField = app.textFields["AmountField"]
+            amountField.doubleTap()
+            let coverView = app.otherElements.element(matching: .any, identifier: "CoverView")
+            waitForEllementToDisappear(element: coverView, waitTime: 30)
+        }
         
         // set with Shipping switch = on
         setSwitch(switchId: "WithShippingSwitch", isDesiredConfig: sdkRequest.shopperConfiguration.withShipping, waitToExist: true)
@@ -155,8 +170,8 @@ class CheckoutBaseTester: XCTestCase{
         if (configSwitchValue == "0" && isDesiredConfig) || (configSwitchValue == "1" && !isDesiredConfig) {
             configSwitch.tap()
             // wait for action to finish
-            let coverView = app.otherElements.element(matching: .any, identifier: "CoverView")
             if (waitToDisappear) {
+                let coverView = app.otherElements.element(matching: .any, identifier: "CoverView")
                 waitForEllementToDisappear(element: coverView, waitTime: 30)
             }
         }
@@ -276,3 +291,4 @@ class CheckoutBaseTester: XCTestCase{
     
     
 }
+

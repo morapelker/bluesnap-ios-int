@@ -19,7 +19,6 @@ class BSExistingCcScreenUITestHelper {
     var shippingAddressLabel : XCUIElement!
     var editBillingButton : XCUIElement!
     var editShippingButton : XCUIElement!
-//    var keyboardIsHidden : Bool  = true
 
     init(app: XCUIApplication!) {
         self.app = app
@@ -30,7 +29,6 @@ class BSExistingCcScreenUITestHelper {
         shippingAddressLabel = app.staticTexts["ShippingAddress"] //elementsQuery.element(matching: .any, identifier: "ShippingAddress")
         editBillingButton = app.buttons["EditBillingButton"] //elementsQuery.element(matching: .any, identifier: "EditBillingButton")
         editShippingButton = app.buttons["EditShippingButton"] //elementsQuery.element(matching: .any, identifier: "EditShippingButton")
-//        self.keyboardIsHidden = keyboardIsHidden
     }
     
     
@@ -50,4 +48,35 @@ class BSExistingCcScreenUITestHelper {
             assert(!editShippingButton.exists)
         }
     }
+    
+    func checkNameLabelContent(sdkRequest: BSSdkRequest, isBilling: Bool) {
+        let nameLabelText: String = isBilling ? billingNameLabel.label : shippingNameLabel.label
+        let expectedText = isBilling ? sdkRequest.shopperConfiguration.billingDetails?.name : sdkRequest.shopperConfiguration.shippingDetails?.name
+        XCTAssertTrue(nameLabelText == expectedText, "name label expected value: \(expectedText!), actual value: \(nameLabelText)")
+    }
+    
+    func checkAddressContent(sdkRequest: BSSdkRequest, isBilling: Bool) {
+        var expectedAddressContent = ""
+        let contactInfo = isBilling ? sdkRequest.shopperConfiguration.billingDetails! : sdkRequest.shopperConfiguration.shippingDetails!
+        let fullInfo = (isBilling && sdkRequest.shopperConfiguration.fullBilling) || !isBilling
+        
+        if (isBilling && sdkRequest.shopperConfiguration.withEmail) {
+            expectedAddressContent += (contactInfo as! BSBillingAddressDetails).email! + "\n"
+        }
+        
+        if (fullInfo) {
+            expectedAddressContent += contactInfo.address! +  ", "
+            expectedAddressContent += contactInfo.city! + " "
+            expectedAddressContent += contactInfo.state! +  " "
+        }
+        
+        expectedAddressContent += contactInfo.zip! +  " "
+
+        if (fullInfo) {
+            let countryName = BSCountryManager.getInstance().getCountryName(countryCode: contactInfo.country!)
+            expectedAddressContent += countryName ?? contactInfo.country!
+        }
+
+    }
+
 }
