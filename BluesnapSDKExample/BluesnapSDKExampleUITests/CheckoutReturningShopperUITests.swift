@@ -24,7 +24,10 @@ class CheckoutReturningShopperUITests: CheckoutBaseTester {
         
     }
     
-    func setUpForSdkWithReturningShopper(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithShipping: Bool, checkoutWithEmail: Bool){
+    func setUpForSdkWithReturningShopper(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool){
+        
+        // initialize required helpers
+        existingCcHelper = BSExistingCcScreenUITestHelper(app: app)
         
         printShopperDiscription(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping)
         
@@ -39,7 +42,29 @@ class CheckoutReturningShopperUITests: CheckoutBaseTester {
         
         semaphore.wait()
         
-        setUpForSdk(fullBilling: checkoutFullBilling, withShipping: shopperWithShipping, withEmail: shopperWithEmail, isReturningShopper: true, shopperId: vaultedShopperId, tapExistingCc: true, checkExistingCcLine: true)
+        setUpForSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, isReturningShopper: true, shopperId: vaultedShopperId, tapExistingCc: true, checkExistingCcLine: true)
+        
+        setShopperDetailsInSdkRequest(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping)
+        
+    }
+    
+    func setShopperDetailsInSdkRequest(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool){
+        
+        // set billing/shipping info
+        sdkRequest.shopperConfiguration.billingDetails = BSUITestUtils.getDummyBillingDetails()
+        if (!shopperWithEmail){
+            sdkRequest.shopperConfiguration.billingDetails?.email = nil
+        }
+        
+        if (!shopperWithFullBilling){
+            sdkRequest.shopperConfiguration.billingDetails?.address = nil
+            sdkRequest.shopperConfiguration.billingDetails?.city = nil
+            sdkRequest.shopperConfiguration.billingDetails?.state = nil
+        }
+        
+        if(shopperWithShipping){
+            sdkRequest.shopperConfiguration.shippingDetails = BSUITestUtils.getDummyShippingDetails()
+        }
     
     }
     
@@ -52,9 +77,20 @@ class CheckoutReturningShopperUITests: CheckoutBaseTester {
     
     func returningShopperViewsFullBillingNoShippingNoEmailCommomTester(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool) {
         
-        setUpForSdkWithReturningShopper(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: true, checkoutWithShipping: false, checkoutWithEmail: false)
+        // set-up for sdk and start returning shopper checkout (with cc line validation in payment type screen)
+        setUpForSdkWithReturningShopper(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: true, checkoutWithEmail: false, checkoutWithShipping: false)
         
-//        paymentHelper.checkExistingCCLineVisibility(expectedLastFourDigits: BSUITestUtils.getValidVisaCCNLast4Digits(), expectedExpDate: "\(BSUITestUtils.getValidExpMonth()) / \(BSUITestUtils.getValidExpYear())")
+        // check cc line visibility in existing cc screen
+        existingCcHelper.checkExistingCCLineVisibility(expectedLastFourDigits: BSUITestUtils.getValidVisaCCNLast4Digits(), expectedExpDate: "\(BSUITestUtils.getValidExpMonth()) / \(BSUITestUtils.getValidExpYear())")
+        
+        existingCcHelper.checkScreenItems(sdkRequest: sdkRequest)
+        
+        // check billing info visibility in existing cc screen
+        existingCcHelper.checkNameLabelContent(sdkRequest: sdkRequest, isBilling: true)
+        
+        let (fullBillingDisplay, emailDisplay, shippingDisplay) = getDisplayConfiguration(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping)
+        
+        existingCcHelper.checkAddressBoxContent(sdkRequest: sdkRequest, isBilling: true, fullBillingDisplay: fullBillingDisplay, emailDisplay: emailDisplay, shippingDisplay: shippingDisplay)
     }
     
     func testReturningShopperViewsFullBillingNoShippingNoEmail_1() {
@@ -89,7 +125,14 @@ class CheckoutReturningShopperUITests: CheckoutBaseTester {
         returningShopperViewsFullBillingNoShippingNoEmailCommomTester(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true)
     }
     
-    
+    func getDisplayConfiguration(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool) -> (Bool, Bool, Bool) {
+        
+        let fullBillingDisplay = sdkRequest.shopperConfiguration.fullBilling && shopperWithFullBilling
+        let emailDisplay = sdkRequest.shopperConfiguration.withEmail && shopperWithEmail
+        let shippingDisplay = sdkRequest.shopperConfiguration.withShipping && shopperWithShipping
+        
+        return (fullBillingDisplay, emailDisplay, shippingDisplay)
+    }
     
     
     
