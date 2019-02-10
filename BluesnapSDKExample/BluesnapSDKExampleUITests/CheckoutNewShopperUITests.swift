@@ -63,7 +63,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         shippingHelper.checkDoneButton()
         
-        shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
+        shippingHelper.pressPayButton()
         
         existingCcHelper.checkPayButton(sdkRequest: sdkRequest)
         
@@ -88,7 +88,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
 //        paymentHelper.setFieldValues(billingDetails: getDummyBillingDetails(), sdkRequest: sdkRequest)
 
         paymentHelper.checkDoneButton()
-        paymentHelper.pressPayButton(payButtonId: "PayButton")
+        paymentHelper.pressPayButton()
         
         existingCcHelper.editShippingButton.tap()
 
@@ -98,8 +98,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         shippingHelper.closeKeyboard()
         
         shippingHelper.checkDoneButton()
-        shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
-        
+        shippingHelper.pressPayButton()
+
         existingCcHelper.checkPayButton(sdkRequest: sdkRequest)
         existingCcHelper.pressPayButton()
         
@@ -126,8 +126,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         }
         
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
-        paymentHelper.pressPayButton(payButtonId: "PayButton")
-        
+        paymentHelper.pressPayButton()
+
         checkResult(expectedSuccessText: "Success!")
         
         print("done")
@@ -445,11 +445,11 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
             }
             gotoShippingScreen(fillInDetails: false)
             fillShippingDetails(shippingDetails: getDummyShippingDetails())
-            shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
+            shippingHelper.pressPayButton()
         }
             
         else{
-            paymentHelper.pressPayButton(payButtonId: "PayButton")
+            paymentHelper.pressPayButton()
         }
     }
     
@@ -486,16 +486,16 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         
-        paymentHelper.pressPayButton(payButtonId: "PayButton")
-        
+        paymentHelper.pressPayButton()
+
         let shippingDetails = getDummyShippingDetails()
         shippingDetails.country = "GB"
         shippingDetails.state = nil
         
         fillShippingDetails(shippingDetails: shippingDetails)
         
-        shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
-        
+        shippingHelper.pressPayButton()
+
         checkResult(expectedSuccessText:  "Success!")
         
         print("done")
@@ -513,15 +513,15 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: billingDetails)
         
         setShippingSameAsBillingSwitch(shouldBeOn: false)
-        paymentHelper.pressPayButton(payButtonId: "PayButton")
-        
+        paymentHelper.pressPayButton()
+
         let shippingDetails = getDummyShippingDetails()
         shippingDetails.country = "GH"
         shippingDetails.state = nil
         fillShippingDetails(shippingDetails: shippingDetails)
         
-        shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
-        
+        shippingHelper.pressPayButton()
+
         checkResult(expectedSuccessText:  "Success!")
         
         print("done")
@@ -595,8 +595,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
             fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails())
         }
         
-        paymentHelper.pressPayButton(payButtonId: "PayButton")
-        
+        paymentHelper.pressPayButton()
+
         waitForShippingScreen()
     }
     
@@ -680,18 +680,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         let existingCcHelper = BSExistingCcScreenUITestHelper(app:app)
         waitForElementToExist(element: existingCcHelper.billingNameLabel, waitTime: 60)
         return existingCcHelper
-    }
-    
-    private func waitForPaymentScreen() {
-
-        let payButton = app.buttons["PayButton"]
-        waitForElementToExist(element: payButton, waitTime: 60)
-    }
-    
-    private func waitForShippingScreen() {
-
-        let payButton = app.buttons["ShippingPayButton"]
-        waitForElementToExist(element: payButton, waitTime: 60)
     }
     
     

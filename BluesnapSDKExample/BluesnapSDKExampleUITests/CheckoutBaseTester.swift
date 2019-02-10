@@ -289,6 +289,17 @@ class CheckoutBaseTester: XCTestCase{
         wait(for: [ex], timeout: waitTime)
     }
     
+    internal func waitForPaymentScreen() {
+        
+        let payButton = app.buttons["PayButton"]
+        waitForElementToExist(element: payButton, waitTime: 60)
+    }
+    
+    internal func waitForShippingScreen() {
+        
+        let payButton = app.buttons["ShippingPayButton"]
+        waitForElementToExist(element: payButton, waitTime: 60)
+    }
     
 }
 
