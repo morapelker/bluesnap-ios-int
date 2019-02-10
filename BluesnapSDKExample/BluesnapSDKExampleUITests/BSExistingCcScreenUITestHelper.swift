@@ -124,5 +124,25 @@ class BSExistingCcScreenUITestHelper {
         XCTAssertEqual(addressTextViewText, expectedAddressContent, "\(String(describing: addressTextView?.identifier)) Label expected value: \(expectedAddressContent), actual value: \(String(describing: addressTextViewText))")
 
     }
-
+    
+    func checkPayButton(sdkRequest: BSSdkRequest) {
+        var expectedPayText = ""
+        var expectedAmount = sdkRequest.priceDetails.amount.doubleValue
+        //        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
+        
+        if (sdkRequest.shopperConfiguration.withShipping){
+            let country = sdkRequest.shopperConfiguration.shippingDetails?.country
+            let state = sdkRequest.shopperConfiguration.shippingDetails?.state
+            expectedAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
+        }
+        
+        
+        expectedPayText = "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(expectedAmount)"
+        
+        BSUITestUtils.checkAPayButton(app: app, buttonId: "PayButton", expectedPayText: expectedPayText)
+    }
+    
+    func pressPayButton() {
+        app.buttons["PayButton"].tap()
+    }
 }

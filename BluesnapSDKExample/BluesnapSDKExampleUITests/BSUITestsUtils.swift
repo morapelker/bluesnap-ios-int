@@ -104,6 +104,36 @@ class BSUITestUtils {
         return countryHasZip
     }
     
+    static func calcTaxFromCuntryAndState(countryCode: String, stateCode: String, purchaseAmount: Double) -> Double {
+        var taxPrecent = 0.0
+        if (countryCode == "US"){
+            taxPrecent = 0.05
+            if (stateCode == "NY"){
+                taxPrecent = 0.08
+            }
+        }
+            
+        else if (countryCode == "CA"){
+            taxPrecent = 0.01
+        }
+        
+        let includeTaxAmount = purchaseAmount * (1+taxPrecent)
+        
+        return includeTaxAmount
+    }
+    
+    static func checkAPayButton(app: XCUIApplication, buttonId: String, expectedPayText: String) {
+        
+        let payButton = app.buttons[buttonId]
+        
+        XCTAssertTrue(payButton.exists, "\(buttonId) is not displayed")
+        
+        let payButtonText = payButton.label
+        //        XCTAssert(expectedPayText == payButtonText)
+        XCTAssert(payButtonText.contains(expectedPayText), "Pay Button doesn't display the correct text. expected text: \(expectedPayText), actual text: \(payButtonText)")
+    }
+    
+    
     static func getVisaCard() -> [String: String] {
         return ["ccn": "4111111111111111", "exp": "10/2020", "cvv": "111", "ccType": "VISA", "last4Digits": "1111", "issuingCountry": "US"]
     }

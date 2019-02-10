@@ -75,6 +75,19 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             }
         }
     }
+    
+    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool=false) {
 
+        let country = sdkRequest.shopperConfiguration.shippingDetails?.country
+        let state = sdkRequest.shopperConfiguration.shippingDetails?.state
+        
+        let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
+        
+        BSUITestUtils.checkAPayButton(app: app, buttonId: "ShippingPayButton", expectedPayText: "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(includeTaxAmount)")
+    }
+    
+    override func checkDoneButton() {
+        BSUITestUtils.checkAPayButton(app: app, buttonId: "ShippingPayButton", expectedPayText: "Done")
+    }
 
 }
