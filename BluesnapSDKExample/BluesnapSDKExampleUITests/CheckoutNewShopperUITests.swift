@@ -10,7 +10,7 @@ import XCTest
 import Foundation
 import PassKit
 import BluesnapSDK
-@testable import BluesnapSDKIntegrationTests //TODO: make it work
+//@testable import BluesnapSDKIntegrationTests //TODO: make it work
 
 class CheckoutNewShopperUITests: CheckoutBaseTester {
 
@@ -36,9 +36,11 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true, tapExistingCc: true)
         
         let _ = waitForExistingCcScreen()
+        let existingCcHelper = waitForExistingCcScreen()
+
+        existingCcHelper.checkPayButton(sdkRequest: sdkRequest)
         
-        let payButton = checkPayButton()
-        payButton.tap()
+        existingCcHelper.pressPayButton()
         
         checkResult(expectedSuccessText: "Success!")
         
@@ -58,12 +60,14 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         setShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "US", stateCode: "MA"))
 //        shippingHelper.setFieldValues(shippingDetails: getDummyShippingDetails(countryCode: "US", stateCode: "MA"), sdkRequest: sdkRequest)
-        shippingHelper.closeKeyboard()
-        let editShippingPayButton = checkReturningShopperDoneButton(isPayment: false)
-        editShippingPayButton.tap()
-
-        let payButton = checkPayButton()
-        payButton.tap()
+        
+        shippingHelper.checkDoneButton()
+        
+        shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
+        
+        existingCcHelper.checkPayButton(sdkRequest: sdkRequest)
+        
+        existingCcHelper.pressPayButton()
         
         checkResult(expectedSuccessText: "Success!")
         
@@ -72,7 +76,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     
     func testShortReturningShopperExistingCcFlowWithEdit() {
         
-        // full billing, with shipping, no email, new CC
+        // full billing, with shipping, no email, existing cc
         
         setUpForSdk(fullBilling: true, withShipping: true, withEmail: false, isReturningShopper: true, tapExistingCc: true)
         
@@ -82,9 +86,9 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         setBillingDetails(billingDetails: getDummyBillingDetails())
 //        paymentHelper.setFieldValues(billingDetails: getDummyBillingDetails(), sdkRequest: sdkRequest)
-        paymentHelper.closeKeyboard()
-        let editBillingPayButton = checkReturningShopperDoneButton(isPayment: true)
-        editBillingPayButton.tap()
+
+        paymentHelper.checkDoneButton()
+        paymentHelper.pressPayButton(payButtonId: "PayButton")
         
         existingCcHelper.editShippingButton.tap()
 
@@ -92,11 +96,12 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
 
 //        shippingHelper.setFieldValues(shippingDetails: getDummyShippingDetails(countryCode: "IL", stateCode: nil), sdkRequest: sdkRequest)
         shippingHelper.closeKeyboard()
-        let editShippingPayButton = checkReturningShopperDoneButton(isPayment: false)
-        editShippingPayButton.tap()
         
-        let payButton = checkPayButton()
-        payButton.tap()
+        shippingHelper.checkDoneButton()
+        shippingHelper.pressPayButton(payButtonId: "ShippingPayButton")
+        
+        existingCcHelper.checkPayButton(sdkRequest: sdkRequest)
+        existingCcHelper.pressPayButton()
         
         checkResult(expectedSuccessText: "Success!")
         
@@ -120,9 +125,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
             app.keyboards.buttons["Done"].tap()
         }
         
-        let payButton = checkPayButton()
-        paymentHelper.closeKeyboard()
-        payButton.tap()
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.pressPayButton(payButtonId: "PayButton")
         
         checkResult(expectedSuccessText: "Success!")
         
@@ -180,7 +184,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkStateVisibility(defaultCountry: defaultCountry)
 
         // check pay button
-        _ = checkPayButton()
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
         
         print("done")
     }
@@ -195,8 +199,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         // change country to USA to have state and zip
         paymentHelper.setCountry(countryCode: "US")
         
@@ -222,13 +226,13 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button when shipping same as billing is on
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         
         // check pay button when shipping same as billing is off
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         // continue to shipping screen
         gotoShippingScreen()
         
@@ -236,8 +240,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
         
         // check shipping pay button
-        _ = checkShippingPayButton()
-        
+        shippingHelper.checkPayButton(sdkRequest: sdkRequest)
+
         shippingHelper.pressBackButton()
         
         print("done")
@@ -253,13 +257,13 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button when shipping same as billing is on
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         
         // check pay button when shipping same as billing is off
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         // continue to shipping screen
         gotoShippingScreen()
         
@@ -267,8 +271,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
         
         // check shipping pay button
-        _ = checkShippingPayButton()
-        
+        shippingHelper.checkPayButton(sdkRequest: sdkRequest)
+
         // fill in shipping details with country without shipping tax
         fillShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "IL"))
         
@@ -280,12 +284,12 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         setShippingSameAsBillingSwitch(shouldBeOn: true)
         // check pay button- for shipping country with tax
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         // check pay button- for shipping country without tax
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         // verify that the shipping info has been saved in shipping screen after choosing billing same as billing, and than rewind the choice.
         gotoShippingScreen(fillInDetails: false)
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
@@ -305,8 +309,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         print("done")
     }
     
@@ -320,8 +324,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         print("done")
     }
     
@@ -335,8 +339,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         // continue to shipping screen
         gotoShippingScreen()
         
@@ -350,8 +354,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         shippingHelper.checkStateVisibility(defaultCountry: defaultCountry)
         
         // check shipping pay button
-        _ = checkShippingPayButton()
-        
+        shippingHelper.checkPayButton(sdkRequest: sdkRequest)
+
         // check trying to pay with empty fields
         shippingHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, payButtonId: "ShippingPayButton", zipLabel: "Shipping Zip")
         
@@ -380,8 +384,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        _ = checkPayButton()
-        
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+
         // continue to shipping screen
         gotoShippingScreen()
         
@@ -389,8 +393,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
         
         // check shipping pay button
-        _ = checkShippingPayButton()
-        
+        shippingHelper.checkPayButton(sdkRequest: sdkRequest)
+
         print("done")
     }
     
@@ -544,81 +548,46 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     // DemoApp helpers
     
     
-    
-    private func checkReturningShopperDoneButton(isPayment: Bool) -> XCUIElement {
-        let buttonId = isPayment ? "PayButton" : "ShippingPayButton"
-        return checkAPayButton(buttonId: buttonId, expectedPayText: "Done")
-    }
-    
     // verify
-    private func checkPayButton() -> XCUIElement {
-        var expectedPayText = ""
-        let country = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.country : sdkRequest.shopperConfiguration.shippingDetails?.country
-        let state = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.state : sdkRequest.shopperConfiguration.shippingDetails?.state
-        
-//        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
-        
-        let includeTaxAmount = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
-
-        if ((sdkRequest.shopperConfiguration.withShipping && isReturningShopper) ||
-            (sdkRequest.shopperConfiguration.withShipping && shippingSameAsBilling)){
-            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)"
-        }
-            
-        else if (sdkRequest.shopperConfiguration.withShipping){
-            expectedPayText = "Shipping >"
-
-        }
-        
-        else{
-            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(purchaseAmount ?? 0.0)"
-        }
-        
-        return checkAPayButton(buttonId: "PayButton", expectedPayText: expectedPayText)
-    }
+//    private func checkPayButton() {
+//        var expectedPayText = ""
+//        let country = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.country : sdkRequest.shopperConfiguration.shippingDetails?.country
+//        let state = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.state : sdkRequest.shopperConfiguration.shippingDetails?.state
+//
+////        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
+//
+//        let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: purchaseAmount)
+//
+//        if ((sdkRequest.shopperConfiguration.withShipping && isReturningShopper) ||
+//            (sdkRequest.shopperConfiguration.withShipping && shippingSameAsBilling)){
+//            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)"
+//        }
+//
+//        else if (sdkRequest.shopperConfiguration.withShipping){
+//            expectedPayText = "Shipping >"
+//
+//        }
+//
+//        else{
+//            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(purchaseAmount ?? 0.0)"
+//        }
+//
+//        BSUITestUtils.checkAPayButton(app: app, buttonId: "PayButton", expectedPayText: expectedPayText)
+//    }
     
-    private func checkShippingPayButton() -> XCUIElement {
-        
-        let country = sdkRequest.shopperConfiguration.shippingDetails?.country
-        let state = sdkRequest.shopperConfiguration.shippingDetails?.state
-        
-//        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
-        
-        let includeTaxAmount = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
-        
-        return checkAPayButton(buttonId: "ShippingPayButton", expectedPayText: "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)")
-    }
+//    private func checkShippingPayButton() {
+//        
+//        let country = sdkRequest.shopperConfiguration.shippingDetails?.country
+//        let state = sdkRequest.shopperConfiguration.shippingDetails?.state
+//        
+////        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
+//        
+//        let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: purchaseAmount)
+//        
+//        
+//        BSUITestUtils.checkAPayButton(app: app, buttonId: "ShippingPayButton", expectedPayText: "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)")
+//    }
     
-    private func calcTaxFromCuntryAndState(countryCode: String, stateCode: String) -> Double {
-        var taxPrecent = 0.0
-        if (countryCode == "US"){
-            taxPrecent = 0.05
-            if (stateCode == "NY"){
-                taxPrecent = 0.08
-            }
-        }
-            
-        else if (countryCode == "CA"){
-            taxPrecent = 0.01
-        }
-        
-        let includeTaxAmount = purchaseAmount * (1+taxPrecent)
-        
-        return includeTaxAmount
-    }
-    
-    private func checkAPayButton(buttonId: String, expectedPayText: String) -> XCUIElement {
-    
-        let payButton = app.buttons[buttonId]
-        
-        XCTAssertTrue(payButton.exists, "\(buttonId) is not displayed")
-
-        let payButtonText = payButton.label
-//        XCTAssert(expectedPayText == payButtonText)
-        XCTAssert(payButtonText.contains(expectedPayText), "Pay Button doesn't display the correct text. expected text: \(expectedPayText), actual text: \(payButtonText)")
-        return payButton
-    }
-
     
     private func gotoShippingScreen(fillInDetails: Bool = true) {
         
@@ -667,12 +636,12 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     private func testCurrencyInPayButton(withShipping: Bool, fillInDetails: Bool){
         if (withShipping){
             gotoShippingScreen(fillInDetails: fillInDetails)
-            _ = checkShippingPayButton()
+//            _ = checkShippingPayButton()
             pressBackButton()
         }
             
         else {
-            _ = checkPayButton()
+//            _ = checkPayButton()
         }
     }
     
@@ -680,6 +649,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.setCurrency(currencyName: currencyName)
         checkoutCurrency = currencyCode
         
+//        var purchaseAmount = sdkRequest.priceDetails.amount.doubleValue
         
         let currencies = BlueSnapSDK.getCurrencyRates()
         
@@ -691,6 +661,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         let conversionRateFromUSD: Double = (currencies?.getCurrencyRateByCurrencyCode(code: currencyCode))!
         
         purchaseAmount = purchaseAmount * conversionRateFromUSD;
+        
         
     }
     

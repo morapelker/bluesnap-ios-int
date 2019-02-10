@@ -373,5 +373,35 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         }
     }
     
+    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool) {
+        var expectedPayText = ""
+        
+        // checkout without shipping- amout&currency should be displayed, without shipping tax
+        if (!sdkRequest.shopperConfiguration.withShipping){
+            expectedPayText = "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(sdkRequest.priceDetails.amount.doubleValue)"
+        }
+        
+        // checkout with shipping and shipping same as billing is on - amout&currency should be displayed, with shipping tax by billing country&state
+        else if (shippingSameAsBilling){
+            let country = sdkRequest.shopperConfiguration.billingDetails?.country
+            let state = sdkRequest.shopperConfiguration.billingDetails?.state
+            
+            let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
+            expectedPayText = "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(includeTaxAmount)"
+        }
+            
+        // checkout with shipping and shipping same as billing is off - continue to shipping should be displayed
+        else{
+            expectedPayText = "Shipping >"
+        }
+        
+        BSUITestUtils.checkAPayButton(app: app, buttonId: "PayButton", expectedPayText: expectedPayText)
+    }
+    
+    override func checkDoneButton() {
+        closeKeyboard()
+        BSUITestUtils.checkAPayButton(app: app, buttonId: "PayButton", expectedPayText: "Done")
+    }
+    
     
 }

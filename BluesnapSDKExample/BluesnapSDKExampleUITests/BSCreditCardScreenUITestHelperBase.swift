@@ -208,8 +208,14 @@ class BSCreditCardScreenUITestHelperBase {
      doesn't change the country in the other.
      */
     func checkCountryChangesPerScreen(defaultCountry: String) {
-        //todo: write this test once we're able to check cuntry image 
+        //TODO: write this test once we're able to check cuntry image
         
+    }
+    
+    func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool) {
+    }
+    
+    func checkDoneButton() {
     }
     
     
