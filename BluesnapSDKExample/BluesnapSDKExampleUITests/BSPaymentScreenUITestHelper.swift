@@ -403,5 +403,10 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         BSUITestUtils.checkAPayButton(app: app, buttonId: "PayButton", expectedPayText: "Done")
     }
     
+    override func pressPayButton() {
+        closeKeyboard()
+        app.buttons["PayButton"].tap()
+    }
+    
     
 }

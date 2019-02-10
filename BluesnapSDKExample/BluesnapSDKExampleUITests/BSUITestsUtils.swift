@@ -133,6 +133,9 @@ class BSUITestUtils {
         XCTAssert(payButtonText.contains(expectedPayText), "Pay Button doesn't display the correct text. expected text: \(expectedPayText), actual text: \(payButtonText)")
     }
     
+    static func pressBackButton(app: XCUIApplication) {
+        app.navigationBars.buttons.element(boundBy: 0).tap()
+    }
     
     static func getVisaCard() -> [String: String] {
         return ["ccn": "4111111111111111", "exp": "10/2020", "cvv": "111", "ccType": "VISA", "last4Digits": "1111", "issuingCountry": "US"]
