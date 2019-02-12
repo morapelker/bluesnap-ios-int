@@ -32,11 +32,11 @@ public class BSPaymentInfo: NSObject {
  Base class for payment request; this will be the result of the payment flow (one of the inherited classes: BSCcSdkResult/BSApplePaySdkResult/BSPayPalSdkResult)
  */
 public class BSBaseSdkResult: NSObject {
-
+    private var isSdkRequestIsShopperRequirements: Bool! = nil
+    var storeCard: Bool! = nil
     var fraudSessionId: String?
     var priceDetails: BSPriceDetails!
     var chosenPaymentMethodType: BSPaymentType?
-    private var isSdkRequestIsShopperRequirements: Bool!
 
     /**
     * for Regular Checkout Flow
@@ -44,6 +44,7 @@ public class BSBaseSdkResult: NSObject {
     internal init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init()
         self.isSdkRequestIsShopperRequirements = !(sdkRequestBase is BSSdkRequest)
+        self.storeCard = self.isSdkRequestIsShopperRequirements
         self.priceDetails = (isSdkRequestIsShopperRequirements) ? nil : sdkRequestBase.priceDetails.copy() as? BSPriceDetails
         self.fraudSessionId = BlueSnapSDK.fraudSessionId
     }
@@ -74,7 +75,6 @@ public class BSBaseSdkResult: NSObject {
         return isSdkRequestIsShopperRequirements
     }
 }
-
 
 /**
  price details: amount, tax and currency
@@ -128,6 +128,7 @@ public class BSPriceDetails: NSObject, NSCopying {
 public class BSSdkRequest: NSObject, BSSdkRequestProtocol {
     public var shopperConfiguration: BSShopperConfiguration!
     public var allowCurrencyChange: Bool = true
+    public var hideStoreCardSwitch: Bool = false
     public var priceDetails: BSPriceDetails! = BSPriceDetails(amount: 0, taxAmount: 0, currency: nil)
 
     public var purchaseFunc: (BSBaseSdkResult?) -> Void
@@ -172,6 +173,7 @@ extension BSSdkRequestProtocol {
     public var updateTaxFunc: ((String, String?, BSPriceDetails) -> Void)? { return nil }
     public var priceDetails: BSPriceDetails! { return nil }
     public var allowCurrencyChange: Bool { get { return false } set { } }
+    public var hideStoreCardSwitch: Bool { get { return false } set { } }
 
     public mutating func adjustSdkRequest() {
 
@@ -203,6 +205,7 @@ public protocol BSSdkRequestProtocol {
     var updateTaxFunc: ((_ shippingCountry: String, _ shippingState: String?, _ priceDetails: BSPriceDetails) -> Void)? { get }
 
     var allowCurrencyChange: Bool { get set }
+    var hideStoreCardSwitch: Bool { get set }
 }
 
 public class BSShopperConfiguration {

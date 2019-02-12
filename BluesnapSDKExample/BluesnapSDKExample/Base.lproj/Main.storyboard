@@ -181,8 +181,25 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide Store Card" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pq4-xd-iYv" userLabel="Hide Store Card Label">
+                                        <rect key="frame" x="14" y="252" width="195" height="21"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="HideStoreCardLabel"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="195" id="bAW-jy-xOT"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hKB-dp-nej" userLabel="HideStoreCardSwitch">
+                                        <rect key="frame" x="293" y="252" width="51" height="31"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="HideStoreCardSwitch"/>
+                                        <connections>
+                                            <action selector="hideStoreCardSwitchChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="en6-JE-gvN"/>
+                                        </connections>
+                                    </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow Change Currency" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qed-yK-npd" userLabel="Allow Change Currency">
-                                        <rect key="frame" x="14" y="221" width="195" height="21"/>
+                                        <rect key="frame" x="14" y="211" width="195" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="195" id="pNQ-z9-he7"/>
                                         </constraints>
@@ -193,16 +210,19 @@
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RDI-g7-cA6" userLabel="allowCurrencyChangeSwitch">
                                         <rect key="frame" x="295" y="216" width="49" height="31"/>
                                         <accessibility key="accessibilityConfiguration" identifier="allowCurrencyChangeSwitch"/>
+                                        <connections>
+                                            <action selector="allowCurrencyChangeSwitchChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="ZaA-Eg-lB8"/>
+                                        </connections>
                                     </switch>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="allowCurrencyChangeSwitch" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TT4-Lq-e8Y">
-                                        <rect key="frame" x="20" y="355" width="335" height="344"/>
+                                        <rect key="frame" x="20" y="392" width="335" height="307"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TAo-mM-qRo">
-                                        <rect key="frame" x="-14" y="236" width="403" height="105"/>
+                                        <rect key="frame" x="-14" y="273" width="403" height="105"/>
                                         <accessibility key="accessibilityConfiguration" identifier="CheckoutButton"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="105" id="hg7-UI-ey7"/>
@@ -213,7 +233,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEi-hP-ghL">
-                                        <rect key="frame" x="-14" y="311" width="470" height="105"/>
+                                        <rect key="frame" x="-14" y="348" width="470" height="105"/>
                                         <accessibility key="accessibilityConfiguration" identifier="ChooseButton"/>
                                         <state key="normal" title="Choose Button" image="Choose"/>
                                         <connections>
@@ -221,7 +241,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHH-ET-Dgd">
-                                        <rect key="frame" x="-14" y="386" width="462" height="105"/>
+                                        <rect key="frame" x="-14" y="423" width="462" height="105"/>
                                         <accessibility key="accessibilityConfiguration" identifier="CreateButton"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="105" id="pay-eS-ggQ"/>
@@ -278,16 +298,17 @@
                                     <constraint firstItem="TT4-Lq-e8Y" firstAttribute="leading" secondItem="gtG-Zk-3aB" secondAttribute="leading" constant="20" symbolic="YES" id="7XM-tc-oVh"/>
                                     <constraint firstItem="xkv-uS-lPt" firstAttribute="leading" secondItem="l8V-G4-lWL" secondAttribute="trailing" constant="14" id="9z7-MZ-Xbj"/>
                                     <constraint firstItem="cco-GN-tEP" firstAttribute="height" secondItem="gtG-Zk-3aB" secondAttribute="height" id="AIh-UF-mnC"/>
+                                    <constraint firstItem="hKB-dp-nej" firstAttribute="top" secondItem="pq4-xd-iYv" secondAttribute="top" id="B9G-lN-JVv"/>
                                     <constraint firstItem="cco-GN-tEP" firstAttribute="top" secondItem="gtG-Zk-3aB" secondAttribute="top" constant="-5" id="CG6-tx-BsU"/>
                                     <constraint firstItem="RDI-g7-cA6" firstAttribute="leading" secondItem="Qed-yK-npd" secondAttribute="leading" constant="281" id="CS4-ln-Ubi"/>
-                                    <constraint firstItem="KEi-hP-ghL" firstAttribute="top" secondItem="Qed-yK-npd" secondAttribute="bottom" constant="69" id="Dgd-uT-ik7"/>
+                                    <constraint firstItem="KEi-hP-ghL" firstAttribute="top" secondItem="TAo-mM-qRo" secondAttribute="bottom" constant="-30" id="Dgd-uT-ik7"/>
                                     <constraint firstItem="l8V-G4-lWL" firstAttribute="top" secondItem="SyA-5y-lej" secondAttribute="bottom" constant="10" id="ENR-NZ-G0N"/>
                                     <constraint firstItem="7YB-fd-Oj1" firstAttribute="top" secondItem="u0H-Xe-vin" secondAttribute="bottom" constant="6" id="Ftj-ik-kFP"/>
                                     <constraint firstItem="1E4-kM-4oY" firstAttribute="top" secondItem="sqi-jc-dUs" secondAttribute="bottom" constant="39.5" id="GnC-aJ-5N3"/>
                                     <constraint firstItem="sqi-jc-dUs" firstAttribute="leading" secondItem="gtG-Zk-3aB" secondAttribute="leading" constant="14" id="GpH-f3-TsK"/>
                                     <constraint firstItem="AB2-QV-u38" firstAttribute="baseline" secondItem="uPH-f5-LxL" secondAttribute="firstBaseline" id="HUC-7K-URT"/>
                                     <constraint firstItem="EN0-W4-diM" firstAttribute="leading" secondItem="nL8-Qk-qnG" secondAttribute="trailing" constant="8" id="IA2-OK-Be8"/>
-                                    <constraint firstItem="TAo-mM-qRo" firstAttribute="top" secondItem="Qed-yK-npd" secondAttribute="bottom" constant="-6" id="J4e-vl-a9u"/>
+                                    <constraint firstItem="TAo-mM-qRo" firstAttribute="top" secondItem="pq4-xd-iYv" secondAttribute="bottom" id="J4e-vl-a9u"/>
                                     <constraint firstItem="Qed-yK-npd" firstAttribute="leading" secondItem="uPH-f5-LxL" secondAttribute="leading" id="J59-tE-yCe"/>
                                     <constraint firstItem="RTe-GM-YPU" firstAttribute="top" secondItem="gtG-Zk-3aB" secondAttribute="top" constant="5" id="MBV-mB-lFj"/>
                                     <constraint firstItem="xkv-uS-lPt" firstAttribute="top" secondItem="Hna-Cr-jnR" secondAttribute="bottom" id="Md8-kH-5Ju"/>
@@ -312,10 +333,12 @@
                                     <constraint firstItem="7YB-fd-Oj1" firstAttribute="leading" secondItem="Df9-pw-Kb1" secondAttribute="trailing" constant="28" id="gJP-hS-PmL"/>
                                     <constraint firstItem="dMR-1J-U5n" firstAttribute="trailing" secondItem="gtG-Zk-3aB" secondAttribute="trailingMargin" id="hTa-4k-wb3"/>
                                     <constraint firstItem="xkv-uS-lPt" firstAttribute="centerX" secondItem="TAo-mM-qRo" secondAttribute="centerX" id="hfv-0V-ht5"/>
+                                    <constraint firstItem="pq4-xd-iYv" firstAttribute="trailing" secondItem="Qed-yK-npd" secondAttribute="trailing" id="hkU-Vg-IG3"/>
                                     <constraint firstItem="1E4-kM-4oY" firstAttribute="leading" secondItem="iOS-3A-GN6" secondAttribute="trailing" constant="27" id="l15-T0-Dco"/>
                                     <constraint firstItem="TT4-Lq-e8Y" firstAttribute="top" secondItem="TAo-mM-qRo" secondAttribute="bottom" constant="14" id="lcV-n4-wGU"/>
                                     <constraint firstItem="iOS-3A-GN6" firstAttribute="centerY" secondItem="1E4-kM-4oY" secondAttribute="centerY" id="lcd-aV-6dq"/>
                                     <constraint firstItem="SyA-5y-lej" firstAttribute="top" secondItem="RTe-GM-YPU" secondAttribute="bottom" constant="10" id="ld2-dn-zwg"/>
+                                    <constraint firstItem="RDI-g7-cA6" firstAttribute="top" secondItem="Qed-yK-npd" secondAttribute="top" id="mdd-2q-9xr"/>
                                     <constraint firstItem="EN0-W4-diM" firstAttribute="top" secondItem="gtG-Zk-3aB" secondAttribute="top" constant="1" id="n3t-lt-zzw"/>
                                     <constraint firstItem="iOS-3A-GN6" firstAttribute="trailing" secondItem="uPH-f5-LxL" secondAttribute="trailing" id="n6X-oH-Y2y"/>
                                     <constraint firstItem="iOS-3A-GN6" firstAttribute="top" secondItem="sqi-jc-dUs" secondAttribute="bottom" constant="42.5" id="n9P-Wc-TWX"/>
@@ -323,11 +346,13 @@
                                     <constraint firstItem="l8V-G4-lWL" firstAttribute="leading" secondItem="iOS-3A-GN6" secondAttribute="leading" id="obF-P1-goG"/>
                                     <constraint firstItem="Df9-pw-Kb1" firstAttribute="top" secondItem="sqi-jc-dUs" secondAttribute="bottom" constant="13.5" id="q8X-5B-qyW"/>
                                     <constraint firstItem="Qed-yK-npd" firstAttribute="trailing" secondItem="uPH-f5-LxL" secondAttribute="trailing" constant="86" id="rH4-h6-udU"/>
-                                    <constraint firstItem="eHH-ET-Dgd" firstAttribute="top" secondItem="TAo-mM-qRo" secondAttribute="bottom" constant="45" id="snf-rk-yLR"/>
+                                    <constraint firstItem="eHH-ET-Dgd" firstAttribute="top" secondItem="KEi-hP-ghL" secondAttribute="bottom" constant="-30" id="snf-rk-yLR"/>
                                     <constraint firstItem="cco-GN-tEP" firstAttribute="width" secondItem="gtG-Zk-3aB" secondAttribute="width" id="taK-Xq-GBV"/>
                                     <constraint firstItem="sqi-jc-dUs" firstAttribute="top" secondItem="l8V-G4-lWL" secondAttribute="bottom" constant="10" id="txb-Bs-n9C"/>
                                     <constraint firstItem="SyA-5y-lej" firstAttribute="leading" secondItem="gtG-Zk-3aB" secondAttribute="leading" constant="14" id="uq3-Kx-jHZ"/>
+                                    <constraint firstItem="pq4-xd-iYv" firstAttribute="top" secondItem="Qed-yK-npd" secondAttribute="bottom" constant="10" id="wZS-KA-CwZ"/>
                                     <constraint firstItem="1E4-kM-4oY" firstAttribute="leading" secondItem="AB2-QV-u38" secondAttribute="leading" id="wia-CI-ql2"/>
+                                    <constraint firstItem="hKB-dp-nej" firstAttribute="trailing" secondItem="RDI-g7-cA6" secondAttribute="trailing" id="wx1-8r-kIA"/>
                                     <constraint firstItem="uPH-f5-LxL" firstAttribute="centerY" secondItem="AB2-QV-u38" secondAttribute="centerY" id="yjz-9k-r7M"/>
                                     <constraint firstItem="RDI-g7-cA6" firstAttribute="centerY" secondItem="Qed-yK-npd" secondAttribute="centerY" id="ylP-xL-yYu"/>
                                     <constraint firstAttribute="trailing" secondItem="TT4-Lq-e8Y" secondAttribute="trailing" constant="20" symbolic="YES" id="yxv-OD-JSG"/>
@@ -352,6 +377,7 @@
                         <outlet property="coverAllView" destination="cco-GN-tEP" id="n6f-jP-Kui"/>
                         <outlet property="currencyButton" destination="dMR-1J-U5n" id="565-Jx-enD"/>
                         <outlet property="fullBillingSwitch" destination="xkv-uS-lPt" id="ufh-bw-LTe"/>
+                        <outlet property="hideStoreCardSwitch" destination="hKB-dp-nej" id="ohx-ZB-fvL"/>
                         <outlet property="resultTextView" destination="TT4-Lq-e8Y" id="feq-X1-fla"/>
                         <outlet property="returningShopperIdLabel" destination="nL8-Qk-qnG" id="vWQ-CF-bkm"/>
                         <outlet property="returningShopperIdTextField" destination="EN0-W4-diM" id="bZq-t8-GPz"/>
