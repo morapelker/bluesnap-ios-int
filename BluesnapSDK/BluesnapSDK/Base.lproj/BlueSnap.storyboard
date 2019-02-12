@@ -136,22 +136,6 @@
                                                 </connections>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7GX-8o-fbs" userLabel="Zip Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
-                                                <rect key="frame" x="20" y="64" width="335" height="43"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <accessibility key="accessibilityConfiguration" identifier="ShippingPhone"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Phone"/>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="labelBkdColor">
-                                                        <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="editingDidBegin:" destination="PPS-Pq-6Wu" eventType="editingDidBegin" id="1Ky-hk-Okw"/>
-                                                    <action selector="phoneEditingChanged:" destination="PPS-Pq-6Wu" eventType="editingChanged" id="dua-54-uMb"/>
-                                                    <action selector="phoneEditingDidEnd:" destination="PPS-Pq-6Wu" eventType="editingDidEnd" id="eqw-ms-D9e"/>
-                                                </connections>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7GX-8o-fbs" userLabel="Zip Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="108" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingZip"/>
