@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 import PassKit
 import BluesnapSDK
-@testable import BluesnapSDKIntegrationTests //TODO: make it work
+//@testable import BluesnapSDKIntegrationTests //TODO: make it work
 
 class CheckoutBaseTester: XCTestCase{
     internal var app: XCUIApplication! //using Implicitly Unwrapped Optionals for initialization purpose

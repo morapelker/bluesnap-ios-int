@@ -37,6 +37,10 @@ class BSExistingCcScreenUITestHelper {
         editShippingButton = app.buttons["EditShippingButton"] //elementsQuery.element(matching: .any, identifier: "EditShippingButton")
     }
     
+    func getManuButton() -> XCUIElement {
+        return app.buttons["MenuButton"]
+    }
+    
     func checkExistingCCLineVisibility(expectedLastFourDigits: String, expectedExpDate: String) {
         // get the cc line component's labels
         let lastFourDigitsLabel = existingCcLineInput.staticTexts["Last4DigitsLabel"]
@@ -94,22 +98,22 @@ class BSExistingCcScreenUITestHelper {
     func checkAddressBoxContent(sdkRequest: BSSdkRequest, isBilling: Bool, fullBillingDisplay: Bool, emailDisplay: Bool, shippingDisplay: Bool) {
         
         // shipping box validation and shopper has no shipping
-        if (!isBilling && shippingDisplay) {
-            return
-        }
+//        if (!isBilling && shippingDisplay) {
+//            return
+//        }
         
         var expectedAddressContent = ""
         let contactInfo = isBilling ? sdkRequest.shopperConfiguration.billingDetails! : sdkRequest.shopperConfiguration.shippingDetails!
-        let fullInfo = (isBilling && fullBillingDisplay) || !isBilling
+        let fullInfo = fullBillingDisplay || !isBilling && shippingDisplay
         
-        if (emailDisplay) {
+        if (isBilling && emailDisplay) {
             expectedAddressContent += (contactInfo as! BSBillingAddressDetails).email! + "\n"
         }
         
         if (fullInfo) {
-            expectedAddressContent += contactInfo.address! +  ", "
+            expectedAddressContent += contactInfo.address! + ", "
             expectedAddressContent += contactInfo.city! + " "
-            expectedAddressContent += contactInfo.state! +  " "
+            expectedAddressContent += contactInfo.state! + " "
         }
         
         expectedAddressContent += contactInfo.zip! +  " "
@@ -144,5 +148,24 @@ class BSExistingCcScreenUITestHelper {
     
     func pressPayButton() {
         app.buttons["PayButton"].tap()
+    }
+    
+    /*
+     paremter editBilling is set to true for edit billing info, false for edit shipping info
+     */
+    func pressEditButton(editBilling: Bool) {
+        if editBilling{
+            editBillingButton.tap()
+        }
+        
+        else{
+            editShippingButton.tap()
+        }
+    }
+    
+    func checkMenuButtonEnabled(expectedEnabled: Bool){
+        let menuButton = getManuButton()
+        
+        XCTAssertTrue(menuButton.isEnabled == expectedEnabled, "Menu button expected to be Enabled: \(expectedEnabled), but was Enabled: \(menuButton.isEnabled)")
     }
 }

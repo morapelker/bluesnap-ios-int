@@ -62,7 +62,7 @@ class BSCreditCardScreenUITestHelperBase {
      and that they show the correct content.
      It also verifies that the invalid error messages are not displayed.
      */
-    func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, zipLabel: String) {
+    func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails? = nil, zipLabel: String = "") {
         checkInput(input: nameInput, expectedValue: shopperDetails?.name.isEmpty ?? true ? "John Doe" : shopperDetails!.name , expectedLabelText: "Name")
         
         // zip should be hidden only for country that does not have zip; label also changes according to country
@@ -273,10 +273,6 @@ class BSCreditCardScreenUITestHelperBase {
     }
     
     func pressPayButton() {
-    }
-    
-    func pressBackButton() {
-        app.navigationBars.buttons.element(boundBy: 0).tap()
     }
     
 }

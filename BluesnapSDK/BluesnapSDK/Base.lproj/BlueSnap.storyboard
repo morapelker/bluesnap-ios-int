@@ -617,6 +617,9 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Payment" id="0Nc-ks-k9m" userLabel="Navigation">
                         <barButtonItem key="rightBarButtonItem" image="menu_button" style="done" id="Kw6-9N-uyj">
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="MenuButton"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="MenuClick:" destination="Uqu-XD-vmH" id="gXz-sa-fer"/>
                             </connections>
