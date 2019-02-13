@@ -141,8 +141,8 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
      and that they show the correct content.
      It also verifies that the invalid error messages are not displayed.
      */
-    override func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, zipLabel: String) {
-        super.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: shopperDetails, zipLabel: zipLabel)
+    override func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails? = nil, zipLabel: String = "") {
+        super.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         let billingDetails = sdkRequest.shopperConfiguration.billingDetails
         checkInput(input: emailInput, expectedExists: sdkRequest.shopperConfiguration.withEmail, expectedValue: billingDetails?.email ?? "", expectedLabelText: "Email")
         checkInput(input: cityInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.city ?? "", expectedLabelText: "City")
