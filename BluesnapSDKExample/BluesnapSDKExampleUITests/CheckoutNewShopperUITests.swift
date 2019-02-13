@@ -14,124 +14,45 @@ import BluesnapSDK
 
 class CheckoutNewShopperUITests: CheckoutBaseTester {
 
-    override func setUp() {
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-        
-//        app.terminate()
-        
-    }
+//    override func setUp() {
+//        super.setUp()
+//    }
+//    
+//    override func tearDown() {
+//        // Put teardown code here. This method is called after the invocation of each test method in the class.
+//        super.tearDown()
+//        
+////        app.terminate()
+//        
+//    }
     
     
     /* -------------------------------- Returning shopper tests ---------------------------------------- */
-    
-    func testShortReturningShopperExistingCcFlow() {
-        
-        // no full billing, no shipping, no email, new CC
-        
-        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true, tapExistingCc: true)
-        
-        let _ = waitForExistingCcScreen()
-        let existingCcHelper = waitForExistingCcScreen()
-
-        existingCcHelper.checkPayButton(sdkRequest: sdkRequest)
-        
-        existingCcHelper.pressPayButton()
-        
-        checkResult(expectedSuccessText: "Success!")
-        
-        print("done")
-    }
-    
-    func testShortReturningShopperExistingCcFlowWithShipping() {
-        
-        // no full billing, with shipping, no email, new CC
-        
-        setUpForSdk(fullBilling: false, withShipping: true, withEmail: false, isReturningShopper: true, tapExistingCc: true)
-        
-        let existingCcHelper = waitForExistingCcScreen()
-
-        // edit shipping to make sure we have the right country for tax calculation
-        existingCcHelper.editShippingButton.tap()
-        
-        setShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "US", stateCode: "MA"))
-//        shippingHelper.setFieldValues(shippingDetails: getDummyShippingDetails(countryCode: "US", stateCode: "MA"), sdkRequest: sdkRequest)
-        
-        shippingHelper.checkDoneButton()
-        
-        shippingHelper.pressPayButton()
-        
-        existingCcHelper.checkPayButton(sdkRequest: sdkRequest)
-        
-        existingCcHelper.pressPayButton()
-        
-        checkResult(expectedSuccessText: "Success!")
-        
-        print("done")
-    }
-    
-    func testShortReturningShopperExistingCcFlowWithEdit() {
-        
-        // full billing, with shipping, no email, existing cc
-        
-        setUpForSdk(fullBilling: true, withShipping: true, withEmail: false, isReturningShopper: true, tapExistingCc: true)
-        
-        let existingCcHelper = waitForExistingCcScreen()
-        
-        existingCcHelper.editBillingButton.tap()
-        
-        setBillingDetails(billingDetails: getDummyBillingDetails())
-//        paymentHelper.setFieldValues(billingDetails: getDummyBillingDetails(), sdkRequest: sdkRequest)
-
-        paymentHelper.checkDoneButton()
-        paymentHelper.pressPayButton()
-        
-        existingCcHelper.editShippingButton.tap()
-
-        setShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "IL", stateCode: nil))
-
-//        shippingHelper.setFieldValues(shippingDetails: getDummyShippingDetails(countryCode: "IL", stateCode: nil), sdkRequest: sdkRequest)
-        shippingHelper.closeKeyboard()
-        
-        shippingHelper.checkDoneButton()
-        shippingHelper.pressPayButton()
-
-        existingCcHelper.checkPayButton(sdkRequest: sdkRequest)
-        existingCcHelper.pressPayButton()
-        
-        checkResult(expectedSuccessText: "Success!")
-        
-        print("done")
-    }
 
     // full billing, with shipping, check "shipping same as billing"
     
-    func testShortReturningShopperNewCcFlow() {
-        
-        // no full billing, no shipping, no email, new CC
-        
-        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true)
-        
-        fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
-        
-        let elementsQuery = app.scrollViews.otherElements
-        let textField = elementsQuery.element(matching: .any, identifier: "Name")
-        if textField.exists {
-            textField.tap()
-            app.keyboards.buttons["Done"].tap()
-        }
-        
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
-        paymentHelper.pressPayButton()
-
-        checkResult(expectedSuccessText: "Success!")
-        
-        print("done")
-    }
+//    func testShortReturningShopperNewCcFlow() {
+//
+//        // no full billing, no shipping, no email, new CC
+//
+//        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true)
+//
+//        fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
+//
+//        let elementsQuery = app.scrollViews.otherElements
+//        let textField = elementsQuery.element(matching: .any, identifier: "Name")
+//        if textField.exists {
+//            textField.tap()
+//            app.keyboards.buttons["Done"].tap()
+//        }
+//
+//        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+//        paymentHelper.pressPayButton()
+//
+//        checkResult(expectedSuccessText: "Success!")
+//
+//        print("done")
+//    }
     
     /* -------------------------------- New tests ---------------------------------------- */
     
@@ -242,8 +163,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         // check shipping pay button
         shippingHelper.checkPayButton(sdkRequest: sdkRequest)
 
-        shippingHelper.pressBackButton()
-        
+        BSUITestUtils.pressBackButton(app: app)
+
         print("done")
     }
     
@@ -276,8 +197,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         // fill in shipping details with country without shipping tax
         fillShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "IL"))
         
-        shippingHelper.pressBackButton()
-        
+        BSUITestUtils.pressBackButton(app: app)
+
         // verify that the billing info has been saved in payment screen (including error messages)
         paymentHelper.checkCcnComponentState(ccnShouldBeOpen: false, ccn: BSUITestUtils.getValidVisaCreditCardNumber(), last4digits: "1111", exp: "11/26", cvv: "333")
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
@@ -365,7 +286,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         setShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "BR", stateCode: "RJ"))
         
         // go back and forward
-        shippingHelper.pressBackButton()
+        BSUITestUtils.pressBackButton(app: app)
         gotoShippingScreen(fillInDetails: false)
         
         // verify info has been saved
@@ -613,8 +534,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         gotoShippingScreen()
         
-        pressBackButton()
-        
+        BSUITestUtils.pressBackButton(app: app)
+
         // check urrency menu button visibility back in payment screen
         paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
         
@@ -623,11 +544,11 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     private func testCurrencyChanges(withShipping: Bool){
         setUpForSdk(fullBilling: false, withShipping: withShipping, withEmail: false)
         
-        setAndUpdateCurrency(currencyName: "Israeli New Sheqel ILS", currencyCode: "ILS", oldCurrencyCode: checkoutCurrency)
+        setAndUpdateCurrency(currencyName: "Israeli New Sheqel ILS", newCurrencyCode: "ILS", oldCurrencyCode: checkoutCurrency)
 
         testCurrencyInPayButton(withShipping: withShipping, fillInDetails: true)
     
-        setAndUpdateCurrency(currencyName: "US Dollar USD", currencyCode: "USD", oldCurrencyCode: "ILS")
+        setAndUpdateCurrency(currencyName: "US Dollar USD", newCurrencyCode: "USD", oldCurrencyCode: "ILS")
         
         testCurrencyInPayButton(withShipping: withShipping, fillInDetails: false)
 
@@ -637,7 +558,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         if (withShipping){
             gotoShippingScreen(fillInDetails: fillInDetails)
 //            _ = checkShippingPayButton()
-            pressBackButton()
+            BSUITestUtils.pressBackButton(app: app)
         }
             
         else {
@@ -645,22 +566,22 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         }
     }
     
-    private func setAndUpdateCurrency(currencyName: String, currencyCode: String, oldCurrencyCode: String){
+    private func setAndUpdateCurrency(currencyName: String, newCurrencyCode: String, oldCurrencyCode: String){
         paymentHelper.setCurrency(currencyName: currencyName)
-        checkoutCurrency = currencyCode
+        sdkRequest.priceDetails.currency = newCurrencyCode
         
 //        var purchaseAmount = sdkRequest.priceDetails.amount.doubleValue
         
-        let currencies = BlueSnapSDK.getCurrencyRates()
-        
-        if (!(oldCurrencyCode == "USD")) {
-            let conversionRateToUSD: Double = (currencies?.getCurrencyRateByCurrencyCode(code: oldCurrencyCode))!
-            purchaseAmount = purchaseAmount / conversionRateToUSD;
-        }
-        
-        let conversionRateFromUSD: Double = (currencies?.getCurrencyRateByCurrencyCode(code: currencyCode))!
-        
-        purchaseAmount = purchaseAmount * conversionRateFromUSD;
+//        let currencies = BlueSnapSDK.getCurrencyRates()
+//
+//        if (!(oldCurrencyCode == "USD")) {
+//            let conversionRateToUSD: Double = (currencies?.getCurrencyRateByCurrencyCode(code: oldCurrencyCode))!
+//            purchaseAmount = purchaseAmount / conversionRateToUSD;
+//        }
+//
+//        let conversionRateFromUSD: Double = (currencies?.getCurrencyRateByCurrencyCode(code: currencyCode))!
+//
+//        purchaseAmount = purchaseAmount * conversionRateFromUSD;
         
         
     }
@@ -669,10 +590,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.closeKeyboard()
         paymentHelper.setShippingSameAsBillingSwitch(shouldBeOn: shouldBeOn)
         shippingSameAsBilling = shouldBeOn
-    }
-    
-    func pressBackButton() {
-        app.navigationBars.buttons.element(boundBy: 0).tap()
     }
     
     private func waitForExistingCcScreen() -> BSExistingCcScreenUITestHelper {
