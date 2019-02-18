@@ -292,11 +292,12 @@ class DemoAPIHelper {
         }
         
         // parse shipping info to requestBody
-        if let shippingInfo_ = shippingInfo {
-            if (withShipping) {
+        if (withShipping) {
+            if let shippingInfo_ = shippingInfo {
+
                 let (shippingFirstName, shippingLastName) = shippingInfo_.getSplitName()!
-                
-                var shippingContactInfo : [String : Any] = [:]
+
+                var shippingContactInfo: [String: Any] = [:]
                 shippingContactInfo["firstName"] = shippingFirstName
                 shippingContactInfo["lastName"] = shippingLastName
                 shippingContactInfo["country"] = shippingInfo_.country
@@ -304,7 +305,7 @@ class DemoAPIHelper {
                 shippingContactInfo["address1"] = shippingInfo_.address
                 shippingContactInfo["city"] = shippingInfo_.city
                 shippingContactInfo["state"] = shippingInfo_.state
-                
+
                 requestBody["shippingContactInfo"] = shippingContactInfo
             }
         }

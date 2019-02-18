@@ -37,17 +37,17 @@ class BSPaymentTypeScreenUITestHelper {
         // check visibility of CC button
         let ccButton = getCcButtonElement()
         let ccButtonIsVisible = ccButton.exists
-        assert(ccButtonIsVisible == expectedCC)
+        XCTAssertTrue(ccButtonIsVisible == expectedCC, "New Credit Card Button is not displayed")
 
         // check visibility of ApplePay button
         let applePayButton = getApplePayButtonElement()
         let applePayButtonIsVisible = applePayButton.exists //&& applePayButton.isEnabled && applePayButton.isHittable
-        assert(applePayButtonIsVisible == expectedApplePay)
-        
+        XCTAssertTrue(applePayButtonIsVisible == expectedApplePay, "ApplePay Button is not displayed")
+
         // check visibility of PayPal button
         let payPalButton = getPayPalButtonElement()
         let payPalButtonIsVisible = payPalButton.exists
-        assert(payPalButtonIsVisible == expectedPayPal)
+        XCTAssertTrue(payPalButtonIsVisible == expectedPayPal, "PayPal Button is not displayed")
     }
     
     func checkExistingCCLine(index: Int, expectedLastFourDigits: String, expectedExpDate: String) {
