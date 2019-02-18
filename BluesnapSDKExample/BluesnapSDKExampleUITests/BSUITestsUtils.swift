@@ -177,7 +177,7 @@ class BSUITestUtils {
         return "4111111111111111"
     }
     
-    static func getValidVisaCCNLast4Digits()->String {
+    static func getValidVisaLast4Digits()->String {
         return "1111"
     }
     
@@ -200,7 +200,10 @@ class BSUITestUtils {
     static func getValidMCCreditCardNumber()->String {
         return "5572 7588 8601 5288"
     }
-    
+
+    static func getValidMCLast4Digits()->String {
+        return "5288"
+    }
     
     static func getInvalidCreditCardNumber()->String {
         return "5572 7588 8112 2333"

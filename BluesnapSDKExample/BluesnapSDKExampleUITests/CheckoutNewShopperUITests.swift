@@ -13,19 +13,6 @@ import BluesnapSDK
 //@testable import BluesnapSDKIntegrationTests //TODO: make it work
 
 class CheckoutNewShopperUITests: CheckoutBaseTester {
-
-//    override func setUp() {
-//        super.setUp()
-//    }
-//    
-//    override func tearDown() {
-//        // Put teardown code here. This method is called after the invocation of each test method in the class.
-//        super.tearDown()
-//        
-////        app.terminate()
-//        
-//    }
-    
     
     /* -------------------------------- Returning shopper tests ---------------------------------------- */
 
@@ -53,8 +40,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
 //
 //        print("done")
 //    }
-    
-    /* -------------------------------- New tests ---------------------------------------- */
+
+    /* -------------------------------- New shopper views tests ---------------------------------------- */
     
     func testAllowCurrencyChange(){
         allowCurrencyChangeValidation(isEnabled: true)
@@ -85,12 +72,10 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
 //    func testCurrencyChangesInShippingScreen(){
 //        testCurrencyChanges(withShipping: true)
 //    }
-    
-    /* -------------------------------- New shopper views tests ---------------------------------------- */
 
     
     func testViewsFullBillingNoShippingNoEmail() {
-        setUpForSdk(fullBilling: true, withShipping: false, withEmail: false)
+        setUpForCheckoutSdk(fullBilling: true, withShipping: false, withEmail: false)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -111,7 +96,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     }
     
     func testViewsFullBillingNoShippingWithEmail() {
-        setUpForSdk(fullBilling: true, withShipping: false, withEmail: true)
+        setUpForCheckoutSdk(fullBilling: true, withShipping: false, withEmail: true)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -138,7 +123,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     }
     
     func testViewsFullBillingWithShippingNoEmail() {
-        setUpForSdk(fullBilling: true, withShipping: true, withEmail: false)
+        setUpForCheckoutSdk(fullBilling: true, withShipping: true, withEmail: false)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -169,7 +154,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     }
     
     func testViewsFullBillingWithShippingWithEmail() {
-        setUpForSdk(fullBilling: true, withShipping: true, withEmail: true)
+        setUpForCheckoutSdk(fullBilling: true, withShipping: true, withEmail: true)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -219,7 +204,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     }
     
     func testViewsNoFullBillingNoShippingNoEmail() {
-        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false)
+        setUpForCheckoutSdk(fullBilling: false, withShipping: false, withEmail: false)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -236,7 +221,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     }
     
     func testViewsNoFullBillingNoShippingWithEmail() {
-        setUpForSdk(fullBilling: false, withShipping: false, withEmail: true)
+        setUpForCheckoutSdk(fullBilling: false, withShipping: false, withEmail: true)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -251,7 +236,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     }
     
     func testViewsNoFullBillingWithShippingNoEmail() {
-        setUpForSdk(fullBilling: false, withShipping: true, withEmail: false)
+        setUpForCheckoutSdk(fullBilling: false, withShipping: true, withEmail: false)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -296,7 +281,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     }
     
     func testViewsNoFullBillingWithShippingWithEmail() {
-        setUpForSdk(fullBilling: false, withShipping: true, withEmail: true)
+        setUpForCheckoutSdk(fullBilling: false, withShipping: true, withEmail: true)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -322,8 +307,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     /* -------------------------------- New shopper end-to-end flow tests ---------------------------------------- */
     
     func newCardBasicCheckoutFlow(fullBilling: Bool, withShipping: Bool, withEmail: Bool, shippingSameAsBilling: Bool = false) {
-        
-        setUpForSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail)
+
+        setUpForCheckoutSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail)
         
         newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling)
         
@@ -396,8 +381,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     
     // TODO: do we need this?
     func testFlowFullBillingWithShippingWithEmailNostate() {
-        
-        setUpForSdk(fullBilling: true, withShipping: true, withEmail: true)
+
+        setUpForCheckoutSdk(fullBilling: true, withShipping: true, withEmail: true)
 
         let billingDetails = getDummyBillingDetails()
         billingDetails.country = "IL"
@@ -424,8 +409,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     
     // TODO: do we need this?
     func testFlowFullBillingWithShippingWithEmailNoZip() {
-        
-        setUpForSdk(fullBilling: true, withShipping: true, withEmail: true)
+
+        setUpForCheckoutSdk(fullBilling: true, withShipping: true, withEmail: true)
         
         let billingDetails = getDummyBillingDetails()
         billingDetails.country = "GH"
@@ -508,21 +493,10 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
 //        
 //        BSUITestUtils.checkAPayButton(app: app, buttonId: "ShippingPayButton", expectedPayText: "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)")
 //    }
-    
-    
-    private func gotoShippingScreen(fillInDetails: Bool = true) {
-        
-        if (fillInDetails){
-            fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails())
-        }
-        
-        paymentHelper.pressPayButton()
 
-        waitForShippingScreen()
-    }
     
     private func allowCurrencyChangeValidation(isEnabled: Bool){
-        setUpForSdk(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled)
+        setUpForCheckoutSdk(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled)
         
         // check currency menu button visibility in payment screen
         paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
@@ -542,7 +516,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     }
     
     private func testCurrencyChanges(withShipping: Bool){
-        setUpForSdk(fullBilling: false, withShipping: withShipping, withEmail: false)
+        setUpForCheckoutSdk(fullBilling: false, withShipping: withShipping, withEmail: false)
         
         setAndUpdateCurrency(currencyName: "Israeli New Sheqel ILS", newCurrencyCode: "ILS", oldCurrencyCode: checkoutCurrency)
 
