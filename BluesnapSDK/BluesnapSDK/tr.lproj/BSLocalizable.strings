@@ -125,6 +125,8 @@
 "Label_Tax_Amount" = "Vergi:";
 /* Label for the "Shipping same as billing" switch in the payment screens */
 "Label_Shipping_Same_As_Billing" = "Teslimat adresi ve fatura adresi aynı";
+/* Label for the "Store Card" switch in the payment screens */
+"Label_Store_Card" = "Kartımı gelecek alışverişler için güvenli şekilde kaydet";
 
 
 /* The format of the Pay button text: the word Pay and then the currency and then the amount with a 2 digit precision */

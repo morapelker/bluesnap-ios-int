@@ -26,6 +26,7 @@ class ViewController: UIViewController {
     @IBOutlet var returningShopperIdTextField: UITextField!
     @IBOutlet weak var storeCurrencyButton: UIButton!
     @IBOutlet weak var allowCurrencyChangeSwitch: UISwitch!
+    @IBOutlet weak var hideStoreCardSwitch: UISwitch!
 
     // MARK: private properties
 
@@ -44,6 +45,8 @@ class ViewController: UIViewController {
     final fileprivate var returningShopperId : Int = 22061813
     final fileprivate var shopperId : Int? = nil
     final fileprivate var vaultedShopperId : String? = nil
+    final fileprivate var allowCurrencyChange: Bool! = true
+    final fileprivate var hideStoreCard: Bool! = false
 
 
     // MARK: - UIViewController's methods
@@ -256,11 +259,23 @@ class ViewController: UIViewController {
         let withEmail = withEmailSwitch.isOn
         if (!isShopperRequirements) {
             sdkRequestBase = BSSdkRequest(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
-            sdkRequestBase?.allowCurrencyChange = allowCurrencyChangeSwitch.isOn
+            sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
+            sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
+            NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
         } else {
             sdkRequestBase = BSSdkRequestShopperRequirements(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
         }
 
+    }
+
+    @IBAction func hideStoreCardSwitchChanged(_ sender: Any) {
+        self.hideStoreCard = hideStoreCardSwitch.isOn
+        NSLog("store Card = \(self.hideStoreCard)")
+    }
+
+    @IBAction func allowCurrencyChangeSwitchChanged(_ sender: Any) {
+        self.allowCurrencyChange = allowCurrencyChangeSwitch.isOn
+        NSLog("allow Currency Change = \(self.allowCurrencyChange)")
     }
 
     /**

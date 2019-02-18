@@ -271,7 +271,7 @@ class BSIntegrationTestingAPIHelper {
     // MARK: functions API Calls
     //------------------------------------------------------
 
-    static func createVaultedShopper(creditCard: [String: String], set2: Bool = false) -> Int? {
+    static func createVaultedShopper(creditCard: [String: String], set2: Bool = false, storeCard:Bool = true) -> Int? {
         var bsToken: BSToken = BSToken(tokenStr: "_")
         var vaultedShopperId: Int = 0
 
@@ -280,7 +280,7 @@ class BSIntegrationTestingAPIHelper {
             bsToken = BSToken(tokenStr: token!.getTokenStr()!)
             NSLog("token: \(bsToken.tokenStr)")
             submitCCDetails(ccDetails: creditCard, billingDetails: BluesnapSDKIntegrationTestsHelper.getBillingDetails(add2: set2),
-                    shippingDetails: BluesnapSDKIntegrationTestsHelper.getShippingDetails(add2: set2), completion: { error in
+                    shippingDetails: BluesnapSDKIntegrationTestsHelper.getShippingDetails(add2: set2), storeCard: storeCard, completion: { error in
                 semaphore.signal()
             })
         })
@@ -302,9 +302,9 @@ class BSIntegrationTestingAPIHelper {
 
 
 
-    static func submitCCDetails(ccDetails: [String: String], billingDetails: BSBillingAddressDetails?, shippingDetails: BSShippingAddressDetails?, completion: @escaping (BSErrors?) -> Void) {
+    static func submitCCDetails(ccDetails: [String: String], billingDetails: BSBillingAddressDetails?, shippingDetails: BSShippingAddressDetails?, storeCard: Bool, completion: @escaping (BSErrors?) -> Void) {
         BSApiManager.submitPurchaseDetails(ccNumber: ccDetails["ccn"], expDate: ccDetails["exp"], cvv: ccDetails["cvv"],
-                last4Digits: nil, cardType: nil, billingDetails: billingDetails ?? nil, shippingDetails: shippingDetails ?? nil, fraudSessionId: nil, completion: {
+                last4Digits: nil, cardType: nil, billingDetails: billingDetails ?? nil, shippingDetails: shippingDetails ?? nil, storeCard: storeCard ?? nil, fraudSessionId: nil, completion: {
             (result, error) in
 
             XCTAssert(error == nil, "error: \(error)")

@@ -14,6 +14,7 @@ import PassKit
     
     public override init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init(sdkRequestBase: sdkRequestBase)
+        storeCard = nil
         chosenPaymentMethodType = BSPaymentType.ApplePay
     }
   }

@@ -19,6 +19,7 @@ import Foundation
     public var paymentDetails: BSTokenizePaymentDetails?
     public var billingDetails: BSBillingAddressDetails?
     public var shippingDetails: BSShippingAddressDetails?
+    public var storeCard: Bool?
 }
 
 /**

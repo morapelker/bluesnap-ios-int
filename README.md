@@ -160,6 +160,8 @@ BSSdkRequest constructor parameters:
 | Callback functions: |
 | `purchaseFunc` | Callback function that handles the purchase (see [Defining your purchase callback function](#defining-your-purchase-callback-function)).|
 | `updateTaxFunc` | Optional. Callback function that handles tax rate updates (see [Handling tax updates](#handling-tax-updates-optional)). |
+| `allowCurrencyChange` | Optional. Will allow the shopper to change currency on pay with credit card screen (default is true). |
+| `hideStoreCardSwitch` | Optional. Allows to hide the Securely store my card for future purchases Switch (default is false). |
 
 #### Defining priceDetails
 `priceDetails` (an instance of `BSPriceDetails`) is a property of `sdkRequest` that contains properties for amount, tax amount, and [currency](https://developers.bluesnap.com/docs/currency-codes). Set these properties to intialize the price details of the checkout page. 
@@ -279,38 +281,17 @@ On your submit action (i.e. when the user submits their payment during checkout)
 Another option is to call `checkCreditCard(ccn: String)`, which first validates and then submits the details, calling the delegate `didSubmitCreditCard` after a successful submit.
 
 # Sending the payment for processing
+If the shopper purchased via PayPal, then the transaction has successfully been submitted and no further action is required.
 For credit card and Apple Pay payments, you'll use the Payment API with your token to send an [Auth Capture](https://developers.bluesnap.com/v8976-JSON/docs/auth-capture) or [Auth Only](https://developers.bluesnap.com/v8976-JSON/docs/auth-only) request, or to attach the payment details to a [user](https://developers.bluesnap.com/v8976-JSON/docs/create-vaulted-shopper). 
 
 > **Note:** The token must be associated with the user's payment details. In the Standard Checkout Flow, this is when `purchaseFunc` is called. In the Custom Checkout Flow, this is when `didSubmitCreditCard` is called (if you're using the `BSCcInputLine` field) or `completion` is called (if you're using your own input fields). 
 
 DemoTransactions.swift of demo app shows an example of an Auth Capture request. Please note that these calls are for demonstration purposes only - the transaction should be sent from your server.
 
-### Auth Capture example - Apple Pay payments (Standard Checkout Flow)
-For Apple Pay payments, send an HTTP POST request to `/services/2/transactions` of the relevant BlueSnap environment. 
-
-For example: 
-```cURL
-curl -v -X POST https://sandbox.bluesnap.com/services/2/transactions \
--H 'Content-Type: application/json' \
--H 'Accept: application/json' \ 
--H 'Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=' \
--d '
-{
-	"cardTransactionType": "AUTH_CAPTURE", 
-	"recurringTransaction": "ECOMMERCE", 
-	"softDescriptor": "Mobile SDK test", 
-	"amount": 25.00, 
-	"currency": "USD", 
-	"pfToken": "ae76939fab7275cbfd657495eb8c4d0654e52e704c112170fa61f4127a34bf64_",
-}'
-```
-If successful, the response HTTP status code is 200 OK. Visit our [API Reference](https://developers.bluesnap.com/v8976-JSON/docs/auth-capture) for more details. 
-
-### Auth Capture example - Credit card payments
+### Auth Capture example - Credit card/Apple Pay payments (Standard Checkout Flow)
 For credit card payments, send an HTTP POST request to `/services/2/transactions` of the relevant BlueSnap environment. Your request will look like the following code sample for both new and returning users. 
 
-> **Note:** All the user's details, including their billing/shipping info and credit card details, and the fraud session ID have been submitted to BlueSnap,
- so there's no need to include this information in the request. 
+> **Note:** All the user's details, including their billing/shipping info and credit card details, and the fraud session ID have been submitted to BlueSnap, so there's no need to include this information in the request. 
 
 ```cURL
 curl -v -X POST https://sandbox.bluesnap.com/services/2/transactions \
