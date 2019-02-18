@@ -258,6 +258,11 @@ public class BSValidator: NSObject {
         }
         return result
     }
+
+    class func validateStoreCard(isShopperRequirements: Bool, isStoreCard: Bool) -> Bool {
+
+        return (isShopperRequirements) ? (isShopperRequirements && isStoreCard) : true
+    }
     
     // MARK: field editing changed methods (to limit characters and sizes)
     
