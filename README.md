@@ -213,7 +213,7 @@ private func completePurchase(purchaseDetails: BSBaseSdkResult!) {
         // show success message
         return // no need to complete purchase via BlueSnap API
     }
-    
+
     // handle Apple-Pay or Credit card:
     // send order details & bsToken to server...
     // ...receive response
@@ -282,16 +282,16 @@ Another option is to call `checkCreditCard(ccn: String)`, which first validates 
 
 # Sending the payment for processing
 If the shopper purchased via PayPal, then the transaction has successfully been submitted and no further action is required.
-For credit card and Apple Pay payments, you'll use the Payment API with your token to send an [Auth Capture](https://developers.bluesnap.com/v8976-JSON/docs/auth-capture) or [Auth Only](https://developers.bluesnap.com/v8976-JSON/docs/auth-only) request, or to attach the payment details to a [user](https://developers.bluesnap.com/v8976-JSON/docs/create-vaulted-shopper). 
+For credit card and Apple Pay payments, you'll use the Payment API with your token to send an [Auth Capture](https://developers.bluesnap.com/v8976-JSON/docs/auth-capture) or [Auth Only](https://developers.bluesnap.com/v8976-JSON/docs/auth-only) request, or to attach the payment details to a [user](https://developers.bluesnap.com/v8976-JSON/docs/create-vaulted-shopper).
 
 > **Note:** The token must be associated with the user's payment details. In the Standard Checkout Flow, this is when `purchaseFunc` is called. In the Custom Checkout Flow, this is when `didSubmitCreditCard` is called (if you're using the `BSCcInputLine` field) or `completion` is called (if you're using your own input fields). 
 
 DemoTransactions.swift of demo app shows an example of an Auth Capture request. Please note that these calls are for demonstration purposes only - the transaction should be sent from your server.
 
-### Auth Capture example - Credit card/Apple Pay payments (Standard Checkout Flow)
+### Auth Capture example - Credit card/Apple Pay payments
 For credit card payments, send an HTTP POST request to `/services/2/transactions` of the relevant BlueSnap environment. Your request will look like the following code sample for both new and returning users. 
 
-> **Note:** All the user's details, including their billing/shipping info and credit card details, and the fraud session ID have been submitted to BlueSnap, so there's no need to include this information in the request. 
+> **Note:** All the user's details, including their billing/shipping info and credit card details, and the fraud session ID have been submitted to BlueSnap, so there's no need to include this information in the request.
 
 ```cURL
 curl -v -X POST https://sandbox.bluesnap.com/services/2/transactions \
