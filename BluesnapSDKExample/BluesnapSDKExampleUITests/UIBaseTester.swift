@@ -113,6 +113,8 @@ class UIBaseTester: XCTestCase{
         // set with Email switch = on
         setSwitch(switchId: "allowCurrencyChangeSwitch", isDesiredConfig: sdkRequest.allowCurrencyChange)
 
+//        setSwitch(switchId: "HideStoreCardSwitch", isDesiredConfig: true)
+
         if let priceDetails = sdkRequest.priceDetails {
 
             // set amount text field value
