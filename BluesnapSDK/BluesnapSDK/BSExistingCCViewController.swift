@@ -277,7 +277,7 @@ class BSExistingCCViewController: UIViewController {
 
             result = BSValidator.isValidName(purchaseDetails.billingDetails.name)
             if data.shopperConfiguration.withEmail {
-                result = BSValidator.isValidEmail(purchaseDetails.billingDetails.email ?? "")
+                result = result && BSValidator.isValidEmail(purchaseDetails.billingDetails.email ?? "")
             }
             result = result && BSValidator.isValidZip(countryCode: purchaseDetails.billingDetails.country ?? "", zip: purchaseDetails.billingDetails.zip ?? "")
             if data.shopperConfiguration.fullBilling {
