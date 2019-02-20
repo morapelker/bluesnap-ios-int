@@ -46,7 +46,7 @@ class CheckoutReturningShopperUITests: CheckoutBaseTester {
         
         semaphore.wait()
         
-        setUpForSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, allowCurrencyChange: allowCurrencyChange, isReturningShopper: true, shopperId: vaultedShopperId, tapExistingCc: true, checkExistingCcLine: true)
+        setUpForCheckoutSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, allowCurrencyChange: allowCurrencyChange, isReturningShopper: true, shopperId: vaultedShopperId, tapExistingCc: true, checkExistingCcLine: true)
         
         setShopperDetailsInSdkRequest(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping)
         
@@ -89,14 +89,7 @@ class CheckoutReturningShopperUITests: CheckoutBaseTester {
     }
     
     /* -------------------------------- Returning shopper tests ---------------------------------------- */
-    
-    func testAllowCurrencyChange(){
-        returningShopperAllowCurrencyChangeValidation(isEnabled: true)
-    }
-    
-    func testNotAllowCurrencyChange(){
-        returningShopperAllowCurrencyChangeValidation(isEnabled: false)
-    }
+
     
     internal func returningShopperAllowCurrencyChangeValidation(isEnabled: Bool){
         setUpForSdkWithReturningShopper(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: true, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: true, allowCurrencyChange: isEnabled)
@@ -129,7 +122,7 @@ class CheckoutReturningShopperUITests: CheckoutBaseTester {
         setUpForSdkWithReturningShopper(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: checkoutFullBilling, checkoutWithEmail: checkoutWithEmail, checkoutWithShipping: checkoutWithShipping)
         
         // check cc line visibility in existing cc screen
-        existingCcHelper.checkExistingCCLineVisibility(expectedLastFourDigits: BSUITestUtils.getValidVisaCCNLast4Digits(), expectedExpDate: "\(BSUITestUtils.getValidExpMonth()) / \(BSUITestUtils.getValidExpYear())")
+        existingCcHelper.checkExistingCCLineVisibility(expectedLastFourDigits: BSUITestUtils.getValidVisaLast4Digits(), expectedExpDate: "\(BSUITestUtils.getValidExpMonth()) / \(BSUITestUtils.getValidExpYear())")
         
         // check all components visibility in existing cc screen
         existingCcHelper.checkScreenItems(sdkRequest: sdkRequest)

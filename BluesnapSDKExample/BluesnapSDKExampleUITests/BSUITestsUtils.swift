@@ -29,11 +29,20 @@ class BSUITestUtils {
 //                                let cardLastFourDigits = creditCard["cardLastFourDigits"] as? String
                                 checkShopperInfo(sdkRequest: sdkRequest, resultData: billingContactInfo, isBilling: true)
                                 checkCreditCardInfo(expectedCreditCardInfo: expectedCreditCardInfo, resultData: creditCard)
+                            } else {
+                                NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'creditCard' or 'billingContactInfo'")
+                                resultError = .unknown
                             }
                         }
+                    } else{
+                        NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'creditCardInfo'")
+                        resultError = .unknown
                     }
+                } else{
+                    NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'paymentSources'")
+                    resultError = .unknown
                 }
-                
+
                 if sdkRequest.shopperConfiguration.withShipping {
                     if let shippingContactInfo = jsonData["shippingContactInfo"] as? [String: AnyObject] {
                         checkShopperInfo(sdkRequest: sdkRequest, resultData: shippingContactInfo, isBilling: shippingSameAsBilling)
@@ -177,7 +186,7 @@ class BSUITestUtils {
         return "4111111111111111"
     }
     
-    static func getValidVisaCCNLast4Digits()->String {
+    static func getValidVisaLast4Digits()->String {
         return "1111"
     }
     
@@ -200,7 +209,10 @@ class BSUITestUtils {
     static func getValidMCCreditCardNumber()->String {
         return "5572 7588 8601 5288"
     }
-    
+
+    static func getValidMCLast4Digits()->String {
+        return "5288"
+    }
     
     static func getInvalidCreditCardNumber()->String {
         return "5572 7588 8112 2333"

@@ -50,4 +50,12 @@ class ReturningShopperMinimalBillingWithShippingTests: CheckoutReturningShopperU
 
     }
     
+    func testAllowCurrencyChange(){
+        returningShopperAllowCurrencyChangeValidation(isEnabled: true)
+    }
+    
+    func testNotAllowCurrencyChange(){
+        returningShopperAllowCurrencyChangeValidation(isEnabled: false)
+    }
+    
 }
