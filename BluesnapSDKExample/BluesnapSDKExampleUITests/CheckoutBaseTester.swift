@@ -15,9 +15,9 @@
 class CheckoutBaseTester: UIBaseTester{
 //    internal var isReturningShopper: Bool = false
     
-    internal func setUpForCheckoutSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, isReturningShopper: Bool = false, shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false){
+    internal func setUpForCheckoutSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false, isReturningShopper: Bool = false, shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false){
 
-        super.setUpForSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, allowCurrencyChange: allowCurrencyChange, isReturningShopper: isReturningShopper, shopperId: shopperId)
+        super.setUpForSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, allowCurrencyChange: allowCurrencyChange, hideStoreCardSwitch: hideStoreCardSwitch, isReturningShopper: isReturningShopper, shopperId: shopperId)
         
         // start checkout
         gotoPaymentScreen(shopperId: shopperId, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine)

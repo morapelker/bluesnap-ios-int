@@ -15,6 +15,7 @@ class ChoosePaymentMethodUITests: UIBaseTester {
 
         // initialize required helpers
         if (tapExistingCc) {
+            isExistingCard = true
             existingCcHelper = BSExistingCcScreenUITestHelper(app: app)
         }
 
@@ -42,32 +43,15 @@ class ChoosePaymentMethodUITests: UIBaseTester {
     func setShopperDetailsInSdkRequest(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool){
 
         // set billing/shipping info
-        sdkRequest.shopperConfiguration.billingDetails = BSUITestUtils.getDummyBillingDetails()
-        if (!shopperWithEmail){
-            sdkRequest.shopperConfiguration.billingDetails?.email = nil
-        }
+        sdkRequest.shopperConfiguration.billingDetails?.name = BSUITestUtils.getDummyBillingDetails().name
 
-        if (!shopperWithFullBilling){
-            sdkRequest.shopperConfiguration.billingDetails?.address = nil
-            sdkRequest.shopperConfiguration.billingDetails?.city = nil
-            sdkRequest.shopperConfiguration.billingDetails?.state = nil
+        if (shopperWithEmail){
+            sdkRequest.shopperConfiguration.billingDetails?.email = BSUITestUtils.getDummyBillingDetails().email!
         }
 
         if(shopperWithShipping){
             sdkRequest.shopperConfiguration.shippingDetails = BSUITestUtils.getDummyShippingDetails()
         }
-
-        else{
-            sdkRequest.shopperConfiguration.shippingDetails?.name = sdkRequest.shopperConfiguration.billingDetails?.name
-            sdkRequest.shopperConfiguration.shippingDetails?.zip = sdkRequest.shopperConfiguration.billingDetails?.zip
-            sdkRequest.shopperConfiguration.shippingDetails?.country = sdkRequest.shopperConfiguration.billingDetails?.country
-            if (sdkRequest.shopperConfiguration.fullBilling){
-                sdkRequest.shopperConfiguration.shippingDetails?.address = sdkRequest.shopperConfiguration.billingDetails?.address
-                sdkRequest.shopperConfiguration.shippingDetails?.city = sdkRequest.shopperConfiguration.billingDetails?.city
-                sdkRequest.shopperConfiguration.shippingDetails?.state = sdkRequest.shopperConfiguration.billingDetails?.state
-            }
-        }
-
     }
 
     private func gotoPaymentScreen(shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false) {
@@ -102,11 +86,11 @@ class ChoosePaymentMethodUITests: UIBaseTester {
     /* -------------------------------- Choose Payment Method Common tests ---------------------------------------- */
 
 
-    func chooseNewCardPaymentMethodFlow(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool) {
+    func chooseNewCardPaymentMethodFlow(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, shippingSameAsBilling: Bool = false) {
 
         setUpForChoosePaymentMethodSdk(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: checkoutFullBilling, checkoutWithEmail: checkoutWithEmail, checkoutWithShipping: checkoutWithShipping)
 
-        newCardBasicFillInInfoAndPay()
+        newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling)
 
         let semaphore = DispatchSemaphore(value: 0)
 
@@ -114,7 +98,7 @@ class ChoosePaymentMethodUITests: UIBaseTester {
             isSuccess, data in
             XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
 
-            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, expectedCreditCardInfo: (BSUITestUtils.getValidMCLast4Digits(), "MASTERCARD", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear()))
+            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, expectedCreditCardInfo: [("1111", "VISA", "11","2026"), (BSUITestUtils.getValidMCLast4Digits(), "MASTERCARD", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())], chosenPaymentMethod: "CC", cardIndex: 1)
 
             XCTAssertNil(error, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
 
@@ -126,12 +110,18 @@ class ChoosePaymentMethodUITests: UIBaseTester {
         print("done")
     }
 
-    func newCardBasicFillInInfoAndPay() {
+    func newCardBasicFillInInfoAndPay(shippingSameAsBilling: Bool = false) {
         // fill in info in payment screen and continue to shipping or paying
         fillBillingDetails(ccn: BSUITestUtils.getValidMCCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails())
 
+        // set store card switch to True
+        setStoreCardSwitch(shouldBeOn: true)
+
         // continue to shipping it's required and fill in info in shipping screen
-        if (sdkRequest.shopperConfiguration.withShipping){
+        if (sdkRequest.shopperConfiguration.withShipping && !shippingSameAsBilling){
+            if (isShippingSameAsBillingOn){
+                setShippingSameAsBillingSwitch(shouldBeOn: false)
+            }
             gotoShippingScreen(fillInDetails: false)
             fillShippingDetails(shippingDetails: getDummyShippingDetails())
             shippingHelper.pressPayButton()
@@ -145,7 +135,7 @@ class ChoosePaymentMethodUITests: UIBaseTester {
     /* -------------------------------- Choose Payment Method views tests ---------------------------------------- */
 
     func testChooseExistingCardVisibility(){
-        chooseNewCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
+        chooseNewCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true, shippingSameAsBilling: false)
 
     }
 

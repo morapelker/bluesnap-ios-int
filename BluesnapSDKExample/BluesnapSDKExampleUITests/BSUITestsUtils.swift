@@ -12,7 +12,7 @@ import BluesnapSDK
 
 class BSUITestUtils {
     
-    static func checkRetrieveVaultedShopperResponse(responseBody: Data, sdkRequest: BSSdkRequest, expectedCreditCardInfo: (String,String,String,String), shippingSameAsBilling: Bool = false) -> BSErrors? {
+    static func checkRetrieveVaultedShopperResponse(responseBody: Data, sdkRequest: BSSdkRequest, cardStored: Bool = false, expectedCreditCardInfo: [(String,String,String,String)], shippingSameAsBilling: Bool = false, chosenPaymentMethod: String? = nil, cardIndex: Int? = nil) -> BSErrors? {
         var resultError: BSErrors? = nil
         do {
             // Parse the result JSOn object
@@ -21,31 +21,62 @@ class BSUITestUtils {
                     checkFieldContent(expectedValue: (sdkRequest.shopperConfiguration.billingDetails?.email!)!, actualValue: jsonData["email"] as! String, fieldName: "email")
                 }
                 
+                
                 if let paymentSources = jsonData["paymentSources"] as? [String: AnyObject] {
                     if let creditCardInfo = paymentSources["creditCardInfo"] as? [[String: Any]] {
+                        if (!cardStored){
+                            NSLog("Error on Retrieve vaulted shopper- 'creditCardInfo' exists when shopper selected DO NOT store")
+                            resultError = .unknown
+                        }
+                        
+                        var i = 0
                         for item in creditCardInfo {
                             if let creditCard = item["creditCard"] as? [String: AnyObject], let billingContactInfo = item["billingContactInfo"] as? [String: AnyObject] {
                                 //TODO: integrate this for multiple cc
-//                                let cardLastFourDigits = creditCard["cardLastFourDigits"] as? String
+                                //                                let cardLastFourDigits = creditCard["cardLastFourDigits"] as? String
                                 checkShopperInfo(sdkRequest: sdkRequest, resultData: billingContactInfo, isBilling: true)
-                                checkCreditCardInfo(expectedCreditCardInfo: expectedCreditCardInfo, resultData: creditCard)
+                                checkCreditCardInfo(expectedCreditCardInfo: expectedCreditCardInfo[i], resultData: creditCard)
+                            } else {
+                                NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'creditCard' or 'billingContactInfo'")
+                                resultError = .unknown
+                            }
+                            i += 1
+                        }
+                    } else if (cardStored) {
+                        NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'creditCardInfo'")
+                        resultError = .unknown
+                    }
+                } else {
+                    NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'paymentSources'")
+                    resultError = .unknown
+                }
+                
+
+                if sdkRequest.shopperConfiguration.withShipping {
+                    if let shippingContactInfo = jsonData["shippingContactInfo"] as? [String: AnyObject] {
+                        checkShopperInfo(sdkRequest: sdkRequest, resultData: shippingContactInfo, isBilling: shippingSameAsBilling)
+                    } else {
+                        NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'shippingContactInfo'")
+                        resultError = .unknown
+                    }
+                }
+                
+                if let chosenPaymentMethod_ = chosenPaymentMethod {
+                    if let chosenPaymentMethodInfo = jsonData["chosenPaymentMethod"] as? [String: AnyObject] {
+                        checkFieldContent(expectedValue: chosenPaymentMethod_, actualValue: chosenPaymentMethodInfo["chosenPaymentMethodType"] as! String, fieldName: "chosenPaymentMethodType")
+                        if let cardIndex_ = cardIndex {
+                            if let creditCard = chosenPaymentMethodInfo["creditCard"] as? [String: AnyObject] {
+                                //TODO: integrate this for multiple cc
+                                checkCreditCardInfo(expectedCreditCardInfo: expectedCreditCardInfo[cardIndex_], resultData: creditCard)
                             } else {
                                 NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'creditCard' or 'billingContactInfo'")
                                 resultError = .unknown
                             }
                         }
-                    } else{
-                        NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'creditCardInfo'")
-                        resultError = .unknown
-                    }
-                } else{
-                    NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'paymentSources'")
-                    resultError = .unknown
-                }
 
-                if sdkRequest.shopperConfiguration.withShipping {
-                    if let shippingContactInfo = jsonData["shippingContactInfo"] as? [String: AnyObject] {
-                        checkShopperInfo(sdkRequest: sdkRequest, resultData: shippingContactInfo, isBilling: shippingSameAsBilling)
+                    } else {
+                        NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'chosenPaymentMethod'")
+                        resultError = .unknown
                     }
                 }
                 
