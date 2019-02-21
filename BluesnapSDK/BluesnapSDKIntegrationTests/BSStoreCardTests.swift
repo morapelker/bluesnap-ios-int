@@ -81,7 +81,7 @@ class BSStoreCardTests: XCTestCase {
             XCTAssertEqual(existingCreditCards.count, storeCard ? 1 : 0)
             NSLog("Result: store Card = \(storeCard)")
 
-            if storeCard {
+            if storeCard == true {
                 for creditCardInfo in existingCreditCards {
                     XCTAssertEqual(bsCreditCard.last4Digits, creditCardInfo.creditCard.last4Digits)
                     XCTAssertEqual(bsCreditCard.ccType, creditCardInfo.creditCard.ccType)
@@ -100,6 +100,8 @@ class BSStoreCardTests: XCTestCase {
                     NSLog("Result: getSdkDataBillingDetails - name=\(billingDetails.name!), country=\(billingDetails.country!), state=\(billingDetails.state!), address=\(billingDetails.address!), city=\(billingDetails.city!), zip=\(billingDetails.zip!)")
 
                 }
+            } else {
+                XCTAssertTrue(existingCreditCards.count == 0)
             }
 
             XCTAssertEqual(actualShippingDetails.name, sdkDataShopper?.shippingDetails?.name)
