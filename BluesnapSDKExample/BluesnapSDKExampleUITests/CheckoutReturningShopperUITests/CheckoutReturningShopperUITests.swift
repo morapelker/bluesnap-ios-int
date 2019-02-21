@@ -170,7 +170,7 @@ class CheckoutReturningShopperUITests: CheckoutBaseTester {
             isSuccess, data in
             XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
             
-            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, expectedCreditCardInfo: [("1111", "VISA", "11","2026")])
+            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: true, expectedCreditCardInfo: [("1111", "VISA", "11","2026")])
             
             XCTAssertNil(error, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
             
