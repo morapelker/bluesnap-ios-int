@@ -346,7 +346,7 @@ class DemoAPIHelper {
                     if let data = data {
                         result.data = data
                         let StringData = String(data: data, encoding: .utf8)
-                        NSLog("Response body = \(StringData ?? "")")
+                        NSLog("RetrieveVaultedShopper Response body = \(StringData ?? "")")
                     }
                     if (httpStatusCode >= 200 && httpStatusCode <= 299) {
                         result.isSuccess = true
