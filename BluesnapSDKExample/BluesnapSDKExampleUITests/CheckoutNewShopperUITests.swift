@@ -90,7 +90,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkStateVisibility(defaultCountry: defaultCountry)
 
         // check pay button
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
         
         print("done")
     }
@@ -105,7 +105,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         // change country to USA to have state and zip
         paymentHelper.setCountry(countryCode: "US")
@@ -132,12 +132,12 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button when shipping same as billing is on
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         
         // check pay button when shipping same as billing is off
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         // continue to shipping screen
         gotoShippingScreen()
@@ -163,12 +163,12 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button when shipping same as billing is on
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         
         // check pay button when shipping same as billing is off
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         // continue to shipping screen
         gotoShippingScreen()
@@ -190,11 +190,11 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         setShippingSameAsBillingSwitch(shouldBeOn: true)
         // check pay button- for shipping country with tax
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         // check pay button- for shipping country without tax
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         // verify that the shipping info has been saved in shipping screen after choosing billing same as billing, and than rewind the choice.
         gotoShippingScreen(fillInDetails: false)
@@ -215,7 +215,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         print("done")
     }
@@ -230,7 +230,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         print("done")
     }
@@ -245,7 +245,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         // continue to shipping screen
         gotoShippingScreen()
@@ -290,7 +290,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
         
         // check pay button
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
+        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
         // continue to shipping screen
         gotoShippingScreen()
@@ -306,11 +306,11 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     
     /* -------------------------------- New shopper end-to-end flow tests ---------------------------------------- */
     
-    func newCardBasicCheckoutFlow(fullBilling: Bool, withShipping: Bool, withEmail: Bool, shippingSameAsBilling: Bool = false) {
+    func newCardBasicCheckoutFlow(fullBilling: Bool, withShipping: Bool, withEmail: Bool, shippingSameAsBilling: Bool = false, hideStoreCardSwitch: Bool = false, storeCard: Bool = false) {
 
-        setUpForCheckoutSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail)
+        setUpForCheckoutSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, hideStoreCardSwitch: hideStoreCardSwitch)
         
-        newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling)
+        newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling, storeCard: storeCard)
         
         checkResult(expectedSuccessText: "Success!")
         
@@ -328,7 +328,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
             isSuccess, data in
             XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
 
-            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, expectedCreditCardInfo: ("1111", "VISA", "11","2026"), shippingSameAsBilling: shippingSameAsBilling)
+            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: storeCard, expectedCreditCardInfo: [("1111", "VISA", "11","2026")], shippingSameAsBilling: shippingSameAsBilling)
 
             XCTAssertNil(error, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
 
@@ -340,13 +340,17 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         print("done")
     }
     
-    func newCardBasicFillInInfoAndPay(shippingSameAsBilling: Bool = false) {
+    func newCardBasicFillInInfoAndPay(shippingSameAsBilling: Bool = false, storeCard: Bool = false) {
         // fill in info in payment screen and continue to shipping or paying
         fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails())
         
+        if (storeCard){
+            setStoreCardSwitch(shouldBeOn: storeCard)
+        }
+        
         // continue to shipping it's required and fill in info in shipping screen
         if (sdkRequest.shopperConfiguration.withShipping && !shippingSameAsBilling){
-            if (sdkRequest.shopperConfiguration.fullBilling){
+            if (isShippingSameAsBillingOn){
                 setShippingSameAsBillingSwitch(shouldBeOn: false)
             }
             gotoShippingScreen(fillInDetails: false)
@@ -447,6 +451,14 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     
     func testFlowNoFullBillingWithShippingWithEmail() {
         newCardBasicCheckoutFlow(fullBilling: false, withShipping: true, withEmail: true)
+    }
+    
+    func testFlowStoreCardInServer() {
+        newCardBasicCheckoutFlow(fullBilling: true, withShipping: true, withEmail: true, storeCard: true)
+    }
+    
+    func testFlowHideStoreCardSwitch(){
+        newCardBasicCheckoutFlow(fullBilling: true, withShipping: true, withEmail: true, hideStoreCardSwitch: true)
     }
     
     //------------------------------------ Helper functions ----------------------------
@@ -558,12 +570,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
 //        purchaseAmount = purchaseAmount * conversionRateFromUSD;
         
         
-    }
-    
-    private func setShippingSameAsBillingSwitch(shouldBeOn: Bool){
-        paymentHelper.closeKeyboard()
-        paymentHelper.setShippingSameAsBillingSwitch(shouldBeOn: shouldBeOn)
-        shippingSameAsBilling = shouldBeOn
     }
     
     private func waitForExistingCcScreen() -> BSExistingCcScreenUITestHelper {

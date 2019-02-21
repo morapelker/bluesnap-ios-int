@@ -244,7 +244,6 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         self.navigationController!.isNavigationBarHidden = false
 
         shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
-        storeCardView.isHidden = self.hideStoreCardSwitch
         storeCardSwitch.isOn = false
 
         // set the 'shipping same as billing' to be true if no shipping name is supplied
@@ -344,11 +343,14 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
             let creditCard = purchaseDetails.creditCard
             existingCcView.setCc(ccType: creditCard.ccType ?? "", last4Digits: creditCard.last4Digits ?? "", expiration: creditCard.getExpiration())
             topMenuButton.isEnabled = false
+            storeCardView.isHidden = true
+
         } else {
             ccInputLine.isHidden = false
             existingCcView.isHidden = true
             // check if is allowed to show currency if not do not give option to change if yes do change
             topMenuButton.isEnabled = BlueSnapSDK.sdkRequestBase?.allowCurrencyChange ?? true
+            storeCardView.isHidden = self.hideStoreCardSwitch
         }
         
         nameInputLine.isHidden = false
@@ -361,7 +363,6 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         cityInputLine.isHidden = hideFields
         updateState()
         shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
-        storeCardView.isHidden = self.hideStoreCardSwitch
         subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0 || purchaseDetails.isShopperRequirements()
         updateZipFieldLocation()
     }
