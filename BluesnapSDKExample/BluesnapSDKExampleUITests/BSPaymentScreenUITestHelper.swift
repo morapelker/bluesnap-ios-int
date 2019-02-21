@@ -372,6 +372,16 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             shippingAsBillingSwitch.tap()
         }
     }
+
+    func setStoreCardSwitch(shouldBeOn: Bool) {
+
+        // set with Shipping switch = on
+        let storeCardSwitch = app.switches["StoreCardSwitch"]
+        let switchValue = (storeCardSwitch.value as? String) ?? "0"
+        if (switchValue == "0" && shouldBeOn) || (switchValue == "1" && !shouldBeOn) {
+            storeCardSwitch.tap()
+        }
+    }
     
     override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool) {
         var expectedPayText = ""

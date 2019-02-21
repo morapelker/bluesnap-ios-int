@@ -18,10 +18,11 @@ class UIBaseTester: XCTestCase{
     internal var purchaseAmount: Double!
     internal var taxPercent: Double!
     internal var sdkRequest: BSSdkRequest!
-    internal var shippingSameAsBilling: Bool = false
+    internal var isShippingSameAsBillingOn: Bool = false
     internal var isReturningShopper: Bool = false
     internal var paymentHelper: BSPaymentScreenUITestHelper!
     internal var shippingHelper: BSShippingScreenUITestHelper!
+    internal var isExistingCard: Bool = false
 
     override func setUp() {
         super.setUp()
@@ -51,16 +52,16 @@ class UIBaseTester: XCTestCase{
 
     }
 
-    internal func setUpForSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, isReturningShopper: Bool = false, shopperId: String? = nil){
+    internal func setUpForSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false, isReturningShopper: Bool = false, shopperId: String? = nil){
 
         // set returning shopper and shipping same as billing properties
         self.isReturningShopper = isReturningShopper
-        if (fullBilling && withShipping && !isReturningShopper) {
-            shippingSameAsBilling = true
+        if (fullBilling && withShipping && !isExistingCard) {
+            isShippingSameAsBillingOn = true
         }
 
         // prepare sdk request
-        prepareSdkRequest(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, allowCurrencyChange: allowCurrencyChange)
+        prepareSdkRequest(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, allowCurrencyChange: allowCurrencyChange, hideStoreCardSwitch: hideStoreCardSwitch)
 
         // initialize required helpers
         paymentHelper = BSPaymentScreenUITestHelper(app:app, waitForElementToExistFunc: waitForElementToExist, waitForElementToDisappear: waitForEllementToDisappear)
@@ -72,7 +73,7 @@ class UIBaseTester: XCTestCase{
         setMerchantCheckoutScreen(shopperId: shopperId)
     }
 
-    private func prepareSdkRequest(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true) {
+    private func prepareSdkRequest(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false) {
 
         let taxAmount = purchaseAmount * taxPercent // according to updateTax() in ViewController
         let priceDetails = BSPriceDetails(amount: purchaseAmount, taxAmount: taxAmount, currency: checkoutCurrency)
@@ -82,6 +83,7 @@ class UIBaseTester: XCTestCase{
         sdkRequest.shopperConfiguration.shippingDetails = BSShippingAddressDetails()
         sdkRequest.shopperConfiguration.shippingDetails?.country = defaultCountry
         sdkRequest.allowCurrencyChange = allowCurrencyChange
+        sdkRequest.hideStoreCardSwitch = hideStoreCardSwitch
         self.sdkRequest = sdkRequest
     }
 
@@ -113,7 +115,8 @@ class UIBaseTester: XCTestCase{
         // set with Email switch = on
         setSwitch(switchId: "allowCurrencyChangeSwitch", isDesiredConfig: sdkRequest.allowCurrencyChange)
 
-//        setSwitch(switchId: "HideStoreCardSwitch", isDesiredConfig: true)
+        // set with Email switch = on
+        setSwitch(switchId: "HideStoreCardSwitch", isDesiredConfig: sdkRequest.hideStoreCardSwitch)
 
         if let priceDetails = sdkRequest.priceDetails {
 
@@ -145,6 +148,18 @@ class UIBaseTester: XCTestCase{
                 waitForEllementToDisappear(element: coverView, waitTime: 30)
             }
         }
+    }
+
+    internal func setShippingSameAsBillingSwitch(shouldBeOn: Bool){
+        paymentHelper.closeKeyboard()
+        paymentHelper.setShippingSameAsBillingSwitch(shouldBeOn: shouldBeOn)
+        isShippingSameAsBillingOn = shouldBeOn
+    }
+
+    internal func setStoreCardSwitch(shouldBeOn: Bool){
+        paymentHelper.closeKeyboard()
+        paymentHelper.setStoreCardSwitch(shouldBeOn: shouldBeOn)
+//        shippingSameAsBilling = shouldBeOn
     }
 
     internal func gotoShippingScreen(fillInDetails: Bool = true) {
