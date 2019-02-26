@@ -306,12 +306,12 @@ public class BSCcInputLine: BSBaseTextInput {
      Validated the 3 fields; returns true if all are OK; displays errors under the fields if not.
      */
     public func validate() -> Bool {
-        
+
         let ok1 = validateCCN()
         let ok2 = validateExp(ignoreIfEmpty: false)
         let ok3 = validateCvv(ignoreIfEmpty: false)
         let result = ok1 && ok2 && ok3
-        
+
         return result
     }
 
@@ -400,37 +400,40 @@ public class BSCcInputLine: BSBaseTextInput {
             }
 
             defer {
-                DispatchQueue.main.async {
-                    self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
-                }
-            }
-            
-            if (purchaseDetails!.isShopperRequirements()) {
-                BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue)
-                BSApiManager.shopper?.chosenPaymentMethod?.creditCard = creditCard
-                BSApiManager.updateShopper(completion: {
-                    result, error in
+                if (purchaseDetails!.isShopperRequirements()) {
+                    BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue)
+                    BSApiManager.shopper?.chosenPaymentMethod?.creditCard = creditCard
+                    BSApiManager.updateShopper(completion: {
+                        result, error in
 
-                    if let error = error {
-                        if (error == .expiredToken) {
-                            let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_expired)
-                            DispatchQueue.main.async {
-                                self.delegate?.showAlert(message)
-                            }
-                        } else if (error == .tokenNotFound) {
-                            let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
-                            DispatchQueue.main.async {
-                                self.delegate?.showAlert(message)
-                            }
-                        } else {
-                            NSLog("Unexpected error submitting Payment Fields to BS")
-                            let message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
-                            DispatchQueue.main.async {
-                                self.delegate?.showAlert(message)
+                        if let error = error {
+                            if (error == .expiredToken) {
+                                let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_expired)
+                                DispatchQueue.main.async {
+                                    self.delegate?.showAlert(message)
+                                }
+                            } else if (error == .tokenNotFound) {
+                                let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Cc_Submit_Token_not_found)
+                                DispatchQueue.main.async {
+                                    self.delegate?.showAlert(message)
+                                }
+                            } else {
+                                NSLog("Unexpected error submitting Payment Fields to BS")
+                                let message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
+                                DispatchQueue.main.async {
+                                    self.delegate?.showAlert(message)
+                                }
                             }
                         }
+                        DispatchQueue.main.async {
+                            self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+                        }
+                    })
+                } else {
+                    DispatchQueue.main.async {
+                        self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
                     }
-                })
+                }
             }
         })
     }

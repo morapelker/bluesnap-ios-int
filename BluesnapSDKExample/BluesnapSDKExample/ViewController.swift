@@ -165,7 +165,7 @@ class ViewController: UIViewController {
                         animated: true,
                         sdkRequest: self.sdkRequestBase as! BSSdkRequest)
             } catch {
-                fatalError("Unexpected error: \(error).")
+                self.showErrorAlert(message: "Unexpected error: \(error).")
             }
         }
     }
@@ -323,6 +323,7 @@ class ViewController: UIViewController {
     */
 
     private func completePurchase(purchaseDetails: BSBaseSdkResult!) {
+        NSLog("BlueSnapSDKExample Completion func")
 
         if purchaseDetails.isShopperRequirements() {
             NSLog("Shopper Configuration completed Successfully!")
