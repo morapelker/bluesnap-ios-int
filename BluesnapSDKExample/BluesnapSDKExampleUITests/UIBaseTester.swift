@@ -47,6 +47,8 @@ class UIBaseTester: XCTestCase{
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+        
+        print("done")
 
         //        app.terminate()
 
@@ -199,12 +201,12 @@ class UIBaseTester: XCTestCase{
         // make sure fields are shown according to configuration
         sdkRequest.shopperConfiguration.shippingDetails = BSShippingAddressDetails()
         // This fails because name field contains hint "John Doe" and the XCT returns it as the field value
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
 
         setShippingDetails(shippingDetails: shippingDetails)
 
         // check that the values are in correctly
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
 
     }
 
