@@ -66,6 +66,7 @@ class BSUITestUtils {
                     }
                 }
                 
+                // choose payment flow
                 if let chosenPaymentMethod_ = chosenPaymentMethod {
                     if let chosenPaymentMethodInfo = jsonData["chosenPaymentMethod"] as? [String: AnyObject] {
                         checkFieldContent(expectedValue: chosenPaymentMethod_, actualValue: chosenPaymentMethodInfo["chosenPaymentMethodType"] as! String, fieldName: "chosenPaymentMethodType")
@@ -83,6 +84,18 @@ class BSUITestUtils {
                         NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'chosenPaymentMethod'")
                         resultError = .unknown
                     }
+                }
+                
+                // all other flows that includes payment- regular checkout and create payment 
+                else{ //TODO: change this to support other payment method
+                    if let lastPaymentInfo = jsonData["lastPaymentInfo"] as? [String: AnyObject] {
+                        checkFieldContent(expectedValue: "CC", actualValue: lastPaymentInfo["paymentMethod"] as! String, fieldName: "paymentMethod")
+
+                    } else {
+                        NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'lastPaymentInfo'")
+                        resultError = .unknown
+                    }
+                
                 }
                 
             } else {
