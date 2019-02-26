@@ -871,7 +871,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="USP-6z-lgl" userLabel="Store Card View">
                                 <rect key="frame" x="16" y="488" width="307" height="36"/>
                                 <subviews>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vwF-7y-FIh" userLabel="Store Card Switch">
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center"  translatesAutoresizingMaskIntoConstraints="NO" id="vwF-7y-FIh" userLabel="Store Card Switch">
                                         <rect key="frame" x="243" y="0.0" width="51" height="36"/>
                                         <accessibility key="accessibilityConfiguration" identifier="StoreCardSwitch">
                                             <bool key="isElement" value="YES"/>
