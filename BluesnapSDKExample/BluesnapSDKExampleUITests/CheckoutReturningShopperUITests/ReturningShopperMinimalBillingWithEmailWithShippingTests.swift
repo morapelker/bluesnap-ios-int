@@ -16,35 +16,35 @@ class ReturningShopperMinimalBillingWithEmailWithShippingTests: CheckoutReturnin
         returningShopperViewsCommomTester(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: false, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
-    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_1() {
+    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithMinimalBilling() {
         returningShopperViewsMinimalBillingWithEmailWithShippingCommomTester(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false)
     }
     
-    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_2() {
+    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithMinimalBillingWithEmail() {
         returningShopperViewsMinimalBillingWithEmailWithShippingCommomTester(shopperWithFullBilling: false, shopperWithEmail: true, shopperWithShipping: false)
     }
     
-    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_3() {
+    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithMinimalBillingWithShipping() {
         returningShopperViewsMinimalBillingWithEmailWithShippingCommomTester(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: true)
     }
     
-    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_4() {
+    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithMinimalBillingWithEmailWithShipping() {
         returningShopperViewsMinimalBillingWithEmailWithShippingCommomTester(shopperWithFullBilling: false, shopperWithEmail: true, shopperWithShipping: true)
     }
     
-    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_5() {
+    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithFullBilling() {
         returningShopperViewsMinimalBillingWithEmailWithShippingCommomTester(shopperWithFullBilling: true, shopperWithEmail: false, shopperWithShipping: false)
     }
     
-    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_6() {
+    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithFullBillingWithEmail() {
         returningShopperViewsMinimalBillingWithEmailWithShippingCommomTester(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: false)
     }
     
-    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_7() {
+    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithFullBillingWithShipping() {
         returningShopperViewsMinimalBillingWithEmailWithShippingCommomTester(shopperWithFullBilling: true, shopperWithEmail: false, shopperWithShipping: true)
     }
     
-    func testReturningShopperViewsMinimalBillingWithEmailWithShipping_8() {
+    func testReturningShopperEndToEndMinimalBillingWithEmailWithShipping_shopperWithFullBillingWithEmailWithShipping() {
         returningShopperViewsMinimalBillingWithEmailWithShippingCommomTester(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true)
         existingCardBasicCheckoutFlow(fullBilling: false, withShipping: true, withEmail: true)
 

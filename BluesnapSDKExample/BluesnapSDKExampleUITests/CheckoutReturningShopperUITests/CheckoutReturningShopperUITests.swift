@@ -289,7 +289,7 @@ class CheckoutReturningShopperUITests: CheckoutBaseTester {
         }
         
         existingCcHelper.editShippingButton.tap()
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         BSUITestUtils.pressBackButton(app: app)
     }
     

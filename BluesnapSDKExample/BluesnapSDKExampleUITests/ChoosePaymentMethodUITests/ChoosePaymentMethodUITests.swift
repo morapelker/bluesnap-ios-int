@@ -90,6 +90,7 @@ class ChoosePaymentMethodUITests: UIBaseTester {
 
         setUpForChoosePaymentMethodSdk(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: checkoutFullBilling, checkoutWithEmail: checkoutWithEmail, checkoutWithShipping: checkoutWithShipping)
 
+        
         newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling)
 
         checkResult(expectedSuccessText: "Success!")
@@ -100,7 +101,7 @@ class ChoosePaymentMethodUITests: UIBaseTester {
             isSuccess, data in
             XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
 
-            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: true, expectedCreditCardInfo: [("1111", "VISA", "11","2026"), (BSUITestUtils.getValidMCLast4Digits(), "MASTERCARD", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())], chosenPaymentMethod: "CC", cardIndex: 1)
+            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: true, expectedCreditCardInfo: [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear()), (BSUITestUtils.getValidMCLast4Digits(), "MASTERCARD", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())], chosenPaymentMethod: "CC", cardIndex: 1)
 
             XCTAssertNil(error, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
 
@@ -142,9 +143,11 @@ class ChoosePaymentMethodUITests: UIBaseTester {
         setBillingDetails(billingDetails: BSUITestUtils.getDummyEditBillingDetails())
         paymentHelper.pressPayButton()
         
-        existingCcHelper.pressEditButton(editBilling: false)
-        setShippingDetails(shippingDetails: BSUITestUtils.getDummyEditShippingDetails())
-        shippingHelper.pressPayButton()
+        if (checkoutWithShipping){
+            existingCcHelper.pressEditButton(editBilling: false)
+            setShippingDetails(shippingDetails: BSUITestUtils.getDummyEditShippingDetails())
+            shippingHelper.pressPayButton()
+        }
 
         existingCcHelper.pressPayButton()
         
@@ -157,7 +160,7 @@ class ChoosePaymentMethodUITests: UIBaseTester {
             isSuccess, data in
             XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
             
-            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: true, expectedCreditCardInfo: [("1111", "VISA", "11","2026")])
+            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: true, expectedCreditCardInfo: [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())], chosenPaymentMethod: "CC", cardIndex: 0)
             
             XCTAssertNil(error, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
             
@@ -172,15 +175,24 @@ class ChoosePaymentMethodUITests: UIBaseTester {
 
     /* -------------------------------- Choose Payment Method views tests ---------------------------------------- */
 
-    func testFlowChooseNewCCPayment(){
+    func testFlowChooseNewCCPaymentMinimalBilling(){
+        chooseNewCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
+    }
+    
+    func testFlowChooseNewCCPaymentFullBillingWithShippingWithEmail(){
         chooseNewCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
-    func testFlowChooseExistingCCPayment(){
+    func testFlowChooseExistingCCPaymentMinimalBilling(){
+        chooseExistingCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
+    }
+    
+    func testFlowChooseExistingCCPaymentFullBillingWithShippingWithEmail(){
         chooseExistingCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
     func testChooseExistingCardVisibility(){
+        
     }
 
 
