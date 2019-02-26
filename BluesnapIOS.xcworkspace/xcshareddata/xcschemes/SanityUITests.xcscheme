@@ -52,6 +52,27 @@
                   Identifier = "ReturningShopperFullBillingWithEmailTests">
                </Test>
                <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_1()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_2()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_3()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_4()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_5()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_6()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_7()">
+               </Test>
+               <Test
                   Identifier = "ReturningShopperFullBillingWithShippingTests">
                </Test>
                <Test
@@ -59,6 +80,27 @@
                </Test>
                <Test
                   Identifier = "ReturningShopperMinimalBillingWithEmailTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_1()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_2()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_3()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_4()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_5()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_6()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_7()">
                </Test>
                <Test
                   Identifier = "ReturningShopperMinimalBillingWithShippingTests">
