@@ -46,6 +46,9 @@
                   Identifier = "CheckoutReturningShopperUITests">
                </Test>
                <Test
+                  Identifier = "ChoosePaymentMethodUITests/testFlowChooseNewCCPaymentMinimalBilling()">
+               </Test>
+               <Test
                   Identifier = "ReturningShopperFullBillingTests">
                </Test>
                <Test
@@ -71,6 +74,21 @@
                </Test>
                <Test
                   Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_7()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithFullBilling()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithFullBillingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithMinimalBilling()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithMinimalBillingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithMinimalBillingWithShipping()">
                </Test>
                <Test
                   Identifier = "ReturningShopperFullBillingWithShippingTests">
@@ -101,6 +119,24 @@
                </Test>
                <Test
                   Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_7()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithFullBilling()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithFullBillingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithFullBillingWithShipping()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithMinimalBilling()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithMinimalBillingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests/testReturningShopperViewsMinimalBillingWithEmailWithShipping_shopperWithMinimalBillingWithShipping()">
                </Test>
                <Test
                   Identifier = "ReturningShopperMinimalBillingWithShippingTests">
