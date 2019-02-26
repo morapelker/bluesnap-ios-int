@@ -25,8 +25,8 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     
 
     // check visibility of inputs - make sure fields are shown according to configuration
-    override func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails? = nil, zipLabel: String = "") {
-        super.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+    override func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails? = nil, zipLabel: String = "Shipping Zip") {
+        super.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: zipLabel)
         let shippingDetails = sdkRequest.shopperConfiguration.shippingDetails
         checkInput(input: cityInput, expectedExists: true, expectedValue: shippingDetails?.city ?? "", expectedLabelText: "City")
         checkInput(input: streetInput, expectedExists: true, expectedValue: shippingDetails?.address ?? "", expectedLabelText: "Street")
