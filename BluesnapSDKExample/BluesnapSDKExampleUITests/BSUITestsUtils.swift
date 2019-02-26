@@ -34,14 +34,19 @@ class BSUITestUtils {
                             if let creditCard = item["creditCard"] as? [String: AnyObject], let billingContactInfo = item["billingContactInfo"] as? [String: AnyObject] {
                                 //TODO: integrate this for multiple cc
                                 //                                let cardLastFourDigits = creditCard["cardLastFourDigits"] as? String
-                                checkShopperInfo(sdkRequest: sdkRequest, resultData: billingContactInfo, isBilling: true)
-                                checkCreditCardInfo(expectedCreditCardInfo: expectedCreditCardInfo[i], resultData: creditCard)
+                                let j = creditCard["cardType"] as! String == "VISA" ? 0 : 1
+                                if (chosenPaymentMethod == nil ||  (chosenPaymentMethod != nil && j == cardIndex)) { //check info only in chosen card in shopper config
+                                    checkShopperInfo(sdkRequest: sdkRequest, resultData: billingContactInfo, isBilling: true)
+                                }
+                                checkCreditCardInfo(expectedCreditCardInfo: expectedCreditCardInfo[j], resultData: creditCard)
                             } else {
                                 NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'creditCard' or 'billingContactInfo'")
                                 resultError = .unknown
                             }
                             i += 1
                         }
+                        XCTAssertEqual(i, Mirror(reflecting: expectedCreditCardInfo).children.count, "Error: worng number of credit cards in server")
+
                     } else if (cardStored) {
                         NSLog("Error parsing BS result on Retrieve vaulted shopper- Missing 'creditCardInfo'")
                         resultError = .unknown
