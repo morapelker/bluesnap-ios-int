@@ -81,8 +81,11 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkNewCCLineVisibility()
         
         // check Inputs Fields visibility (including error messages)
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
 
+        // check Store Card view visibility
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        
         // check zip input field visibility according to different countries
         paymentHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Billing Zip")
         
@@ -92,7 +95,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
         
-        print("done")
     }
     
     func testViewsFullBillingNoShippingWithEmail() {
@@ -102,7 +104,10 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkNewCCLineVisibility()
         
         // check Inputs Fields visibility (including error messages)
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
+        
+        // check Store Card view visibility
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -119,7 +124,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         // check invalid billing inputs
         paymentHelper.checkInvalidInfoInputs(payButtonId: "PayButton")
         
-        print("done")
     }
     
     func testViewsFullBillingWithShippingNoEmail() {
@@ -129,7 +133,10 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkNewCCLineVisibility()
         
         // check Inputs Fields visibility (including error messages)
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
+        
+        // check Store Card view visibility
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
         // check pay button when shipping same as billing is on
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -143,14 +150,13 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         gotoShippingScreen()
         
         // check Inputs Fields visibility (including error messages)
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         
         // check shipping pay button
         shippingHelper.checkPayButton(sdkRequest: sdkRequest)
 
         BSUITestUtils.pressBackButton(app: app)
 
-        print("done")
     }
     
     func testViewsFullBillingWithShippingWithEmail() {
@@ -160,7 +166,10 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkNewCCLineVisibility()
         
         // check Inputs Fields visibility (including error messages)
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
+        
+        // check Store Card view visibility
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
         // check pay button when shipping same as billing is on
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -174,7 +183,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         gotoShippingScreen()
         
         // check Inputs Fields visibility (including error messages)
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         
         // check shipping pay button
         shippingHelper.checkPayButton(sdkRequest: sdkRequest)
@@ -198,9 +207,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
 
         // verify that the shipping info has been saved in shipping screen after choosing billing same as billing, and than rewind the choice.
         gotoShippingScreen(fillInDetails: false)
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         
-        print("done")
     }
     
     func testViewsNoFullBillingNoShippingNoEmail() {
@@ -212,12 +220,14 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkNewCCLineVisibilityAfterEnteringCCN()
         
         // check Inputs Fields visibility (including error messages)
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
+        
+        // check Store Card view visibility
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
-        print("done")
     }
     
     func testViewsNoFullBillingNoShippingWithEmail() {
@@ -227,12 +237,14 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkNewCCLineVisibility()
         
         // check Inputs Fields visibility (including error messages)
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
+        
+        // check Store Card view visibility
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
-        print("done")
     }
     
     func testViewsNoFullBillingWithShippingNoEmail() {
@@ -242,7 +254,10 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkNewCCLineVisibility()
         
         // check Inputs Fields visibility (including error messages)
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
+        
+        // check Store Card view visibility
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -251,7 +266,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         gotoShippingScreen()
         
         // check Inputs Fields visibility (including error messages)
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         
         // check zip input field visibility according to different countries
         shippingHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Shipping Zip")
@@ -275,9 +290,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         gotoShippingScreen(fillInDetails: false)
         
         // verify info has been saved
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         
-        print("done")
     }
     
     func testViewsNoFullBillingWithShippingWithEmail() {
@@ -287,7 +301,10 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkNewCCLineVisibility()
         
         // check Inputs Fields visibility (including error messages)
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
+        
+        // check Store Card view visibility
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -296,12 +313,11 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         gotoShippingScreen()
         
         // check Inputs Fields visibility (including error messages)
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: "Shipping Zip")
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         
         // check shipping pay button
         shippingHelper.checkPayButton(sdkRequest: sdkRequest)
 
-        print("done")
     }
     
     /* -------------------------------- New shopper end-to-end flow tests ---------------------------------------- */
@@ -309,6 +325,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     func newCardBasicCheckoutFlow(fullBilling: Bool, withShipping: Bool, withEmail: Bool, shippingSameAsBilling: Bool = false, hideStoreCardSwitch: Bool = false, storeCard: Bool = false) {
 
         setUpForCheckoutSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, hideStoreCardSwitch: hideStoreCardSwitch)
+        
+        //TODO: add store card visibility check
         
         newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling, storeCard: storeCard)
         
@@ -337,7 +355,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         semaphore.wait()
 
-        print("done")
     }
     
     func newCardBasicFillInInfoAndPay(shippingSameAsBilling: Bool = false, storeCard: Bool = false) {

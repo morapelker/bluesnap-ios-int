@@ -90,6 +90,7 @@ class ChoosePaymentMethodUITests: UIBaseTester {
 
         setUpForChoosePaymentMethodSdk(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: checkoutFullBilling, checkoutWithEmail: checkoutWithEmail, checkoutWithShipping: checkoutWithShipping)
 
+        
         newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling)
 
         checkResult(expectedSuccessText: "Success!")
@@ -142,9 +143,11 @@ class ChoosePaymentMethodUITests: UIBaseTester {
         setBillingDetails(billingDetails: BSUITestUtils.getDummyEditBillingDetails())
         paymentHelper.pressPayButton()
         
-        existingCcHelper.pressEditButton(editBilling: false)
-        setShippingDetails(shippingDetails: BSUITestUtils.getDummyEditShippingDetails())
-        shippingHelper.pressPayButton()
+        if (checkoutWithShipping){
+            existingCcHelper.pressEditButton(editBilling: false)
+            setShippingDetails(shippingDetails: BSUITestUtils.getDummyEditShippingDetails())
+            shippingHelper.pressPayButton()
+        }
 
         existingCcHelper.pressPayButton()
         
@@ -172,15 +175,24 @@ class ChoosePaymentMethodUITests: UIBaseTester {
 
     /* -------------------------------- Choose Payment Method views tests ---------------------------------------- */
 
-    func testFlowChooseNewCCPayment(){
+    func testFlowChooseNewCCPaymentMinimalBilling(){
+        chooseNewCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
+    }
+    
+    func testFlowChooseNewCCPaymentFullBillingWithShippingWithEmail(){
         chooseNewCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
-    func testFlowChooseExistingCCPayment(){
+    func testFlowChooseExistingCCPaymentMinimalBilling(){
+        chooseExistingCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
+    }
+    
+    func testFlowChooseExistingCCPaymentFullBillingWithShippingWithEmail(){
         chooseExistingCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
     func testChooseExistingCardVisibility(){
+        
     }
 
 
