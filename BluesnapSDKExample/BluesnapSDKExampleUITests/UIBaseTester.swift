@@ -120,8 +120,12 @@ class UIBaseTester: XCTestCase{
         // set with Email switch = on
         setSwitch(switchId: "HideStoreCardSwitch", isDesiredConfig: sdkRequest.hideStoreCardSwitch)
 
-        if let priceDetails = sdkRequest.priceDetails {
+        setPurchaseAmount()
 
+    }
+    
+    internal func setPurchaseAmount() {
+        if let priceDetails = sdkRequest.priceDetails {
             // set amount text field value
             let amount = "\(priceDetails.amount ?? 0)"
             let amountField : XCUIElement = app.textFields["AmountField"]
@@ -129,8 +133,8 @@ class UIBaseTester: XCTestCase{
             amountField.doubleTap()
             amountField.typeText(amount)
         }
-
     }
+
 
     internal func setSwitch(switchId: String, isDesiredConfig: Bool, waitToExist: Bool = false, waitToDisappear: Bool = false) {
 
