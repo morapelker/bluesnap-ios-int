@@ -24,7 +24,6 @@
 		87114429220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87114428220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift */; };
 		8711442C220A6BD900F36911 /* CheckoutBaseTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */; };
 		8713189221E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */; };
-		877D01E62225CDC0002D1BA3 /* CreatePaymentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877D01E52225CDC0002D1BA3 /* CreatePaymentUITests.swift */; };
 		87829E5D220A478E00F0BD41 /* BSUITestsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */; };
 		879963CD22118B7B00F6281A /* ReturningShopperFullBillingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879963CC22118B7B00F6281A /* ReturningShopperFullBillingTests.swift */; };
 		879F3E3B21CA976800A03583 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */; };
@@ -38,7 +37,7 @@
 		87E7D08522119B0E0092F921 /* ReturningShopperMinimalBillingWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7D08422119B0E0092F921 /* ReturningShopperMinimalBillingWithShippingTests.swift */; };
 		87E7D08722119B3C0092F921 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7D08622119B3C0092F921 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift */; };
 		926D45929502286419E25FCB /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C4E68941D1C882B3AE350E9 /* CoreText.framework */; };
-		CA3C178687ADCFCF3201D52D /* ChoosePaymentMethodUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3C1FFB546C7F27CD54AA24 /* ChoosePaymentMethodUITests.swift */; };
+		CA3C178687ADCFCF3201D52D /* ShopperConfigurationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3C1FFB546C7F27CD54AA24 /* ShopperConfigurationUITests.swift */; };
 		CA3C1D29B03309F6E5800378 /* UIBaseTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3C1D2012E27B699C07A866 /* UIBaseTester.swift */; };
 		DEB34D679B4735BD2B2F6DD5 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */; };
 		DEB4DCB77A919FB8115F65E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4E27821E8808A700C56C46 /* AppDelegate.swift */; };
@@ -134,7 +133,6 @@
 		8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutBaseTester.swift; sourceTree = "<group>"; };
 		8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSCreditCardScreenUITestHelperBase.swift; sourceTree = "<group>"; };
 		8771F3B621C802DD0030108E /* DemoAPIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAPIHelper.swift; sourceTree = "<group>"; };
-		877D01E52225CDC0002D1BA3 /* CreatePaymentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePaymentUITests.swift; sourceTree = "<group>"; };
 		87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSUITestsUtils.swift; sourceTree = "<group>"; };
 		879963CC22118B7B00F6281A /* ReturningShopperFullBillingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturningShopperFullBillingTests.swift; sourceTree = "<group>"; };
 		87E7D0792211941A0092F921 /* ReturningShopperFullBillingWithEmailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturningShopperFullBillingWithEmailTests.swift; sourceTree = "<group>"; };
@@ -146,7 +144,7 @@
 		87E7D08622119B3C0092F921 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturningShopperMinimalBillingWithEmailWithShippingTests.swift; sourceTree = "<group>"; };
 		BEEF86EB87F386F09F86E0A4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CA3C1D2012E27B699C07A866 /* UIBaseTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIBaseTester.swift; sourceTree = "<group>"; };
-		CA3C1FFB546C7F27CD54AA24 /* ChoosePaymentMethodUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoosePaymentMethodUITests.swift; sourceTree = "<group>"; };
+		CA3C1FFB546C7F27CD54AA24 /* ShopperConfigurationUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopperConfigurationUITests.swift; sourceTree = "<group>"; };
 		D4C1F041334E92065E9D2639 /* Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		DD1DA5729FE41DCDE3370A44 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
@@ -315,8 +313,7 @@
 		CA3C1A78326713261CDCD524 /* ShopperConfigurationUITests */ = {
 			isa = PBXGroup;
 			children = (
-				CA3C1FFB546C7F27CD54AA24 /* ChoosePaymentMethodUITests.swift */,
-				877D01E52225CDC0002D1BA3 /* CreatePaymentUITests.swift */,
+				CA3C1FFB546C7F27CD54AA24 /* ShopperConfigurationUITests.swift */,
 			);
 			path = ShopperConfigurationUITests;
 			sourceTree = "<group>";
@@ -504,7 +501,6 @@
 				87C8FCAB21D39EDD00486646 /* DemoAPIHelper.swift in Sources */,
 				FD5022931F67AD6B00C820AC /* BSShippingScreenUITestHelper.swift in Sources */,
 				FD6479EE1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift in Sources */,
-				877D01E62225CDC0002D1BA3 /* CreatePaymentUITests.swift in Sources */,
 				FD5022911F61399300C820AC /* BSPaymentScreenUITestHelper.swift in Sources */,
 				87E7D08322119AA20092F921 /* ReturningShopperMinimalBillingWithEmailTests.swift in Sources */,
 				87829E5D220A478E00F0BD41 /* BSUITestsUtils.swift in Sources */,
@@ -520,7 +516,7 @@
 				87E7D07F2211988F0092F921 /* ReturningShopperFullBillingWithEmailWithShippingTests.swift in Sources */,
 				87E7D07D221198560092F921 /* ReturningShopperFullBillingWithShippingTests.swift in Sources */,
 				CA3C1D29B03309F6E5800378 /* UIBaseTester.swift in Sources */,
-				CA3C178687ADCFCF3201D52D /* ChoosePaymentMethodUITests.swift in Sources */,
+				CA3C178687ADCFCF3201D52D /* ShopperConfigurationUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
