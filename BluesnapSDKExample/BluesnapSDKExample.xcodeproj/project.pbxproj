@@ -24,6 +24,7 @@
 		87114429220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87114428220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift */; };
 		8711442C220A6BD900F36911 /* CheckoutBaseTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */; };
 		8713189221E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */; };
+		877D01E62225CDC0002D1BA3 /* CreatePaymentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877D01E52225CDC0002D1BA3 /* CreatePaymentUITests.swift */; };
 		87829E5D220A478E00F0BD41 /* BSUITestsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */; };
 		879963CD22118B7B00F6281A /* ReturningShopperFullBillingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879963CC22118B7B00F6281A /* ReturningShopperFullBillingTests.swift */; };
 		879F3E3B21CA976800A03583 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */; };
@@ -133,6 +134,7 @@
 		8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutBaseTester.swift; sourceTree = "<group>"; };
 		8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSCreditCardScreenUITestHelperBase.swift; sourceTree = "<group>"; };
 		8771F3B621C802DD0030108E /* DemoAPIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAPIHelper.swift; sourceTree = "<group>"; };
+		877D01E52225CDC0002D1BA3 /* CreatePaymentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePaymentUITests.swift; sourceTree = "<group>"; };
 		87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSUITestsUtils.swift; sourceTree = "<group>"; };
 		879963CC22118B7B00F6281A /* ReturningShopperFullBillingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturningShopperFullBillingTests.swift; sourceTree = "<group>"; };
 		87E7D0792211941A0092F921 /* ReturningShopperFullBillingWithEmailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturningShopperFullBillingWithEmailTests.swift; sourceTree = "<group>"; };
@@ -279,7 +281,7 @@
 				FD6479ED1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift */,
 				87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */,
 				CA3C1D2012E27B699C07A866 /* UIBaseTester.swift */,
-				CA3C1A78326713261CDCD524 /* ChoosePaymentMethodUITests */,
+				CA3C1A78326713261CDCD524 /* ShopperConfigurationUITests */,
 			);
 			path = BluesnapSDKExampleUITests;
 			sourceTree = "<group>";
@@ -310,12 +312,13 @@
 			path = CheckoutReturningShopperUITests;
 			sourceTree = "<group>";
 		};
-		CA3C1A78326713261CDCD524 /* ChoosePaymentMethodUITests */ = {
+		CA3C1A78326713261CDCD524 /* ShopperConfigurationUITests */ = {
 			isa = PBXGroup;
 			children = (
 				CA3C1FFB546C7F27CD54AA24 /* ChoosePaymentMethodUITests.swift */,
+				877D01E52225CDC0002D1BA3 /* CreatePaymentUITests.swift */,
 			);
-			path = ChoosePaymentMethodUITests;
+			path = ShopperConfigurationUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -501,6 +504,7 @@
 				87C8FCAB21D39EDD00486646 /* DemoAPIHelper.swift in Sources */,
 				FD5022931F67AD6B00C820AC /* BSShippingScreenUITestHelper.swift in Sources */,
 				FD6479EE1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift in Sources */,
+				877D01E62225CDC0002D1BA3 /* CreatePaymentUITests.swift in Sources */,
 				FD5022911F61399300C820AC /* BSPaymentScreenUITestHelper.swift in Sources */,
 				87E7D08322119AA20092F921 /* ReturningShopperMinimalBillingWithEmailTests.swift in Sources */,
 				87829E5D220A478E00F0BD41 /* BSUITestsUtils.swift in Sources */,
