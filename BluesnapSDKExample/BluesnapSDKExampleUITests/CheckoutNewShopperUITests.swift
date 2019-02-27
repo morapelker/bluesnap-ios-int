@@ -106,9 +106,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         // check Inputs Fields visibility (including error messages)
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
-        // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
-        
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
 
