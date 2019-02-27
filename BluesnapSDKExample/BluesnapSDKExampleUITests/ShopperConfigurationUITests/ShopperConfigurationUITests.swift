@@ -6,7 +6,7 @@
 import Foundation
 import XCTest
 
-class ChoosePaymentMethodUITests: UIBaseTester {
+class ShopperConfigurationUITests: UIBaseTester {
 
     internal var existingCcHelper: BSExistingCcScreenUITestHelper!
     internal var vaultedShopperId: String!
@@ -40,7 +40,7 @@ class ChoosePaymentMethodUITests: UIBaseTester {
         gotoPaymentScreen(shopperId: vaultedShopperId, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine)
     }
 
-    func setShopperDetailsInSdkRequest(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool){
+    private func setShopperDetailsInSdkRequest(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool){
 
         // set billing/shipping info
         sdkRequest.shopperConfiguration.billingDetails?.name = BSUITestUtils.getDummyBillingDetails().name
@@ -80,6 +80,23 @@ class ChoosePaymentMethodUITests: UIBaseTester {
             // click New CC button
             app.buttons["CcButton"].tap()
         }
+    }
+    
+    internal func setUpForCreatePaymentSdk(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false) {
+        
+        setUpForChoosePaymentMethodSdk(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: checkoutFullBilling, checkoutWithEmail: checkoutWithEmail, checkoutWithShipping: checkoutWithShipping, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine)
+        
+        if (!tapExistingCc){
+            newCardBasicFillInInfoAndPay()
+        }
+            
+        else{
+            existingCardBasicFillInInfoAndPay(checkoutWithShipping: checkoutWithShipping)
+        }
+        
+        checkResult(expectedSuccessText: "Success!")
+        
+        app.buttons["TryAgainButton"].tap()
     }
 
 
@@ -194,6 +211,53 @@ class ChoosePaymentMethodUITests: UIBaseTester {
     
     func testChooseExistingCardVisibility(){
         
+    }
+    
+    /* -------------------------------- Create Payment Common tests ---------------------------------------- */
+    
+    
+    func createCreditCardPaymentMethodFlow(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false) {
+        setUpForCreatePaymentSdk(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: checkoutFullBilling, checkoutWithEmail: checkoutWithEmail, checkoutWithShipping: checkoutWithShipping, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine)
+        
+        setPurchaseAmount()
+        
+        app.buttons["CreateButton"].tap()
+        
+        checkResult(expectedSuccessText: "Success!")
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        DemoAPIHelper.retrieveVaultedShopper(vaultedShopperId: vaultedShopperId, completion: {
+            isSuccess, data in
+            XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
+            
+            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: true, expectedCreditCardInfo: [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())], chosenPaymentMethod: "CC", cardIndex: 0)
+            
+            XCTAssertNil(error, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
+            
+            semaphore.signal()
+        })
+        
+        semaphore.wait()
+        
+    }
+    
+    /* -------------------------------- Create Payment tests ---------------------------------------- */
+    
+    func testFlowCreateNewCCPaymentMinimalBilling(){
+        createCreditCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, tapExistingCc: false, checkExistingCcLine: false)
+    }
+    
+    func testFlowCreateNewCCPaymentFullBillingWithShippingWithEmail(){
+        createCreditCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
+    }
+    
+    func testFlowCreateExistingCCPaymentMinimalBilling(){
+        createCreditCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, tapExistingCc: true, checkExistingCcLine: true)
+    }
+    
+    func testFlowCreateExistingCCPaymentFullBillingWithShippingWithEmail(){
+        createCreditCardPaymentMethodFlow(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true, tapExistingCc: true, checkExistingCcLine: true)
     }
 
 
