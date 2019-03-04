@@ -173,7 +173,7 @@ class BSCreditCardScreenUITestHelperBase {
      Pre-condition: full billing is enabled/it is shipping screen
      */
     func checkInvalidInfoInputs(payButtonId: String) {
-        checkInvalidFieldInputs(input: nameInput, invalidValuesToCheck: ["Sawyer", "L Fleur", "La F"], validValue: "Fanny Brice", expectedLabelText: "Name", inputToTap: zipInput)
+        checkInvalidFieldInputs(input: nameInput, invalidValuesToCheck: ["Sawyer", "L"], validValue: "Fanny Brice", expectedLabelText: "Name", inputToTap: zipInput)
         
         checkInvalidFieldInputs(input: streetInput, invalidValuesToCheck: ["ab"], validValue: "Broadway 777", expectedLabelText: "Street", inputToTap: cityInput)
         
