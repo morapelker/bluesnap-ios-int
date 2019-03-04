@@ -40,7 +40,67 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "CheckoutNewShopperUITests">
+                  Identifier = "CheckoutNewShopperUITests/testAllowCurrencyChange()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingNoShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingNoShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingWithShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingWithShippingWithEmailNoZip()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingWithShippingWithEmailNostate()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowHideStoreCardSwitch()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowNoFullBillingNoShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowNoFullBillingNoShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowNoFullBillingWithShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowNoFullBillingWithShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowShippingSameAsBilling()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowStoreCardInServer()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testNotAllowCurrencyChange()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsFullBillingNoShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsFullBillingNoShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsFullBillingWithShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsNoFullBillingNoShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsNoFullBillingNoShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsNoFullBillingWithShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsNoFullBillingWithShippingWithEmail()">
                </Test>
                <Test
                   Identifier = "CheckoutReturningShopperUITests">
