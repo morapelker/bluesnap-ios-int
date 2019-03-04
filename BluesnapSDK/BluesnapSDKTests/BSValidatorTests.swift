@@ -45,11 +45,6 @@ class BSValidatorTests: XCTestCase {
         XCTAssertEqual(input.getValue(), "Ab")
         XCTAssertEqual(addressDetails.name, "Ab")
 
-        input.setValue("ab c")
-        XCTAssertEqual(BSValidator.validateName(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), false)
-        XCTAssertEqual(input.getValue(), "Ab C")
-        XCTAssertEqual(addressDetails.name, "Ab C")
-
         input.setValue("ab cd")
         XCTAssertEqual(BSValidator.validateName(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), true)
         XCTAssertEqual(input.getValue(), "Ab Cd")
