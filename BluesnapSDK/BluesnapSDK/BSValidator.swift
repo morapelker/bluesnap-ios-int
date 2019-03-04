@@ -435,7 +435,7 @@ public class BSValidator: NSObject {
         if let p = str.index(of: " ") {
             let firstName = str[..<p].trimmingCharacters(in: .whitespaces)
             let lastName = str[p..<str.endIndex].trimmingCharacters(in: .whitespaces)
-            if firstName.count < 2 || lastName.count < 2 {
+            if firstName.count < 1 || lastName.count < 1 {
                 return false
             }
         } else {
