@@ -317,8 +317,16 @@ open class BlueSnapSDK: NSObject {
         self.sdkRequestBase?.adjustSdkRequest()
 
         DispatchQueue.main.async {
+            let showPayPal = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: BSApiManager.supportedPaymentMethods)
+            let showApplePay = BlueSnapSDK.applePaySupported(supportedPaymentMethods: BSApiManager.supportedPaymentMethods, supportedNetworks: BlueSnapSDK.applePaySupportedNetworks).canMakePayments
+            
+            if (!showPayPal && !showApplePay){ //only cc is supported
+                BSViewsManager.showCCDetailsScreen(existingCcPurchaseDetails: nil, inNavigationController: inNavigationController,
+                                               animated: false)
+            } else {
             BSViewsManager.showStartScreen(inNavigationController: inNavigationController,
                     animated: animated)
+            }
         }
     }
 
