@@ -15,7 +15,7 @@ public enum BSSdkRequestBaseError: Error {
     case missingReturningShopper(String)
 }
 
-public enum BSErrors: Int {
+public enum BSErrors: Int, Error {
 
     // CC
     case invalidCcNumber
@@ -38,6 +38,7 @@ public enum BSErrors: Int {
     case tokenNotFound
     case tokenAlreadyUsed
     case unAuthorised
+    case sdkNotInitialized
     case unknown
 
     public func description() -> String {
@@ -72,7 +73,9 @@ public enum BSErrors: Int {
             return "tokenAlreadyUsed";
         case .unAuthorised:
             return "unAuthorised";
-
+        case .sdkNotInitialized:
+            return "sdkNotInitialized";
+            
         default:
             return "unknown";
         }

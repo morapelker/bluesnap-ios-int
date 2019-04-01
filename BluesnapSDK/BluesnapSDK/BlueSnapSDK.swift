@@ -129,6 +129,12 @@ open class BlueSnapSDK: NSObject {
             animated: Bool,
             sdkRequest: BSSdkRequest!) throws {
 
+        guard (BSApiManager.sdkIsInitialized) else {
+            let msg: String = "Failed to activate Bluesnap SDK, initBluesnap has to be called first"
+            NSLog(msg)
+            throw BSErrors.sdkNotInitialized
+        }
+        
         guard !(BSApiManager.shopper?.vaultedShopperId == nil) else {
             let msg: String = "Failed to activate Shopper Configuration for Bluesnap SDK, Returning Shopper is missing"
             NSLog(msg)
@@ -307,6 +313,13 @@ open class BlueSnapSDK: NSObject {
             animated: Bool,
             sdkRequestBase: BSSdkRequestProtocol!) throws {
 
+        // verify that initBluesnap has been called prior to this function
+        guard (BSApiManager.sdkIsInitialized) else {
+            let msg: String = "Failed to activate Bluesnap SDK, initBluesnap has to be called first"
+            NSLog(msg)
+            throw BSErrors.sdkNotInitialized
+        }
+        
         guard !(sdkRequestBase is BSSdkRequestShopperRequirements && BSApiManager.shopper?.vaultedShopperId == nil) else {
             let msg: String = "Failed to activate Shopper Configuration for Bluesnap SDK, Returning Shopper is missing"
             NSLog(msg)

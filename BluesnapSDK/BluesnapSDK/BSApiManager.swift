@@ -32,6 +32,7 @@ import Foundation
         NSLog("no token regeneration method was supplied")
         completion(nil, BSErrors.invalidInput)
     }
+    internal static var sdkIsInitialized: Bool = false
 
     // MARK: bsToken functions
 
@@ -98,9 +99,7 @@ import Foundation
                             self.lastSupportedPaymentMethodsFetchDate = Date()
                         }
                         if let sdkData = sdkData2 {
-                            self.supportedPaymentMethods = sdkData.supportedPaymentMethods
-                            self.bsCurrencies = sdkData.currencies
-                            self.shopper = sdkData.shopper
+                            initSdkDataProperties(sdkData: sdkData)
                         }
                         completion(sdkData2, resultError2)
                     })
@@ -110,13 +109,18 @@ import Foundation
                     self.lastSupportedPaymentMethodsFetchDate = Date()
                 }
                 if let sdkData = sdkData {
-                    self.bsCurrencies = sdkData.currencies
-                    self.supportedPaymentMethods = sdkData.supportedPaymentMethods
-                    self.shopper = sdkData.shopper
+                    initSdkDataProperties(sdkData: sdkData)
                 }
                 completion(sdkData, resultError)
             }
         })
+    }
+    
+    static private func initSdkDataProperties(sdkData: BSSdkConfiguration){
+        supportedPaymentMethods = sdkData.supportedPaymentMethods
+        bsCurrencies = sdkData.currencies
+        shopper = sdkData.shopper
+        sdkIsInitialized = true
     }
 
     /**
