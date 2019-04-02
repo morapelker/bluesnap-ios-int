@@ -330,8 +330,14 @@ open class BlueSnapSDK: NSObject {
         self.sdkRequestBase?.adjustSdkRequest()
 
         DispatchQueue.main.async {
+            
+            if (BSApiManager.isNewCCOnlyPaymentMethod()){ //only cc is supported
+                BSViewsManager.showCCDetailsScreen(existingCcPurchaseDetails: nil, inNavigationController: inNavigationController,
+                                               animated: false)
+            } else {
             BSViewsManager.showStartScreen(inNavigationController: inNavigationController,
                     animated: animated)
+            }
         }
     }
 
