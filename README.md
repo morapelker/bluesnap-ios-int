@@ -82,6 +82,10 @@ This SDK is written in Swift. If your application is written in Objective-C, you
 ## Apple Pay (optional)
 In the Standard Checkout Flow, Apple Pay is available for you to offer in your app. You will need to create a new Apple Pay Certificate, Apple Merchant ID, and configure Apple Pay in Xcode. Detailed instructions are available in our [Apple Pay Guide](https://developers.bluesnap.com/docs/apple-pay#section-implementing-apple-pay-in-your-website-or-ios-app). 
 
+The SDK will activate the Apple Pay UI, and colelct payment details from the shopper. It will then collect the pkpayment token and  will pass it encrypted to Bluesnap Servers.
+You are not required to handle the applepay token yourself in your mobile app or in your server, just finish the transaction using the server to server call as ususal.
+
+
 ## PayPal (optional)
 In the Standard Checkout Flow, you have the option to accept PayPal payments in your app. Follow these steps: 
 
@@ -282,34 +286,14 @@ Another option is to call `checkCreditCard(ccn: String)`, which first validates 
 
 # Sending the payment for processing
 If the shopper purchased via PayPal, then the transaction has successfully been submitted and no further action is required.
-For credit card and Apple Pay payments, you'll use the Payment API with your token to send an [Auth Capture](https://developers.bluesnap.com/v8976-JSON/docs/auth-capture) or [Auth Only](https://developers.bluesnap.com/v8976-JSON/docs/auth-only) request, or to attach the payment details to a [user](https://developers.bluesnap.com/v8976-JSON/docs/create-vaulted-shopper).
 
-> **Note:** The token must be associated with the user's payment details. In the Standard Checkout Flow, this is when `purchaseFunc` is called. In the Custom Checkout Flow, this is when `didSubmitCreditCard` is called (if you're using the `BSCcInputLine` field) or `completion` is called (if you're using your own input fields). 
+If the shopper purchased via credit card, you will need to make a server-to-server call to BlueSnap's Payment API with the Hosted Payment Field token you initialized in the SDK. You should do this after the shopper has completed checkout and has left the SDK checkout screen. Visit the [API documentation](https://developers.bluesnap.com/v8976-Basics/docs/completing-tokenized-payments) to see how.
+
+**Note:** In the Standard Checkout Flow, this is when `purchaseFunc` is called. In the Custom Checkout Flow, this is when `didSubmitCreditCard` is called (if you're using the `BSCcInputLine` field) or `completion` is called (if you're using your own input fields). 
 
 DemoTransactions.swift of demo app shows an example of an Auth Capture request. Please note that these calls are for demonstration purposes only - the transaction should be sent from your server.
 
-### Auth Capture example - Credit card/Apple Pay payments
-For credit card payments, send an HTTP POST request to `/services/2/transactions` of the relevant BlueSnap environment. Your request will look like the following code sample for both new and returning users. 
 
-> **Note:** All the user's details, including their billing/shipping info and credit card details, and the fraud session ID have been submitted to BlueSnap, so there's no need to include this information in the request.
-
-```cURL
-curl -v -X POST https://sandbox.bluesnap.com/services/2/transactions \
--H 'Content-Type: application/json' \
--H 'Accept: application/json' \ 
--H 'Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=' \
--d '
-{
-	"cardTransactionType": "AUTH_CAPTURE",
-	"recurringTransaction": "ECOMMERCE",
-	"softDescriptor": "Mobile SDK test",
-	"amount": 25.00, 
-	"currency": "USD",
-	"pfToken": "812f6ee706e463d3276e3abeb21fa94072e40695ed423ddac244409b3b652eff_"
-}'
-```
-
-If successful, the response HTTP status code is 200 OK. Visit our [API Reference](https://developers.bluesnap.com/v8976-JSON/docs/auth-capture) for more details. 
 
 # Demo app - explained
 The demo app shows how to use the basic functionality of the Standard Checkout Flow, including the various stages you need to implement (everything is in class `ViewController`).
