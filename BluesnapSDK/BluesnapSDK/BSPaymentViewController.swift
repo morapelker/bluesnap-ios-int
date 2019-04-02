@@ -193,13 +193,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
             if error == nil {
                 purchaseDetails.creditCard = creditCard
                 // return to merchant screen
-                let showPayPal = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: BSApiManager.supportedPaymentMethods)
-                let showApplePay = BlueSnapSDK.applePaySupported(supportedPaymentMethods: BSApiManager.supportedPaymentMethods, supportedNetworks: BlueSnapSDK.applePaySupportedNetworks).canMakePayments
                 
-                let numOfPaymentMethodsOptions = BSApiManager.shopper?.existingCreditCards.count ?? 0 +
-                    ((showPayPal && showApplePay) ? 3 : (!showPayPal && !showApplePay) ? 1 : 2)
-                
-                let merchantControllerIndex = viewControllers.count - (inShippingScreen ? 4 : 3) + (numOfPaymentMethodsOptions == 1 ? 1 : 0)
+                let merchantControllerIndex = viewControllers.count - (inShippingScreen ? 4 : 3) + (BSApiManager.isNewCCOnlyPaymentMethod() ? 1 : 0)
 
                 _ = navigationController.popToViewController(viewControllers[merchantControllerIndex], animated: false)
                 // execute callback
