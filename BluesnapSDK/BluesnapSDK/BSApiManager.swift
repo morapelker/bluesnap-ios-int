@@ -237,6 +237,20 @@ import Foundation
             return false
         }
     }
+        
+    /**
+     Return true if the only payment method supported is new CC
+     */
+    static func isNewCCOnlyPaymentMethod() -> Bool {
+        
+        let isPayPalSupported = isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: BSApiManager.supportedPaymentMethods)
+        let isApplePaySupported = BlueSnapSDK.applePaySupported(supportedPaymentMethods: BSApiManager.supportedPaymentMethods, supportedNetworks: BlueSnapSDK.applePaySupportedNetworks).canMakePayments
+        
+        let existingCreditCards = shopper == nil ? false : (shopper?.existingCreditCards.count == 0 ? false : true)
+        
+        return !isPayPalSupported && !isApplePaySupported && !existingCreditCards
+        
+    }
     
     /**
      Create PayPal token on BlueSnap server and get back the URL for redirect
