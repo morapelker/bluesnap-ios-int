@@ -91,6 +91,8 @@ open class BlueSnapSDK: NSObject {
      - inNavigationController: your viewController's navigationController (to be able to navigate back)
      - animated: how to navigate to the new screen
      - sdkRequest: initial payment details + flow settings
+     
+     throws BSSdkRequestBaseError if initBluesnap() hasn't been called
      */
     open class func showCheckoutScreen(
             inNavigationController: UINavigationController!,
@@ -107,6 +109,8 @@ open class BlueSnapSDK: NSObject {
      - inNavigationController: your viewController's navigationController (to be able to navigate back)
      - animated: how to navigate to the new screen
      - BSSdkRequestShopperRequirements: initial payment details + flow settings
+     
+     throws BSSdkRequestBaseError if initBluesnap() hasn't been called or if returning shopper is missing
      */
     open class func showChoosePaymentScreen(
             inNavigationController: UINavigationController!,
@@ -123,12 +127,15 @@ open class BlueSnapSDK: NSObject {
      - inNavigationController: your viewController's navigationController (to be able to navigate back)
      - animated: how to navigate to the new screen
      - BSSdkRequest: initial payment details + flow settings
+     
+     throws BSSdkRequestBaseError if initBluesnap() hasn't been called or if returning shopper is missing
      */
     open class func showCreatePaymentScreen(
             inNavigationController: UINavigationController!,
             animated: Bool,
             sdkRequest: BSSdkRequest!) throws {
 
+        // verify that initBluesnap() has been called prior to this function
         guard (BSApiManager.sdkIsInitialized) else {
             let msg: String = "Failed to activate Bluesnap SDK, initBluesnap has to be called first"
             NSLog(msg)
@@ -313,7 +320,7 @@ open class BlueSnapSDK: NSObject {
             animated: Bool,
             sdkRequestBase: BSSdkRequestProtocol!) throws {
 
-        // verify that initBluesnap has been called prior to this function
+        // verify that initBluesnap() has been called prior to this function
         guard (BSApiManager.sdkIsInitialized) else {
             let msg: String = "Failed to activate Bluesnap SDK, initBluesnap has to be called first"
             NSLog(msg)
