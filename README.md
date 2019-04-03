@@ -82,8 +82,9 @@ This SDK is written in Swift. If your application is written in Objective-C, you
 ## Apple Pay (optional)
 In the Standard Checkout Flow, Apple Pay is available for you to offer in your app. You will need to create a new Apple Pay Certificate, Apple Merchant ID, and configure Apple Pay in Xcode. Detailed instructions are available in our [Apple Pay Guide](https://developers.bluesnap.com/docs/apple-pay#section-implementing-apple-pay-in-your-website-or-ios-app). 
 
-The SDK will activate the Apple Pay UI, and colelct payment details from the shopper. It will then collect the pkpayment token and  will pass it encrypted to Bluesnap Servers.
-You are not required to handle the applepay token yourself in your mobile app or in your server, just finish the transaction using the server to server call as ususal.
+The SDK will activate the Apple Pay UI, and colelct payment details from the shopper. It will then collect the pkpayment token and  will pass it encrypted to Bluesnap Servers. You are not required to handle the applepay token yourself in your mobile app or in your server, just finish the transaction using the server to server call as ususal.
+Please note that example app will not be able to complete the demonstrated server to server call when running on simulator. This requires a physical device.
+
 
 
 ## PayPal (optional)
