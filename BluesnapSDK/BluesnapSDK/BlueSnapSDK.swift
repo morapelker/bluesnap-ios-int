@@ -132,7 +132,7 @@ open class BlueSnapSDK: NSObject {
         guard (BSApiManager.sdkIsInitialized) else {
             let msg: String = "Failed to activate Bluesnap SDK, initBluesnap has to be called first"
             NSLog(msg)
-            throw BSErrors.sdkNotInitialized
+            throw BSSdkRequestBaseError.sdkNotInitialized(msg)
         }
         
         guard !(BSApiManager.shopper?.vaultedShopperId == nil) else {
@@ -317,7 +317,7 @@ open class BlueSnapSDK: NSObject {
         guard (BSApiManager.sdkIsInitialized) else {
             let msg: String = "Failed to activate Bluesnap SDK, initBluesnap has to be called first"
             NSLog(msg)
-            throw BSErrors.sdkNotInitialized
+            throw BSSdkRequestBaseError.sdkNotInitialized(msg)
         }
         
         guard !(sdkRequestBase is BSSdkRequestShopperRequirements && BSApiManager.shopper?.vaultedShopperId == nil) else {

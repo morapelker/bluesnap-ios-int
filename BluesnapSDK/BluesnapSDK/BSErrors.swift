@@ -13,9 +13,10 @@ public enum BSSdkRequestBaseError: Error {
     case invalid(String)
     case missingPaymentMethod(String)
     case missingReturningShopper(String)
+    case sdkNotInitialized(String)
 }
 
-public enum BSErrors: Int, Error {
+public enum BSErrors: Int {
 
     // CC
     case invalidCcNumber
@@ -38,7 +39,6 @@ public enum BSErrors: Int, Error {
     case tokenNotFound
     case tokenAlreadyUsed
     case unAuthorised
-    case sdkNotInitialized
     case unknown
 
     public func description() -> String {
@@ -73,8 +73,6 @@ public enum BSErrors: Int, Error {
             return "tokenAlreadyUsed";
         case .unAuthorised:
             return "unAuthorised";
-        case .sdkNotInitialized:
-            return "sdkNotInitialized";
             
         default:
             return "unknown";
