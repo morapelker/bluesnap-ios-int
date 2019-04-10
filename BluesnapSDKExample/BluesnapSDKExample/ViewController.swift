@@ -124,7 +124,7 @@ class ViewController: UIViewController {
         buttonGeneralAction()
         DispatchQueue.main.async {
             // open the purchase screen
-            self.fillSdkRequest(isShopperRequirements: false)
+            self.fillSdkRequest(isShopperRequirements: false, isSubscriptionCharge: false)
             do {
                 try BlueSnapSDK.showCheckoutScreen(
                         inNavigationController: self.navigationController,
@@ -140,7 +140,7 @@ class ViewController: UIViewController {
         buttonGeneralAction()
         DispatchQueue.main.async {
             // open the purchase screen
-            self.fillSdkRequest(isShopperRequirements: true)
+            self.fillSdkRequest(isShopperRequirements: true, isSubscriptionCharge: false)
             do {
                 try BlueSnapSDK.showChoosePaymentScreen(
                         inNavigationController: self.navigationController,
@@ -158,7 +158,7 @@ class ViewController: UIViewController {
         hideCoverView = false
         DispatchQueue.main.async {
             // open the purchase screen
-            self.fillSdkRequest(isShopperRequirements: false)
+            self.fillSdkRequest(isShopperRequirements: false, isSubscriptionCharge: false)
             do {
                 try BlueSnapSDK.showCreatePaymentScreen(
                         inNavigationController: self.navigationController,
@@ -169,7 +169,23 @@ class ViewController: UIViewController {
             }
         }
     }
-
+    
+    @IBAction func SubscriptionButtonAction(_ sender: UIButton) {
+        buttonGeneralAction()
+        DispatchQueue.main.async {
+            // open the purchase screen
+            self.fillSdkRequest(isShopperRequirements: false, isSubscriptionCharge: true)
+            do {
+                try BlueSnapSDK.showCheckoutScreen(
+                    inNavigationController: self.navigationController,
+                    animated: true,
+                    sdkRequest: self.sdkRequestBase as! BSSdkRequest)
+            } catch {
+                fatalError("Unexpected error: \(error).")
+            }
+        }
+    }
+    
     @IBAction func currencyButtonAction(_ sender: UIButton) {
 
         coverAllLabel.text = LOADING_MESSAGE
@@ -177,7 +193,7 @@ class ViewController: UIViewController {
         hideCoverView = true
 
         DispatchQueue.main.async {
-            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements)
+            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements, isSubscriptionCharge: false)
             BlueSnapSDK.showCurrencyList(
                     inNavigationController: self.navigationController,
                     animated: true,
@@ -195,7 +211,7 @@ class ViewController: UIViewController {
         hideCoverView = true
 
         DispatchQueue.main.async {
-            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements)
+            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements, isSubscriptionCharge: false)
             BlueSnapSDK.showCurrencyList(
                     inNavigationController: self.navigationController,
                     animated: true,
@@ -248,7 +264,7 @@ class ViewController: UIViewController {
     /**
      Here we adjust the checkout details with the latest amounts from the fields on our view.
     */
-    private func fillSdkRequest(isShopperRequirements: Bool) {
+    private func fillSdkRequest(isShopperRequirements: Bool, isSubscriptionCharge: Bool) {
 
         let amount = (valueTextField.text! as NSString).doubleValue
         let taxAmount = (!isShopperRequirements) ? (taxTextField.text! as NSString).doubleValue : nil
@@ -257,11 +273,18 @@ class ViewController: UIViewController {
         let withShipping = withShippingSwitch.isOn
         let fullBilling = fullBillingSwitch.isOn
         let withEmail = withEmailSwitch.isOn
-        if (!isShopperRequirements) {
+        if (!isShopperRequirements && !isSubscriptionCharge) {
             sdkRequestBase = BSSdkRequest(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
             sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
             sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
             NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
+        } else if (isSubscriptionCharge) {
+            if (amount == 0.0){
+                sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
+            } else {
+                sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
+            }
+            
         } else {
             sdkRequestBase = BSSdkRequestShopperRequirements(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
         }

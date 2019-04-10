@@ -365,7 +365,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         cityInputLine.isHidden = hideFields
         updateState()
         shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
-        subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0 || purchaseDetails.isShopperRequirements()
+        subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0 || purchaseDetails.isShopperRequirements() || (purchaseDetails.isSubscriptionCharge() && !purchaseDetails.isSubscriptionHasPriceDetails()!)
         updateZipFieldLocation()
     }
 
@@ -415,8 +415,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         let taxAmount = purchaseDetails.getTaxAmount() ?? 0.0
         subtotalAndTaxDetailsView.setAmounts(subtotalAmount: subtotalAmount, taxAmount: taxAmount, currency: toCurrency)
 
-        if newCardMode && !purchaseDetails.isShopperRequirements() {
-            payButtonText = BSViewsManager.getPayButtonText(subtotalAmount: subtotalAmount, taxAmount: taxAmount, toCurrency: toCurrency)
+        if newCardMode {
+            payButtonText = BSViewsManager.getPayButtonText(purchaseDetails: purchaseDetails)
         } else {
             payButtonText = BSLocalizedStrings.getString(BSLocalizedString.Keyboard_Done_Button_Text)
         }
@@ -594,7 +594,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         let ok1 = validateName(ignoreIfEmpty: false)
         let ok2 = newCardMode ? ccInputLine.validate() : true
         let ok3 = validateEmail(ignoreIfEmpty: false)
-        let ok4 = validateStoreCard(isShopperRequirements: purchaseDetails.isShopperRequirements())
+        let ok4 = validateStoreCard(isShopperRequirements: purchaseDetails.isShopperRequirements(), isSubscriptionCharge: purchaseDetails.isSubscriptionCharge())
         var result = ok1 && ok2 && ok3 && ok4
 
         if fullBilling {
@@ -675,8 +675,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         return result
     }
 
-    func validateStoreCard(isShopperRequirements: Bool) -> Bool {
-        let result: Bool = BSValidator.validateStoreCard(isShopperRequirements: isShopperRequirements, isStoreCard: storeCardSwitch.isOn, isExistingCC: purchaseDetails is BSExistingCcSdkResult)
+    func validateStoreCard(isShopperRequirements: Bool, isSubscriptionCharge: Bool) -> Bool {
+        let result: Bool = BSValidator.validateStoreCard(isShopperRequirements: isShopperRequirements, isSubscriptionCharge: isSubscriptionCharge, isStoreCard: storeCardSwitch.isOn, isExistingCC: purchaseDetails is BSExistingCcSdkResult)
         if !result {
             storeCardLabel.textColor = UIColor.red
             storeCardSwitch.tintColor = UIColor.red

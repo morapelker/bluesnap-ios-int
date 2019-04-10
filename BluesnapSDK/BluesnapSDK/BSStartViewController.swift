@@ -183,7 +183,14 @@ class BSStartViewController: UIViewController {
 
     // Mark: private functions
 
-
+    private func isShowPayPal() -> Bool {
+        var showPayPal = false
+        
+        showPayPal = !(BlueSnapSDK.sdkRequestBase is BSSdkRequestSubscriptionCharge) && BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods)
+        
+        return showPayPal
+    }
+    
     private func hideShowElements() {
 
         var existingCreditCards: [BSCreditCardInfo] = []

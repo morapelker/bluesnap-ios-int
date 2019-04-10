@@ -103,7 +103,7 @@ class BSCreditCardInfo: BSPaymentInfo, NSCopying {
  */
 public class BSCcSdkResult: BSBaseSdkResult {
     override var storeCard: Bool! {
-        get {
+        get { // why? isn't it already handeled in validation?
             return super.isShopperRequirements() ? true : super.storeCard
         }
         set {
