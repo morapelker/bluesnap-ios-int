@@ -103,6 +103,9 @@ public enum BSLocalizedString : String {
     case Payment_Pay_Button_Format
     case Payment_subtotal_and_tax_format
     case Payment_Shipping_Button
+    
+    case Subscription_Pay_Button_Format
+    case Subscription_with_price_details_Pay_Button_Format
 
     /* ------- Menu in Payment screen ------- */
     

@@ -263,9 +263,9 @@ public class BSValidator: NSObject {
      Validate the shopper consent to store the credit card details in case it is mandatory.
      The shopper concent is mandatory only in case it is a choose new card as payment method flow (shopper configuration).
      */
-    class func validateStoreCard(isShopperRequirements: Bool, isStoreCard: Bool, isExistingCC: Bool) -> Bool {
+    class func validateStoreCard(isShopperRequirements: Bool, isSubscriptionCharge: Bool, isStoreCard: Bool, isExistingCC: Bool) -> Bool {
 
-        return (isShopperRequirements && !isExistingCC) ? (isShopperRequirements && isStoreCard) : true
+        return ((isShopperRequirements || isSubscriptionCharge) && !isExistingCC) ? isStoreCard : true
     }
     
     // MARK: field editing changed methods (to limit characters and sizes)
