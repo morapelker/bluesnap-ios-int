@@ -45,7 +45,7 @@ class BSStartViewController: UIViewController {
         self.navigationController!.isNavigationBarHidden = false
 
         // Hide/show the buttons and position them automatically
-        showPayPal = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods)
+        showPayPal = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods) && !(BlueSnapSDK.sdkRequestBase is BSSdkRequestSubscriptionCharge)
         showApplePay = BlueSnapSDK.applePaySupported(supportedPaymentMethods: supportedPaymentMethods, supportedNetworks: BlueSnapSDK.applePaySupportedNetworks).canMakePayments
         //self.hideShowElements()
 
