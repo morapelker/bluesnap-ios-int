@@ -22,9 +22,12 @@ class DemoAPIHelper {
         return (Bundle(for: DemoAPIHelper.self).object(forInfoDictionaryKey: "BsAPIPassword") as? String) ?? "PASSWORD_UNDEFINED"
     }
     
-    internal static let BS_SANDBOX_DOMAIN = "https://sandbox.bluesnap.com/"
+    internal static let BS_SANDBOX_DOMAIN = "https://sandbox.bluesnap.com/services/2/"
     internal static let BS_SANDBOX_TEST_USER = bsAPIUser
     internal static let BS_SANDBOX_TEST_PASSWORD = bsAPIPassword
+    internal static let BS_SANDBOX_VAULTED_SHOPPER = "vaulted-shoppers"
+    internal static let BS_SANDBOX_PLAN = "recurring/plans"
+    internal static let BS_SANDBOX_SUBSCRIPTION = "recurring/subscriptions"
     
     static func createToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
         createSandboxBSToken(shopperId: shopperId, completion: { bsToken, bsError in
@@ -48,10 +51,10 @@ class DemoAPIHelper {
      */
     static func createSandboxBSToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
 
-        let domain: String = DemoAPIHelper.BS_SANDBOX_DOMAIN
+        let domain: String = BS_SANDBOX_DOMAIN
 
         // create request
-        var urlStr = domain + "services/2/payment-fields-tokens"
+        var urlStr = domain + "payment-fields-tokens"
         if let shopperId = shopperId {
             urlStr = urlStr + "?shopperId=\(shopperId)"
         }
@@ -188,10 +191,10 @@ class DemoAPIHelper {
         task.resume()
     }
     
-    static func createVaultedShopper(fullBilling: Bool, withEmail: Bool, withShipping: Bool, billingInfo: BSBillingAddressDetails? = nil, shippingInfo: BSShippingAddressDetails? = nil, creditCard: (Int, Int, String, String),  completion: @escaping (String?, BSErrors?) -> Void) {
+    static func createVaultedShopper(fullBilling: Bool, withEmail: Bool, withShipping: Bool, billingInfo: BSBillingAddressDetails? = nil, shippingInfo: BSShippingAddressDetails? = nil, creditCard: (Int, Int, String, String), completion: @escaping (String?, BSErrors?) -> Void) {
         
         // create request
-        let urlStr = DemoAPIHelper.BS_SANDBOX_DOMAIN + "services/2/vaulted-shoppers"
+        let urlStr = BS_SANDBOX_DOMAIN + BS_SANDBOX_VAULTED_SHOPPER
         let url = NSURL(string: urlStr)!
         
         
@@ -249,7 +252,7 @@ class DemoAPIHelper {
         task.resume()
     }
     
-    static func createVaultedShopperDataObject(fullBilling: Bool, withEmail: Bool, withShipping: Bool, billingInfo: BSBillingAddressDetails? = nil, shippingInfo: BSShippingAddressDetails? = nil, creditCard: (Int, Int, String, String)) -> [String : Any]{
+    private static func createVaultedShopperDataObject(fullBilling: Bool, withEmail: Bool, withShipping: Bool, billingInfo: BSBillingAddressDetails? = nil, shippingInfo: BSShippingAddressDetails? = nil, creditCard: (Int, Int, String, String)) -> [String : Any]{
         
         // parse cc to requestBody
         let (firstName, lastName) = billingInfo?.getSplitName() ?? ("","")
@@ -329,7 +332,7 @@ class DemoAPIHelper {
         print("shopperId= \(shopperId)")
         let authorization = getBasicAuth()
 
-        let urlStr = DemoAPIHelper.BS_SANDBOX_DOMAIN + "services/2/vaulted-shoppers/" + shopperId;
+        let urlStr = BS_SANDBOX_DOMAIN + BS_SANDBOX_VAULTED_SHOPPER + shopperId;
         let url = NSURL(string: urlStr)!
 
         var request = getURLRequest(urlStr: urlStr, httpMethod: "GET", contentType: "application/json")
@@ -360,6 +363,135 @@ class DemoAPIHelper {
             }
         }
         task.resume()
+    }
+    
+    static func createSubscriptionPlan(purchaseDetails : BSCcSdkResult, completion: @escaping (_ isSuccess: Bool, _ data: String?, _ planId: String?)->Void) {
+        
+        // create request
+        let urlStr = BS_SANDBOX_DOMAIN + BS_SANDBOX_PLAN
+        let url = NSURL(string: urlStr)!
+        
+        let requestBody = createBasicSubscriptionPlanDataObject(purchaseDetails: purchaseDetails)
+        
+        var request = getURLRequest(urlStr: urlStr, httpMethod: "POST", contentType: "application/json", requestBody: requestBody)
+        
+        // fire request
+        
+        var result : (isSuccess:Bool, data: String?, planId: String?) = (isSuccess:false, data: nil, planId: nil)
+        var responseData: Data!
+
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            if let error = error {
+                NSLog("error calling create transaction: \(error.localizedDescription)")
+            } else {
+                let httpResponse = response as? HTTPURLResponse
+                if let httpStatusCode:Int = (httpResponse?.statusCode) {
+                    
+                    if let data = data {
+                        responseData = data
+                        result.data = String(data: data, encoding: .utf8)
+                        NSLog("Response body = \(result.data ?? "")")
+                    }
+                    if (httpStatusCode >= 200 && httpStatusCode <= 299) {
+                        do {
+                            if let json = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments) as? [String: AnyObject] {
+                                //Extract plan ID from transaction API response
+                                result.planId = String(json["planId"] as! Int)
+                                result.isSuccess = true
+                            }
+                        } catch let error as NSError {
+                            NSLog("Error parsing BS result on Retrieve vaulted shopper: \(error.localizedDescription)")
+                        }
+                        
+                    } else {
+                        NSLog("Http error Creating BS Transaction; HTTP status = \(httpStatusCode)")
+                    }
+                }
+            }
+            defer {
+                DispatchQueue.main.async {
+                    completion(result.isSuccess, result.data, result.planId)
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    private static func createBasicSubscriptionPlanDataObject(purchaseDetails : BSCcSdkResult) -> [String : Any]{
+        
+        let requestBody = [
+            "chargeFrequency" : "MONTHLY",
+            "name" : "Gold Plan",
+            "currency" : purchaseDetails.getCurrency() ?? "",
+            "recurringChargeAmount" : purchaseDetails.getAmount() ?? 0.0
+            ] as [String : Any]
+        
+
+        return requestBody
+    }
+    
+    static func createSubscriptionCharge(planId: String, bsToken: BSToken?, completion: @escaping (_ isSuccess: Bool, _ data: String?, _ shopperId: String?)->Void) {
+        
+        // create request
+        let urlStr = BS_SANDBOX_DOMAIN + BS_SANDBOX_SUBSCRIPTION
+        let url = NSURL(string: urlStr)!
+        
+        let requestBody = createBasicSubscriptionChargeDataObject(planId: planId, bsToken: bsToken)
+        
+        var request = getURLRequest(urlStr: urlStr, httpMethod: "POST", contentType: "application/json", requestBody: requestBody)
+        
+        // fire request
+        
+        var result : (isSuccess:Bool, data: String?, shopperId: String?) = (isSuccess:false, data: nil, shopperId: nil)
+        var responseData: Data!
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            if let error = error {
+                NSLog("error calling create transaction: \(error.localizedDescription)")
+            } else {
+                let httpResponse = response as? HTTPURLResponse
+                if let httpStatusCode:Int = (httpResponse?.statusCode) {
+                    
+                    if let data = data {
+                        responseData = data
+                        result.data = String(data: data, encoding: .utf8)
+                        NSLog("Response body = \(result.data ?? "")")
+                    }
+                    if (httpStatusCode >= 200 && httpStatusCode <= 299) {
+                        do {
+                            if let json = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments) as? [String: AnyObject] {
+                                //Extract shopper ID from transaction API response
+                                result.shopperId = String(json["vaultedShopperId"] as! Int)
+                                result.isSuccess = true
+                            }
+                        } catch let error as NSError {
+                            NSLog("Error parsing BS result on Retrieve vaulted shopper: \(error.localizedDescription)")
+                        }
+                        
+                    } else {
+                        NSLog("Http error Creating BS Transaction; HTTP status = \(httpStatusCode)")
+                    }
+                }
+            }
+            defer {
+                DispatchQueue.main.async {
+                    completion(result.isSuccess, result.data, result.shopperId)
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    private static func createBasicSubscriptionChargeDataObject(planId: String, bsToken: BSToken?) -> [String : Any]{
+        
+        let requestBody = [
+            "planId" : planId,
+            "paymentSource" : [
+                "pfToken" : bsToken?.getTokenStr()
+            ]] as [String : Any]
+        
+        
+        return requestBody
     }
 
     /**

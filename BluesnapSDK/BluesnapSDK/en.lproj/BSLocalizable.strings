@@ -138,7 +138,6 @@
 
 /* The text of the Pay button in subscription mode without price details */
 "Subscription_Pay_Button_Format" = "Subscribe";
-
 /* The format of the Pay button text in subscription mode: the word Subscribe and then the currency and then the amount with a 2 digit precision */
 "Subscription_with_price_details_Pay_Button_Format" = "Subscribe %@ %.2f";
 
