@@ -332,7 +332,7 @@ class DemoAPIHelper {
         print("shopperId= \(shopperId)")
         let authorization = getBasicAuth()
 
-        let urlStr = BS_SANDBOX_DOMAIN + BS_SANDBOX_VAULTED_SHOPPER + shopperId;
+        let urlStr = BS_SANDBOX_DOMAIN + BS_SANDBOX_VAULTED_SHOPPER + "/" + shopperId;
         let url = NSURL(string: urlStr)!
 
         var request = getURLRequest(urlStr: urlStr, httpMethod: "GET", contentType: "application/json")
