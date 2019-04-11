@@ -373,31 +373,66 @@ class ViewController: UIViewController {
         coverAllView.isHidden = false
         coverAllLabel.text = PROCESSING_MESSAGE
 
+        var isSubscription: Bool = false
+        
         if let _ = purchaseDetails as? BSApplePaySdkResult {
             NSLog("Apple Pay details accepted")
+            
         } else if let ccPurchaseDetails = purchaseDetails as? BSCcSdkResult {
             let creditCard = ccPurchaseDetails.creditCard
             NSLog("CC Expiration: \(creditCard.getExpiration())")
             NSLog("CC type: \(creditCard.ccType ?? "")")
             NSLog("CC last 4 digits: \(creditCard.last4Digits ?? "")")
             NSLog("CC Issuing country: \(creditCard.ccIssuingCountry ?? "")")
+            isSubscription = purchaseDetails.isSubscriptionCharge()
         }
 
         // The creation of BlueSnap Demo transaction here should be done in the merchant server!!!
         // This is just for demo purposes
-        DispatchQueue.main.async {
-            var result: (success: Bool, data: String?) = (false, nil)
-            if let purchaseDetails = purchaseDetails {
-                DemoAPIHelper.createTokenizedTransaction(
-                    purchaseDetails: purchaseDetails,
-                    bsToken: self.bsToken!,
-                    completion: { isSuccess, data, shopperId in
-                        result.data = data
-                        result.success = isSuccess
-                        self.vaultedShopperId = shopperId
-                        self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
-                        self.showThankYouScreen(result)
-                })
+        if (isSubscription){
+            DispatchQueue.main.async {
+                if let purchaseDetails = purchaseDetails {
+                    var result: (success: Bool, data: String?) = (false, nil)
+                    DemoAPIHelper.createSubscriptionPlan(
+                        purchaseDetails: purchaseDetails as! BSCcSdkResult,
+                        completion: { isSuccess, data, planId in
+                            result.data = data
+                            result.success = isSuccess
+                            self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
+
+                            if (!isSuccess){
+                                self.showThankYouScreen(result)
+                            } else {
+                                var result: (success: Bool, data: String?) = (false, nil)
+                                DemoAPIHelper.createSubscriptionCharge(planId: planId!, bsToken: self.bsToken, completion: { isSuccess, data, shopperId in
+                                    result.data = data
+                                    result.success = isSuccess
+                                    self.vaultedShopperId = shopperId
+                                    self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
+                                    self.showThankYouScreen(result)
+                                    
+                                })
+                            }
+                            
+                    })
+                }
+            }
+            
+        } else {
+            DispatchQueue.main.async {
+                var result: (success: Bool, data: String?) = (false, nil)
+                if let purchaseDetails = purchaseDetails {
+                    DemoAPIHelper.createTokenizedTransaction(
+                        purchaseDetails: purchaseDetails,
+                        bsToken: self.bsToken!,
+                        completion: { isSuccess, data, shopperId in
+                            result.data = data
+                            result.success = isSuccess
+                            self.vaultedShopperId = shopperId
+                            self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
+                            self.showThankYouScreen(result)
+                    })
+                }
             }
         }
     }
