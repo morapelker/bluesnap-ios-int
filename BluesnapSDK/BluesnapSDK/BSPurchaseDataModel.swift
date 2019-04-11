@@ -33,6 +33,8 @@ public class BSPaymentInfo: NSObject {
  */
 public class BSBaseSdkResult: NSObject {
     private var isSdkRequestIsShopperRequirements: Bool! = nil
+    private var isSdkRequestIsSubscriptionCharge: Bool! = nil
+    private var isSdkRequestSubscriptionHasPriceDetails: Bool? = nil
     var storeCard: Bool! = nil
     var fraudSessionId: String?
     var priceDetails: BSPriceDetails!
@@ -43,9 +45,11 @@ public class BSBaseSdkResult: NSObject {
     */
     internal init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init()
-        self.isSdkRequestIsShopperRequirements = !(sdkRequestBase is BSSdkRequest)
+        self.isSdkRequestIsShopperRequirements = (sdkRequestBase is BSSdkRequestShopperRequirements)
+        self.isSdkRequestIsSubscriptionCharge = (sdkRequestBase is BSSdkRequestSubscriptionCharge)
+        self.isSdkRequestSubscriptionHasPriceDetails = isSdkRequestIsSubscriptionCharge ? (sdkRequestBase as! BSSdkRequestSubscriptionCharge).hasPriceDetails() : nil
         self.storeCard = self.isSdkRequestIsShopperRequirements
-        self.priceDetails = (isSdkRequestIsShopperRequirements) ? nil : sdkRequestBase.priceDetails.copy() as? BSPriceDetails
+        self.priceDetails = hasPriceDetails() ? sdkRequestBase.priceDetails.copy() as? BSPriceDetails : nil
         self.fraudSessionId = BlueSnapSDK.fraudSessionId
     }
 
@@ -56,15 +60,15 @@ public class BSBaseSdkResult: NSObject {
     // MARK: getters and setters
 
     public func getAmount() -> Double! {
-        return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.amount.doubleValue
+        return (hasPriceDetails()) ? priceDetails.amount.doubleValue : nil
     }
 
     public func getTaxAmount() -> Double! {
-        return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.taxAmount.doubleValue
+        return (hasPriceDetails()) ? priceDetails.taxAmount.doubleValue : nil
     }
 
     public func getCurrency() -> String! {
-        return (isSdkRequestIsShopperRequirements) ? nil : priceDetails.currency
+        return (hasPriceDetails()) ? priceDetails.currency : nil
     }
 
     public func getChosenPaymentMethodType() -> BSPaymentType! {
@@ -73,6 +77,18 @@ public class BSBaseSdkResult: NSObject {
 
     public func isShopperRequirements() -> Bool! {
         return isSdkRequestIsShopperRequirements
+    }
+    
+    public func isSubscriptionCharge() -> Bool! {
+        return isSdkRequestIsSubscriptionCharge
+    }
+    
+    public func isSubscriptionHasPriceDetails() -> Bool? {
+        return isSdkRequestSubscriptionHasPriceDetails
+    }
+    
+    public func hasPriceDetails() -> Bool {
+        return !(isShopperRequirements() || (isSubscriptionCharge() && !isSubscriptionHasPriceDetails()!))
     }
 }
 
@@ -166,6 +182,27 @@ public class BSSdkRequestShopperRequirements: NSObject, BSSdkRequestProtocol {
 
         self.shopperConfiguration = BSShopperConfiguration(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: billingDetails, shippingDetails: shippingDetails)
         self.purchaseFunc = purchaseFunc
+    }
+}
+
+public class BSSdkRequestSubscriptionCharge: BSSdkRequest {
+    private var sdkRequestHasPriceDetails: Bool = true
+    
+    convenience public init(
+        withEmail: Bool,
+        withShipping: Bool,
+        fullBilling: Bool,
+        billingDetails: BSBillingAddressDetails?,
+        shippingDetails: BSShippingAddressDetails?,
+        purchaseFunc: @escaping (BSBaseSdkResult?) -> Void) {
+        
+        self.init(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: nil, billingDetails: billingDetails, shippingDetails: shippingDetails, purchaseFunc: purchaseFunc, updateTaxFunc: nil)
+        
+        sdkRequestHasPriceDetails = false
+    }
+    
+    public func hasPriceDetails() -> Bool {
+        return sdkRequestHasPriceDetails
     }
 }
 

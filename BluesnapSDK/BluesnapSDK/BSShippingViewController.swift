@@ -367,8 +367,9 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         subtotalAndTaxDetailsView.setAmounts(subtotalAmount: subtotalAmount, taxAmount: taxAmount, currency: toCurrency)
         
         var payButtonText = "";
-        if newCardMode && !purchaseDetails.isShopperRequirements() {
-            payButtonText = BSViewsManager.getPayButtonText(subtotalAmount: subtotalAmount, taxAmount: taxAmount, toCurrency: toCurrency)
+        if newCardMode {
+            payButtonText = BSViewsManager.getPayButtonText(purchaseDetails: purchaseDetails)
+
         } else {
             payButtonText = BSLocalizedStrings.getString(BSLocalizedString.Keyboard_Done_Button_Text)
         }

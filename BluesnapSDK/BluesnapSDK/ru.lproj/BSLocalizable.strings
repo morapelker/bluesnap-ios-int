@@ -136,6 +136,11 @@
 /* The text of the Pay button in the Payment screen in case we have shipping */
 "Payment_Shipping_Button" = "Доставка >";
 
+/* The text of the Pay button in subscription mode without price details */
+"Subscription_Pay_Button_Format" = "Подписывайся";
+/* The format of the Pay button text in subscription mode: the word Subscribe and then the currency and then the amount with a 2 digit precision */
+"Subscription_with_price_details_Pay_Button_Format" = "Подписывайся %@ %.2f";
+
 
 /* ------- Menu in Payment screen ------- */
 

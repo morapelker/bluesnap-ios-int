@@ -45,7 +45,7 @@ class BSStartViewController: UIViewController {
         self.navigationController!.isNavigationBarHidden = false
 
         // Hide/show the buttons and position them automatically
-        showPayPal = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods)
+        showPayPal = BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods) && !(BlueSnapSDK.sdkRequestBase is BSSdkRequestSubscriptionCharge)
         showApplePay = BlueSnapSDK.applePaySupported(supportedPaymentMethods: supportedPaymentMethods, supportedNetworks: BlueSnapSDK.applePaySupportedNetworks).canMakePayments
         //self.hideShowElements()
 
@@ -183,7 +183,14 @@ class BSStartViewController: UIViewController {
 
     // Mark: private functions
 
-
+    private func isShowPayPal() -> Bool {
+        var showPayPal = false
+        
+        showPayPal = !(BlueSnapSDK.sdkRequestBase is BSSdkRequestSubscriptionCharge) && BSApiManager.isSupportedPaymentMethod(paymentType: BSPaymentType.PayPal, supportedPaymentMethods: supportedPaymentMethods)
+        
+        return showPayPal
+    }
+    
     private func hideShowElements() {
 
         var existingCreditCards: [BSCreditCardInfo] = []
