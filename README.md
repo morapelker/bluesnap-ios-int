@@ -21,6 +21,7 @@ The Standard Checkout Flow allows you to get up and running quickly with our pre
 * Pre-populating checkout page.
 * Specifying a returning user so BlueSnap can pre-populate checkout screen with their payment and shipping/billing info.  
 * Launching checkout UI with simple start function.
+* Subscription charges
 
 To see an image of the Standard Checkout Flow, click [here](https://developers.bluesnap.com/v8976-Basics/docs/ios-sdk#standard-checkout-flow). 
 
@@ -288,7 +289,9 @@ Another option is to call `checkCreditCard(ccn: String)`, which first validates 
 # Sending the payment for processing
 If the shopper purchased via PayPal, then the transaction has successfully been submitted and no further action is required.
 
-If the shopper purchased via credit card, you will need to make a server-to-server call to BlueSnap's Payment API with the Hosted Payment Field token you initialized in the SDK. You should do this after the shopper has completed checkout and has left the SDK checkout screen. Visit the [API documentation](https://developers.bluesnap.com/v8976-Basics/docs/completing-tokenized-payments) to see how.
+If the shopper purchased via credit card, you will need to create a transaction using a server-to-server API call to BlueSnap's Payment API with the Hosted Payment Field token you initialized in the SDK. You should do this after the shopper has completed checkout and has left the SDK checkout screen. Visit the [API documentation](https://developers.bluesnap.com/v8976-Basics/docs/completing-tokenized-payments) to see how.
+
+In case of a Subscription checkout, you should create a subscription using a server to server API call, This is also covered in the [API documentation](https://developers.bluesnap.com/v8976-Basics/docs/completing-tokenized-payments). 
 
 **Note:** In the Standard Checkout Flow, this is when `purchaseFunc` is called. In the Custom Checkout Flow, this is when `didSubmitCreditCard` is called (if you're using the `BSCcInputLine` field) or `completion` is called (if you're using your own input fields). 
 
@@ -629,6 +632,11 @@ Parameters:
 | `animated` | Boolean that indicates if page transitions are animated. If `true`, wipe transition is used. If `false`, no animation is used - pages replace one another at once. |
 | `sdkRequest` | Object that holds price information, required checkout fields, and initial user data. |
 
+### BSSdkRequestSubscriptionCharge (Subscriptions flow)
+This is an Extention to the BSSdkRequest that enables subscription support, use This Object in case of a subscription flow.
+The constructor for this object allows you to instantiate a Sdk Request without Price Details which is suitable for this flow.
+
+ 
 
 ### submitTokenizedDetails
 This function is relevant if you're collecting the user's data using your own input fields. 
