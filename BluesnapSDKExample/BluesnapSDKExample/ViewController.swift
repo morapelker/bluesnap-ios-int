@@ -131,7 +131,8 @@ class ViewController: UIViewController {
                         animated: true,
                         sdkRequest: self.sdkRequestBase as! BSSdkRequest)
             } catch {
-                fatalError("Unexpected error: \(error).")
+                NSLog("Unexpected error: \(error).")
+                self.showErrorAlert(message: "Unexpected error: \(error).")
             }
         }
     }
@@ -147,7 +148,8 @@ class ViewController: UIViewController {
                         animated: true,
                         sdkRequestShopperRequirements: self.sdkRequestBase as! BSSdkRequestShopperRequirements)
             } catch {
-                fatalError("Unexpected error: \(error).")
+                NSLog("Unexpected error: \(error).")
+                self.showErrorAlert(message: "Unexpected error: \(error).")
             }
         }
     }
@@ -165,6 +167,7 @@ class ViewController: UIViewController {
                         animated: true,
                         sdkRequest: self.sdkRequestBase as! BSSdkRequest)
             } catch {
+                NSLog("Unexpected error: \(error).")
                 self.showErrorAlert(message: "Unexpected error: \(error).")
             }
         }
@@ -181,7 +184,8 @@ class ViewController: UIViewController {
                     animated: true,
                     sdkRequest: self.sdkRequestBase as! BSSdkRequest)
             } catch {
-                fatalError("Unexpected error: \(error).")
+                NSLog("Unexpected error: \(error).")
+                self.showErrorAlert(message: "Unexpected error: \(error).")
             }
         }
     }
