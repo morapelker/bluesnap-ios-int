@@ -124,14 +124,15 @@ class ViewController: UIViewController {
         buttonGeneralAction()
         DispatchQueue.main.async {
             // open the purchase screen
-            self.fillSdkRequest(isShopperRequirements: false)
+            self.fillSdkRequest(isShopperRequirements: false, isSubscriptionCharge: false)
             do {
                 try BlueSnapSDK.showCheckoutScreen(
                         inNavigationController: self.navigationController,
                         animated: true,
                         sdkRequest: self.sdkRequestBase as! BSSdkRequest)
             } catch {
-                fatalError("Unexpected error: \(error).")
+                NSLog("Unexpected error: \(error).")
+                self.showErrorAlert(message: "Unexpected error: \(error).")
             }
         }
     }
@@ -140,14 +141,15 @@ class ViewController: UIViewController {
         buttonGeneralAction()
         DispatchQueue.main.async {
             // open the purchase screen
-            self.fillSdkRequest(isShopperRequirements: true)
+            self.fillSdkRequest(isShopperRequirements: true, isSubscriptionCharge: false)
             do {
                 try BlueSnapSDK.showChoosePaymentScreen(
                         inNavigationController: self.navigationController,
                         animated: true,
                         sdkRequestShopperRequirements: self.sdkRequestBase as! BSSdkRequestShopperRequirements)
             } catch {
-                fatalError("Unexpected error: \(error).")
+                NSLog("Unexpected error: \(error).")
+                self.showErrorAlert(message: "Unexpected error: \(error).")
             }
         }
     }
@@ -158,18 +160,36 @@ class ViewController: UIViewController {
         hideCoverView = false
         DispatchQueue.main.async {
             // open the purchase screen
-            self.fillSdkRequest(isShopperRequirements: false)
+            self.fillSdkRequest(isShopperRequirements: false, isSubscriptionCharge: false)
             do {
                 try BlueSnapSDK.showCreatePaymentScreen(
                         inNavigationController: self.navigationController,
                         animated: true,
                         sdkRequest: self.sdkRequestBase as! BSSdkRequest)
             } catch {
+                NSLog("Unexpected error: \(error).")
                 self.showErrorAlert(message: "Unexpected error: \(error).")
             }
         }
     }
-
+    
+    @IBAction func SubscriptionButtonAction(_ sender: UIButton) {
+        buttonGeneralAction()
+        DispatchQueue.main.async {
+            // open the purchase screen
+            self.fillSdkRequest(isShopperRequirements: false, isSubscriptionCharge: true)
+            do {
+                try BlueSnapSDK.showCheckoutScreen(
+                    inNavigationController: self.navigationController,
+                    animated: true,
+                    sdkRequest: self.sdkRequestBase as! BSSdkRequest)
+            } catch {
+                NSLog("Unexpected error: \(error).")
+                self.showErrorAlert(message: "Unexpected error: \(error).")
+            }
+        }
+    }
+    
     @IBAction func currencyButtonAction(_ sender: UIButton) {
 
         coverAllLabel.text = LOADING_MESSAGE
@@ -177,7 +197,7 @@ class ViewController: UIViewController {
         hideCoverView = true
 
         DispatchQueue.main.async {
-            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements)
+            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements, isSubscriptionCharge: false)
             BlueSnapSDK.showCurrencyList(
                     inNavigationController: self.navigationController,
                     animated: true,
@@ -195,7 +215,7 @@ class ViewController: UIViewController {
         hideCoverView = true
 
         DispatchQueue.main.async {
-            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements)
+            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements, isSubscriptionCharge: false)
             BlueSnapSDK.showCurrencyList(
                     inNavigationController: self.navigationController,
                     animated: true,
@@ -248,7 +268,7 @@ class ViewController: UIViewController {
     /**
      Here we adjust the checkout details with the latest amounts from the fields on our view.
     */
-    private func fillSdkRequest(isShopperRequirements: Bool) {
+    private func fillSdkRequest(isShopperRequirements: Bool, isSubscriptionCharge: Bool) {
 
         let amount = (valueTextField.text! as NSString).doubleValue
         let taxAmount = (!isShopperRequirements) ? (taxTextField.text! as NSString).doubleValue : nil
@@ -257,11 +277,18 @@ class ViewController: UIViewController {
         let withShipping = withShippingSwitch.isOn
         let fullBilling = fullBillingSwitch.isOn
         let withEmail = withEmailSwitch.isOn
-        if (!isShopperRequirements) {
+        if (!isShopperRequirements && !isSubscriptionCharge) {
             sdkRequestBase = BSSdkRequest(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
             sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
             sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
             NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
+        } else if (isSubscriptionCharge) {
+            if (amount == 0.0){
+                sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
+            } else {
+                sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
+            }
+            
         } else {
             sdkRequestBase = BSSdkRequestShopperRequirements(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
         }
@@ -350,31 +377,66 @@ class ViewController: UIViewController {
         coverAllView.isHidden = false
         coverAllLabel.text = PROCESSING_MESSAGE
 
+        var isSubscription: Bool = false
+        
         if let _ = purchaseDetails as? BSApplePaySdkResult {
             NSLog("Apple Pay details accepted")
+            
         } else if let ccPurchaseDetails = purchaseDetails as? BSCcSdkResult {
             let creditCard = ccPurchaseDetails.creditCard
             NSLog("CC Expiration: \(creditCard.getExpiration())")
             NSLog("CC type: \(creditCard.ccType ?? "")")
             NSLog("CC last 4 digits: \(creditCard.last4Digits ?? "")")
             NSLog("CC Issuing country: \(creditCard.ccIssuingCountry ?? "")")
+            isSubscription = purchaseDetails.isSubscriptionCharge()
         }
 
         // The creation of BlueSnap Demo transaction here should be done in the merchant server!!!
         // This is just for demo purposes
-        DispatchQueue.main.async {
-            var result: (success: Bool, data: String?) = (false, nil)
-            if let purchaseDetails = purchaseDetails {
-                DemoAPIHelper.createTokenizedTransaction(
-                    purchaseDetails: purchaseDetails,
-                    bsToken: self.bsToken!,
-                    completion: { isSuccess, data, shopperId in
-                        result.data = data
-                        result.success = isSuccess
-                        self.vaultedShopperId = shopperId
-                        self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
-                        self.showThankYouScreen(result)
-                })
+        if (isSubscription){
+            DispatchQueue.main.async {
+                if let purchaseDetails = purchaseDetails {
+                    var result: (success: Bool, data: String?) = (false, nil)
+                    DemoAPIHelper.createSubscriptionPlan(
+                        purchaseDetails: purchaseDetails as! BSCcSdkResult,
+                        completion: { isSuccess, data, planId in
+                            result.data = data
+                            result.success = isSuccess
+                            self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
+
+                            if (!isSuccess){
+                                self.showThankYouScreen(result)
+                            } else {
+                                var result: (success: Bool, data: String?) = (false, nil)
+                                DemoAPIHelper.createSubscriptionCharge(planId: planId!, bsToken: self.bsToken, completion: { isSuccess, data, shopperId in
+                                    result.data = data
+                                    result.success = isSuccess
+                                    self.vaultedShopperId = shopperId
+                                    self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
+                                    self.showThankYouScreen(result)
+                                    
+                                })
+                            }
+                            
+                    })
+                }
+            }
+            
+        } else {
+            DispatchQueue.main.async {
+                var result: (success: Bool, data: String?) = (false, nil)
+                if let purchaseDetails = purchaseDetails {
+                    DemoAPIHelper.createTokenizedTransaction(
+                        purchaseDetails: purchaseDetails,
+                        bsToken: self.bsToken!,
+                        completion: { isSuccess, data, shopperId in
+                            result.data = data
+                            result.success = isSuccess
+                            self.vaultedShopperId = shopperId
+                            self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
+                            self.showThankYouScreen(result)
+                    })
+                }
             }
         }
     }

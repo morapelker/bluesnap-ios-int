@@ -346,4 +346,40 @@ class BSViewsManager {
         let result = String(format: payFormat, currencyCode, CGFloat(amount))
         return result
     }
+    
+    /**
+     Generate the Pay button text according to the amounts
+     */
+    open class func getPayButtonText(purchaseDetails : BSCcSdkResult) -> String {
+        var result: String
+        var payFormat: String
+        
+        if (purchaseDetails.isShopperRequirements()){
+            payFormat = BSLocalizedStrings.getString(BSLocalizedString.Keyboard_Done_Button_Text)
+        }
+            
+        else if (purchaseDetails.isSubscriptionCharge()){
+            payFormat = (purchaseDetails.isSubscriptionHasPriceDetails() ?? false) ? BSLocalizedStrings.getString(BSLocalizedString.Subscription_with_price_details_Pay_Button_Format) : BSLocalizedStrings.getString(BSLocalizedString.Subscription_Pay_Button_Format)
+        }
+        
+        else{
+            payFormat = BSLocalizedStrings.getString(BSLocalizedString.Payment_Pay_Button_Format)
+        }
+        
+        if (purchaseDetails.hasPriceDetails()){
+            let toCurrency = purchaseDetails.getCurrency() ?? ""
+            let subtotalAmount = purchaseDetails.getAmount() ?? 0.0
+            let taxAmount = purchaseDetails.getTaxAmount() ?? 0.0
+            
+            let currencyCode = (toCurrency == "USD" ? "$" : toCurrency) 
+            let amount = subtotalAmount + taxAmount
+            result = String(format: payFormat, currencyCode, CGFloat(amount))
+        }
+            
+        else{
+            result = payFormat
+        }
+        
+        return result
+    }
 }
