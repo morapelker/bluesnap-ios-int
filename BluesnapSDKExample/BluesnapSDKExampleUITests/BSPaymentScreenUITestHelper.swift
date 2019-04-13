@@ -174,17 +174,24 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         closeKeyboard()
         
         // check visibility
-        XCTAssertTrue(app.otherElements.element(matching: .any, identifier: "StoreCardView").exists == shouldBeVisible, "StoreCardView expected to be exists: \(shouldBeVisible), but was exists: \(app.otherElements.element(matching: .any, identifier: "StoreCardView").exists)")
-        XCTAssertTrue(app.staticTexts["StoreCardLabel"].exists == shouldBeVisible, "StoreCardLabel expected to be exists: \(shouldBeVisible), but was exists: \(app.staticTexts["StoreCardLabel"].exists)")
-        XCTAssertTrue(app.switches["StoreCardSwitch"].exists == shouldBeVisible, "StoreCardSwitch expected to be exists: \(shouldBeVisible), but was exists: \(app.switches["StoreCardSwitch"].exists)")
+        checkStoreCardVisibility(shouldBeVisible: shouldBeVisible)
         
         // check switch state
         let switchState = shouldBeOn ? "1" : "0"
         XCTAssertTrue(app.switches["StoreCardSwitch"].value as! String == switchState, "StoreCardSwitch expected to be shouldBeOn: \(shouldBeOn), but was shouldBeOn: \(!shouldBeOn)")
         
-        if (shouldBeVisible){
-            //TODO: check valid color            
+        // when trying to pay with the swith off, and store card is mandatory
+        // this is the only way to check validation for now, due to UI XCTest limitations
+        if (isValid){
+            checkStoreCardVisibility(shouldBeVisible: true)
         }
+    }
+    
+    private func checkStoreCardVisibility(shouldBeVisible: Bool){
+        XCTAssertTrue(app.otherElements.element(matching: .any, identifier: "StoreCardView").exists == shouldBeVisible, "StoreCardView expected to be exists: \(shouldBeVisible), but was exists: \(app.otherElements.element(matching: .any, identifier: "StoreCardView").exists)")
+        XCTAssertTrue(app.staticTexts["StoreCardLabel"].exists == shouldBeVisible, "StoreCardLabel expected to be exists: \(shouldBeVisible), but was exists: \(app.staticTexts["StoreCardLabel"].exists)")
+        XCTAssertTrue(app.switches["StoreCardSwitch"].exists == shouldBeVisible, "StoreCardSwitch expected to be exists: \(shouldBeVisible), but was exists: \(app.switches["StoreCardSwitch"].exists)")
+        
     }
     
     //Pre-condition: country is USA- for state existence and "Billing Zip" label text
@@ -434,6 +441,5 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         closeKeyboard()
         app.buttons["PayButton"].tap()
     }
-    
     
 }

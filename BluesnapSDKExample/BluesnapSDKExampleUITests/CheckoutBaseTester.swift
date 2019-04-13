@@ -15,22 +15,26 @@
 class CheckoutBaseTester: UIBaseTester{
 //    internal var isReturningShopper: Bool = false
     
-    internal func setUpForCheckoutSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false, isReturningShopper: Bool = false, shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false){
+    internal func setUpForCheckoutSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false, isReturningShopper: Bool = false, shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false, isSubscription: Bool = false){
 
         super.setUpForSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, allowCurrencyChange: allowCurrencyChange, hideStoreCardSwitch: hideStoreCardSwitch, isReturningShopper: isReturningShopper, shopperId: shopperId)
         
         // start checkout
-        gotoPaymentScreen(shopperId: shopperId, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine)
+        gotoPaymentScreen(shopperId: shopperId, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine, isSubscription: isSubscription)
     }
     
-    private func gotoPaymentScreen(shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false){
+    private func gotoPaymentScreen(shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false, isSubscription: Bool = false){
         let paymentTypeHelper = BSPaymentTypeScreenUITestHelper(app: app)
         
-        // click "Checkout" button
-        app.buttons["CheckoutButton"].tap()
+        // click "Checkout" button / "Subscription" button
+        if(isSubscription){
+            app.buttons["SubscriptionButton"].tap()
+
+        } else {
+            app.buttons["CheckoutButton"].tap()
+        }
         
         // wait for payment type screen to load
-        
         let ccButton = paymentTypeHelper.getCcButtonElement()
         waitForElementToExist(element: ccButton, waitTime: 120)
         

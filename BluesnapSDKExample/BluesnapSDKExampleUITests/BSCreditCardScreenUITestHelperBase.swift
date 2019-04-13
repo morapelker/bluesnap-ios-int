@@ -218,6 +218,9 @@ class BSCreditCardScreenUITestHelperBase {
     func checkDoneButton() {
     }
     
+    func checkSubscriptionButton(sdkRequest: BSSdkRequest, hasPriceDetails: Bool) {
+    }
+    
     
     func setCountry(countryCode: String) {
         
