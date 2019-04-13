@@ -24,6 +24,7 @@
 		87114429220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87114428220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift */; };
 		8711442C220A6BD900F36911 /* CheckoutBaseTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */; };
 		8713189221E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */; };
+		871D7ADE225FC84A0033DD47 /* SubscriptionChargeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871D7ADD225FC84A0033DD47 /* SubscriptionChargeUITests.swift */; };
 		87829E5D220A478E00F0BD41 /* BSUITestsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */; };
 		879963CD22118B7B00F6281A /* ReturningShopperFullBillingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879963CC22118B7B00F6281A /* ReturningShopperFullBillingTests.swift */; };
 		879F3E3B21CA976800A03583 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBCB0A4AF915BC7F97CFF91 /* Configuration.swift */; };
@@ -132,6 +133,7 @@
 		87114428220A6AFA00F36911 /* CheckoutReturningShopperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutReturningShopperUITests.swift; sourceTree = "<group>"; };
 		8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutBaseTester.swift; sourceTree = "<group>"; };
 		8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSCreditCardScreenUITestHelperBase.swift; sourceTree = "<group>"; };
+		871D7ADD225FC84A0033DD47 /* SubscriptionChargeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionChargeUITests.swift; sourceTree = "<group>"; };
 		8771F3B621C802DD0030108E /* DemoAPIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAPIHelper.swift; sourceTree = "<group>"; };
 		87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSUITestsUtils.swift; sourceTree = "<group>"; };
 		879963CC22118B7B00F6281A /* ReturningShopperFullBillingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturningShopperFullBillingTests.swift; sourceTree = "<group>"; };
@@ -268,9 +270,11 @@
 		2D4E27A11E8808A800C56C46 /* BluesnapSDKExampleUITests */ = {
 			isa = PBXGroup;
 			children = (
-				879963CA22118ADF00F6281A /* CheckoutReturningShopperUITests */,
 				8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */,
 				2D4E27A21E8808A800C56C46 /* CheckoutNewShopperUITests.swift */,
+				879963CA22118ADF00F6281A /* CheckoutReturningShopperUITests */,
+				CA3C1A78326713261CDCD524 /* ShopperConfigurationUITests */,
+				871D7ADD225FC84A0033DD47 /* SubscriptionChargeUITests.swift */,
 				2D4E27A41E8808A800C56C46 /* Info.plist */,
 				FD50228E1F6137A900C820AC /* BSPaymentTypeScreenUITestHelper.swift */,
 				8713189121E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift */,
@@ -279,7 +283,6 @@
 				FD6479ED1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift */,
 				87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */,
 				CA3C1D2012E27B699C07A866 /* UIBaseTester.swift */,
-				CA3C1A78326713261CDCD524 /* ShopperConfigurationUITests */,
 			);
 			path = BluesnapSDKExampleUITests;
 			sourceTree = "<group>";
@@ -510,6 +513,7 @@
 				DEB4DCB77A919FB8115F65E5 /* AppDelegate.swift in Sources */,
 				87E7D08722119B3C0092F921 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift in Sources */,
 				8713189221E3754C00C2E2DF /* BSCreditCardScreenUITestHelperBase.swift in Sources */,
+				871D7ADE225FC84A0033DD47 /* SubscriptionChargeUITests.swift in Sources */,
 				8711442C220A6BD900F36911 /* CheckoutBaseTester.swift in Sources */,
 				87E7D08522119B0E0092F921 /* ReturningShopperMinimalBillingWithShippingTests.swift in Sources */,
 				879963CD22118B7B00F6281A /* ReturningShopperFullBillingTests.swift in Sources */,

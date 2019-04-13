@@ -13,33 +13,6 @@ import BluesnapSDK
 //@testable import BluesnapSDKIntegrationTests //TODO: make it work
 
 class CheckoutNewShopperUITests: CheckoutBaseTester {
-    
-    /* -------------------------------- Returning shopper tests ---------------------------------------- */
-
-    // full billing, with shipping, check "shipping same as billing"
-    
-//    func testShortReturningShopperNewCcFlow() {
-//
-//        // no full billing, no shipping, no email, new CC
-//
-//        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true)
-//
-//        fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
-//
-//        let elementsQuery = app.scrollViews.otherElements
-//        let textField = elementsQuery.element(matching: .any, identifier: "Name")
-//        if textField.exists {
-//            textField.tap()
-//            app.keyboards.buttons["Done"].tap()
-//        }
-//
-//        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
-//        paymentHelper.pressPayButton()
-//
-//        checkResult(expectedSuccessText: "Success!")
-//
-//        print("done")
-//    }
 
     /* -------------------------------- New shopper views tests ---------------------------------------- */
     
