@@ -54,7 +54,7 @@ class UIBaseTester: XCTestCase{
 
     }
 
-    internal func setUpForSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false, isReturningShopper: Bool = false, shopperId: String? = nil){
+    internal func setUpForSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false, isReturningShopper: Bool = false, shopperId: String? = nil, trialPeriodDays: Int? = nil){
 
         // set returning shopper and shipping same as billing properties
         self.isReturningShopper = isReturningShopper
@@ -72,7 +72,7 @@ class UIBaseTester: XCTestCase{
         }
 
         // set switches and amounts in merchant checkout screen
-        setMerchantCheckoutScreen(shopperId: shopperId)
+        setMerchantCheckoutScreen(shopperId: shopperId, trialPeriodDays: trialPeriodDays)
     }
 
     private func prepareSdkRequest(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false) {
@@ -89,16 +89,14 @@ class UIBaseTester: XCTestCase{
         self.sdkRequest = sdkRequest
     }
 
-    private func setMerchantCheckoutScreen(shopperId: String? = nil) {
+    private func setMerchantCheckoutScreen(shopperId: String? = nil, trialPeriodDays: Int? = nil){
 
         // set new/returning shopper
         setSwitch(switchId: "ReturningShopperSwitch", isDesiredConfig: isReturningShopper, waitToExist: true, waitToDisappear: true)
 
         if let shopperId = shopperId {
-            let shopperIdField = app.textFields["ReturningShopperId"]
-            shopperIdField.doubleTap()
-            shopperIdField.clearText()
-            shopperIdField.typeText(shopperId)
+            setTextField(textFieldId: "ReturningShopperId", value: shopperId)
+
             let amountField = app.textFields["AmountField"]
             amountField.doubleTap()
             let coverView = app.otherElements.element(matching: .any, identifier: "CoverView")
@@ -120,21 +118,28 @@ class UIBaseTester: XCTestCase{
         // set with Email switch = on
         setSwitch(switchId: "HideStoreCardSwitch", isDesiredConfig: sdkRequest.hideStoreCardSwitch)
 
+        if let trialPeriodDays = trialPeriodDays{
+            setTextField(textFieldId: "TrialDaysNumberField", value: String(trialPeriodDays))
+        }
+        
         setPurchaseAmount()
-
     }
     
     internal func setPurchaseAmount() {
         if let priceDetails = sdkRequest.priceDetails {
             // set amount text field value
             let amount = "\(priceDetails.amount ?? 0)"
-            let amountField : XCUIElement = app.textFields["AmountField"]
-            amountField.tap()
-            amountField.doubleTap()
-            amountField.typeText(amount)
+            setTextField(textFieldId: "AmountField", value: amount)
         }
     }
-
+    
+    internal func setTextField(textFieldId: String, value: String) {
+            // set amount text field value
+            let textField : XCUIElement = app.textFields[textFieldId]
+            textField.clearText()
+            textField.typeText(value)
+        
+    }
 
     internal func setSwitch(switchId: String, isDesiredConfig: Bool, waitToExist: Bool = false, waitToDisappear: Bool = false) {
 

@@ -14,10 +14,10 @@ import BluesnapSDK
 
 class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
     
-    /* -------------------------------- Subscription views tests ---------------------------------------- */
+    /* -------------------------------- Subscription common tests ---------------------------------------- */
 
-    func testViewsFullBillingWithShippingWithEmail() {
-        setUpForCheckoutSdk(fullBilling: true, withShipping: true, withEmail: true, isSubscription: true)
+    func subscriptionViewsCommomTester(checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, trialPeriodDays: Int? = nil){
+        setUpForCheckoutSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, isSubscription: true, trialPeriodDays: trialPeriodDays)
         
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
@@ -28,29 +28,51 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
         // check Store Card view visibility
         paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
-        // check pay button when shipping same as billing is on
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn, isSubscription: true)
-        
-        setShippingSameAsBillingSwitch(shouldBeOn: false)
-        
-        // check pay button when shipping same as billing is off
-        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn, isSubscription: true)
-        
         // check that the Store Card is mandatory
         paymentHelper.checkStoreCardMandatory()
         
-        // continue to shipping screen
-        setStoreCardSwitch(shouldBeOn: true)
-        gotoShippingScreen()
+        if (checkoutWithShipping) {
+            // check pay button when shipping same as billing is on
+            paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn, subscriptionHasPriceDetails: trialPeriodDays == nil)
+            
+            setShippingSameAsBillingSwitch(shouldBeOn: false)
+            
+            // check pay button when shipping same as billing is off
+            paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn, subscriptionHasPriceDetails: trialPeriodDays == nil)
+            
+            // continue to shipping screen
+            setStoreCardSwitch(shouldBeOn: true)
+            gotoShippingScreen()
+            
+            // check Inputs Fields visibility (including error messages)
+            shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
+            
+            // check shipping pay button
+            shippingHelper.checkPayButton(sdkRequest: sdkRequest, subscriptionHasPriceDetails: true)
+        }
         
-        // check Inputs Fields visibility (including error messages)
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
-        
-        // check shipping pay button
-        shippingHelper.checkPayButton(sdkRequest: sdkRequest, isSubscription: true)
-        
-        // fill in shipping details with country without shipping tax
-        fillShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "IL"))
+        else {
+            paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: false, subscriptionHasPriceDetails: trialPeriodDays == nil)
+        }
+    }
+    
+    
+    /* -------------------------------- Subscription views tests ---------------------------------------- */
+
+    func testViewsNoFullBillingNoShippingNoEmail_withoutPriceDetails() {
+        subscriptionViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, trialPeriodDays: 30)
+    }
+    
+    func testViewsNoFullBillingNoShippingNoEmail_withPriceDetails() {
+        subscriptionViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
+    }
+    
+    func testViewsFullBillingWithShippingWithEmail_withoutPriceDetails() {
+        subscriptionViewsCommomTester(checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true, trialPeriodDays: 28)
+    }
+    
+    func testViewsFullBillingWithShippingWithEmail_withPriceDetails() {
+        subscriptionViewsCommomTester(checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
     /* -------------------------------- Subscription end-to-end flow tests ---------------------------------------- */
@@ -66,14 +88,4 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
     func testFlowShippingSameAsBilling() {
         newCardBasicCheckoutFlow(fullBilling: true, withShipping: true, withEmail: true, shippingSameAsBilling: true, storeCard: true, isSubscription: true)
     }
-    
-    //TODO: fix this 2- add set up for returning shopper
-//    func testReturningShopperEndToEndMinimalBilling_shopperWithFullBillingWithEmailWithShipping() {
-//        existingCardBasicCheckoutFlow(fullBilling: false, withShipping: false, withEmail: false)
-//    }
-//
-//    func testReturningShopperEndToEndFullBillingWithEmailWithShipping_shopperWithFullBillingWithEmailWithShipping() {
-//        existingCardBasicCheckoutFlow(fullBilling: true, withShipping: true, withEmail: true)
-//
-//    }
 }
