@@ -412,12 +412,12 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         }
     }
     
-    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool, isSubscription: Bool = false) {
+    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool, subscriptionHasPriceDetails: Bool? = nil) {
         var expectedPayText = ""
         
         // checkout without shipping- amout&currency should be displayed, without shipping tax
         if (!sdkRequest.shopperConfiguration.withShipping){
-            expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: nil, state: nil, isSubscription: isSubscription)
+            expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: nil, state: nil, subscriptionHasPriceDetails: subscriptionHasPriceDetails)
         }
         
         // checkout with shipping and shipping same as billing is on - amout&currency should be displayed, with shipping tax by billing country&state
@@ -425,7 +425,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             let country = sdkRequest.shopperConfiguration.billingDetails?.country
             let state = sdkRequest.shopperConfiguration.billingDetails?.state
             
-            expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: country ?? "", state: state ?? "", isSubscription: isSubscription)
+            expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: country ?? "", state: state ?? "", subscriptionHasPriceDetails: subscriptionHasPriceDetails)
         }
             
         // checkout with shipping and shipping same as billing is off - continue to shipping should be displayed

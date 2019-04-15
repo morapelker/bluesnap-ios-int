@@ -15,9 +15,9 @@ import BluesnapSDK
 class CheckoutBaseTester: UIBaseTester{
 //    internal var isReturningShopper: Bool = false
     
-    internal func setUpForCheckoutSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false, isReturningShopper: Bool = false, shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false, isSubscription: Bool = false){
+    internal func setUpForCheckoutSdk(fullBilling: Bool, withShipping: Bool, withEmail: Bool, allowCurrencyChange: Bool = true, hideStoreCardSwitch: Bool = false, isReturningShopper: Bool = false, shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false, isSubscription: Bool = false, trialPeriodDays: Int? = nil){
 
-        super.setUpForSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, allowCurrencyChange: allowCurrencyChange, hideStoreCardSwitch: hideStoreCardSwitch, isReturningShopper: isReturningShopper, shopperId: shopperId)
+        super.setUpForSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, allowCurrencyChange: allowCurrencyChange, hideStoreCardSwitch: hideStoreCardSwitch, isReturningShopper: isReturningShopper, shopperId: shopperId, trialPeriodDays: trialPeriodDays)
         
         // start checkout
         gotoPaymentScreen(shopperId: shopperId, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine, isSubscription: isSubscription)

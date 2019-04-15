@@ -76,12 +76,12 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         }
     }
     
-    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool=false, isSubscription: Bool = false) {
+    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool=false, subscriptionHasPriceDetails: Bool? = nil) {
 
         let country = sdkRequest.shopperConfiguration.shippingDetails?.country
         let state = sdkRequest.shopperConfiguration.shippingDetails?.state
         
-        let expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: country ?? "", state: state ?? "", isSubscription: isSubscription)
+        let expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: country ?? "", state: state ?? "", subscriptionHasPriceDetails: subscriptionHasPriceDetails)
 
         BSUITestUtils.checkAPayButton(app: app, buttonId: "ShippingPayButton", expectedPayText: expectedPayText)
     }
