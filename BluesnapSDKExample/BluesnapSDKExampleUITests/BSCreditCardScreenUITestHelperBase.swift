@@ -87,7 +87,7 @@ class BSCreditCardScreenUITestHelperBase {
             XCTAssertTrue(titleLabelText == expectedLabelText, "\(input.identifier) expected value: \(expectedLabelText), actual value: \(titleLabelText)")
 
             let errorLabel = getInputErrorLabelElement(input)
-            XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(expectedValid), but was exists: \(errorLabel.exists)")
+            XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(!expectedValid), but was exists: \(errorLabel.exists)")
 
         }
     }
@@ -212,15 +212,25 @@ class BSCreditCardScreenUITestHelperBase {
         
     }
     
-    func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool) {
+    func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool, isSubscription: Bool = false) {
+    }
+    
+    func getPayButtonText(sdkRequest: BSSdkRequest, country: String?, state: String?, isSubscription: Bool = false) -> String{
+        
+        var amount: Double = sdkRequest.priceDetails.amount.doubleValue
+        let payString = isSubscription ? "Subscribe" : "Pay"
+        
+        if let countryCode = country, let stateCode = state{
+            amount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: countryCode, stateCode: stateCode, purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
+        }
+        
+        let result = "\(payString) \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(amount)"
+        
+        return result
     }
     
     func checkDoneButton() {
     }
-    
-    func checkSubscriptionButton(sdkRequest: BSSdkRequest, hasPriceDetails: Bool) {
-    }
-    
     
     func setCountry(countryCode: String) {
         

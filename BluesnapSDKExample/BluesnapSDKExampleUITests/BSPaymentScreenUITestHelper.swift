@@ -180,11 +180,16 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         let switchState = shouldBeOn ? "1" : "0"
         XCTAssertTrue(app.switches["StoreCardSwitch"].value as! String == switchState, "StoreCardSwitch expected to be shouldBeOn: \(shouldBeOn), but was shouldBeOn: \(!shouldBeOn)")
         
-        // when trying to pay with the swith off, and store card is mandatory
-        // this is the only way to check validation for now, due to UI XCTest limitations
-        if (isValid){
-            checkStoreCardVisibility(shouldBeVisible: true)
+        if (!isValid){
+            // maybe one day we'll check checkStoreCardMandatory here (that the color is red and field is considered invalid)
         }
+    }
+    
+    // when trying to pay with the swith off, and store card is mandatory
+    // this is the only way to check validation for now, due to UI XCTest limitations
+    func checkStoreCardMandatory() {
+        pressPayButton()
+        checkStoreCardVisibility(shouldBeVisible: true)
     }
     
     private func checkStoreCardVisibility(shouldBeVisible: Bool){
@@ -407,12 +412,12 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         }
     }
     
-    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool) {
+    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool, isSubscription: Bool = false) {
         var expectedPayText = ""
         
         // checkout without shipping- amout&currency should be displayed, without shipping tax
         if (!sdkRequest.shopperConfiguration.withShipping){
-            expectedPayText = "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(sdkRequest.priceDetails.amount.doubleValue)"
+            expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: nil, state: nil, isSubscription: isSubscription)
         }
         
         // checkout with shipping and shipping same as billing is on - amout&currency should be displayed, with shipping tax by billing country&state
@@ -420,8 +425,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             let country = sdkRequest.shopperConfiguration.billingDetails?.country
             let state = sdkRequest.shopperConfiguration.billingDetails?.state
             
-            let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
-            expectedPayText = "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(includeTaxAmount)"
+            expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: country ?? "", state: state ?? "", isSubscription: isSubscription)
         }
             
         // checkout with shipping and shipping same as billing is off - continue to shipping should be displayed

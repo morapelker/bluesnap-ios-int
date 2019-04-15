@@ -184,9 +184,6 @@ class UIBaseTester: XCTestCase{
         // fill CC values
         paymentHelper.setCcDetails(ccn: ccn, exp: exp, cvv: cvv)
 
-        // make sure fields are shown according to configuration
-        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: "Billing Zip")
-
         setBillingDetails(billingDetails: billingDetails, ignoreCountry: ignoreCountry)
 
         // check that the values are in correctly
@@ -201,11 +198,6 @@ class UIBaseTester: XCTestCase{
     }
 
     internal func fillShippingDetails(shippingDetails: BSShippingAddressDetails){
-
-        // make sure fields are shown according to configuration
-        sdkRequest.shopperConfiguration.shippingDetails = BSShippingAddressDetails()
-        // This fails because name field contains hint "John Doe" and the XCT returns it as the field value
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
 
         setShippingDetails(shippingDetails: shippingDetails)
 
