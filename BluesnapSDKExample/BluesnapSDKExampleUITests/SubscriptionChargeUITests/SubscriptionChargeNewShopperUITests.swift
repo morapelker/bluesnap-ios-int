@@ -16,7 +16,8 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
     
     /* -------------------------------- Subscription common tests ---------------------------------------- */
 
-    func subscriptionViewsCommomTester(checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, trialPeriodDays: Int? = nil){
+    func subscriptionNewShopperViewsCommomTester(checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, trialPeriodDays: Int? = nil){
+        
         setUpForCheckoutSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, isSubscription: true, trialPeriodDays: trialPeriodDays)
         
         // check cc line visibility (including error messages)
@@ -60,19 +61,19 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
     /* -------------------------------- Subscription views tests ---------------------------------------- */
 
     func testViewsNoFullBillingNoShippingNoEmail_withoutPriceDetails() {
-        subscriptionViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, trialPeriodDays: 30)
+        subscriptionNewShopperViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, trialPeriodDays: 30)
     }
     
     func testViewsNoFullBillingNoShippingNoEmail_withPriceDetails() {
-        subscriptionViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
+        subscriptionNewShopperViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
     }
     
     func testViewsFullBillingWithShippingWithEmail_withoutPriceDetails() {
-        subscriptionViewsCommomTester(checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true, trialPeriodDays: 28)
+        subscriptionNewShopperViewsCommomTester(checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true, trialPeriodDays: 28)
     }
     
     func testViewsFullBillingWithShippingWithEmail_withPriceDetails() {
-        subscriptionViewsCommomTester(checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
+        subscriptionNewShopperViewsCommomTester(checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
     /* -------------------------------- Subscription end-to-end flow tests ---------------------------------------- */

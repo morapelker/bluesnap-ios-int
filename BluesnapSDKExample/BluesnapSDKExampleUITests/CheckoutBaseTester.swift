@@ -64,6 +64,10 @@ class CheckoutBaseTester: UIBaseTester{
         
         //TODO: add store card visibility check
         
+        if (hideStoreCardSwitch){
+            paymentHelper.checkStoreCardVisibility(shouldBeVisible: !hideStoreCardSwitch)
+        }
+        
         newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling, storeCard: storeCard)
         
         checkResult(expectedSuccessText: "Success!")

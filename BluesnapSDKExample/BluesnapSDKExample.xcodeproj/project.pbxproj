@@ -272,6 +272,7 @@
 		2D4E27A11E8808A800C56C46 /* BluesnapSDKExampleUITests */ = {
 			isa = PBXGroup;
 			children = (
+				CA3C1D2012E27B699C07A866 /* UIBaseTester.swift */,
 				8711442B220A6BD900F36911 /* CheckoutBaseTester.swift */,
 				2D4E27A21E8808A800C56C46 /* CheckoutNewShopperUITests.swift */,
 				87114428220A6AFA00F36911 /* CheckoutReturningShopperBaseTester.swift */,
@@ -285,7 +286,6 @@
 				FD5022921F67AD6B00C820AC /* BSShippingScreenUITestHelper.swift */,
 				FD6479ED1FB44D6D00403E7D /* BSExistingCcScreenUITestHelper.swift */,
 				87829E5C220A478E00F0BD41 /* BSUITestsUtils.swift */,
-				CA3C1D2012E27B699C07A866 /* UIBaseTester.swift */,
 			);
 			path = BluesnapSDKExampleUITests;
 			sourceTree = "<group>";

@@ -214,6 +214,29 @@ class BSUITestUtils {
         return countryHasZip
     }
     
+    static func getPayButtonText(sdkRequest: BSSdkRequest, country: String?, state: String?, subscriptionHasPriceDetails: Bool? = nil) -> String{
+        
+        var amount: Double = sdkRequest.priceDetails.amount.doubleValue
+        var payString: String
+        
+        if let subscriptionHasPriceDetails = subscriptionHasPriceDetails{ // Subscription flow
+            payString = "Subscribe"
+            if (!subscriptionHasPriceDetails){ // Subscription flow doesn't have amount
+                return payString
+            }
+        } else { // regular flow
+            payString = "Pay"
+        }
+        
+        if let countryCode = country, let stateCode = state{
+            amount = calcTaxFromCuntryAndState(countryCode: countryCode, stateCode: stateCode, purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
+        }
+        
+        let result = "\(payString) \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(amount)"
+        
+        return result
+    }
+    
     static func calcTaxFromCuntryAndState(countryCode: String, stateCode: String, purchaseAmount: Double) -> Double {
         var taxPrecent = 0.0
         if (countryCode == "US"){

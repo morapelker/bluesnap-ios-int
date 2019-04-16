@@ -94,6 +94,15 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         // check invalid billing inputs
         paymentHelper.checkInvalidInfoInputs(payButtonId: "PayButton")
         
+        // check Store Card view visibility
+        paymentHelper.closeKeyboard()
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        
+        // check store card visibility after changing screens
+        paymentHelper.checkStoreCardVisibilityAfterChangingScreens(shouldBeVisible: true, setTo: true, sdkRequest: sdkRequest)
+        
+        // check store card visibility after changing screens
+        paymentHelper.checkStoreCardVisibilityAfterChangingScreens(shouldBeVisible: true, setTo: false, sdkRequest: sdkRequest)
     }
     
     func testViewsFullBillingWithShippingNoEmail() {

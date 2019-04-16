@@ -81,7 +81,7 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         let country = sdkRequest.shopperConfiguration.shippingDetails?.country
         let state = sdkRequest.shopperConfiguration.shippingDetails?.state
         
-        let expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: country ?? "", state: state ?? "", subscriptionHasPriceDetails: subscriptionHasPriceDetails)
+        let expectedPayText = BSUITestUtils.getPayButtonText(sdkRequest: sdkRequest, country: country ?? "", state: state ?? "", subscriptionHasPriceDetails: subscriptionHasPriceDetails)
 
         BSUITestUtils.checkAPayButton(app: app, buttonId: "ShippingPayButton", expectedPayText: expectedPayText)
     }

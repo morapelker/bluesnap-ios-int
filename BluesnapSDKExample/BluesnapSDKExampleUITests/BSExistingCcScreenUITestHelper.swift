@@ -129,21 +129,30 @@ class BSExistingCcScreenUITestHelper {
 
     }
     
-    func checkPayButton(sdkRequest: BSSdkRequest) {
+    func checkPayButton(sdkRequest: BSSdkRequest, subscriptionHasPriceDetails: Bool? = nil) {
         var expectedPayText = ""
-        var expectedAmount = sdkRequest.priceDetails.amount.doubleValue
+//        var expectedAmount = sdkRequest.priceDetails.amount.doubleValue
         //        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
         
         if (sdkRequest.shopperConfiguration.withShipping){
             let country = sdkRequest.shopperConfiguration.shippingDetails?.country
             let state = sdkRequest.shopperConfiguration.shippingDetails?.state
-            expectedAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
+//            expectedAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
+            
+            expectedPayText = BSUITestUtils.getPayButtonText(sdkRequest: sdkRequest, country: country ?? "", state: state ?? "", subscriptionHasPriceDetails: subscriptionHasPriceDetails)
         }
         
-        
-        expectedPayText = "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(expectedAmount)"
+        else {
+            expectedPayText = BSUITestUtils.getPayButtonText(sdkRequest: sdkRequest, country: nil, state: nil, subscriptionHasPriceDetails: subscriptionHasPriceDetails)
+
+//            expectedPayText = "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(expectedAmount)"
+        }
         
         BSUITestUtils.checkAPayButton(app: app, buttonId: "PayButton", expectedPayText: expectedPayText)
+    }
+    
+    func checkDoneButton() {
+        BSUITestUtils.checkAPayButton(app: app, buttonId: "PayButton", expectedPayText: "Done")
     }
     
     func pressPayButton() {
@@ -168,4 +177,5 @@ class BSExistingCcScreenUITestHelper {
         
         XCTAssertTrue(menuButton.isEnabled == expectedEnabled, "Menu button expected to be Enabled: \(expectedEnabled), but was Enabled: \(menuButton.isEnabled)")
     }
+    
 }
