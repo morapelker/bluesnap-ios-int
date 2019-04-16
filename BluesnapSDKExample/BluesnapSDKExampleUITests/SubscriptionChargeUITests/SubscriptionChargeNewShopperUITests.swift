@@ -48,7 +48,7 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
             shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
             
             // check shipping pay button
-            shippingHelper.checkPayButton(sdkRequest: sdkRequest, subscriptionHasPriceDetails: true)
+            shippingHelper.checkPayButton(sdkRequest: sdkRequest, subscriptionHasPriceDetails: trialPeriodDays == nil)
         }
         
         else {
