@@ -87,7 +87,7 @@ class BSCreditCardScreenUITestHelperBase {
             XCTAssertTrue(titleLabelText == expectedLabelText, "\(input.identifier) expected value: \(expectedLabelText), actual value: \(titleLabelText)")
 
             let errorLabel = getInputErrorLabelElement(input)
-            XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(expectedValid), but was exists: \(errorLabel.exists)")
+            XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(!expectedValid), but was exists: \(errorLabel.exists)")
 
         }
     }
@@ -212,12 +212,34 @@ class BSCreditCardScreenUITestHelperBase {
         
     }
     
-    func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool) {
+    func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool, subscriptionHasPriceDetails: Bool? = nil) {
+    }
+    
+    func getPayButtonText(sdkRequest: BSSdkRequest, country: String?, state: String?, subscriptionHasPriceDetails: Bool? = nil) -> String{
+        
+        var amount: Double = sdkRequest.priceDetails.amount.doubleValue
+        var payString: String
+
+        if let subscriptionHasPriceDetails = subscriptionHasPriceDetails{ // Subscription flow
+            payString = "Subscribe"
+            if (!subscriptionHasPriceDetails){ // Subscription flow doesn't have amount
+                return payString
+            }
+        } else { // regular flow
+            payString = "Pay"
+        }
+        
+        if let countryCode = country, let stateCode = state{
+            amount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: countryCode, stateCode: stateCode, purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
+        }
+        
+        let result = "\(payString) \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(amount)"
+        
+        return result
     }
     
     func checkDoneButton() {
     }
-    
     
     func setCountry(countryCode: String) {
         
