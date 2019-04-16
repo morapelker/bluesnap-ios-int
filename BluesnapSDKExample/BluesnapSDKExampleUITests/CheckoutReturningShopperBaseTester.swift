@@ -28,7 +28,7 @@ class CheckoutReturningShopperBaseTester: CheckoutBaseTester {
 //
 //    }
     
-    internal func setUpForSdkWithReturningShopper(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, allowCurrencyChange: Bool = true){
+    internal func setUpForSdkWithReturningShopper(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, allowCurrencyChange: Bool = true, isSubscription: Bool = false, trialPeriodDays: Int? = nil){
         
         // initialize required helpers
         existingCcHelper = BSExistingCcScreenUITestHelper(app: app)
@@ -47,7 +47,7 @@ class CheckoutReturningShopperBaseTester: CheckoutBaseTester {
         semaphore.wait()
 
         isExistingCard = true
-        setUpForCheckoutSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, allowCurrencyChange: allowCurrencyChange, isReturningShopper: true, shopperId: vaultedShopperId, tapExistingCc: true, checkExistingCcLine: true)
+        setUpForCheckoutSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, allowCurrencyChange: allowCurrencyChange, isReturningShopper: true, shopperId: vaultedShopperId, tapExistingCc: true, checkExistingCcLine: true, isSubscription: isSubscription, trialPeriodDays: trialPeriodDays)
         
         setShopperDetailsInSdkRequest(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping)
         
@@ -89,7 +89,7 @@ class CheckoutReturningShopperBaseTester: CheckoutBaseTester {
         
     }
     
-    /* -------------------------------- Returning shopper tests ---------------------------------------- */
+    /* -------------------------------- Returning shopper Common tests ---------------------------------------- */
 
     
     internal func returningShopperAllowCurrencyChangeValidation(isEnabled: Bool){
@@ -114,8 +114,6 @@ class CheckoutReturningShopperBaseTester: CheckoutBaseTester {
         existingCcHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
         
     }
-    
-    /* -------------------------------- Returning Shopper Common Tests ---------------------------------------- */
     
     internal func returningShopperViewsCommomTester(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool) {
         
