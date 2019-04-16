@@ -174,17 +174,29 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         closeKeyboard()
         
         // check visibility
-        XCTAssertTrue(app.otherElements.element(matching: .any, identifier: "StoreCardView").exists == shouldBeVisible, "StoreCardView expected to be exists: \(shouldBeVisible), but was exists: \(app.otherElements.element(matching: .any, identifier: "StoreCardView").exists)")
-        XCTAssertTrue(app.staticTexts["StoreCardLabel"].exists == shouldBeVisible, "StoreCardLabel expected to be exists: \(shouldBeVisible), but was exists: \(app.staticTexts["StoreCardLabel"].exists)")
-        XCTAssertTrue(app.switches["StoreCardSwitch"].exists == shouldBeVisible, "StoreCardSwitch expected to be exists: \(shouldBeVisible), but was exists: \(app.switches["StoreCardSwitch"].exists)")
+        checkStoreCardVisibility(shouldBeVisible: shouldBeVisible)
         
         // check switch state
         let switchState = shouldBeOn ? "1" : "0"
         XCTAssertTrue(app.switches["StoreCardSwitch"].value as! String == switchState, "StoreCardSwitch expected to be shouldBeOn: \(shouldBeOn), but was shouldBeOn: \(!shouldBeOn)")
         
-        if (shouldBeVisible){
-            //TODO: check valid color            
+        if (!isValid){
+            // maybe one day we'll check checkStoreCardMandatory here (that the color is red and field is considered invalid)
         }
+    }
+    
+    // when trying to pay with the swith off, and store card is mandatory
+    // this is the only way to check validation for now, due to UI XCTest limitations
+    func checkStoreCardMandatory() {
+        pressPayButton()
+        checkStoreCardVisibility(shouldBeVisible: true)
+    }
+    
+    private func checkStoreCardVisibility(shouldBeVisible: Bool){
+        XCTAssertTrue(app.otherElements.element(matching: .any, identifier: "StoreCardView").exists == shouldBeVisible, "StoreCardView expected to be exists: \(shouldBeVisible), but was exists: \(app.otherElements.element(matching: .any, identifier: "StoreCardView").exists)")
+        XCTAssertTrue(app.staticTexts["StoreCardLabel"].exists == shouldBeVisible, "StoreCardLabel expected to be exists: \(shouldBeVisible), but was exists: \(app.staticTexts["StoreCardLabel"].exists)")
+        XCTAssertTrue(app.switches["StoreCardSwitch"].exists == shouldBeVisible, "StoreCardSwitch expected to be exists: \(shouldBeVisible), but was exists: \(app.switches["StoreCardSwitch"].exists)")
+        
     }
     
     //Pre-condition: country is USA- for state existence and "Billing Zip" label text
@@ -400,12 +412,12 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         }
     }
     
-    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool) {
+    override func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool, subscriptionHasPriceDetails: Bool? = nil) {
         var expectedPayText = ""
         
         // checkout without shipping- amout&currency should be displayed, without shipping tax
         if (!sdkRequest.shopperConfiguration.withShipping){
-            expectedPayText = "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(sdkRequest.priceDetails.amount.doubleValue)"
+            expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: nil, state: nil, subscriptionHasPriceDetails: subscriptionHasPriceDetails)
         }
         
         // checkout with shipping and shipping same as billing is on - amout&currency should be displayed, with shipping tax by billing country&state
@@ -413,8 +425,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             let country = sdkRequest.shopperConfiguration.billingDetails?.country
             let state = sdkRequest.shopperConfiguration.billingDetails?.state
             
-            let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: sdkRequest.priceDetails.amount.doubleValue)
-            expectedPayText = "Pay \(sdkRequest.priceDetails.currency == "USD" ? "$" : sdkRequest.priceDetails.currency ?? "USD") \(includeTaxAmount)"
+            expectedPayText = getPayButtonText(sdkRequest: sdkRequest, country: country ?? "", state: state ?? "", subscriptionHasPriceDetails: subscriptionHasPriceDetails)
         }
             
         // checkout with shipping and shipping same as billing is off - continue to shipping should be displayed
@@ -434,6 +445,5 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         closeKeyboard()
         app.buttons["PayButton"].tap()
     }
-    
     
 }

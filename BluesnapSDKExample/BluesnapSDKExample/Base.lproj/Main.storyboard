@@ -255,6 +255,8 @@
                                         <rect key="frame" x="15" y="515" width="300" height="70"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.96271022750000002" green="0.76074933280000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="SubscriptionButton"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <state key="normal" title="Subscription Button">
                                             <color key="titleColor" red="0.37647058820000001" green="0.1176470588" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
@@ -262,6 +264,23 @@
                                             <action selector="SubscriptionButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="snn-FB-Us7"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trial Period Days:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q6V-4y-ftE">
+                                        <rect key="frame" x="15" y="600" width="125" height="24"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vgP-zY-6MN" userLabel="Days Number Text Field">
+                                        <rect key="frame" x="150" y="600" width="110" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="TrialDaysNumberField"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                        <connections>
+                                            <action selector="numberOfTrialDaysChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="U7L-FO-fi8"/>
+                                        </connections>
+                                    </textField>
                                     <view alpha="0.75" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cco-GN-tEP">
                                         <rect key="frame" x="0.0" y="-5" width="375" height="709"/>
                                         <subviews>
@@ -387,6 +406,7 @@
                         <outlet property="coverAllLabel" destination="5gd-cl-sWV" id="0ut-Ch-cnk"/>
                         <outlet property="coverAllView" destination="cco-GN-tEP" id="n6f-jP-Kui"/>
                         <outlet property="currencyButton" destination="dMR-1J-U5n" id="565-Jx-enD"/>
+                        <outlet property="daysNumberTextField" destination="vgP-zY-6MN" id="ifV-eq-gKt"/>
                         <outlet property="fullBillingSwitch" destination="xkv-uS-lPt" id="ufh-bw-LTe"/>
                         <outlet property="hideStoreCardSwitch" destination="hKB-dp-nej" id="ohx-ZB-fvL"/>
                         <outlet property="resultTextView" destination="TT4-Lq-e8Y" id="feq-X1-fla"/>
