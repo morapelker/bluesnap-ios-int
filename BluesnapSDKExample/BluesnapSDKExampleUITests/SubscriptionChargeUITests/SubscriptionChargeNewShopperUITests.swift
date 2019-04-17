@@ -20,6 +20,11 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
         
         setUpForCheckoutSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, isSubscription: true, trialPeriodDays: trialPeriodDays)
         
+        if trialPeriodDays != nil {
+            // check currency menu button is disabled in payment screen when subscription without price details
+            paymentHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        }
+        
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
         
