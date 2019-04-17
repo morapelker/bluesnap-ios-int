@@ -287,10 +287,11 @@ class ViewController: UIViewController {
             sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
             NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
         } else if (isSubscriptionCharge) {
-            if ((trialPeriodDays ?? 0) > 0){
+            if ((trialPeriodDays ?? 0) > 0){ // initialize sdk for subscription flow without price details
                 sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
-            } else {
+            } else { // initialize sdk for subscription flow with price details
                 sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
+                sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
             }
             
         } else {
