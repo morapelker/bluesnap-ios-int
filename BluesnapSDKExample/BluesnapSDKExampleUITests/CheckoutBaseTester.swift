@@ -120,7 +120,7 @@ class CheckoutBaseTester: UIBaseTester{
         }
     }
     
-    internal  func existingCardBasicCheckoutFlow(existingCcHelper: BSExistingCcScreenUITestHelper, vaultedShopperId: String, fullBilling: Bool, withShipping: Bool, withEmail: Bool){
+    internal func existingCardBasicCheckoutFlow(existingCcHelper: BSExistingCcScreenUITestHelper, vaultedShopperId: String, fullBilling: Bool, withShipping: Bool, withEmail: Bool){
         //        setUpForSdkWithReturningShopper(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true, checkoutFullBilling: fullBilling, checkoutWithEmail: withEmail, checkoutWithShipping: withShipping)
         
         //        newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling)
@@ -146,6 +146,30 @@ class CheckoutBaseTester: UIBaseTester{
         semaphore.wait()
         
         print("done")
+        
+    }
+    
+    internal func allowCurrencyChangeNewCCValidation(isEnabled: Bool, isSubscription: Bool = false){
+        setUpForCheckoutSdk(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled, isSubscription: isSubscription)
+        
+        // check currency menu button visibility in payment screen
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
+        
+        // check currency menu button visibility after opening country screen
+        paymentHelper.setCountry(countryCode: "US")
+        
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
+        
+        if (isSubscription) {
+            paymentHelper.setStoreCardSwitch(shouldBeOn: true)
+        }
+        
+        gotoShippingScreen()
+        
+        BSUITestUtils.pressBackButton(app: app)
+        
+        // check urrency menu button visibility back in payment screen
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
         
     }
     

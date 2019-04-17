@@ -60,19 +60,27 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
     
     /* -------------------------------- Subscription views tests ---------------------------------------- */
 
-    func testViewsNoFullBillingNoShippingNoEmail_withoutPriceDetails() {
+    func testAllowCurrencyChange_subscriptionWithPriceDetails(){
+        allowCurrencyChangeNewCCValidation(isEnabled: true, isSubscription: true)
+    }
+    
+    func testNotAllowCurrencyChange_subscriptionWithPriceDetails(){
+        allowCurrencyChangeNewCCValidation(isEnabled: false, isSubscription: true)
+    }
+    
+    func testViewsNoFullBillingNoShippingNoEmail_subscriptionWithoutPriceDetails() {
         subscriptionNewShopperViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, trialPeriodDays: 30)
     }
     
-    func testViewsNoFullBillingNoShippingNoEmail_withPriceDetails() {
+    func testViewsNoFullBillingNoShippingNoEmail_subscriptionWithPriceDetails() {
         subscriptionNewShopperViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
     }
     
-    func testViewsFullBillingWithShippingWithEmail_withoutPriceDetails() {
+    func testViewsFullBillingWithShippingWithEmail_subscriptionWithoutPriceDetails() {
         subscriptionNewShopperViewsCommomTester(checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true, trialPeriodDays: 28)
     }
     
-    func testViewsFullBillingWithShippingWithEmail_withPriceDetails() {
+    func testViewsFullBillingWithShippingWithEmail_subscriptionWithPriceDetails() {
         subscriptionNewShopperViewsCommomTester(checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
