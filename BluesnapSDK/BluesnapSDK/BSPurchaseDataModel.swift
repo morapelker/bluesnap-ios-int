@@ -199,6 +199,7 @@ public class BSSdkRequestSubscriptionCharge: BSSdkRequest {
         self.init(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: nil, billingDetails: billingDetails, shippingDetails: shippingDetails, purchaseFunc: purchaseFunc, updateTaxFunc: nil)
         
         sdkRequestHasPriceDetails = false
+        allowCurrencyChange = false
     }
     
     public func hasPriceDetails() -> Bool {
