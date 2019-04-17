@@ -17,11 +17,11 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     /* -------------------------------- New shopper views tests ---------------------------------------- */
     
     func testAllowCurrencyChange(){
-        allowCurrencyChangeValidation(isEnabled: true)
+        allowCurrencyChangeNewCCValidation(isEnabled: true)
     }
     
     func testNotAllowCurrencyChange(){
-        allowCurrencyChangeValidation(isEnabled: false)
+        allowCurrencyChangeNewCCValidation(isEnabled: false)
     }
     
     //TODO: fix these two!!
@@ -402,68 +402,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     //------------------------------------ Helper functions ----------------------------
     
     // DemoApp helpers
-    
-    
-    // verify
-//    private func checkPayButton() {
-//        var expectedPayText = ""
-//        let country = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.country : sdkRequest.shopperConfiguration.shippingDetails?.country
-//        let state = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.state : sdkRequest.shopperConfiguration.shippingDetails?.state
-//
-////        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
-//
-//        let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: purchaseAmount)
-//
-//        if ((sdkRequest.shopperConfiguration.withShipping && isReturningShopper) ||
-//            (sdkRequest.shopperConfiguration.withShipping && shippingSameAsBilling)){
-//            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)"
-//        }
-//
-//        else if (sdkRequest.shopperConfiguration.withShipping){
-//            expectedPayText = "Shipping >"
-//
-//        }
-//
-//        else{
-//            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(purchaseAmount ?? 0.0)"
-//        }
-//
-//        BSUITestUtils.checkAPayButton(app: app, buttonId: "PayButton", expectedPayText: expectedPayText)
-//    }
-    
-//    private func checkShippingPayButton() {
-//        
-//        let country = sdkRequest.shopperConfiguration.shippingDetails?.country
-//        let state = sdkRequest.shopperConfiguration.shippingDetails?.state
-//        
-////        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
-//        
-//        let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: purchaseAmount)
-//        
-//        
-//        BSUITestUtils.checkAPayButton(app: app, buttonId: "ShippingPayButton", expectedPayText: "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)")
-//    }
-
-    
-    private func allowCurrencyChangeValidation(isEnabled: Bool){
-        setUpForCheckoutSdk(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled)
-        
-        // check currency menu button visibility in payment screen
-        paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
-        
-        // check currency menu button visibility after opening country screen
-        paymentHelper.setCountry(countryCode: "US")
-
-        paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
-        
-        gotoShippingScreen()
-        
-        BSUITestUtils.pressBackButton(app: app)
-
-        // check urrency menu button visibility back in payment screen
-        paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
-        
-    }
     
     private func testCurrencyChanges(withShipping: Bool){
         setUpForCheckoutSdk(fullBilling: false, withShipping: withShipping, withEmail: false)
