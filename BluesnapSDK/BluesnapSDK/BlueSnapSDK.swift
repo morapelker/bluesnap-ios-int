@@ -42,8 +42,15 @@ open class BlueSnapSDK: NSObject {
             fraudSessionId: String?,
             applePayMerchantIdentifier: String?,
             merchantStoreCurrency: String?,
-            completion: @escaping (BSErrors?) -> Void) {
+            completion: @escaping (BSErrors?) -> Void) throws {
 
+        // verify that initBluesnap() has been called prior to this function
+        guard (bsToken != nil) else {
+            let msg: String = "Failed to initialize Bluesnap SDK, bsToken is nil"
+            NSLog(msg)
+            throw BSSdkRequestBaseError.tokenIsNil(msg)
+        }
+        
         BSApiManager.setBsToken(bsToken: bsToken)
         BSApiManager.setGenerateBsTokenFunc(generateTokenFunc: generateTokenFunc)
 
@@ -79,8 +86,14 @@ open class BlueSnapSDK: NSObject {
      - parameters:
      - bsToken: BlueSnap token, should be fresh and valid
      */
-    open class func setBsToken(bsToken: BSToken!) {
+    open class func setBsToken(bsToken: BSToken!) throws {
 
+        guard (bsToken != nil) else {
+            let msg: String = "Failed to set BsToken, bsToken is nil"
+            NSLog(msg)
+            throw BSSdkRequestBaseError.tokenIsNil(msg)
+        }
+        
         BSApiManager.setBsToken(bsToken: bsToken)
     }
 

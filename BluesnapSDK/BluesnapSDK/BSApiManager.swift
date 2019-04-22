@@ -59,11 +59,7 @@ import Foundation
      */
     static func getBsToken() -> BSToken! {
 
-        if apiToken != nil {
-            return apiToken
-        } else {
-            fatalError("BsToken has not been initialized")
-        }
+        return apiToken
     }
     
     static func isProductionToken() -> Bool {
