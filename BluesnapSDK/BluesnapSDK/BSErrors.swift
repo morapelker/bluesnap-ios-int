@@ -14,6 +14,7 @@ public enum BSSdkRequestBaseError: Error {
     case missingPaymentMethod(String)
     case missingReturningShopper(String)
     case sdkNotInitialized(String)
+    case tokenIsNil(String)
 }
 
 public enum BSErrors: Int {

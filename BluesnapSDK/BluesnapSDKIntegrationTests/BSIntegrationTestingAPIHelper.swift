@@ -26,11 +26,16 @@ class BSIntegrationTestingAPIHelper {
     static func createToken(shopperId: Int?, completion: @escaping (BSToken?, BSErrors?) -> Void) {
         createSandboxBSToken(shopperId: shopperId, completion: { bsToken, bsError in
             
-            BlueSnapSDK.setBsToken(bsToken: bsToken)
-            XCTAssertNil(bsError)
-            XCTAssertNotNil(bsToken)
-            completion(bsToken, bsError)
+            do {
+                try BlueSnapSDK.setBsToken(bsToken: bsToken)
+                XCTAssertNil(bsError)
+                XCTAssertNotNil(bsToken)
+                completion(bsToken, bsError)
+            } catch {
+                NSLog("Unexpected error: \(error).")
+            }
         })
+        
     }
     
     static func createToken(completion: @escaping (BSToken?, BSErrors?) -> Void) {

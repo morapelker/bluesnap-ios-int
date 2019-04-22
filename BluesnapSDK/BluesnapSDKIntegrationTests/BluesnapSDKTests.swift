@@ -73,23 +73,28 @@ class BluesnapSDKTests: XCTestCase {
         let semaphore = DispatchSemaphore(value: 0)
         BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             
-            BlueSnapSDK.initBluesnap(bsToken: token, generateTokenFunc: {_ in }, initKount: false, fraudSessionId: nil, applePayMerchantIdentifier: nil, merchantStoreCurrency: "USD", completion: { errors in
+            do {            
+                try BlueSnapSDK.initBluesnap(bsToken: token, generateTokenFunc: {_ in }, initKount: false, fraudSessionId: nil, applePayMerchantIdentifier: nil, merchantStoreCurrency: "USD", completion: { errors in
+                    
+                    XCTAssertNil(errors, "Got errors from initBluesnap")
+                    
+                    let bsCurrencies = BlueSnapSDK.getCurrencyRates()
+                    XCTAssertNotNil(bsCurrencies, "Failed to get currencies")
+                    
+                    let gbpCurrency : BSCurrency! = bsCurrencies?.getCurrencyByCode(code: "GBP")
+                    XCTAssertNotNil(gbpCurrency)
+                    NSLog("testGetTokenAndCurrencies; GBP currency name is: \(String(describing: gbpCurrency.name)), its rate is \(String(describing: gbpCurrency.rate))")
+                    
+                    let eurCurrencyRate : Double! = bsCurrencies?.getCurrencyRateByCurrencyCode(code: "EUR")
+                    XCTAssertNotNil(eurCurrencyRate)
+                    NSLog("testGetTokenAndCurrencies; EUR currency rate is: \(String(describing: eurCurrencyRate))")
+                    
+                    semaphore.signal()
+                })
                 
-                XCTAssertNil(errors, "Got errors from initBluesnap")
-                
-                let bsCurrencies = BlueSnapSDK.getCurrencyRates()
-                XCTAssertNotNil(bsCurrencies, "Failed to get currencies")
-                
-                let gbpCurrency : BSCurrency! = bsCurrencies?.getCurrencyByCode(code: "GBP")
-                XCTAssertNotNil(gbpCurrency)
-                NSLog("testGetTokenAndCurrencies; GBP currency name is: \(String(describing: gbpCurrency.name)), its rate is \(String(describing: gbpCurrency.rate))")
-                
-                let eurCurrencyRate : Double! = bsCurrencies?.getCurrencyRateByCurrencyCode(code: "EUR")
-                XCTAssertNotNil(eurCurrencyRate)
-                NSLog("testGetTokenAndCurrencies; EUR currency rate is: \(String(describing: eurCurrencyRate))")
-                
-                semaphore.signal()
-            })
+            } catch {
+                NSLog("Unexpected error: \(error).")
+            }
         })
         semaphore.wait()
     }

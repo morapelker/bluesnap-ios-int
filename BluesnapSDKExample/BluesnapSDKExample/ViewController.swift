@@ -623,7 +623,8 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             self.coverAllLabel.text = self.LOADING_MESSAGE
         }
-        BlueSnapSDK.initBluesnap(
+        do {
+            try BlueSnapSDK.initBluesnap(
                 bsToken: self.bsToken,
                 generateTokenFunc: self.generateAndSetBsToken,
                 initKount: self.shouldInitKount,
@@ -639,7 +640,13 @@ class ViewController: UIViewController {
                             self.hideCoverView = true
                         }
                     }
-                })
+            })
+            
+        } catch {
+            NSLog("Unexpected error: \(error).")
+            self.showErrorAlert(message: "Unexpected error: \(error).")
+        }
+
     }
 
     /**
@@ -654,11 +661,19 @@ class ViewController: UIViewController {
         
         DemoAPIHelper.createToken(shopperId: shopperId, completion: { resultToken, errors in
             self.bsToken = resultToken
-            BlueSnapSDK.setBsToken(bsToken: self.bsToken)
-            NSLog("Got BS token= \(self.bsToken?.getTokenStr() ?? "")")
-            DispatchQueue.main.async {
-                completion(resultToken, errors)
+            
+            do {
+                try BlueSnapSDK.setBsToken(bsToken: self.bsToken)
+                NSLog("Got BS token= \(self.bsToken?.getTokenStr() ?? "")")
+                DispatchQueue.main.async {
+                    completion(resultToken, errors)
+                }
+                
+            } catch {
+                NSLog("Unexpected error: \(error).")
+                self.showErrorAlert(message: "Unexpected error: \(error).")
             }
+   
         })
     }
 
