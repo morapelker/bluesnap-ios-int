@@ -72,8 +72,8 @@ extension BSApplePayInfo: DictionaryConvertible
 
     public func toDictionary() throws -> [String: Any] {
 
-        //let desrilaziedToken = try JSONSerialization.jsonObject(with: payment.token.paymentData, options: JSONSerialization.ReadingOptions())
         let desrilaziedToken: Any
+        // Detect if running on a simulator..
         if (payment.token.transactionIdentifier != "Simulated Identifier") {
             desrilaziedToken = try JSONSerialization.jsonObject(with: payment.token.paymentData, options: JSONSerialization.ReadingOptions())
         } else {
@@ -81,20 +81,14 @@ extension BSApplePayInfo: DictionaryConvertible
             NSLog("This is a Simulated Instrument")
         }
 
-
         let shippingContactDict = [
                 "familyName": shippingContact?.name?.familyName ?? "",
                 "givenName": shippingContact?.name?.givenName ?? "",
                 /**
                 These are unused by the API and should not be sent, otherwise API call might fail.
                 */
-                //"addressLines": shippingContact?.postalAddress?.description,
-                //"country": shippingContact?.postalAddress?.country,
-                //"countryCode": shippingContact?.postalAddress?.isoCountryCode,
-                //"locality": shippingContact?.postalAddress?.street,
                 //"emailAddress": shippingContact?.emailAddress,
                 //"phoneNumber": shippingContact?.phoneNumber?.stringValue,
-                //"postalCode": shippingContact?.postalAddress?.postalCode,
         ] as [String: Any]
 
         var billingAddresLines = [String]()
@@ -108,20 +102,20 @@ extension BSApplePayInfo: DictionaryConvertible
             locality = billingContact?.postalAddress?.subLocality
         }
         let billingContactDict = [
-                "addressLines": billingAddresLines,
-                "country": billingContact?.postalAddress?.country ?? "",
-                "countryCode": billingContact?.postalAddress?.isoCountryCode ?? "",
-                "familyName": billingContact?.name?.familyName ?? "",
-                "givenName": billingContact?.name?.givenName ?? "",
-                "locality": locality ?? "",
-                "postalCode": billingContact?.postalAddress?.postalCode ?? "",
+            "addressLines": billingAddresLines,
+            "country": billingContact?.postalAddress?.country ?? "",
+            "countryCode": billingContact?.postalAddress?.isoCountryCode ?? "",
+            "familyName": billingContact?.name?.familyName ?? "",
+            "givenName": billingContact?.name?.givenName ?? "",
+            "locality": locality ?? "",
+            "postalCode": billingContact?.postalAddress?.postalCode ?? "",
         ] as [String: Any]
 
         
         let paymentMethod = [
-        "displayName": token.paymentMethod.displayName ?? "",
-        "network": tokenPaymentNetwork ?? "",
-        "type": tokenPaymentNetworkType,
+            "displayName": token.paymentMethod.displayName ?? "",
+            "network": tokenPaymentNetwork ?? "",
+            "type": tokenPaymentNetworkType,
         ] as [String: String]
         
         let pktoken = [
