@@ -246,7 +246,6 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         self.navigationController!.isNavigationBarHidden = false
 
         shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
-        storeCardSwitch.isOn = false
 
         // set the 'shipping same as billing' to be true if no shipping name is supplied
         if self.firstTime == true {
@@ -288,6 +287,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
             } else {
                 ccInputLine.reset()
             }
+            
+            storeCardSwitch.isOn = false
         }
         hideShowFields()
     }

@@ -13,42 +13,15 @@ import BluesnapSDK
 //@testable import BluesnapSDKIntegrationTests //TODO: make it work
 
 class CheckoutNewShopperUITests: CheckoutBaseTester {
-    
-    /* -------------------------------- Returning shopper tests ---------------------------------------- */
-
-    // full billing, with shipping, check "shipping same as billing"
-    
-//    func testShortReturningShopperNewCcFlow() {
-//
-//        // no full billing, no shipping, no email, new CC
-//
-//        setUpForSdk(fullBilling: false, withShipping: false, withEmail: false, isReturningShopper: true)
-//
-//        fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails(countryCode: "US"), ignoreCountry: true)
-//
-//        let elementsQuery = app.scrollViews.otherElements
-//        let textField = elementsQuery.element(matching: .any, identifier: "Name")
-//        if textField.exists {
-//            textField.tap()
-//            app.keyboards.buttons["Done"].tap()
-//        }
-//
-//        paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: shippingSameAsBilling)
-//        paymentHelper.pressPayButton()
-//
-//        checkResult(expectedSuccessText: "Success!")
-//
-//        print("done")
-//    }
 
     /* -------------------------------- New shopper views tests ---------------------------------------- */
     
     func testAllowCurrencyChange(){
-        allowCurrencyChangeValidation(isEnabled: true)
+        allowCurrencyChangeNewCCValidation(isEnabled: true)
     }
     
     func testNotAllowCurrencyChange(){
-        allowCurrencyChangeValidation(isEnabled: false)
+        allowCurrencyChangeNewCCValidation(isEnabled: false)
     }
     
     //TODO: fix these two!!
@@ -121,6 +94,15 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         // check invalid billing inputs
         paymentHelper.checkInvalidInfoInputs(payButtonId: "PayButton")
         
+        // check Store Card view visibility
+        paymentHelper.closeKeyboard()
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        
+        // check store card visibility after changing screens
+        paymentHelper.checkStoreCardVisibilityAfterChangingScreens(shouldBeVisible: true, setTo: true, sdkRequest: sdkRequest)
+        
+        // check store card visibility after changing screens
+        paymentHelper.checkStoreCardVisibilityAfterChangingScreens(shouldBeVisible: true, setTo: false, sdkRequest: sdkRequest)
     }
     
     func testViewsFullBillingWithShippingNoEmail() {
@@ -319,64 +301,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     
     /* -------------------------------- New shopper end-to-end flow tests ---------------------------------------- */
     
-    func newCardBasicCheckoutFlow(fullBilling: Bool, withShipping: Bool, withEmail: Bool, shippingSameAsBilling: Bool = false, hideStoreCardSwitch: Bool = false, storeCard: Bool = false) {
-
-        setUpForCheckoutSdk(fullBilling: fullBilling, withShipping: withShipping, withEmail: withEmail, hideStoreCardSwitch: hideStoreCardSwitch)
-        
-        //TODO: add store card visibility check
-        
-        newCardBasicFillInInfoAndPay(shippingSameAsBilling: shippingSameAsBilling, storeCard: storeCard)
-        
-        checkResult(expectedSuccessText: "Success!")
-        
-        let shopperIdLabel = app.staticTexts["ShopperIdLabel"]
-        waitForElementToExist(element: shopperIdLabel, waitTime: 300)
-        
-        var shopperId: String = shopperIdLabel.label
-        let range = shopperId.startIndex..<shopperId.index(shopperId.startIndex, offsetBy: 12)
-
-        shopperId.removeSubrange(range)
-        
-        let semaphore = DispatchSemaphore(value: 0)
-
-        DemoAPIHelper.retrieveVaultedShopper(vaultedShopperId: shopperId, completion: {
-            isSuccess, data in
-            XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
-
-            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: storeCard, expectedCreditCardInfo: [("1111", "VISA", "11","2026")], shippingSameAsBilling: shippingSameAsBilling)
-
-            XCTAssertNil(error, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
-
-            semaphore.signal()
-        })
-        
-        semaphore.wait()
-
-    }
-    
-    func newCardBasicFillInInfoAndPay(shippingSameAsBilling: Bool = false, storeCard: Bool = false) {
-        // fill in info in payment screen and continue to shipping or paying
-        fillBillingDetails(ccn: BSUITestUtils.getValidVisaCreditCardNumber(), exp: BSUITestUtils.getValidExpDate(), cvv: BSUITestUtils.getValidCvvNumber(), billingDetails: getDummyBillingDetails())
-        
-        if (storeCard){
-            setStoreCardSwitch(shouldBeOn: storeCard)
-        }
-        
-        // continue to shipping it's required and fill in info in shipping screen
-        if (sdkRequest.shopperConfiguration.withShipping && !shippingSameAsBilling){
-            if (isShippingSameAsBillingOn){
-                setShippingSameAsBillingSwitch(shouldBeOn: false)
-            }
-            gotoShippingScreen(fillInDetails: false)
-            fillShippingDetails(shippingDetails: getDummyShippingDetails())
-            shippingHelper.pressPayButton()
-        }
-            
-        else{
-            paymentHelper.pressPayButton()
-        }
-    }
-    
     func testFlowFullBillingNoShippingNoEmail() {
         newCardBasicCheckoutFlow(fullBilling: true, withShipping: false, withEmail: false)
     }
@@ -478,68 +402,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
     //------------------------------------ Helper functions ----------------------------
     
     // DemoApp helpers
-    
-    
-    // verify
-//    private func checkPayButton() {
-//        var expectedPayText = ""
-//        let country = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.country : sdkRequest.shopperConfiguration.shippingDetails?.country
-//        let state = shippingSameAsBilling ? sdkRequest.shopperConfiguration.billingDetails?.state : sdkRequest.shopperConfiguration.shippingDetails?.state
-//
-////        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
-//
-//        let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: purchaseAmount)
-//
-//        if ((sdkRequest.shopperConfiguration.withShipping && isReturningShopper) ||
-//            (sdkRequest.shopperConfiguration.withShipping && shippingSameAsBilling)){
-//            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)"
-//        }
-//
-//        else if (sdkRequest.shopperConfiguration.withShipping){
-//            expectedPayText = "Shipping >"
-//
-//        }
-//
-//        else{
-//            expectedPayText = "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(purchaseAmount ?? 0.0)"
-//        }
-//
-//        BSUITestUtils.checkAPayButton(app: app, buttonId: "PayButton", expectedPayText: expectedPayText)
-//    }
-    
-//    private func checkShippingPayButton() {
-//        
-//        let country = sdkRequest.shopperConfiguration.shippingDetails?.country
-//        let state = sdkRequest.shopperConfiguration.shippingDetails?.state
-//        
-////        let taxPrecent = calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "")
-//        
-//        let includeTaxAmount = BSUITestUtils.calcTaxFromCuntryAndState(countryCode: country ?? "", stateCode: state ?? "", purchaseAmount: purchaseAmount)
-//        
-//        
-//        BSUITestUtils.checkAPayButton(app: app, buttonId: "ShippingPayButton", expectedPayText: "Pay \(checkoutCurrency == "USD" ? "$" : checkoutCurrency  ?? "") \(includeTaxAmount)")
-//    }
-
-    
-    private func allowCurrencyChangeValidation(isEnabled: Bool){
-        setUpForCheckoutSdk(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled)
-        
-        // check currency menu button visibility in payment screen
-        paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
-        
-        // check currency menu button visibility after opening country screen
-        paymentHelper.setCountry(countryCode: "US")
-
-        paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
-        
-        gotoShippingScreen()
-        
-        BSUITestUtils.pressBackButton(app: app)
-
-        // check urrency menu button visibility back in payment screen
-        paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
-        
-    }
     
     private func testCurrencyChanges(withShipping: Bool){
         setUpForCheckoutSdk(fullBilling: false, withShipping: withShipping, withEmail: false)

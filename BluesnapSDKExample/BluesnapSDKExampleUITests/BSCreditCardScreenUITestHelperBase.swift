@@ -87,7 +87,7 @@ class BSCreditCardScreenUITestHelperBase {
             XCTAssertTrue(titleLabelText == expectedLabelText, "\(input.identifier) expected value: \(expectedLabelText), actual value: \(titleLabelText)")
 
             let errorLabel = getInputErrorLabelElement(input)
-            XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(expectedValid), but was exists: \(errorLabel.exists)")
+            XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(!expectedValid), but was exists: \(errorLabel.exists)")
 
         }
     }
@@ -212,12 +212,11 @@ class BSCreditCardScreenUITestHelperBase {
         
     }
     
-    func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool) {
+    func checkPayButton(sdkRequest: BSSdkRequest, shippingSameAsBilling: Bool, subscriptionHasPriceDetails: Bool? = nil) {
     }
     
     func checkDoneButton() {
     }
-    
     
     func setCountry(countryCode: String) {
         

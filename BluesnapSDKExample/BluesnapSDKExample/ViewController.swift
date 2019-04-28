@@ -27,7 +27,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var storeCurrencyButton: UIButton!
     @IBOutlet weak var allowCurrencyChangeSwitch: UISwitch!
     @IBOutlet weak var hideStoreCardSwitch: UISwitch!
-
+    @IBOutlet weak var daysNumberTextField: UITextField!
+    
     // MARK: private properties
 
     fileprivate var bsToken: BSToken?
@@ -47,6 +48,7 @@ class ViewController: UIViewController {
     final fileprivate var vaultedShopperId : String? = nil
     final fileprivate var allowCurrencyChange: Bool! = true
     final fileprivate var hideStoreCard: Bool! = false
+    final fileprivate var trialPeriodDays: Int? = nil
 
 
     // MARK: - UIViewController's methods
@@ -94,6 +96,8 @@ class ViewController: UIViewController {
             taxTextField.resignFirstResponder()
         } else if self.returningShopperIdTextField.isFirstResponder {
             self.returningShopperIdTextField.resignFirstResponder()
+        } else if self.daysNumberTextField.isFirstResponder {
+            self.daysNumberTextField.resignFirstResponder()
         }
     }
 
@@ -283,10 +287,11 @@ class ViewController: UIViewController {
             sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
             NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
         } else if (isSubscriptionCharge) {
-            if (amount == 0.0){
+            if ((trialPeriodDays ?? 0) > 0){ // initialize sdk for subscription flow without price details
                 sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
-            } else {
+            } else { // initialize sdk for subscription flow with price details
                 sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
+                sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
             }
             
         } else {
@@ -396,9 +401,13 @@ class ViewController: UIViewController {
         if (isSubscription){
             DispatchQueue.main.async {
                 if let purchaseDetails = purchaseDetails {
+                    let amount = purchaseDetails.hasPriceDetails() ? purchaseDetails.getAmount()! : (self.valueTextField.text! as NSString).doubleValue
+                    let currency = purchaseDetails.hasPriceDetails() ? purchaseDetails.getCurrency()! : self.currencyButton.titleLabel?.text ?? "USD"
                     var result: (success: Bool, data: String?) = (false, nil)
                     DemoAPIHelper.createSubscriptionPlan(
-                        purchaseDetails: purchaseDetails as! BSCcSdkResult,
+                        amount: amount,
+                        currency: currency,
+                        trialPeriodDays: self.trialPeriodDays,
                         completion: { isSuccess, data, planId in
                             result.data = data
                             result.success = isSuccess
@@ -663,6 +672,10 @@ class ViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @IBAction func numberOfTrialDaysChanged(_ sender: UITextField) {
+        trialPeriodDays = (daysNumberTextField.text! as NSString).integerValue
     }
 }
 
