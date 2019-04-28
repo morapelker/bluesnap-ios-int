@@ -28,6 +28,13 @@ class SubscriptionChargeReturningShopperUITests: CheckoutReturningShopperBaseTes
         
         // check pay button content
         existingCcHelper.checkPayButton(sdkRequest: sdkRequest, subscriptionHasPriceDetails: trialPeriodDays == nil)
+        
+        if trialPeriodDays != nil {
+            existingCcHelper.pressEditButton(editBilling: true)
+
+            // check currency menu button is disabled in payment screen
+            paymentHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        }
     }
     
     /* -------------------------------- Subscription views tests ---------------------------------------- */
