@@ -106,6 +106,9 @@ class ShopperConfigurationUITests: UIBaseTester {
         
         setUpForChoosePaymentMethodSdk(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: checkoutFullBilling, checkoutWithEmail: checkoutWithEmail, checkoutWithShipping: checkoutWithShipping)
 
+        // check currency menu button is disabled in payment screen
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
         
@@ -163,6 +166,11 @@ class ShopperConfigurationUITests: UIBaseTester {
         
         // check pay button content
         existingCcHelper.checkDoneButton()
+        
+        existingCcHelper.pressEditButton(editBilling: true)
+        
+        // check currency menu button is disabled in payment screen
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: false)
     }
     
     func chooseNewCardPaymentMethodFlow(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, shippingSameAsBilling: Bool = false) {
