@@ -170,7 +170,7 @@ class BSBaseListController: UIViewController, UITableViewDelegate, UITableViewDa
                 var index = 0
                 for item: (name: String, code: String) in section {
                     if item.code == ofItem.code {
-                        let row = groupSections.index(of: firstLetter)
+                        let row = groupSections.firstIndex(of: firstLetter)
                         let indexPath = IndexPath(row: index, section: row!)
                         return indexPath
                     }

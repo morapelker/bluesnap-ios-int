@@ -231,7 +231,7 @@ import Foundation
     static func isSupportedPaymentMethod(paymentType: BSPaymentType, supportedPaymentMethods: [String]?) -> Bool {
         
         if let supportedPaymentMethods = supportedPaymentMethods {
-            let exists = supportedPaymentMethods.index(of: paymentType.rawValue)
+            let exists = supportedPaymentMethods.firstIndex(of: paymentType.rawValue)
             return exists != nil
         } else {
             return false
@@ -498,7 +498,7 @@ import Foundation
         cc.last4Digits = resultData[BSTokenizeBaseCCDetails.LAST_4_DIGITS_KEY]
         if let ccDetails = tokenizeRequest.paymentDetails as? BSTokenizeBaseCCDetails {
             if let expDate = ccDetails.expDate {
-                if let p = expDate.index(of: "/") {
+                if let p = expDate.firstIndex(of: "/") {
                     cc.expirationMonth = String(expDate[..<p])
                     let p = expDate.index(after: p)
                     cc.expirationYear = String(expDate[p..<expDate.endIndex])
