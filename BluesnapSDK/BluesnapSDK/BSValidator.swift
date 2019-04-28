@@ -204,7 +204,7 @@ public class BSValidator: NSObject {
         var msg : String = expInvalidMessage
         
         let newValue = input.expTextField.text ?? ""
-        if let p = newValue.index(of: "/") {
+        if let p = newValue.firstIndex(of: "/") {
             let mm = String(newValue[..<p])
             let yy = BSStringUtils.removeNoneDigits(String(newValue[p ..< newValue.endIndex]))
             if (mm.count < 2) {
@@ -432,7 +432,7 @@ public class BSValidator: NSObject {
     
     open class func isValidName(_ str: String) -> Bool {
         
-        if let p = str.index(of: " ") {
+        if let p = str.firstIndex(of: " ") {
             let firstName = str[..<p].trimmingCharacters(in: .whitespaces)
             let lastName = str[p..<str.endIndex].trimmingCharacters(in: .whitespaces)
             if firstName.count < 1 || lastName.count < 1 {
