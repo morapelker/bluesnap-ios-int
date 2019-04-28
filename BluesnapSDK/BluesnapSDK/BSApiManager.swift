@@ -447,7 +447,7 @@ import Foundation
             completion(resultData, nil)
         }
 
-        var parseFunction: (Int, Data?) -> ([String: String], BSErrors?) = BSApiCaller.parseGenericResponse
+        let parseFunction: (Int, Data?) -> ([String: String], BSErrors?) = BSApiCaller.parseGenericResponse
 
         BSApiCaller.updateShopper(bsToken: getBsToken(), requestBody: requestBody, parseFunction: parseFunction, completion: { resultData, error in
             NSLog("BlueSnap; updateShopper completion")
