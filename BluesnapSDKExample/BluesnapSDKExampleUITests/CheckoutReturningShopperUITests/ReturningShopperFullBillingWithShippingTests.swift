@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ReturningShopperFullBillingWithShippingTests: CheckoutReturningShopperUITests {
+class ReturningShopperFullBillingWithShippingTests: CheckoutReturningShopperBaseTester {
     
     /* -------------------------------- Returning shopper Full Billing With Shipping views tests ---------------------------------------- */
     

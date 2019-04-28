@@ -365,13 +365,13 @@ class DemoAPIHelper {
         task.resume()
     }
     
-    static func createSubscriptionPlan(purchaseDetails : BSCcSdkResult, completion: @escaping (_ isSuccess: Bool, _ data: String?, _ planId: String?)->Void) {
+    static func createSubscriptionPlan(amount: Double, currency: String, trialPeriodDays: Int?, completion: @escaping (_ isSuccess: Bool, _ data: String?, _ planId: String?)->Void) {
         
         // create request
         let urlStr = BS_SANDBOX_DOMAIN + BS_SANDBOX_PLAN
         let url = NSURL(string: urlStr)!
         
-        let requestBody = createBasicSubscriptionPlanDataObject(purchaseDetails: purchaseDetails)
+        let requestBody = createBasicSubscriptionPlanDataObject(amount: amount, currency: currency, trialPeriodDays: trialPeriodDays)
         
         var request = getURLRequest(urlStr: urlStr, httpMethod: "POST", contentType: "application/json", requestBody: requestBody)
         
@@ -417,15 +417,18 @@ class DemoAPIHelper {
         task.resume()
     }
     
-    private static func createBasicSubscriptionPlanDataObject(purchaseDetails : BSCcSdkResult) -> [String : Any]{
+    private static func createBasicSubscriptionPlanDataObject(amount: Double, currency: String, trialPeriodDays: Int?) -> [String : Any]{
         
-        let requestBody = [
+        var requestBody = [
             "chargeFrequency" : "MONTHLY",
             "name" : "Gold Plan",
-            "currency" : purchaseDetails.getCurrency() ?? "",
-            "recurringChargeAmount" : purchaseDetails.getAmount() ?? 0.0
+            "currency" : currency,
+            "recurringChargeAmount" : amount
             ] as [String : Any]
         
+        if let trialPeriodDays = trialPeriodDays {
+            requestBody["trialPeriodDays"] = trialPeriodDays
+        }
 
         return requestBody
     }
