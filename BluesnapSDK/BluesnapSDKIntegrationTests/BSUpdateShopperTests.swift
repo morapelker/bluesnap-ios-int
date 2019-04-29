@@ -102,7 +102,7 @@ class BSUpdateShopperTests: XCTestCase {
             token, error in
 
             if let error = error {
-                fatalError("Create Token with shopper ID failed. error: \(error)")
+                XCTFail("Create Token with shopper ID failed. error: \(error)")
             }
             BSUpdateShopperTests.getSdkData(shopper: shopper, set2: set2, completion: { error in
                 semaphore4.signal()

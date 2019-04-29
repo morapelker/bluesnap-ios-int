@@ -69,7 +69,7 @@ class BSApiManagerTests: XCTestCase {
         BSIntegrationTestingAPIHelper.createToken(shopperId: shopperId, completion: { token, error in
 
             if let error = error {
-                fatalError("Create Token with shopper ID failed. error: \(error)")
+                XCTFail("Create Token with shopper ID failed. error: \(error)")
             }
 
             BSApiManager.getSdkData(baseCurrency: nil, completion: { sdkData, errors in
