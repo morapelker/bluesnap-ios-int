@@ -106,15 +106,15 @@ class BluesnapSDKIntegrationTestsHelper {
     }
 
     static func getBillingDetails(add2: Bool = false) -> BSBillingAddressDetails {
-        let billlingDetails = BSBillingAddressDetails()
-        billlingDetails.name = "Billing John" + (add2 ? "2" : "")
-        billlingDetails.country = "CA"
-        billlingDetails.state = "ON"
-        billlingDetails.address = "billing address" + (add2 ? "2" : "")
-        billlingDetails.city = "billing city" + (add2 ? "2" : "")
-        billlingDetails.zip = "123456" + (add2 ? "2" : "")
-        billlingDetails.email = "billing" + (add2 ? "2@email.com" : "@email.com")
-        return billlingDetails
+        let billingDetails = BSBillingAddressDetails()
+        billingDetails.name = "Billing John" + (add2 ? "2" : "")
+        billingDetails.country = "CA"
+        billingDetails.state = "ON"
+        billingDetails.address = "billing address" + (add2 ? "2" : "")
+        billingDetails.city = "billing city" + (add2 ? "2" : "")
+        billingDetails.zip = "123456" + (add2 ? "2" : "")
+        billingDetails.email = "billing" + (add2 ? "2@email.com" : "@email.com")
+        return billingDetails
     }
 
     static func getVisa() -> [String: String] {
