@@ -274,7 +274,7 @@ import Foundation
             BSApiCaller.createPayPalToken(bsToken: bsToken, purchaseDetails: purchaseDetails, withShipping: withShipping, completion: {
                 resultToken, resultError in
                 NSLog("BlueSnap; createPayPalToken completion")
-                // todo: ask if error is PAYPAL_TOKEN_ALREADY_USED, if so - call merchant to regenrate token and try again
+                // todo: ask if error is PAYPAL_TOKEN_ALREADY_USED, if so - call merchant to regenerate token and try again
                 if resultError == .paypalUTokenAlreadyUsed {
                     NSLog("BlueSnap; paypalUTokenAlreadyUsed; createPayPalToken retry")
                     // regenerate Token and try again
@@ -465,7 +465,7 @@ import Foundation
 
     static internal func regenerateToken(executeAfter: @escaping () -> Void) {
         
-        NSLog("Regenrating new token")
+        NSLog("Regenerating new token")
         apiGenerateTokenFunc({newToken, error in
             if let newToken = newToken {
                 setBsToken(bsToken: newToken)
