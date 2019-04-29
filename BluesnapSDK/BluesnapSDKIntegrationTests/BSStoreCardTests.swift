@@ -53,7 +53,7 @@ class BSStoreCardTests: XCTestCase {
             token, error in
 
             if let error = error {
-                fatalError("Create Token with shopper ID failed. error: \(error)")
+                XCTFail("Create Token with shopper ID failed. error: \(error)")
             }
             BSStoreCardTests.getSdkData(vaultedShopperId: vaultedShopperId, creditCard: creditCard, storeCard:storeCard, completion: { error in
                 semaphore4.signal()
