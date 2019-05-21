@@ -409,7 +409,7 @@ class DemoAPIHelper {
                 }
             }
             defer {
- do          DispatchQueue.main.async {
+           DispatchQueue.main.async {
                     completion(result.isSuccess, result.data, result.planId)
                 }
             }
@@ -477,7 +477,7 @@ class DemoAPIHelper {
                 }
             }
             defer {
-    do       DispatchQueue.main.async {
+           DispatchQueue.main.async {
                     completion(result.isSuccess, result.data, result.shopperId)
                 }
             }
