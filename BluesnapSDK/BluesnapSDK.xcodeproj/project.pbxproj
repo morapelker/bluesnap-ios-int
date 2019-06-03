@@ -248,8 +248,8 @@
 				2DADB9D71EC31F3200C1A2D2 /* BlueSnap.storyboard */,
 				2D374F231E880E7200AE2A81 /* BluesnapSDK.h */,
 				2D374F241E880E7200AE2A81 /* Info.plist */,
-				FD6814641F40419C00FAE1ED /* BSLocalizable.strings */,
 				FD53ABAF1EBDFCEB0055C34D /* Media.xcassets */,
+				FD6814641F40419C00FAE1ED /* BSLocalizable.strings */,
 				DEBEC07006625D7C0FFAF7B2 /* KDataCollector.h */,
 				DEB84D43DE95794744F74D97 /* Kount-Bridging-Header.h */,
 			);
@@ -459,6 +459,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				Base,
 				de,
 				en,

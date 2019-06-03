@@ -308,22 +308,28 @@ class ShopperConfigurationUITests: UIBaseTester {
         app.buttons["CreateButton"].tap()
 
         // TODO: Restore this when the server bug is fixed
-//        checkResult(expectedSuccessText: "Success!")
-//
-//        let semaphore = DispatchSemaphore(value: 0)
-//
-//        DemoAPIHelper.retrieveVaultedShopper(vaultedShopperId: vaultedShopperId, completion: {
-//            isSuccess, data in
-//            XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
-//
-//            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: true, expectedCreditCardInfo: [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())], chosenPaymentMethod: "CC", cardIndex: 0)
-//
-//            XCTAssertNil(error, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
-//
-//            semaphore.signal()
-//        })
-//
-//        semaphore.wait()
+        checkResult(expectedSuccessText: "Success!")
+
+        let semaphore = DispatchSemaphore(value: 0)
+
+        DemoAPIHelper.retrieveVaultedShopper(vaultedShopperId: vaultedShopperId, completion: {
+            isSuccess, data in
+            XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
+
+            let expectedCreditCardInfo = tapExistingCc ? [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear()), (BSUITestUtils.getValidMCLast4Digits(), "MASTERCARD", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())] : [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())]
+    
+            let cardIndex = tapExistingCc ? 0 : 1
+            
+            let error = BSUITestUtils.checkRetrieveVaultedShopperResponse(responseBody: data!, sdkRequest: self.sdkRequest, cardStored: true, expectedCreditCardInfo: expectedCreditCardInfo, chosenPaymentMethod: "CC", cardIndex: cardIndex)
+            
+         
+
+            XCTAssertNil(error, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
+
+            semaphore.signal()
+        })
+
+        semaphore.wait()
         
     }
     
