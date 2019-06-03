@@ -177,6 +177,7 @@ class BSUITestUtils {
         let country = shopperInfo.country!
         
         let (firstName, lastName) = shopperInfo.getSplitName()!
+
         checkFieldContent(expectedValue: firstName, actualValue: resultData["firstName"] as! String, fieldName: "firstName")
         checkFieldContent(expectedValue: lastName, actualValue: resultData["lastName"] as! String, fieldName: "lastName")
         checkFieldContent(expectedValue: country.lowercased(), actualValue: resultData["country"] as! String, fieldName: "country")

@@ -55,7 +55,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         }
     }
     /**
-        fieldKeyboardType (default = .normal) determones the keyboard type for the text field
+        fieldKeyboardType (default = .normal) determines the keyboard type for the text field
     */
     @IBInspectable var fieldKeyboardType : UIKeyboardType = UIKeyboardType.default {
         didSet {
@@ -122,7 +122,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     
     // Mark: Size and margin size configurable properties
     
-    /** Set the sizes according to your design width and height; the component will be resized at runtime using horizontal and vertical ratio between this size and the actual screen size. If you leave as-is, you can resize the component on the storyboard and that will work fine - just the proprtions will remain according to these sizes; so if you want to change margins etc, I recommend setting designWidth and designHeight as well.
+    /** Set the sizes according to your design width and height; the component will be resized at runtime using horizontal and vertical ratio between this size and the actual screen size. If you leave as-is, you can resize the component on the storyboard and that will work fine - just the proportions will remain according to these sizes; so if you want to change margins etc, I recommend setting designWidth and designHeight as well.
     */
     @IBInspectable var designWidth : CGFloat = 335 {
         didSet {

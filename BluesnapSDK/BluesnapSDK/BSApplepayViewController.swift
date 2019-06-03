@@ -51,7 +51,7 @@ extension BSStartViewController : PaymentOperationDelegate {
             ]
 
 
-            // set up the operation with the paymaket request
+            // set up the operation with the payment request
             let paymentOperation =  PaymentOperation(request: pkPaymentRequest, delegate: self,  completion: completion);
             paymentOperation.completionBlock = {[weak op = paymentOperation] in
                 NSLog("PK payment completion")
