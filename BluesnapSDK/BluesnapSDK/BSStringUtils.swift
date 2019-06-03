@@ -16,7 +16,7 @@ public class BSStringUtils: NSObject {
     
     open class func splitName(_ str: String) -> (firstName: String, lastName: String)? {
         
-        if let p = str.index(of: " ") {
+        if let p = str.firstIndex(of: " ") {
             let firstName = str[..<p].trimmingCharacters(in: .whitespaces)
             let lastName = str[p..<str.endIndex].trimmingCharacters(in: .whitespaces)
             return (firstName, lastName)

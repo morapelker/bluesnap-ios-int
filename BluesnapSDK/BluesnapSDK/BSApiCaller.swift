@@ -430,7 +430,7 @@ import Foundation
             do {
                 // sometimes the data is not JSON :(
                 let str : String = String(data: data, encoding: .utf8) ?? ""
-                let p = str.index(of: "{")
+                let p = str.firstIndex(of: "{")
                 if p == nil {
                     errStr = str.replacingOccurrences(of: "\"", with: "")
                 } else {

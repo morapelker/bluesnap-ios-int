@@ -196,6 +196,6 @@ public class BSCountryManager: NSObject {
     }
     
     public func countryHasNoZip(countryCode : String) -> Bool {
-         return self.COUNTRIES_WITHOUT_ZIP.index(of: countryCode.lowercased()) != nil
+         return self.COUNTRIES_WITHOUT_ZIP.firstIndex(of: countryCode.lowercased()) != nil
     }
 }

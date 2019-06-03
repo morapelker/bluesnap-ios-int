@@ -99,7 +99,7 @@ class DemoAPIHelper {
                     NSLog("Http error getting response for BSToken")
                 }
             }
-            defer {
+            do {
                 completion(result, resultError)
             }
         }
@@ -187,7 +187,7 @@ class DemoAPIHelper {
                     }
                 }
             }
-            defer {
+            do {
                 DispatchQueue.main.async {
                     completion(result.isSuccess, result.data, result.shopperId)
                 }
@@ -225,7 +225,7 @@ class DemoAPIHelper {
                     if let data = data {
                         responseData = data
                         let stringData = String(data: data, encoding: .utf8)
-                        NSLog("Response body = \(stringData))")
+                        NSLog("Response body = \(stringData!))")
                     }
                     if (httpStatusCode >= 200 && httpStatusCode <= 299) {
                         do {
@@ -250,7 +250,7 @@ class DemoAPIHelper {
                     NSLog("Http error getting response for BSToken")
                 }
             }
-            defer {
+            do {
                 completion(result, resultError)
             }
         }
@@ -414,7 +414,7 @@ class DemoAPIHelper {
                 }
             }
             defer {
-                DispatchQueue.main.async {
+           DispatchQueue.main.async {
                     completion(result.isSuccess, result.data, result.planId)
                 }
             }
@@ -482,7 +482,7 @@ class DemoAPIHelper {
                 }
             }
             defer {
-                DispatchQueue.main.async {
+           DispatchQueue.main.async {
                     completion(result.isSuccess, result.data, result.shopperId)
                 }
             }
