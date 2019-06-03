@@ -316,7 +316,7 @@ class ShopperConfigurationUITests: UIBaseTester {
             isSuccess, data in
             XCTAssert(isSuccess, "error: \(String(describing: "Retrieve Vaulted Shopper failed"))")
 
-            let expectedCreditCardInfo = tapExistingCc ? [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear()), (BSUITestUtils.getValidMCLast4Digits(), "MASTERCARD", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())] : [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())]
+            let expectedCreditCardInfo = tapExistingCc ? [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())] : [(BSUITestUtils.getValidVisaLast4Digits(), "VISA", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear()), (BSUITestUtils.getValidMCLast4Digits(), "MASTERCARD", BSUITestUtils.getValidExpMonth(),BSUITestUtils.getValidExpYear())]
     
             let cardIndex = tapExistingCc ? 0 : 1
             
