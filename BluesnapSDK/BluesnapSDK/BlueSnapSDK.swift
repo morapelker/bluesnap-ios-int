@@ -24,7 +24,7 @@ open class BlueSnapSDK: NSObject {
     // MARK: SDK functions
 
     /**
-     Inititalize BlueSnap SDK - this function must be called before any other function in the SDK
+     Initialize BlueSnap SDK - this function must be called before any other function in the SDK
      
      - parameters:
      - bsToken: BlueSnap token, should be fresh and valid
@@ -74,7 +74,7 @@ open class BlueSnapSDK: NSObject {
     /**
      Set the token used for BS API
      This needs to be called when you generate a new token after a token expired (in your generateTokenFunc
-     function, which you pass in initBluesnap call abopve)
+     function, which you pass in initBluesnap call above)
      
      - parameters:
      - bsToken: BlueSnap token, should be fresh and valid

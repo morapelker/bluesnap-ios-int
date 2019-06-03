@@ -91,10 +91,10 @@ extension BSApplePayInfo: DictionaryConvertible
                 //"phoneNumber": shippingContact?.phoneNumber?.stringValue,
         ] as [String: Any]
 
-        var billingAddresLines = [String]()
-        billingAddresLines.append("")
+        var billingAddressLines = [String]()
+        billingAddressLines.append("")
         if (billingContact?.postalAddress?.street != nil) {
-            billingAddresLines.append(billingContact!.postalAddress!.street)
+            billingAddressLines.append(billingContact!.postalAddress!.street)
         }
 
         var locality: String? = nil
@@ -102,7 +102,7 @@ extension BSApplePayInfo: DictionaryConvertible
             locality = billingContact?.postalAddress?.subLocality
         }
         let billingContactDict = [
-            "addressLines": billingAddresLines,
+            "addressLines": billingAddressLines,
             "country": billingContact?.postalAddress?.country ?? "",
             "countryCode": billingContact?.postalAddress?.isoCountryCode ?? "",
             "familyName": billingContact?.name?.familyName ?? "",
