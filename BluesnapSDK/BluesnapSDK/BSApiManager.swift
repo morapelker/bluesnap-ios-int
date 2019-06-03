@@ -231,7 +231,7 @@ import Foundation
     static func isSupportedPaymentMethod(paymentType: BSPaymentType, supportedPaymentMethods: [String]?) -> Bool {
         
         if let supportedPaymentMethods = supportedPaymentMethods {
-            let exists = supportedPaymentMethods.index(of: paymentType.rawValue)
+            let exists = supportedPaymentMethods.firstIndex(of: paymentType.rawValue)
             return exists != nil
         } else {
             return false
@@ -274,7 +274,7 @@ import Foundation
             BSApiCaller.createPayPalToken(bsToken: bsToken, purchaseDetails: purchaseDetails, withShipping: withShipping, completion: {
                 resultToken, resultError in
                 NSLog("BlueSnap; createPayPalToken completion")
-                // todo: ask if error is PAYPAL_TOKEN_ALREADY_USED, if so - call merchant to regenrate token and try again
+                // todo: ask if error is PAYPAL_TOKEN_ALREADY_USED, if so - call merchant to regenerate token and try again
                 if resultError == .paypalUTokenAlreadyUsed {
                     NSLog("BlueSnap; paypalUTokenAlreadyUsed; createPayPalToken retry")
                     // regenerate Token and try again
@@ -465,7 +465,7 @@ import Foundation
 
     static internal func regenerateToken(executeAfter: @escaping () -> Void) {
         
-        NSLog("Regenrating new token")
+        NSLog("Regenerating new token")
         apiGenerateTokenFunc({newToken, error in
             if let newToken = newToken {
                 setBsToken(bsToken: newToken)
@@ -498,7 +498,7 @@ import Foundation
         cc.last4Digits = resultData[BSTokenizeBaseCCDetails.LAST_4_DIGITS_KEY]
         if let ccDetails = tokenizeRequest.paymentDetails as? BSTokenizeBaseCCDetails {
             if let expDate = ccDetails.expDate {
-                if let p = expDate.index(of: "/") {
+                if let p = expDate.firstIndex(of: "/") {
                     cc.expirationMonth = String(expDate[..<p])
                     let p = expDate.index(after: p)
                     cc.expirationYear = String(expDate[p..<expDate.endIndex])

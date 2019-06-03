@@ -11,7 +11,7 @@ import Foundation
 
 /**
  Shopper address details for purchase.
- State is mandfatopry only if the country has state (USA, Canada and Brazil).
+ State is mandatory only if the country has state (USA, Canada and Brazil).
  For not-full billing details, only name, country and zip are filled, email is optional
  For full billing details, everything is mandatory except email which is optional.
  For shipping details all field are mandatory.

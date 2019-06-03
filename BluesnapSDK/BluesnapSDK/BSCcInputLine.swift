@@ -256,7 +256,7 @@ public class BSCcInputLine: BSBaseTextInput {
     public func getExpDateAsMMYYYY() -> String! {
 
         let newValue = self.expTextField.text ?? ""
-        if let p = newValue.index(of: "/") {
+        if let p = newValue.firstIndex(of: "/") {
             let mm = newValue[..<p]
             let yy = BSStringUtils.removeNoneDigits(String(newValue[p..<newValue.endIndex]))
             let currentYearStr = String(BSValidator.getCurrentYear())
