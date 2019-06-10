@@ -110,7 +110,11 @@ class BSIntegrationTestingAPIHelper {
         if let location: String = httpResponse?.allHeaderFields["Location"] as? String {
             if let lastIndexOfSlash = location.range(of: "/", options: String.CompareOptions.backwards, range: nil, locale: nil) {
                 let tokenStr = String(location[lastIndexOfSlash.upperBound..<location.endIndex])
-                result = BSToken(tokenStr: tokenStr)
+                do {
+                    try result = BSToken(tokenStr: tokenStr)
+                } catch {
+                    NSLog("Unexpected error: \(error).")
+                }
             } else {
                 NSLog("Error: BS Token does not contain /")
             }
@@ -277,12 +281,12 @@ class BSIntegrationTestingAPIHelper {
     //------------------------------------------------------
 
     static func createVaultedShopper(creditCard: [String: String], set2: Bool = false, storeCard:Bool = true) -> Int? {
-        var bsToken: BSToken = BSToken(tokenStr: "_")
+        var bsToken: BSToken = BluesnapSDKIntegrationTestsHelper.initBSToken(tokenStr: "_")
         var vaultedShopperId: Int = 0
 
         let semaphore = DispatchSemaphore(value: 0)
         BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
-            bsToken = BSToken(tokenStr: token!.getTokenStr()!)
+            bsToken = BluesnapSDKIntegrationTestsHelper.initBSToken(tokenStr: token!.getTokenStr())
             NSLog("token: \(bsToken.tokenStr)")
             submitCCDetails(ccDetails: creditCard, billingDetails: BluesnapSDKIntegrationTestsHelper.getBillingDetails(add2: set2),
                     shippingDetails: BluesnapSDKIntegrationTestsHelper.getShippingDetails(add2: set2), storeCard: storeCard, completion: { error in

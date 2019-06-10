@@ -127,8 +127,6 @@ public class BSPriceDetails: NSObject, NSCopying {
             let newRate = newCurrency.getRate() / originalRate
             self.amount = NSNumber.init(value: self.amount.doubleValue * newRate)
             self.taxAmount = NSNumber.init(value: self.taxAmount.doubleValue * newRate)
-        } else {
-            fatalError("Unable to access currency rates")
         }
     }
 }

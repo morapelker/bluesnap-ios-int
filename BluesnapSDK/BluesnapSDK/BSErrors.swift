@@ -17,6 +17,10 @@ public enum BSSdkRequestBaseError: Error {
     case tokenIsNil(String)
 }
 
+public enum BSServiceError: Error {
+    case illegalToken(String)
+}
+
 public enum BSErrors: Int {
 
     // CC

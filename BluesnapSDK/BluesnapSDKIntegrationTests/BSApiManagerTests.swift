@@ -46,7 +46,8 @@ class BSApiManagerTests: XCTestCase {
     func testIsTokenExpiredExpectsTrue() {
 
         let expiredToken = "fcebc8db0bcda5f8a7a5002ca1395e1106ea668f21200d98011c12e69dd6bceb_"
-        let token = BSToken(tokenStr: expiredToken)
+        let token = BluesnapSDKIntegrationTestsHelper.initBSToken(tokenStr: expiredToken)
+        
         BSApiManager.setBsToken(bsToken: token)
 
         let semaphore = DispatchSemaphore(value: 0)
@@ -499,7 +500,7 @@ class BSApiManagerTests: XCTestCase {
     func createExpiredTokenNoRegeneration() {
 
         let expiredToken = "fcebc8db0bcda5f8a7a5002ca1395e1106ea668f21200d98011c12e69dd6bceb_"
-        BSApiManager.setBsToken(bsToken: BSToken(tokenStr: expiredToken))
+        BSApiManager.setBsToken(bsToken: BluesnapSDKIntegrationTestsHelper.initBSToken(tokenStr: expiredToken))
         BSApiManager.setGenerateBsTokenFunc(generateTokenFunc: { completion in
             NSLog("*** Not recreating token!!!")
             completion(nil, nil)
@@ -509,7 +510,7 @@ class BSApiManagerTests: XCTestCase {
     func createExpiredTokenWithRegeneration() {
         tokenWasRecreated = false
         let expiredToken = "fcebc8db0bcda5f8a7a5002ca1395e1106ea668f21200d98011c12e69dd6bceb_"
-        BSApiManager.setBsToken(bsToken: BSToken(tokenStr: expiredToken))
+        BSApiManager.setBsToken(bsToken: BluesnapSDKIntegrationTestsHelper.initBSToken(tokenStr: expiredToken))
         BSApiManager.setGenerateBsTokenFunc(generateTokenFunc: { completion in
             NSLog("*** Recreating token!!!")
             self.tokenWasRecreated = true

@@ -69,6 +69,19 @@ class BluesnapSDKIntegrationTestsHelper {
     // MARK: private functions Shopper, Address & CC Creation
     //------------------------------------------------------
 
+    static func initBSToken(tokenStr: String) -> BSToken!{
+        var result: BSToken!
+        
+        do {
+            try result = BSToken(tokenStr: tokenStr)
+        } catch {
+            XCTFail(error.localizedDescription)
+            NSLog("Unexpected error: \(error).")
+        }
+
+        return result
+    }
+    
     static func createShopperForUpdate(add2: Bool = false, vaultedShopperId: Int? = nil, chosenPaymentMethodType: String? = nil, creditCard: BSCreditCard? = nil) -> BSShopper {
         let shopper = BSShopper()
 

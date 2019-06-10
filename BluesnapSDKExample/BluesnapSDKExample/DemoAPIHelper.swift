@@ -113,7 +113,11 @@ class DemoAPIHelper {
         if let location: String = httpResponse?.allHeaderFields["Location"] as? String {
             if let lastIndexOfSlash = location.range(of: "/", options: String.CompareOptions.backwards, range: nil, locale: nil) {
                 let tokenStr = String(location[lastIndexOfSlash.upperBound..<location.endIndex])
-                result = BSToken(tokenStr: tokenStr)
+                do {
+                    try result = BSToken(tokenStr: tokenStr)
+                } catch {
+                    NSLog("Unexpected error: \(error).")
+                }
             } else {
                 NSLog("Error: BS Token does not contain /")
             }

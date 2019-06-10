@@ -61,9 +61,8 @@ class BSStatesViewController : BSBaseListController {
     override func createTableViewCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let reusableCell = tableView.dequeueReusableCell(withIdentifier: "StateTableViewCell", for: indexPath)
-        guard let cell = reusableCell as? BSStateTableViewCell else {
-            fatalError("The cell item is not an instancre of the right class")
-        }
+        let cell = reusableCell as! BSStateTableViewCell
+        
         let firstLetter = groupSections[indexPath.section]
         if let state = groups[firstLetter]?[indexPath.row] {
             cell.itemNameUILabel.text = state.name
