@@ -66,9 +66,7 @@ class BSCountryViewController : BSBaseListController {
     override func createTableViewCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let reusableCell = tableView.dequeueReusableCell(withIdentifier: "CountryTableViewCell", for: indexPath)
-        guard let cell = reusableCell as? BSCountryTableViewCell else {
-            fatalError("The cell item is not an instancre of the right class")
-        }
+        let cell = reusableCell as! BSCountryTableViewCell
         
         let firstLetter = groupSections[indexPath.section]
         if let country = groups[firstLetter]?[indexPath.row] {

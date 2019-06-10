@@ -13,7 +13,7 @@ import Foundation
     internal var tokenStr: String! = ""
     internal var serverUrl: String! = ""
 
-    public init(tokenStr : String!) {
+    public init(tokenStr : String!) throws {
         self.tokenStr = tokenStr
         let lastChar = "\(tokenStr.last!)"
         
@@ -22,11 +22,11 @@ import Foundation
         } else if (lastChar == "1" || lastChar == "2") {
             self.serverUrl = BSApiManager.BS_PRODUCTION_DOMAIN_PART1 + lastChar + BSApiManager.BS_PRODUCTION_DOMAIN_PART2
         } else {
-            fatalError("Illegal token " + tokenStr)
+            throw BSServiceError.illegalToken("Illegal token " + tokenStr)
         }
     }
 
-    public init(tokenStr : String!, serverUrl : String!) {
+    public init(tokenStr : String!, serverUrl : String!) throws {
         self.tokenStr = tokenStr
         let lastChar = "\(tokenStr.last!)"
         
@@ -35,7 +35,7 @@ import Foundation
         } else if (lastChar == "1" || lastChar == "2") {
             self.serverUrl = BSApiManager.BS_PRODUCTION_DOMAIN_PART1 + lastChar + BSApiManager.BS_PRODUCTION_DOMAIN_PART2
         } else {
-            fatalError("Illegal token " + tokenStr)
+            throw BSServiceError.illegalToken("Illegal token " + tokenStr)
         }
     }
     

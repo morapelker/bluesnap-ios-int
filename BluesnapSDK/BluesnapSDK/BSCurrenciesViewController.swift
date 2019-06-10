@@ -79,9 +79,8 @@ class BSCurrenciesViewController: BSBaseListController {
     override func createTableViewCell(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let reusableCell = tableView.dequeueReusableCell(withIdentifier: "CurrencyTableViewCell", for: indexPath)
-        guard let cell = reusableCell as? BSCurrencyTableViewCell else {
-            fatalError("The cell item is not an instancre of the right class")
-        }
+        let cell = reusableCell as! BSCurrencyTableViewCell
+        
         let firstLetter = groupSections[indexPath.section]
         if let currency = groups[firstLetter]?[indexPath.row] {
             cell.CurrencyUILabel.text = currency.name + " " + currency.code

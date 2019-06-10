@@ -91,6 +91,9 @@ import Foundation
                     if let rates = json["rates"] as? [String: AnyObject] {
                         let currencies = parseCurrenciesJSON(json: rates)
                         resultData?.currencies = currencies
+                    } else {
+                        resultError = .unknown
+                        NSLog("Error parsing BS currency rates")
                     }
                     if let shopper = json["shopper"] as? [String: AnyObject] {
                         let shopper = parseShopperJSON(json: shopper)
@@ -99,6 +102,9 @@ import Foundation
                     if let supportedPaymentMethods = json["supportedPaymentMethods"] as? [String: AnyObject] {
                         let methods = parseSupportedPaymentMethodsJSON(json: supportedPaymentMethods)
                         resultData?.supportedPaymentMethods = methods
+                    } else {
+                        resultError = .unknown
+                        NSLog("Error parsing supported payment methods")
                     }
 
                 } else {
@@ -701,22 +707,6 @@ import Foundation
         }
 
         return chosenPaymentMethod
-    }
-
-    private static func extractTokenFromResponse(httpResponse: HTTPURLResponse?) -> BSToken? {
-        
-        var result: BSToken?
-        if let location: String = httpResponse?.allHeaderFields["Location"] as? String {
-            if let lastIndexOfSlash = location.range(of: "/", options: String.CompareOptions.backwards, range: nil, locale: nil) {
-                let tokenStr = String(location[lastIndexOfSlash.upperBound..<location.endIndex])
-                result = BSToken(tokenStr: tokenStr)
-            } else {
-                NSLog("Error: BS Token does not contain /")
-            }
-        } else {
-            NSLog("Error: BS Token does not appear in response headers")
-        }
-        return result
     }
     
     /**

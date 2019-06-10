@@ -44,7 +44,7 @@ open class BSApplepayOperation: Operation {
     }
 
     open func execute() {
-        fatalError("should be implemented");
+        NSLog("This method should be implemented")
     }
 
 

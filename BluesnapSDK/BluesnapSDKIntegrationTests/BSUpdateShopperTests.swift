@@ -113,13 +113,11 @@ class BSUpdateShopperTests: XCTestCase {
     }
 
     private static func updateShopper(shopper: BSShopper, set2: Bool = false) {
-        var bsToken: BSToken = BSToken(tokenStr: "_")
-
+        
         let semaphore3 = DispatchSemaphore(value: 0)
         BSIntegrationTestingAPIHelper.createToken(shopperId: shopper.vaultedShopperId, completion: {
             token, error in
-            bsToken = BSToken(tokenStr: token!.getTokenStr()!)
-            NSLog("token: \(bsToken.tokenStr)")
+            NSLog("token: \(token!.tokenStr)")
             BSApiManager.shopper = shopper
             BSApiManager.updateShopper(completion: {
                 (result, error) in
@@ -132,13 +130,11 @@ class BSUpdateShopperTests: XCTestCase {
     }
 
     private static func updateShopperCreditCard(creditCard: [String: String], shopper: BSShopper, set2: Bool = false) {
-        var bsToken: BSToken = BSToken(tokenStr: "_")
 
         let semaphore3 = DispatchSemaphore(value: 0)
         BSIntegrationTestingAPIHelper.createToken(shopperId: shopper.vaultedShopperId, completion: {
             token, error in
-            bsToken = BSToken(tokenStr: token!.getTokenStr()!)
-            NSLog("token: \(bsToken.tokenStr)")
+            NSLog("token: \(token!.tokenStr)")
 
             let semaphore4 = DispatchSemaphore(value: 1)
             BSIntegrationTestingAPIHelper.submitCCDetails(ccDetails: creditCard, billingDetails: BluesnapSDKIntegrationTestsHelper.getBillingDetails(add2: set2),
