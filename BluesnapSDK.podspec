@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "BluesnapSDK"
-  s.version      = "1.2.3"
+  s.version      = "1.2.4"
   s.summary      = "An iOS SDK for Bluesnap "
   s.description  = <<-DESC
   Integrate payment methods into your iOS native apps quickly and easily.
@@ -11,10 +11,10 @@ Pod::Spec.new do |s|
   s.author             = { "snpori" => "oribsnap@gmail.com" }
   s.platform = :ios
   s.ios.deployment_target = '9.3'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   s.source       = { :git => "https://github.com/bluesnap/bluesnap-ios.git", :tag => "#{s.version}" }
   s.source_files  = "BluesnapSDK/**/*.{h,m,swift,a}"
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.2', 'ONLY_ACTIVE_ARCH' => 'NO' }
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0', 'ONLY_ACTIVE_ARCH' => 'NO' }
   s.resource_bundles = {
     'BluesnapUI' => [
         'BluesnapSDK/**/*.xib',
