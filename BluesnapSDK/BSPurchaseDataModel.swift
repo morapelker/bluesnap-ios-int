@@ -185,6 +185,24 @@ public class BSSdkRequestShopperRequirements: NSObject, BSSdkRequestProtocol {
 
 public class BSSdkRequestSubscriptionCharge: BSSdkRequest {
     private var sdkRequestHasPriceDetails: Bool = true
+    private var storedAllowCurrencyChange: Bool = true
+    
+    override public var hideStoreCardSwitch: Bool {
+        get {
+            return false
+        }
+        set {
+        }
+    }
+    
+    override public var allowCurrencyChange: Bool {
+        get {
+            return hasPriceDetails() ? storedAllowCurrencyChange : false
+        }
+        set {
+            storedAllowCurrencyChange = newValue
+        }
+    }
     
     convenience public init(
         withEmail: Bool,
