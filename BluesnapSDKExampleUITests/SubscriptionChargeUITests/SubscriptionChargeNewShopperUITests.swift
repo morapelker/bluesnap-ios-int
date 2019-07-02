@@ -81,6 +81,11 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
         allowCurrencyChangeNewCCValidation(isEnabled: false, isSubscription: true, trialPeriodDays: 30)
     }
     
+    func testHideStoreCardSwitch_subscriptionWithPriceDetails(){
+        setUpForCheckoutSdk(fullBilling: false, withShipping: false, withEmail: false, hideStoreCardSwitch: true, isSubscription: true)
+        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+    }
+    
     func testViewsNoFullBillingNoShippingNoEmail_subscriptionWithoutPriceDetails() {
         subscriptionNewShopperViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, trialPeriodDays: 30)
     }
@@ -99,15 +104,15 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
     
     /* -------------------------------- Subscription end-to-end flow tests ---------------------------------------- */
     
-    func testFlowNoFullBillingNoShippingNoEmail() {
+    func testFlowNoFullBillingNoShippingNoEmail_newCardSubscription() {
         newCardBasicCheckoutFlow(fullBilling: false, withShipping: false, withEmail: false, storeCard: true, isSubscription: true)
     }
     
-    func testFlowFullBillingWithShippingWithEmail() {
+    func testFlowFullBillingWithShippingWithEmail_newCardSubscription() {
         newCardBasicCheckoutFlow(fullBilling: true, withShipping: true, withEmail: true, storeCard: true, isSubscription: true)
     }
     
-    func testFlowShippingSameAsBilling() {
+    func testFlowShippingSameAsBilling_newCardSubscription() {
         newCardBasicCheckoutFlow(fullBilling: true, withShipping: true, withEmail: true, shippingSameAsBilling: true, storeCard: true, isSubscription: true)
     }
 }

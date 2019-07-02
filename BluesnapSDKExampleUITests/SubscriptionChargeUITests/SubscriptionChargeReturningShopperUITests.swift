@@ -55,31 +55,31 @@ class SubscriptionChargeReturningShopperUITests: CheckoutReturningShopperBaseTes
         allowCurrencyChangeExistingCCValidation(isEnabled: false, isSubscription: true, trialPeriodDays: 28)
     }
     
-    func testViewsNoFullBillingNoShippingNoEmail_shopperWithFullBillingWithEmailWithShipping_withoutPriceDetails() {
+    func testViewsNoFullBillingNoShippingNoEmail_shopperWithFullBillingWithEmailWithShipping_subscriptionWithoutPriceDetails() {
         subscriptionReturningShopperViewsCommomTester(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, trialPeriodDays: 30)
     }
 
-    func testViewsNoFullBillingNoShippingNoEmail_shopperWithFullBillingWithEmailWithShipping_withPriceDetails() {
+    func testViewsNoFullBillingNoShippingNoEmail_shopperWithFullBillingWithEmailWithShipping_subscriptionWithPriceDetails() {
         subscriptionReturningShopperViewsCommomTester(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
     }
 
-    func testViewsFullBillingWithShippingWithEmail_shopperWithFullBillingWithEmailWithShipping_withoutPriceDetails() {
+    func testViewsFullBillingWithShippingWithEmail_shopperWithFullBillingWithEmailWithShipping_subscriptionWithoutPriceDetails() {
         subscriptionReturningShopperViewsCommomTester(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true, trialPeriodDays: 28)
     }
 
-    func testViewsFullBillingWithShippingWithEmail_shopperWithFullBillingWithEmailWithShipping_withPriceDetails() {
+    func testViewsFullBillingWithShippingWithEmail_shopperWithFullBillingWithEmailWithShipping_subscriptionWithPriceDetails() {
         subscriptionReturningShopperViewsCommomTester(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
     /* -------------------------------- Subscription end-to-end flow tests ---------------------------------------- */
     
     
-    func testReturningShopperEndToEndMinimalBilling_shopperWithFullBillingWithEmailWithShipping() {
+    func testFlowNoFullBillingNoShippingNoEmail_shopperWithFullBillingWithEmailWithShipping_existingCardSubscription() {
         setUpForSdkWithReturningShopper(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
         existingCardBasicCheckoutFlow(fullBilling: false, withShipping: false, withEmail: false)
     }
     
-    func testReturningShopperEndToEndFullBillingWithEmailWithShipping_shopperWithFullBillingWithEmailWithShipping() {
+    func testFlowFullBillingWithShippingWithEmail_shopperWithFullBillingWithEmailWithShipping_existingCardSubscription() {
         setUpForSdkWithReturningShopper(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
         existingCardBasicCheckoutFlow(fullBilling: true, withShipping: true, withEmail: true)
         
