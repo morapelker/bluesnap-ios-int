@@ -11,7 +11,7 @@ class ShopperConfigurationUITests: UIBaseTester {
     internal var existingCcHelper: BSExistingCcScreenUITestHelper!
     internal var vaultedShopperId: String!
 
-    internal func setUpForChoosePaymentMethodSdk(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false) {
+    internal func setUpForChoosePaymentMethodSdk(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, allowCurrencyChange: Bool = false, hideStoreCardSwitch: Bool = false, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false) {
 
         // initialize required helpers
         if (tapExistingCc) {
@@ -32,7 +32,7 @@ class ShopperConfigurationUITests: UIBaseTester {
 
         semaphore.wait()
 
-        super.setUpForSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, allowCurrencyChange: false, isReturningShopper: true, shopperId: vaultedShopperId)
+        super.setUpForSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, allowCurrencyChange: allowCurrencyChange, hideStoreCardSwitch: hideStoreCardSwitch, isReturningShopper: true, shopperId: vaultedShopperId)
 
         setShopperDetailsInSdkRequest(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping)
 
@@ -154,6 +154,52 @@ class ShopperConfigurationUITests: UIBaseTester {
         }
     }
     
+    func allowCurrencyChangeNewCCValidation(allowCurrencyChange: Bool){
+    
+        setUpForChoosePaymentMethodSdk(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: true, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: true, allowCurrencyChange: allowCurrencyChange)
+        
+        // check currency menu button visibility in payment screen
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        
+        // check currency menu button visibility after opening country screen
+        paymentHelper.setCountry(countryCode: "US")
+        
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        
+        paymentHelper.setStoreCardSwitch(shouldBeOn: true)
+        
+        gotoShippingScreen()
+        
+        BSUITestUtils.pressBackButton(app: app)
+        
+        // check urrency menu button visibility back in payment screen
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        
+    }
+    
+    func allowCurrencyChangeExistingCCValidation(allowCurrencyChange: Bool){
+        setUpForChoosePaymentMethodSdk(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: true, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: true, allowCurrencyChange: allowCurrencyChange, tapExistingCc: true)
+        
+        // check currency menu button visibility in existing cc screen
+        existingCcHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        
+        existingCcHelper.pressEditButton(editBilling: true)
+        
+        // check currency menu button visibility in payment screen
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        
+        // check currency menu button visibility after opening country screen
+        paymentHelper.setCountry(countryCode: "US")
+        
+        paymentHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        
+        BSUITestUtils.pressBackButton(app: app)
+        
+        // check urrency menu button visibility back in existing cc screen
+        existingCcHelper.checkMenuButtonEnabled(expectedEnabled: false)
+        
+    }
+    
     func chooseExistingCardPaymentMethodFViewsCommomTester(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool) {
         
         setUpForChoosePaymentMethodSdk(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: checkoutFullBilling, checkoutWithEmail: checkoutWithEmail, checkoutWithShipping: checkoutWithShipping, tapExistingCc: true, checkExistingCcLine: true)
@@ -271,12 +317,28 @@ class ShopperConfigurationUITests: UIBaseTester {
         chooseNewCardPaymentMethodViewsCommomTester(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
+    func testAllowCurrencyChangeInChooseNewCCPaymentMethod(){
+        allowCurrencyChangeNewCCValidation(allowCurrencyChange: true)
+    }
+    
+    func testNotAllowCurrencyChangeInChooseNewCCPaymentMethod(){
+        allowCurrencyChangeNewCCValidation(allowCurrencyChange: false)
+    }
+    
     func testViewsChooseExistingCCPaymentMinimalBilling(){
         chooseExistingCardPaymentMethodFViewsCommomTester(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false)
     }
 
     func testViewsChooseExistingCCPaymentFullBillingWithShippingWithEmail(){
         chooseExistingCardPaymentMethodFViewsCommomTester(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
+    }
+    
+    func testAllowCurrencyChangeInChooseExistingCCPaymentMethod(){
+        allowCurrencyChangeExistingCCValidation(allowCurrencyChange: true)
+    }
+    
+    func testNotAllowCurrencyChangeInChooseExistingCCPaymentMethod(){
+        allowCurrencyChangeExistingCCValidation(allowCurrencyChange: false)
     }
     
     /* -------------------------------- Choose Payment Method end-to-end flow tests ---------------------------------------- */

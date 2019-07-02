@@ -39,6 +39,22 @@ class SubscriptionChargeReturningShopperUITests: CheckoutReturningShopperBaseTes
     
     /* -------------------------------- Subscription views tests ---------------------------------------- */
     
+    func testAllowCurrencyChange_subscriptionWithPriceDetails(){
+        allowCurrencyChangeExistingCCValidation(isEnabled: true, isSubscription: true)
+    }
+    
+    func testNotAllowCurrencyChange_subscriptionWithPriceDetails(){
+        allowCurrencyChangeExistingCCValidation(isEnabled: false, isSubscription: true)
+    }
+    
+    func testAllowCurrencyChange_subscriptionWithoutPriceDetails(){
+        allowCurrencyChangeExistingCCValidation(isEnabled: false, isSubscription: true, trialPeriodDays: 28)
+    }
+    
+    func testNotAllowCurrencyChange_subscriptionWithoutPriceDetails(){
+        allowCurrencyChangeExistingCCValidation(isEnabled: false, isSubscription: true, trialPeriodDays: 28)
+    }
+    
     func testViewsNoFullBillingNoShippingNoEmail_shopperWithFullBillingWithEmailWithShipping_withoutPriceDetails() {
         subscriptionReturningShopperViewsCommomTester(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, trialPeriodDays: 30)
     }

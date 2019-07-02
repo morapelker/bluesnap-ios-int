@@ -92,8 +92,8 @@ class CheckoutReturningShopperBaseTester: CheckoutBaseTester {
     /* -------------------------------- Returning shopper Common tests ---------------------------------------- */
 
     
-    internal func returningShopperAllowCurrencyChangeValidation(isEnabled: Bool){
-        setUpForSdkWithReturningShopper(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: true, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: true, allowCurrencyChange: isEnabled)
+    internal func allowCurrencyChangeExistingCCValidation(isEnabled: Bool, isSubscription: Bool = false, trialPeriodDays: Int? = nil){
+        setUpForSdkWithReturningShopper(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: true, checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: true, allowCurrencyChange: isEnabled, isSubscription: isSubscription, trialPeriodDays: trialPeriodDays)
         
         // check currency menu button visibility in existing cc screen
         existingCcHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)

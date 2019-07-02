@@ -73,6 +73,14 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
         allowCurrencyChangeNewCCValidation(isEnabled: false, isSubscription: true)
     }
     
+    func testAllowCurrencyChange_subscriptionWithoutPriceDetails(){
+        allowCurrencyChangeNewCCValidation(isEnabled: false, isSubscription: true, trialPeriodDays: 30)
+    }
+    
+    func testNotAllowCurrencyChange_subscriptionWithoutPriceDetails(){
+        allowCurrencyChangeNewCCValidation(isEnabled: false, isSubscription: true, trialPeriodDays: 30)
+    }
+    
     func testViewsNoFullBillingNoShippingNoEmail_subscriptionWithoutPriceDetails() {
         subscriptionNewShopperViewsCommomTester(checkoutFullBilling: false, checkoutWithEmail: false, checkoutWithShipping: false, trialPeriodDays: 30)
     }

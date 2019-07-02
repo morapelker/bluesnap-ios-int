@@ -149,8 +149,8 @@ class CheckoutBaseTester: UIBaseTester{
         
     }
     
-    internal func allowCurrencyChangeNewCCValidation(isEnabled: Bool, isSubscription: Bool = false){
-        setUpForCheckoutSdk(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled, isSubscription: isSubscription)
+    internal func allowCurrencyChangeNewCCValidation(isEnabled: Bool, isSubscription: Bool = false, trialPeriodDays: Int? = nil){
+        setUpForCheckoutSdk(fullBilling: false, withShipping: true, withEmail: false, allowCurrencyChange: isEnabled, isSubscription: isSubscription, trialPeriodDays: trialPeriodDays)
         
         // check currency menu button visibility in payment screen
         paymentHelper.checkMenuButtonEnabled(expectedEnabled: isEnabled)
