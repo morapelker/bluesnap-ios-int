@@ -7,12 +7,30 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
-            buildForRunning = "YES">
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D6D36F922B7E748006D3E9F"
                BuildableName = "BluesnapSDKExample.app"
                BlueprintName = "BluesnapSDKExample"
+               ReferencedContainer = "container:BluesnapSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2D6D371722B7E74B006D3E9F"
+               BuildableName = "BluesnapSDKExampleUITests.xctest"
+               BlueprintName = "BluesnapSDKExampleUITests"
                ReferencedContainer = "container:BluesnapSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -81,6 +99,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "2D6D36F922B7E748006D3E9F"
+            BuildableName = "BluesnapSDKExample.app"
+            BlueprintName = "BluesnapSDKExample"
+            ReferencedContainer = "container:BluesnapSDK.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
