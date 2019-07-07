@@ -34,23 +34,25 @@ class ShopperConfigurationUITests: UIBaseTester {
 
         super.setUpForSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, allowCurrencyChange: allowCurrencyChange, hideStoreCardSwitch: hideStoreCardSwitch, isReturningShopper: true, shopperId: vaultedShopperId)
 
-        setShopperDetailsInSdkRequest(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping)
+        setShopperDetailsInSdkRequest(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, tapExistingCc: tapExistingCc)
 
         // start checkout
         gotoPaymentScreen(shopperId: vaultedShopperId, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine)
     }
 
-    private func setShopperDetailsInSdkRequest(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool){
+    private func setShopperDetailsInSdkRequest(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, tapExistingCc: Bool = false){
 
         // set billing/shipping info
-        sdkRequest.shopperConfiguration.billingDetails?.name = BSUITestUtils.getDummyBillingDetails().name
-
-        if (shopperWithEmail){
-            sdkRequest.shopperConfiguration.billingDetails?.email = BSUITestUtils.getDummyBillingDetails().email!
-        }
-
-        if(shopperWithShipping){
-            sdkRequest.shopperConfiguration.shippingDetails = BSUITestUtils.getDummyShippingDetails()
+        if (tapExistingCc){
+            sdkRequest.shopperConfiguration.billingDetails?.name = BSUITestUtils.getDummyBillingDetails().name
+            
+            if (shopperWithEmail){
+                sdkRequest.shopperConfiguration.billingDetails?.email = BSUITestUtils.getDummyBillingDetails().email!
+            }
+            
+            if(shopperWithShipping){
+                sdkRequest.shopperConfiguration.shippingDetails = BSUITestUtils.getDummyShippingDetails()
+            }
         }
     }
 
@@ -112,9 +114,8 @@ class ShopperConfigurationUITests: UIBaseTester {
         // check cc line visibility (including error messages)
         paymentHelper.checkNewCCLineVisibility()
         
-        // TODO: fix this, verify expected behavior
         // check Inputs Fields visibility (including error messages)
-//        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
+        paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
         // check Store Card view visibility
         paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
