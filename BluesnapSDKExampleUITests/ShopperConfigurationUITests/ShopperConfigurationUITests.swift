@@ -34,6 +34,10 @@ class ShopperConfigurationUITests: UIBaseTester {
 
         super.setUpForSdk(fullBilling: checkoutFullBilling, withShipping: checkoutWithShipping, withEmail: checkoutWithEmail, allowCurrencyChange: allowCurrencyChange, hideStoreCardSwitch: hideStoreCardSwitch, isReturningShopper: true, shopperId: vaultedShopperId)
 
+        if (shopperWithShipping) {
+            isShippingSameAsBillingOn = false
+        }
+        
         setShopperDetailsInSdkRequest(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, tapExistingCc: tapExistingCc)
 
         // start checkout
@@ -49,11 +53,12 @@ class ShopperConfigurationUITests: UIBaseTester {
             if (shopperWithEmail){
                 sdkRequest.shopperConfiguration.billingDetails?.email = BSUITestUtils.getDummyBillingDetails().email!
             }
-            
-            if(shopperWithShipping){
-                sdkRequest.shopperConfiguration.shippingDetails = BSUITestUtils.getDummyShippingDetails()
-            }
         }
+        
+        if(shopperWithShipping){
+            sdkRequest.shopperConfiguration.shippingDetails = BSUITestUtils.getDummyShippingDetails()
+        }
+        
     }
 
     private func gotoPaymentScreen(shopperId: String? = nil, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false) {
@@ -118,17 +123,18 @@ class ShopperConfigurationUITests: UIBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
         // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
-        
-        // check pay button when shipping same as billing is on
-        paymentHelper.checkDoneButton()
-        
-        // check Store Card view visibility
         paymentHelper.closeKeyboard()
         paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
         if (checkoutWithShipping){
-            setShippingSameAsBillingSwitch(shouldBeOn: false)
+            let expectedShippingSameAsBilling = checkoutFullBilling && !shopperWithShipping
+            paymentHelper.checkShippingSameAsBillingSwitch(shouldBeVisible: expectedShippingSameAsBilling , shouldBeOn: expectedShippingSameAsBilling)
+            
+            if (expectedShippingSameAsBilling){
+                // check pay button when shipping same as billing is on
+                paymentHelper.checkDoneButton()
+                setShippingSameAsBillingSwitch(shouldBeOn: false)
+            }
             
             // check pay button when shipping same as billing is off
             paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -147,6 +153,9 @@ class ShopperConfigurationUITests: UIBaseTester {
         }
         
         else {
+            // check pay button when shipping same as billing is on
+            paymentHelper.checkDoneButton()
+            
             // check store card visibility after changing screens
             paymentHelper.checkStoreCardVisibilityAfterChangingScreens(shouldBeVisible: true, setTo: true, sdkRequest: sdkRequest)
             
@@ -316,6 +325,10 @@ class ShopperConfigurationUITests: UIBaseTester {
     
     func testViewsChooseNewCCPaymentFullBillingWithShippingWithEmail(){
         chooseNewCardPaymentMethodViewsCommomTester(shopperWithFullBilling: false, shopperWithEmail: false, shopperWithShipping: false, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
+    }
+    
+    func testViewsChooseNewCCPaymentFullBillingWithShippingWithEmail_shopperWithFullBillingWithEmailWithShipping(){
+        chooseNewCardPaymentMethodViewsCommomTester(shopperWithFullBilling: true, shopperWithEmail: true, shopperWithShipping: true, checkoutFullBilling: true, checkoutWithEmail: true, checkoutWithShipping: true)
     }
     
     func testAllowCurrencyChangeInChooseNewCCPaymentMethod(){

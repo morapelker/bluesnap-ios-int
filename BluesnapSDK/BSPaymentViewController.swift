@@ -245,12 +245,12 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
         self.navigationController!.isNavigationBarHidden = false
 
-        shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
-
+        shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling || self.purchaseDetails.getShippingDetails()?.name ?? "" != ""
+        
         // set the 'shipping same as billing' to be true if no shipping name is supplied
         if self.firstTime == true {
 
-            shippingSameAsBillingSwitch.isOn = self.purchaseDetails.getShippingDetails()?.name ?? "" == ""
+            shippingSameAsBillingSwitch.isOn = !shippingSameAsBillingView.isHidden
 
             // in case of empty shipping country - fill with default and call updateTaxFunc
             if withShipping {
@@ -365,7 +365,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         updateFlagImage(countryCode: countryCode)
         cityInputLine.isHidden = hideFields
         updateState()
-        shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling
+        
+        shippingSameAsBillingView.isHidden = !newCardMode || !self.withShipping || !self.fullBilling || self.purchaseDetails.getShippingDetails()?.name ?? "" != ""
         subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0 || purchaseDetails.isShopperRequirements() || (purchaseDetails.isSubscriptionCharge() && !purchaseDetails.isSubscriptionHasPriceDetails()!)
         updateZipFieldLocation()
     }

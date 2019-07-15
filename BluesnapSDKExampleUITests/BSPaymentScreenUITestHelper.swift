@@ -441,6 +441,27 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             shippingAsBillingSwitch.tap()
         }
     }
+    
+    func checkShippingSameAsBillingSwitch(shouldBeVisible:Bool, shouldBeOn: Bool = false) {
+        
+        // check switch visibility
+        checkShippingSameAsBillingSwitchVisibility(shouldBeVisible: shouldBeVisible)
+        
+        if (shouldBeVisible) {
+            // check switch state
+            let shippingAsBillingSwitch = app.switches["ShippingAsBillingSwitch"]
+            let switchValue = (shippingAsBillingSwitch.value as? String) ?? "0"
+            let switchValueBool = switchValue == "0" ? false : true
+            
+            XCTAssertTrue(switchValueBool == shouldBeOn, "ShippingAsBillingSwitch expected to be checked: \(shouldBeOn), but was checked: \(switchValueBool)")
+        }
+    }
+    
+    private func checkShippingSameAsBillingSwitchVisibility(shouldBeVisible: Bool){
+        XCTAssertTrue(app.otherElements.element(matching: .any, identifier: "ShippingAsBillingView").exists == shouldBeVisible, "ShippingAsBillingView expected to be exists: \(shouldBeVisible), but was exists: \(app.otherElements.element(matching: .any, identifier: "ShippingAsBillingView").exists)")
+        XCTAssertTrue(app.staticTexts["ShippingAsBillingLabel"].exists == shouldBeVisible, "ShippingAsBillingLabel expected to be exists: \(shouldBeVisible), but was exists: \(app.staticTexts["ShippingAsBillingLabel"].exists)")
+        XCTAssertTrue(app.switches["ShippingAsBillingSwitch"].exists == shouldBeVisible, "ShippingAsBillingSwitch expected to be exists: \(shouldBeVisible), but was exists: \(app.switches["ShippingAsBillingSwitch"].exists)")
+    }
 
     // return true if state has changed
     func setStoreCardSwitch(shouldBeOn: Bool) -> Bool {

@@ -134,7 +134,14 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         // check shipping pay button
         shippingHelper.checkPayButton(sdkRequest: sdkRequest)
 
+        // fill in shipping details with country without shipping tax
+        fillShippingDetails(shippingDetails: getDummyShippingDetails())
+        
         BSUITestUtils.pressBackButton(app: app)
+        
+        // verify that the shipping info has been saved in shipping screen after going back and entering to the screen again
+        gotoShippingScreen(fillInDetails: false)
+        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
 
     }
     
@@ -167,8 +174,8 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         // check shipping pay button
         shippingHelper.checkPayButton(sdkRequest: sdkRequest)
 
-        // fill in shipping details with country without shipping tax
-        fillShippingDetails(shippingDetails: getDummyShippingDetails(countryCode: "IL"))
+        // change to country without shipping tax
+        shippingHelper.setCountry(countryCode: "IL")
         
         BSUITestUtils.pressBackButton(app: app)
 
@@ -183,10 +190,6 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         setShippingSameAsBillingSwitch(shouldBeOn: false)
         // check pay button- for shipping country without tax
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
-
-        // verify that the shipping info has been saved in shipping screen after choosing billing same as billing, and than rewind the choice.
-        gotoShippingScreen(fillInDetails: false)
-        shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         
     }
     
@@ -268,7 +271,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         BSUITestUtils.pressBackButton(app: app)
         gotoShippingScreen(fillInDetails: false)
         
-        // verify info has been saved
+        // verify info has been saved in shipping
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         
     }
