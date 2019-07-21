@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D4E277E1E8808A700C56C46"
+               BlueprintIdentifier = "2D6D36F922B7E748006D3E9F"
                BuildableName = "BluesnapSDKExample.app"
                BlueprintName = "BluesnapSDKExample"
-               ReferencedContainer = "container:BluesnapSDKExample/BluesnapSDKExample.xcodeproj">
+               ReferencedContainer = "container:BluesnapSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -170,14 +170,18 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2D4E277E1E8808A700C56C46"
+            BlueprintIdentifier = "2D6D36F922B7E748006D3E9F"
             BuildableName = "BluesnapSDKExample.app"
             BlueprintName = "BluesnapSDKExample"
-            ReferencedContainer = "container:BluesnapSDKExample/BluesnapSDKExample.xcodeproj">
+            ReferencedContainer = "container:BluesnapSDK.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
+      <LocationScenarioReference
+         identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
+         referenceType = "1">
+      </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
