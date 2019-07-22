@@ -283,20 +283,21 @@ class ViewController: UIViewController {
         let withEmail = withEmailSwitch.isOn
         if (!isShopperRequirements && !isSubscriptionCharge) {
             sdkRequestBase = BSSdkRequest(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
-            sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
-            sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
-            NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
+
         } else if (isSubscriptionCharge) {
             if ((trialPeriodDays ?? 0) > 0){ // initialize sdk for subscription flow without price details
                 sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
             } else { // initialize sdk for subscription flow with price details
                 sdkRequestBase = BSSdkRequestSubscriptionCharge(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, priceDetails: priceDetails, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase, updateTaxFunc: self.updateTax)
-                sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
             }
-            
+    
         } else {
             sdkRequestBase = BSSdkRequestShopperRequirements(withEmail: withEmail, withShipping: withShipping, fullBilling: fullBilling, billingDetails: nil, shippingDetails: nil, purchaseFunc: self.completePurchase)
         }
+        
+        sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
+        sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
+        NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
 
     }
 

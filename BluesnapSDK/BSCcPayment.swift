@@ -118,9 +118,7 @@ public class BSCcSdkResult: BSBaseSdkResult {
         super.init(sdkRequestBase: sdkRequestBase)
         chosenPaymentMethodType = BSPaymentType.CreditCard
 
-        if let shopper = BSApiManager.shopper {
-            self.billingDetails = BSBillingAddressDetails(email: shopper.email, name: shopper.name, address: shopper.address, city: shopper.city, zip: shopper.zip, country: shopper.country, state: shopper.state)
-        } else if let billingDetails = sdkRequestBase.shopperConfiguration.billingDetails {
+        if let billingDetails = sdkRequestBase.shopperConfiguration.billingDetails {
             self.billingDetails = billingDetails.copy() as? BSBillingAddressDetails
         }
         if !sdkRequestBase.shopperConfiguration.withShipping {

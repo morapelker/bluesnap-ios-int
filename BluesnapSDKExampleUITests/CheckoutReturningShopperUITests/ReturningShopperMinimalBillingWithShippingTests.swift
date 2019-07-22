@@ -51,11 +51,11 @@ class ReturningShopperMinimalBillingWithShippingTests: CheckoutReturningShopperB
     }
     
     func testAllowCurrencyChange(){
-        returningShopperAllowCurrencyChangeValidation(isEnabled: true)
+        allowCurrencyChangeExistingCCValidation(isEnabled: true)
     }
     
     func testNotAllowCurrencyChange(){
-        returningShopperAllowCurrencyChangeValidation(isEnabled: false)
+        allowCurrencyChangeExistingCCValidation(isEnabled: false)
     }
     
 }
