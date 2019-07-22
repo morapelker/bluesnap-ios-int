@@ -43,6 +43,156 @@
       codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2D6D371722B7E74B006D3E9F"
+               BuildableName = "BluesnapSDKExampleUITests.xctest"
+               BlueprintName = "BluesnapSDKExampleUITests"
+               ReferencedContainer = "container:BluesnapSDK.xcodeproj">
+            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testAllowCurrencyChange()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingNoShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingNoShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingWithShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingWithShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowFullBillingWithShippingWithEmailNostate()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowHideStoreCardSwitch()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowNoFullBillingNoShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowNoFullBillingNoShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowNoFullBillingWithShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowNoFullBillingWithShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testFlowShippingSameAsBilling()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testNotAllowCurrencyChange()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsFullBillingNoShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsFullBillingNoShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsFullBillingWithShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsFullBillingWithShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsNoFullBillingNoShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsNoFullBillingNoShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsNoFullBillingWithShippingNoEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests/testViewsNoFullBillingWithShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "CheckoutReturningShopperBaseTester">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperEndToEndFullBillingWithEmailWithShipping_shopperWithFullBillingWithEmailWithShipping()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithFullBilling()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithFullBillingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithFullBillingWithShipping()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithMinimalBilling()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithMinimalBillingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests/testReturningShopperViewsFullBillingWithEmailWithShipping_shopperWithMinimalBillingWithShipping()">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithShippingTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithShippingTests">
+               </Test>
+               <Test
+                  Identifier = "ShopperConfigurationUITests">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeNewShopperUITests/testAllowCurrencyChange_subscriptionWithPriceDetails()">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeNewShopperUITests/testFlowFullBillingWithShippingWithEmail()">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeNewShopperUITests/testFlowShippingSameAsBilling()">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeNewShopperUITests/testNotAllowCurrencyChange_subscriptionWithPriceDetails()">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeNewShopperUITests/testViewsFullBillingWithShippingWithEmail_subscriptionWithoutPriceDetails()">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeNewShopperUITests/testViewsNoFullBillingNoShippingNoEmail_subscriptionWithPriceDetails()">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeNewShopperUITests/testViewsNoFullBillingNoShippingNoEmail_subscriptionWithoutPriceDetails()">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeReturningShopperUITests">
+               </Test>
+               <Test
+                  Identifier = "UIBaseTester">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
