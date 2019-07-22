@@ -43,6 +43,60 @@
       codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2D6D371722B7E74B006D3E9F"
+               BuildableName = "BluesnapSDKExampleUITests.xctest"
+               BlueprintName = "BluesnapSDKExampleUITests"
+               ReferencedContainer = "container:BluesnapSDK.xcodeproj">
+            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "CheckoutBaseTester">
+               </Test>
+               <Test
+                  Identifier = "CheckoutNewShopperUITests">
+               </Test>
+               <Test
+                  Identifier = "CheckoutReturningShopperBaseTester">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithEmailWithShippingTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperFullBillingWithShippingTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithEmailWithShippingTests">
+               </Test>
+               <Test
+                  Identifier = "ReturningShopperMinimalBillingWithShippingTests">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeNewShopperUITests">
+               </Test>
+               <Test
+                  Identifier = "SubscriptionChargeReturningShopperUITests">
+               </Test>
+               <Test
+                  Identifier = "UIBaseTester">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
