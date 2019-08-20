@@ -6,15 +6,28 @@ import CardinalMobile
 class BSCardinalManager: NSObject {
     
     internal var session : CardinalSession!
-    internal var cardinalToken : BSCardinalToken?
-
-
+    internal var cardinalToken : String?
+    private var cardinalFailure: Bool = false
+    internal static var instance: BSCardinalManager = BSCardinalManager()
+    
+    override private init(){}
+    
+    public func setCardinalJWT(cardinalToken: String?) {
+        cardinalFailure = false
+        
+        if (cardinalToken == nil) {
+            cardinalFailure = true
+        }
+        
+        self.cardinalToken = cardinalToken
+    }
+    
     //Setup can be called in viewDidLoad
-    public func setupCardinalSession(bsToken: BSToken!) {
+    public func configureCardinal(isProduction: Bool) {
         session = CardinalSession()
         let config = CardinalSessionConfiguration()
 
-        if (bsToken.isProduction) {
+        if (isProduction) {
 
             config.deploymentEnvironment = .production
         } else  {
@@ -30,29 +43,46 @@ class BSCardinalManager: NSObject {
         session.configure(config)
     }
 
-    public func getCardinalJWT(bsToken: BSToken) {
-        BSApiCaller.getCardinalJWT(bsToken: bsToken) { cardinalToken, errors in
-            if (errors != nil) {
-                NSLog("No cardinal token")
-                return
-            }
-            self.cardinalToken = cardinalToken
+    
+    public func setupCardinal(_ completion: @escaping () -> Void) {
+        if (isCardinalFailure()){
+            NSLog("skipping due to cardinal failure")
+            return
         }
+        
+        session.setup(jwtString: self.cardinalToken!,
+                      completed: {(consumerSessionID: String) in
+                        completion()
+                        },
+                      
+                      validated: {(validateResponse: CardinalResponse) in
+                        // in case of an error we continue with the flow
+                        self.cardinalFailure = true
+                        completion()
+                        })
     }
+    
+    public func authWith3DS(currency: String, amount: String, _ completion: @escaping () -> Void)  -> BS3DSAuthResponse? {
+        if (isCardinalFailure()){
+            NSLog("skipping due to cardinal failure")
+            return nil
+        }
 
-    public func authWith3DS(token: BSToken, currency: String, ammount: String)  -> BS3DSAuthResponse {
-
-        let authRequest: BS3DSAuthRequest = BS3DSAuthRequest(currencyCode: currency, amount: ammount, jwt: cardinalToken?.jwtStr)
         let response: BS3DSAuthResponse  = BS3DSAuthResponse()
 
-        BSApiCaller.requestAuthWith3ds(bsToken: token, authRequest: authRequest) { response, errors in
+        BSApiManager.requestAuthWith3ds(currency: currency, amount: amount, cardinalToken: cardinalToken!, completion: { response, errors in
             if (errors != nil) {
-                NSLog("No cardinal token")
-                return
+                NSLog("Error in request auth with 3ds")
             }
-
-        }
+        
+            completion()
+        })
+        
         return response
+    }
+    
+    private func isCardinalFailure() -> Bool {
+        return cardinalFailure
     }
 
 //    public func process(response: BS3DSAuthResponse) {

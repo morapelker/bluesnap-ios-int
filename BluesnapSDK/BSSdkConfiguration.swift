@@ -9,7 +9,8 @@
 import Foundation
 
 class BSSdkConfiguration: NSObject {
-
+    public static let THREE_D_SECURE_JWT: String = "threeDSecureJwt";
+    
     var kountMID: Int?
     var currencies: BSCurrencies?
     var shopper: BSShopper?
@@ -22,6 +23,7 @@ class BSSdkConfiguration: NSObject {
     var creditCardBrands: [String]?
     // TODO: use these to replace the static Regexes in the validator
     var creditCardRegex: [String: String]?
+    var cardinalToken: String?
 }
 
 class BSShopper: BSBaseAddressDetails {

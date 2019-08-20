@@ -62,6 +62,7 @@ import Foundation
         return apiToken
     }
     
+    // TODO: use token.isProduction instead
     static func isProductionToken() -> Bool {
         
         let bsToken = getBsToken()
@@ -422,6 +423,16 @@ import Foundation
                 checkErrorAndComplete(resultData, error)
             }
         })
+    }
+    
+    /**
+     Submit data to be submitted to BLS server under the current token, to be used later for server-to-server actions
+     */
+    open class func requestAuthWith3ds(currency: String, amount: String, cardinalToken: String, completion: @escaping (BS3DSAuthResponse?, BSErrors?) -> Void) {
+        
+        let authRequest = BS3DSAuthRequest(currencyCode: currency, amount: amount, jwt: cardinalToken)
+        
+        BSApiCaller.requestAuthWith3ds(bsToken: getBsToken(), authRequest: authRequest, completion: completion)
     }
 
     /**

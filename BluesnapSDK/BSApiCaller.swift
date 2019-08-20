@@ -155,6 +155,9 @@ import Foundation
                     if let kountMID = json["kountMerchantId"] as? Int {
                         resultData?.kountMID = kountMID
                     }
+                    if let cardinalToken = json[BSSdkConfiguration.THREE_D_SECURE_JWT] as? String {
+                        resultData?.cardinalToken = cardinalToken
+                    }
                     if let rates = json["rates"] as? [String: AnyObject] {
                         let currencies = parseCurrenciesJSON(json: rates)
                         resultData?.currencies = currencies

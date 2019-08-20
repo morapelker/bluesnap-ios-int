@@ -400,7 +400,7 @@ public class BSCcInputLine: BSBaseTextInput {
             }
 
             defer {
-                if (purchaseDetails!.isShopperRequirements()) {
+                if (purchaseDetails!.isShopperRequirements()) { // shopper configuration
                     BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue)
                     BSApiManager.shopper?.chosenPaymentMethod?.creditCard = creditCard
                     BSApiManager.updateShopper(completion: {
@@ -429,7 +429,15 @@ public class BSCcInputLine: BSBaseTextInput {
                             self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
                         }
                     })
-                } else {
+                } else { // regular cc checkout
+                    if let purchaseDetailsR = purchaseDetails {
+                        BSCardinalManager.instance.authWith3DS(currency: purchaseDetailsR.getCurrency(), amount: String(purchaseDetailsR.getAmount()),
+                                                               {
+                        NSLog("Unexpected error submitting Payment Fields to BS")
+                        
+                    })
+                    }
+                    
                     DispatchQueue.main.async {
                         self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
                     }
