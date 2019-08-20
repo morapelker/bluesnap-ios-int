@@ -71,6 +71,9 @@
 		2DBD196A22B959BB00DDB5E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37AD22B83F25006D3E9F /* AppDelegate.swift */; };
 		2DBD196C22B95B7E00DDB5E2 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
 		2DBD196D22B95BA100DDB5E2 /* BluesnapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2DD2470022F31AAC003F2B4F /* CardinalMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD246FF22F31AAC003F2B4F /* CardinalMobile.framework */; };
+		2DD2470322F31BA1003F2B4F /* CardinalMobile.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2DD246FF22F31AAC003F2B4F /* CardinalMobile.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2DD2470522F31C12003F2B4F /* BSCardinalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD2470422F31C12003F2B4F /* BSCardinalManager.swift */; };
 		2DD7F11D1E8828B2002C5571 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
 		66030051DC01AEC167525F5A /* BSStoreCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030242E0E8EE69BF3E073C /* BSStoreCardTests.swift */; };
 		660300EAA5412A9B2F51C177 /* BSShopperConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030FD5BA5AD398A2EF004D /* BSShopperConfigurationTests.swift */; };
@@ -80,8 +83,12 @@
 		DEB2956B373F197BF3547EC7 /* KDataCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = DEBEC07006625D7C0FFAF7B2 /* KDataCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DEB2DD0B164B99C6E7DE417C /* BSApplepayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB753629162521B2FF3F4AC /* BSApplepayViewController.swift */; };
 		DEB3C8BC3806435452EEB052 /* BSApplepayOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBB2573B8147400F955D593 /* BSApplepayOperation.swift */; };
+		DEB4B9EFA1723C9B899ED83A /* CardinalTransactionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB327421D521E3C1A80DE5A /* CardinalTransactionTest.swift */; };
+		DEB9897DB66FFD195295FBF0 /* BS3DSAuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB7D3DA31C49BA5F0A2F19F /* BS3DSAuthResponse.swift */; };
+		DEBA3BFAF19A9D43544A6118 /* BS3DSAuthRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB3F1CE7C6D81D7DC387683 /* BS3DSAuthRequest.swift */; };
 		DEBAC1114FFA55F1852DCB78 /* BSPKContactExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBD647E04FF2D871818D06F /* BSPKContactExtention.swift */; };
 		DEBB1FD893E6CC8FA16D5F60 /* BSApplepayPayment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB739342E9A635BBD2878B9 /* BSApplepayPayment.swift */; };
+		DEBE142EF2757A4EF22BACB0 /* BSCardinalToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB92A1E5CA190FDBA6FF148 /* BSCardinalToken.swift */; };
 		FD0888311FAB3259001EED4C /* BSExistingCcUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0888301FAB3259001EED4C /* BSExistingCcUIView.swift */; };
 		FD0888351FAB5152001EED4C /* BSBaseBoxWithShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0888341FAB5152001EED4C /* BSBaseBoxWithShadowView.swift */; };
 		FD0888371FAB56A6001EED4C /* BSPaymentTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0888361FAB56A6001EED4C /* BSPaymentTypeView.swift */; };
@@ -174,6 +181,16 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2DD2470222F31B8A003F2B4F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2DD2470322F31BA1003F2B4F /* CardinalMobile.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -263,6 +280,8 @@
 		2DBD194222B9595600DDB5E2 /* BSUITestsUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BSUITestsUtils.swift; path = BluesnapSDKExampleUITests/BSUITestsUtils.swift; sourceTree = SOURCE_ROOT; };
 		2DBD194322B9595600DDB5E2 /* SubscriptionChargeNewShopperUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubscriptionChargeNewShopperUITests.swift; path = BluesnapSDKExampleUITests/SubscriptionChargeUITests/SubscriptionChargeNewShopperUITests.swift; sourceTree = SOURCE_ROOT; };
 		2DBD194422B9595600DDB5E2 /* ShopperConfigurationUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShopperConfigurationUITests.swift; path = BluesnapSDKExampleUITests/ShopperConfigurationUITests/ShopperConfigurationUITests.swift; sourceTree = SOURCE_ROOT; };
+		2DD246FF22F31AAC003F2B4F /* CardinalMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CardinalMobile.framework; sourceTree = "<group>"; };
+		2DD2470422F31C12003F2B4F /* BSCardinalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSCardinalManager.swift; sourceTree = "<group>"; };
 		66030242E0E8EE69BF3E073C /* BSStoreCardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSStoreCardTests.swift; sourceTree = "<group>"; };
 		66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSUpdateShopperTests.swift; sourceTree = "<group>"; };
 		66030DA3048C1F23770CB761 /* BSStoreCardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSStoreCardTests.swift; sourceTree = "<group>"; };
@@ -274,9 +293,13 @@
 		87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluesnapSDKIntegrationTests.swift; sourceTree = "<group>"; };
 		87A317BC21BFD77400156EA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87A317CF21C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluesnapSDKIntegrationTestsHelper.swift; sourceTree = "<group>"; };
+		DEB327421D521E3C1A80DE5A /* CardinalTransactionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardinalTransactionTest.swift; sourceTree = "<group>"; };
+		DEB3F1CE7C6D81D7DC387683 /* BS3DSAuthRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BS3DSAuthRequest.swift; sourceTree = "<group>"; };
 		DEB739342E9A635BBD2878B9 /* BSApplepayPayment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSApplepayPayment.swift; sourceTree = "<group>"; };
 		DEB753629162521B2FF3F4AC /* BSApplepayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSApplepayViewController.swift; sourceTree = "<group>"; };
+		DEB7D3DA31C49BA5F0A2F19F /* BS3DSAuthResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BS3DSAuthResponse.swift; sourceTree = "<group>"; };
 		DEB84D43DE95794744F74D97 /* Kount-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Kount-Bridging-Header.h"; sourceTree = "<group>"; };
+		DEB92A1E5CA190FDBA6FF148 /* BSCardinalToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSCardinalToken.swift; sourceTree = "<group>"; };
 		DEBB2573B8147400F955D593 /* BSApplepayOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSApplepayOperation.swift; sourceTree = "<group>"; };
 		DEBD647E04FF2D871818D06F /* BSPKContactExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSPKContactExtention.swift; sourceTree = "<group>"; };
 		DEBEC07006625D7C0FFAF7B2 /* KDataCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KDataCollector.h; sourceTree = "<group>"; };
@@ -352,6 +375,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DD2470022F31AAC003F2B4F /* CardinalMobile.framework in Frameworks */,
 				2DBB606B1F8CB8F800E80254 /* libKountDataCollector.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +442,7 @@
 		2D374F221E880E7200AE2A81 /* BluesnapSDK */ = {
 			isa = PBXGroup;
 			children = (
+				2DD246FF22F31AAC003F2B4F /* CardinalMobile.framework */,
 				2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */,
 				FD4750B91EF7D62000E5DFBC /* Helpers */,
 				FD4750B61EF2A0AE00E5DFBC /* CustomControls */,
@@ -558,6 +583,7 @@
 				8746CA1921CFD60E00E7D3DA /* BSMockShopper.swift */,
 				66030D8665CA8A00DEECCE79 /* BSUpdateShopperTests.swift */,
 				66030DA3048C1F23770CB761 /* BSStoreCardTests.swift */,
+				DEB327421D521E3C1A80DE5A /* CardinalTransactionTest.swift */,
 			);
 			path = BluesnapSDKIntegrationTests;
 			sourceTree = "<group>";
@@ -576,6 +602,9 @@
 				2D374F3E1E880EF100AE2A81 /* BSCurrencyModel.swift */,
 				FD6479F01FB9C5A900403E7D /* BSSdkConfiguration.swift */,
 				FD54FE012051530D005D952F /* BSTokenizeRequest.swift */,
+				DEB92A1E5CA190FDBA6FF148 /* BSCardinalToken.swift */,
+				DEB3F1CE7C6D81D7DC387683 /* BS3DSAuthRequest.swift */,
+				DEB7D3DA31C49BA5F0A2F19F /* BS3DSAuthResponse.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -589,6 +618,7 @@
 				FD6814521F30590600FAE1ED /* BSPaypalHandler.swift */,
 				FD461F571F4073FC0050F0FD /* BSLocalizedStrings.swift */,
 				FD5022951F691D9300C820AC /* BSApiCaller.swift */,
+				2DD2470422F31C12003F2B4F /* BSCardinalManager.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -663,6 +693,7 @@
 				2D374F1C1E880E7200AE2A81 /* Frameworks */,
 				2D374F1D1E880E7200AE2A81 /* Headers */,
 				2D374F1E1E880E7200AE2A81 /* Resources */,
+				2DD2470222F31B8A003F2B4F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -894,6 +925,7 @@
 				FD52D50E1EBF3F6500360863 /* BSStateTableViewCell.swift in Sources */,
 				FD0D34321ED2A62A005F03CB /* BSBaseTextInput.swift in Sources */,
 				FD68145F1F38769300FAE1ED /* BSPayPalPayment.swift in Sources */,
+				2DD2470522F31C12003F2B4F /* BSCardinalManager.swift in Sources */,
 				2D374F4D1E880EF100AE2A81 /* BlueSnapSDK.swift in Sources */,
 				FD4A14C71E96068300EDBFC0 /* BSApiManager.swift in Sources */,
 				FD1ACDEF1EA5E0150010C983 /* BSPurchaseDataModel.swift in Sources */,
@@ -925,6 +957,9 @@
 				DEB3C8BC3806435452EEB052 /* BSApplepayOperation.swift in Sources */,
 				FD461F581F4073FC0050F0FD /* BSLocalizedStrings.swift in Sources */,
 				6603063876E32FC9C6232507 /* BSCreatePaymentViewController.swift in Sources */,
+				DEBE142EF2757A4EF22BACB0 /* BSCardinalToken.swift in Sources */,
+				DEBA3BFAF19A9D43544A6118 /* BS3DSAuthRequest.swift in Sources */,
+				DEB9897DB66FFD195295FBF0 /* BS3DSAuthResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1009,6 +1044,7 @@
 				2D6D376C22B804F7006D3E9F /* BSMockShopper.swift in Sources */,
 				2D6D376D22B804F7006D3E9F /* BSUpdateShopperTests.swift in Sources */,
 				2D6D376E22B804F7006D3E9F /* BSStoreCardTests.swift in Sources */,
+				DEB4B9EFA1723C9B899ED83A /* CardinalTransactionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1275,6 +1311,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Cardinal",
+					"$(PROJECT_DIR)/BluesnapSDK",
+				);
 				INFOPLIST_FILE = BluesnapSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1286,6 +1327,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BluesnapSDK",
+					"$(PROJECT_DIR)/Cardinal/CardinalMobile.framework",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDK;
@@ -1312,6 +1354,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Cardinal",
+					"$(PROJECT_DIR)/BluesnapSDK",
+				);
 				INFOPLIST_FILE = BluesnapSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1323,6 +1370,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BluesnapSDK",
+					"$(PROJECT_DIR)/Cardinal/CardinalMobile.framework",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1401,7 +1449,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1430,7 +1478,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

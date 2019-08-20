@@ -12,6 +12,7 @@ import Foundation
   public class BSToken: NSObject {
     internal var tokenStr: String! = ""
     internal var serverUrl: String! = ""
+    internal var isProduction: Bool! = false
 
     public init(tokenStr : String!) throws {
         self.tokenStr = tokenStr
@@ -21,6 +22,7 @@ import Foundation
             self.serverUrl = BSApiManager.BS_SANDBOX_DOMAIN
         } else if (lastChar == "1" || lastChar == "2") {
             self.serverUrl = BSApiManager.BS_PRODUCTION_DOMAIN_PART1 + lastChar + BSApiManager.BS_PRODUCTION_DOMAIN_PART2
+            self.isProduction = true
         } else {
             throw BSServiceError.illegalToken("Illegal token " + tokenStr)
         }

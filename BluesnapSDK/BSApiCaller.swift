@@ -73,8 +73,75 @@ import Foundation
         }
         task.resume()
     }
-    
-    private static func parseSdkDataJSON(data: Data?) -> (BSSdkConfiguration?, BSErrors?) {
+
+      static func getCardinalJWT(bsToken: BSToken!, completion: @escaping (BSCardinalToken?, BSErrors?) -> Void) {
+
+
+          let urlStr = bsToken.serverUrl + "services/2/tokenized-services/3ds-jwt"
+          let request = createRequest(urlStr, bsToken: bsToken)
+          request.httpMethod = "POST"
+
+
+          // fire request
+
+          var cardinalToken : BSCardinalToken?
+          var resultError: BSErrors?
+          let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error)  in
+              if let error = error {
+                  let errorType = type(of: error)
+                  NSLog("error getting cardinal token - \(errorType). Error: \(error.localizedDescription)")
+                  resultError = .unknown
+              } else {
+                  let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
+                  if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
+                      (cardinalToken, resultError) =  BSCardinalToken.parseJson(data: data)
+                  } else {
+                      resultError = parseHttpError(data: data, httpStatusCode: httpStatusCode)
+                  }
+              }
+              defer {
+                  completion(cardinalToken, resultError)
+              }
+          }
+          task.resume()
+      }
+
+
+      static func requestAuthWith3ds(bsToken: BSToken, authRequest: BS3DSAuthRequest, completion: @escaping (BS3DSAuthResponse?, BSErrors?) -> Void) {
+
+
+          let urlStr = bsToken.serverUrl + "services/2/tokenized-services/payment-fields-tokens"
+          let request = createRequest(urlStr, bsToken: bsToken)
+          request.httpMethod = "PUT"
+
+
+          // fire request
+
+          var authResponse: BS3DSAuthResponse?
+          var resultError: BSErrors?
+          let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error)  in
+              if let error = error {
+                  let errorType = type(of: error)
+                  NSLog("error getting cardinal token - \(errorType). Error: \(error.localizedDescription)")
+                  resultError = .unknown
+              } else {
+                  let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
+                  if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
+                      (authResponse, resultError) =  BS3DSAuthResponse.parseJson(data: data)
+                  } else {
+                      resultError = parseHttpError(data: data, httpStatusCode: httpStatusCode)
+                  }
+              }
+              defer {
+                  completion(authResponse, resultError)
+              }
+          }
+          task.resume()
+      }
+
+
+
+      private static func parseSdkDataJSON(data: Data?) -> (BSSdkConfiguration?, BSErrors?) {
         
         var resultData: BSSdkConfiguration?
         var resultError: BSErrors?
@@ -708,7 +775,6 @@ import Foundation
 
         return chosenPaymentMethod
     }
-    
     /**
      Build the basic authentication header from username/password
      - parameters:
@@ -721,6 +787,5 @@ import Foundation
         let base64LoginStr = loginData.base64EncodedString()
         return "Basic \(base64LoginStr)"
     }
-
 
 }

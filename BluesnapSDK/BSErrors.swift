@@ -37,6 +37,9 @@ public enum BSErrors: Int {
     case paypalUnsupportedCurrency
     case paypalUTokenAlreadyUsed
 
+    // cardinal
+    case cardinalTokenParseError
+
     // generic
     case invalidInput
     case expiredToken
