@@ -4,6 +4,7 @@ import CardinalMobile
 
 
 class BSCardinalManager: NSObject {
+
     
     internal var session : CardinalSession!
     internal var cardinalToken : String?
@@ -85,9 +86,53 @@ class BSCardinalManager: NSObject {
         return cardinalFailure
     }
 
-//    public func process(response: BS3DSAuthResponse) {
-//
-//    }
+
+    private  class validationDelegate: CardinalValidationDelegate {
+
+        var completion :  () -> Void
+
+        init (_ completion: @escaping () -> Void) {
+            self.completion = completion
+        }
+
+        func cardinalSession(cardinalSession session: CardinalSession!, stepUpValidated validateResponse: CardinalResponse!, serverJWT: String!) {
+
+            switch validateResponse.actionCode {
+            case .success:
+                // Handle successful transaction, send JWT to backend to verify
+                break
+
+            case .noAction:
+                // Handle no actionable outcome
+                break
+
+            case .failure:
+                // Handle failed transaction attempt
+                break
+
+            case .error:
+                // Handle service level error
+                break
+
+            case .cancel:
+                // Handle transaction canceled by user
+                break
+            }
+
+            completion()
+        }
+
+    }
+
+    public func process(response: BS3DSAuthResponse?, _ completion: @escaping () -> Void) {
+        let delegate : validationDelegate = validationDelegate(completion)
+
+        if let authResponse = response {
+                session.continueWith(transactionId: authResponse.transactionId!, payload: authResponse.payload!, validationDelegate:
+                delegate)
+
+        }
+    }
 
 
 }

@@ -16,8 +16,7 @@ import Foundation
     internal static let BS_PRODUCTION_DOMAIN_PART1 = "https://ws"
     internal static let BS_PRODUCTION_DOMAIN_PART2 = ".bluesnap.com/"
     internal static let BS_SANDBOX_DOMAIN = "https://sandbox.bluesnap.com/"
-//    internal static let BS_SANDBOX_DOMAIN = "https://us-qa-fct02.bluesnap.com/"
-    
+
     internal static let TIME_DIFF_TO_RELOAD: Double = -60 * 60
     // every hour (interval should be negative, and in seconds)
  

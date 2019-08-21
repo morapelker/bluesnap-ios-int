@@ -28,7 +28,10 @@ class CardinalTransactionTest: XCTestCase {
         let shopper = MockShopper(creditCardInfo: [(purchaseBillingData,purchaseCCData)], email: email, shippingContactInfo: purchaseShippingData, fullBillingRequired: true, emailRequired: true, shippingRequired: true)
 
         let tokenizeRequest = BSTokenizeRequest()
-        let cardinalManager = BSCardinalManager()
+        //let cardinalManager = BSCardinalManager.instance.
+        BSCardinalManager.instance.setupCardinal(completion: {
+
+        })
 
         tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: "4111 1111 1111 1111", cvv: "123", ccType: nil, expDate: "\(purchaseCCData["expirationMonth"]!)/\(purchaseCCData["expirationYear"]!)")
         tokenizeRequest.billingDetails = BSBillingAddressDetails(email: email, name: "\(purchaseBillingData["firstName"]!) \(purchaseBillingData["lastName"]!)", address: purchaseBillingData["address1"], city: purchaseBillingData["city"], zip: purchaseBillingData["zip"], country: purchaseBillingData["country"]?.uppercased(), state: purchaseBillingData["state"])
