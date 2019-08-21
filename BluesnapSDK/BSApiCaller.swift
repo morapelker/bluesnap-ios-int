@@ -47,7 +47,7 @@ import Foundation
      */
     static func getSdkData(bsToken: BSToken!, baseCurrency: String?, completion: @escaping (BSSdkConfiguration?, BSErrors?) -> Void) {
         
-        let urlStr = bsToken.serverUrl + "services/2/tokenized-services/sdk-init?base-currency=" + (baseCurrency ?? "USD")
+        let urlStr = bsToken.serverUrl + "services/2/tokenized-services/sdk-init?base-currency=" + (baseCurrency ?? "USD") + "&create-jwt=True"
         let request = createRequest(urlStr, bsToken: bsToken)
         
         // fire request

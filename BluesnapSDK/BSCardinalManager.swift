@@ -48,6 +48,7 @@ class BSCardinalManager: NSObject {
     public func setupCardinal(_ completion: @escaping () -> Void) {
         if (isCardinalFailure()){
             NSLog("skipping due to cardinal failure")
+            completion()
             return
         }
         
@@ -63,27 +64,25 @@ class BSCardinalManager: NSObject {
                         })
     }
     
-    public func authWith3DS(currency: String, amount: String, _ completion: @escaping () -> Void)  -> BS3DSAuthResponse? {
+    public func authWith3DS(currency: String, amount: String, creditCardNumber: String, _ completion: @escaping () -> Void) {
         if (isCardinalFailure()){
             NSLog("skipping due to cardinal failure")
-            return nil
+            return
         }
 
-        let response: BS3DSAuthResponse  = BS3DSAuthResponse()
+//        let response: BS3DSAuthResponse  = BS3DSAuthResponse()
 
         BSApiManager.requestAuthWith3ds(currency: currency, amount: amount, cardinalToken: cardinalToken!, completion: { response, errors in
             if (errors != nil) {
                 NSLog("Error in request auth with 3ds")
             }
         
-            completion()
+            if (response?.enrollmentStatus == "CHALLENGE_REQUIRED") {
+                self.process(response: response ,creditCardNumber: creditCardNumber, completion: completion)
+            }
+//            completion()
         })
         
-        return response
-    }
-    
-    private func isCardinalFailure() -> Bool {
-        return cardinalFailure
     }
 
 
@@ -124,15 +123,21 @@ class BSCardinalManager: NSObject {
 
     }
 
-    public func process(response: BS3DSAuthResponse?, _ completion: @escaping () -> Void) {
+    public func process(response: BS3DSAuthResponse?, creditCardNumber: String, completion: @escaping () -> Void) {
         let delegate : validationDelegate = validationDelegate(completion)
 
+        
         if let authResponse = response {
-                session.continueWith(transactionId: authResponse.transactionId!, payload: authResponse.payload!, validationDelegate:
-                delegate)
-
+            session.processBin(creditCardNumber, completed: {
+                
+                self.session.continueWith(transactionId: authResponse.transactionId!, payload: authResponse.payload!, validationDelegate:
+                    delegate)
+            })
         }
     }
 
+    private func isCardinalFailure() -> Bool {
+        return cardinalFailure
+    }
 
 }

@@ -431,8 +431,10 @@ public class BSCcInputLine: BSBaseTextInput {
                     })
                 } else { // regular cc checkout
                     if let purchaseDetailsR = purchaseDetails {
-                        BSCardinalManager.instance.authWith3DS(currency: purchaseDetailsR.getCurrency(), amount: String(purchaseDetailsR.getAmount()),
+                        BSCardinalManager.instance.authWith3DS(currency: purchaseDetailsR.getCurrency(), amount: String(purchaseDetailsR.getAmount()), creditCardNumber: ccn,
                                                                {
+                                                               
+                    
                         NSLog("Unexpected error submitting Payment Fields to BS")
                         
                     })
