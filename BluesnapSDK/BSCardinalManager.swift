@@ -33,14 +33,15 @@ class BSCardinalManager: NSObject {
             config.deploymentEnvironment = .production
         } else  {
 
-            config.deploymentEnvironment = .sandbox
+            config.deploymentEnvironment = .staging
         }
         config.timeout = 23000
         config.uiType = .native
-        
 
-        config.renderType = [CardinalSessionRenderTypeOTP]
-        config.enableQuickAuth = true
+        let renderType = [CardinalSessionRenderTypeOTP, CardinalSessionRenderTypeHTML]
+        config.renderType = renderType
+        config.enableQuickAuth = false
+        config.enableDFSync = true
         session.configure(config)
     }
 
@@ -53,7 +54,8 @@ class BSCardinalManager: NSObject {
         }
         
         session.setup(jwtString: self.cardinalToken!,
-                      completed: {(consumerSessionID: String) in
+                      completed: {(sessionID) -> Void in
+                          NSLog("cardinal setup complete")
                         completion()
                         },
                       
