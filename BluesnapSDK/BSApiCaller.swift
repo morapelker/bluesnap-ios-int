@@ -109,34 +109,24 @@ import Foundation
 
       static func requestAuthWith3ds(bsToken: BSToken, authRequest: BS3DSAuthRequest, completion: @escaping (BS3DSAuthResponse?, BSErrors?) -> Void) {
 
+        var authResponse: BS3DSAuthResponse?
+        var resultError: BSErrors?
+        
+        // fire request
+        createHttpRequest(bsToken: bsToken, requestBody: authRequest.toJson(), urlStringWithoutDomain: TOKENIZED_SERVICE, httpMethod: "PUT", completion: { data, error in
+            if let error = error {
+                let errorType = type(of: error)
+                NSLog("error getting cardinal token - \(errorType). Error: \(error)")
+                resultError = .unknown
+            } else {
+                (authResponse, resultError) =  BS3DSAuthResponse.parseJson(data: data)
+            }
+            defer {
+                completion(authResponse, resultError)
+            }
 
-          let urlStr = bsToken.serverUrl + "services/2/tokenized-services/payment-fields-tokens"
-          let request = createRequest(urlStr, bsToken: bsToken)
-          request.httpMethod = "PUT"
+        })
 
-
-          // fire request
-
-          var authResponse: BS3DSAuthResponse?
-          var resultError: BSErrors?
-          let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error)  in
-              if let error = error {
-                  let errorType = type(of: error)
-                  NSLog("error getting cardinal token - \(errorType). Error: \(error.localizedDescription)")
-                  resultError = .unknown
-              } else {
-                  let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
-                  if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
-                      (authResponse, resultError) =  BS3DSAuthResponse.parseJson(data: data)
-                  } else {
-                      resultError = parseHttpError(data: data, httpStatusCode: httpStatusCode)
-                  }
-              }
-              defer {
-                  completion(authResponse, resultError)
-              }
-          }
-          task.resume()
       }
 
 
@@ -289,6 +279,61 @@ import Foundation
                               completion: @escaping ([String: String], BSErrors?) -> Void) {
         createHttpRequest(bsToken: bsToken, requestBody: requestBody, parseFunction: parseFunction, urlStringWithoutDomain: UPDATE_SHOPPER, httpMethod: "PUT", completion: completion)
     }
+    
+    /**
+     Create Http Request
+     */
+    static func createHttpRequest(bsToken: BSToken!,
+                                  requestBody: [String: Any],
+                                  urlStringWithoutDomain: String,
+                                  httpMethod: String,
+                                  completion: @escaping (Data?, BSErrors?) -> Void) {
+        
+        let domain: String! = bsToken!.serverUrl
+        let urlStr = (TOKENIZED_SERVICE == urlStringWithoutDomain) ? domain + urlStringWithoutDomain + bsToken!.getTokenStr() : domain + urlStringWithoutDomain
+        var request = createRequest(urlStr, bsToken: bsToken)
+        request.httpMethod = httpMethod
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
+        } catch let error {
+            NSLog("Error update shopper: \(error.localizedDescription)")
+        }
+        
+        // fire request
+        
+        var resultError: BSErrors?
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+            var resultData: Data?
+    
+            if let error = error {
+                let errorType = type(of: error)
+                NSLog("error createHttpRequest - \(errorType) for URL \(urlStr). Error: \(error.localizedDescription)")
+                completion(resultData, .unknown)
+                return
+            }
+            
+            let httpResponse = response as? HTTPURLResponse
+            if let httpStatusCode: Int = (httpResponse?.statusCode) {
+                if (httpStatusCode >= 200 && httpStatusCode <= 299) {
+                    (resultData, resultError) = (data, nil)
+                } else if (httpStatusCode >= 400 && httpStatusCode <= 499) {
+                    resultError = parseHttpError(data: data, httpStatusCode: httpStatusCode)
+                } else {
+                    NSLog("Http error request auth with 3DS from BS; HTTP status = \(httpStatusCode)")
+                    resultError = .unknown
+                }
+                
+            } else {
+                NSLog("Error getting response from BS on createHttpRequest")
+            }
+            
+            defer {
+                completion(resultData, resultError)
+            }
+        }
+        task.resume()
+    }
 
     /**
     Create Http Request
@@ -334,7 +379,6 @@ import Foundation
         }
         task.resume()
     }
-
 
     static func parseCCResponse(httpStatusCode: Int, data: Data?) -> ([String: String], BSErrors?) {
 

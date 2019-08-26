@@ -25,6 +25,11 @@ class BSCardinalManager: NSObject {
     
     //Setup can be called in viewDidLoad
     public func configureCardinal(isProduction: Bool) {
+        if (isCardinalFailure()){
+            NSLog("skipping due to cardinal failure")
+            return
+        }
+        
         session = CardinalSession()
         let config = CardinalSessionConfiguration()
 
@@ -44,7 +49,6 @@ class BSCardinalManager: NSObject {
         config.enableDFSync = true
         session.configure(config)
     }
-
     
     public func setupCardinal(_ completion: @escaping () -> Void) {
         if (isCardinalFailure()){
@@ -54,13 +58,14 @@ class BSCardinalManager: NSObject {
         }
         
         session.setup(jwtString: self.cardinalToken!,
-                      completed: {(sessionID) -> Void in
-                          NSLog("cardinal setup complete")
+                      completed: { sessionID in
+                        NSLog("cardinal setup complete")
                         completion()
                         },
                       
-                      validated: {(validateResponse: CardinalResponse) in
+                      validated: { validateResponse in
                         // in case of an error we continue with the flow
+                        NSLog("cardinal setup failed")
                         self.cardinalFailure = true
                         completion()
                         })
