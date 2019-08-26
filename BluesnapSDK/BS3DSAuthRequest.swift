@@ -17,13 +17,13 @@ public class BS3DSAuthRequest: NSObject, BSModel {
         var request: [String: Any] = [:]
 
         if let currencyCode  = self.currencyCode {
-            request[currencyCode] = currencyCode
+            request["currencyCode'"] = currencyCode
         }
         if let amount  = self.amount {
-            request[amount] = amount
+            request["amount"] = amount
         }
         if let jwt  = self.jwt {
-            request[jwt] = jwt
+            request["jwt"] = jwt
         }
 
         return request

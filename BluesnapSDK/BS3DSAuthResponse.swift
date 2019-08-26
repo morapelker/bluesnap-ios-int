@@ -24,7 +24,6 @@ public class BS3DSAuthResponse: NSObject, BSModel {
     public static func parseJson(data: Data?) -> (BS3DSAuthResponse?, BSErrors?) {
 
         do {
-            let resultData: BS3DSAuthResponse = BS3DSAuthResponse()
             guard let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: AnyObject]
                     else {
                 let resultError = BSErrors.unknown
@@ -35,7 +34,7 @@ public class BS3DSAuthResponse: NSObject, BSModel {
             authResponse.acsUrl = json["acsUrl"] as? String
             authResponse.payload = json["payload"] as? String
             authResponse.transactionId = json["transactionId"] as? String
-            return (resultData, nil)
+            return (authResponse, nil)
         } catch {
             NSLog("Parse error")
         }
