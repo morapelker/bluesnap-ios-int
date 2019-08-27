@@ -129,9 +129,36 @@ import Foundation
 
       }
 
-
-
-      private static func parseSdkDataJSON(data: Data?) -> (BSSdkConfiguration?, BSErrors?) {
+    static func processCardinalResult(bsToken: BSToken!, processResultRequest: BS3DSProcessResultRequest?, completion: @escaping (BS3DSProcessResultResponse?, BSErrors?) -> Void) {
+        
+        let urlStr = bsToken.serverUrl + "services/2/tokenized-services/3ds-process-result"
+        let request = createRequest(urlStr, bsToken: bsToken)
+        
+        // fire request
+        
+        var resultData : BS3DSProcessResultResponse?
+        var resultError: BSErrors?
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error) in
+            if let error = error {
+                let errorType = type(of: error)
+                NSLog("error getting supportedPaymentMethods - \(errorType). Error: \(error.localizedDescription)")
+                resultError = .unknown
+            } else {
+                let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
+                if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
+                    (resultData, resultError) = BS3DSProcessResultResponse.parseJson(data: data)
+                } else {
+                    resultError = parseHttpError(data: data, httpStatusCode: httpStatusCode)
+                }
+            }
+            defer {
+                completion(resultData, resultError)
+            }
+        }
+        task.resume()
+    }
+    
+    private static func parseSdkDataJSON(data: Data?) -> (BSSdkConfiguration?, BSErrors?) {
         
         var resultData: BSSdkConfiguration?
         var resultError: BSErrors?
@@ -166,7 +193,7 @@ import Foundation
                         resultError = .unknown
                         NSLog("Error parsing supported payment methods")
                     }
-
+                    
                 } else {
                     resultError = .unknown
                     NSLog("Error parsing BS currency rates")

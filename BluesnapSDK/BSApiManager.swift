@@ -433,6 +433,16 @@ import Foundation
         
         BSApiCaller.requestAuthWith3ds(bsToken: getBsToken(), authRequest: authRequest, completion: completion)
     }
+    
+    /**
+     Process 3DS result to BLS server under the current token
+     */
+    open class func processCardinalResult(cardinalToken: String, resultJwt: String, completion: @escaping (BS3DSProcessResultResponse?, BSErrors?) -> Void) {
+        
+        let processResultRequest = BS3DSProcessResultRequest(jwt: cardinalToken, resultJwt: resultJwt)
+        
+        BSApiCaller.processCardinalResult(bsToken: getBsToken(), processResultRequest: processResultRequest, completion: completion)
+    }
 
     /**
      update Shopper to BLS server under the current token, to be used later for server-to-server actions

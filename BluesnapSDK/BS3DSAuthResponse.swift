@@ -1,6 +1,6 @@
 import Foundation
 
-public class BS3DSAuthResponse: NSObject, BSModel {
+public class BS3DSAuthResponse: NSObject {
 
     var enrollmentStatus: String?
     var acsUrl: String?
@@ -12,14 +12,6 @@ public class BS3DSAuthResponse: NSObject, BSModel {
         super.init()
     }
 
-
-    public func toJson() -> ([String: Any])! {
-        var request: [String: Any] = [:]
-
-
-        return request
-
-    }
 
     public static func parseJson(data: Data?) -> (BS3DSAuthResponse?, BSErrors?) {
 

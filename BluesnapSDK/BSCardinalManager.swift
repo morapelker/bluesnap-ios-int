@@ -9,12 +9,23 @@ class BSCardinalManager: NSObject {
     internal var session : CardinalSession!
     internal var cardinalToken : String?
     private var cardinalFailure: Bool = false
+    private var cardinalResult: String = CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
     internal static var instance: BSCardinalManager = BSCardinalManager()
+    
+    public enum CardinalManagerResponse : String{
+        case AUTHENTICATION_BYPASSED
+        case AUTHENTICATION_SUCCEEDED
+        case AUTHENTICATION_UNAVAILABLE
+        case AUTHENTICATION_FAILED
+        case AUTHENTICATION_NOT_SUPPORTED
+    }
     
     override private init(){}
     
     public func setCardinalJWT(cardinalToken: String?) {
+        // reset CardinalFailure and CardinalResult for singleton use
         cardinalFailure = false
+        cardinalResult = CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
         
         if (cardinalToken == nil) {
             cardinalFailure = true
@@ -84,52 +95,50 @@ class BSCardinalManager: NSObject {
                 NSLog("Error in request auth with 3ds")
             }
         
-            if (response?.enrollmentStatus == "CHALLENGE_REQUIRED") {
+            if (response?.enrollmentStatus == "CHALLENGE_REQUIRED") { // triggering cardinal challenge
                 self.process(response: response ,creditCardNumber: creditCardNumber, completion: completion)
+            } else {
+                self.cardinalResult = response?.enrollmentStatus ?? CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
+                completion()
             }
-//            completion()
+
         })
         
     }
-
-
-    private  class validationDelegate: CardinalValidationDelegate {
-
+    
+    private class validationDelegate: CardinalValidationDelegate {
+        
         var completion :  () -> Void
-
+        
         init (_ completion: @escaping () -> Void) {
             self.completion = completion
         }
-
+        
         func cardinalSession(cardinalSession session: CardinalSession!, stepUpValidated validateResponse: CardinalResponse!, serverJWT: String!) {
-
+            
             switch validateResponse.actionCode {
-            case .success:
-                // Handle successful transaction, send JWT to backend to verify
+            case .success,
+                 .noAction:
+                BSCardinalManager.instance.processCardinalResult(resultJwt: serverJWT, completion: self.completion)
                 break
-
-            case .noAction:
-                // Handle no actionable outcome
-                break
-
+                
             case .failure:
-                // Handle failed transaction attempt
+                BSCardinalManager.instance.cardinalResult = BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_FAILED.rawValue
+                completion()
                 break
-
-            case .error:
-                // Handle service level error
+                
+            case .error,
+                 .cancel:
+                BSCardinalManager.instance.cardinalResult = BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
+                completion()
                 break
-
-            case .cancel:
-                // Handle transaction canceled by user
-                break
+                
             }
-
-            completion()
+            
         }
-
+        
     }
-
+    
     public func process(response: BS3DSAuthResponse?, creditCardNumber: String, completion: @escaping () -> Void) {
         let delegate : validationDelegate = validationDelegate(completion)
 
@@ -142,9 +151,30 @@ class BSCardinalManager: NSObject {
             })
         }
     }
-
+    
+    public func processCardinalResult(resultJwt: String, completion: @escaping () -> Void) {
+        
+        BSApiManager.processCardinalResult(cardinalToken: cardinalToken!, resultJwt: resultJwt, completion: { response, errors in
+            if (errors != nil) {
+                NSLog("Error in process 3ds result")
+                BSCardinalManager.instance.cardinalResult = BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
+            }
+            
+            BSCardinalManager.instance.cardinalResult = response?.authResult ?? BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
+            
+            completion()
+        })
+        
+    }
+    
     private func isCardinalFailure() -> Bool {
         return cardinalFailure
     }
-
+    
+    public func getCardinalResult() -> String {
+        return cardinalResult
+    }
+    
 }
+
+

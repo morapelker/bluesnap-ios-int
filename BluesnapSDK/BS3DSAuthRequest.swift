@@ -17,7 +17,7 @@ public class BS3DSAuthRequest: NSObject, BSModel {
         var request: [String: Any] = [:]
 
         if let currencyCode  = self.currencyCode {
-            request["currencyCode'"] = currencyCode
+            request["currency"] = currencyCode
         }
         if let amount  = self.amount {
             request["amount"] = amount
