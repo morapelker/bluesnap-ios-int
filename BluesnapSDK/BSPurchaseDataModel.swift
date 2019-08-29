@@ -143,6 +143,7 @@ public class BSSdkRequest: NSObject, BSSdkRequestProtocol {
     public var shopperConfiguration: BSShopperConfiguration!
     public var allowCurrencyChange: Bool = true
     public var hideStoreCardSwitch: Bool = false
+    public var activate3DS: Bool = false
     public var priceDetails: BSPriceDetails! = BSPriceDetails(amount: 0, taxAmount: 0, currency: nil)
 
     public var purchaseFunc: (BSBaseSdkResult?) -> Void
@@ -169,6 +170,14 @@ public class BSSdkRequestShopperRequirements: NSObject, BSSdkRequestProtocol {
     public var shopperConfiguration: BSShopperConfiguration!
     public var purchaseFunc: (BSBaseSdkResult?) -> Void
 
+    public var activate3DS: Bool {
+        get {
+            return false
+        }
+        set {
+        }
+    }
+    
     public init(
             withEmail: Bool,
             withShipping: Bool,
@@ -201,6 +210,14 @@ public class BSSdkRequestSubscriptionCharge: BSSdkRequest {
         }
         set {
             storedAllowCurrencyChange = newValue
+        }
+    }
+    
+    override public var activate3DS: Bool {
+        get {
+            return false
+        }
+        set {
         }
     }
     
@@ -260,6 +277,7 @@ public protocol BSSdkRequestProtocol {
 
     var allowCurrencyChange: Bool { get set }
     var hideStoreCardSwitch: Bool { get set }
+    var activate3DS: Bool { get set }
 }
 
 public class BSShopperConfiguration {
