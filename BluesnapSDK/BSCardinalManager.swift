@@ -82,7 +82,7 @@ class BSCardinalManager: NSObject {
                         })
     }
     
-    public func authWith3DS(currency: String, amount: String, creditCardNumber: String, _ completion: @escaping () -> Void) {
+    public func authWith3DS(currency: String, amount: String, creditCardNumber: String, _ completion: @escaping () -> Void, _ startActivityIndicator: @escaping () -> Void, _ stopActivityIndicator: @escaping () -> Void) {
         if (isCardinalFailure()){
             NSLog("skipping due to cardinal failure")
             return
@@ -96,7 +96,7 @@ class BSCardinalManager: NSObject {
             }
         
             if (response?.enrollmentStatus == "CHALLENGE_REQUIRED") { // triggering cardinal challenge
-                self.process(response: response ,creditCardNumber: creditCardNumber, completion: completion)
+                self.process(response: response ,creditCardNumber: creditCardNumber, completion: completion, startActivityIndicator, stopActivityIndicator)
             } else {
                 self.cardinalResult = response?.enrollmentStatus ?? CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
                 completion()
@@ -109,9 +109,11 @@ class BSCardinalManager: NSObject {
     private class validationDelegate: CardinalValidationDelegate {
         
         var completion :  () -> Void
+        var startActivityIndicator :  () -> Void
         
-        init (_ completion: @escaping () -> Void) {
+        init (_ completion: @escaping () -> Void, _ startActivityIndicator: @escaping () -> Void) {
             self.completion = completion
+            self.startActivityIndicator = startActivityIndicator
         }
         
         func cardinalSession(cardinalSession session: CardinalSession!, stepUpValidated validateResponse: CardinalResponse!, serverJWT: String!) {
@@ -119,16 +121,19 @@ class BSCardinalManager: NSObject {
             switch validateResponse.actionCode {
             case .success,
                  .noAction:
+                self.startActivityIndicator()
                 BSCardinalManager.instance.processCardinalResult(resultJwt: serverJWT, completion: self.completion)
                 break
                 
             case .failure:
+                self.startActivityIndicator()
                 BSCardinalManager.instance.cardinalResult = BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_FAILED.rawValue
                 completion()
                 break
                 
             case .error,
                  .cancel:
+                self.startActivityIndicator()
                 BSCardinalManager.instance.cardinalResult = BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
                 completion()
                 break
@@ -139,15 +144,17 @@ class BSCardinalManager: NSObject {
         
     }
     
-    public func process(response: BS3DSAuthResponse?, creditCardNumber: String, completion: @escaping () -> Void) {
-        let delegate : validationDelegate = validationDelegate(completion)
+    public func process(response: BS3DSAuthResponse?, creditCardNumber: String, completion: @escaping () -> Void, _ startActivityIndicator: @escaping () -> Void, _ stopActivityIndicator: @escaping () -> Void) {
+        let delegate : validationDelegate = validationDelegate(completion, startActivityIndicator)
 
         
         if let authResponse = response {
             session.processBin(creditCardNumber, completed: {
-                
-                self.session.continueWith(transactionId: authResponse.transactionId!, payload: authResponse.payload!, validationDelegate:
-                    delegate)
+                DispatchQueue.main.async {
+                    self.session.continueWith(transactionId: authResponse.transactionId!, payload: authResponse.payload!, validationDelegate:
+                        delegate)
+                    stopActivityIndicator()
+                }
             })
         }
     }

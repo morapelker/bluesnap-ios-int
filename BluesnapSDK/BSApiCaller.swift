@@ -75,36 +75,36 @@ import Foundation
     }
 
       static func getCardinalJWT(bsToken: BSToken!, completion: @escaping (BSCardinalToken?, BSErrors?) -> Void) {
-
-
-          let urlStr = bsToken.serverUrl + "services/2/tokenized-services/3ds-jwt"
-          let request = createRequest(urlStr, bsToken: bsToken)
-          request.httpMethod = "POST"
-
-
-          // fire request
-
-          var cardinalToken : BSCardinalToken?
-          var resultError: BSErrors?
-          let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error)  in
-              if let error = error {
-                  let errorType = type(of: error)
-                  NSLog("error getting cardinal token - \(errorType). Error: \(error.localizedDescription)")
-                  resultError = .unknown
-              } else {
-                  let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
-                  if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
-                      (cardinalToken, resultError) =  BSCardinalToken.parseJson(data: data)
-                  } else {
-                      resultError = parseHttpError(data: data, httpStatusCode: httpStatusCode)
-                  }
-              }
-              defer {
-                  completion(cardinalToken, resultError)
-              }
-          }
-          task.resume()
-      }
+        
+        
+        let urlStr = bsToken.serverUrl + "services/2/tokenized-services/3ds-jwt"
+        let request = createRequest(urlStr, bsToken: bsToken)
+        request.httpMethod = "POST"
+        
+        
+        // fire request
+        
+        var cardinalToken : BSCardinalToken?
+        var resultError: BSErrors?
+        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error)  in
+            if let error = error {
+                let errorType = type(of: error)
+                NSLog("error getting cardinal token - \(errorType). Error: \(error.localizedDescription)")
+                resultError = .unknown
+            } else {
+                let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode
+                if (httpStatusCode != nil && httpStatusCode! >= 200 && httpStatusCode! <= 299) {
+                    (cardinalToken, resultError) =  BSCardinalToken.parseJson(data: data)
+                } else {
+                    resultError = parseHttpError(data: data, httpStatusCode: httpStatusCode)
+                }
+            }
+            defer {
+                completion(cardinalToken, resultError)
+            }
+        }
+        task.resume()
+    }
 
 
       static func requestAuthWith3ds(bsToken: BSToken, authRequest: BS3DSAuthRequest, completion: @escaping (BS3DSAuthResponse?, BSErrors?) -> Void) {
@@ -129,10 +129,17 @@ import Foundation
 
       }
 
-    static func processCardinalResult(bsToken: BSToken!, processResultRequest: BS3DSProcessResultRequest?, completion: @escaping (BS3DSProcessResultResponse?, BSErrors?) -> Void) {
+    static func processCardinalResult(bsToken: BSToken!, processResultRequest: BS3DSProcessResultRequest, completion: @escaping (BS3DSProcessResultResponse?, BSErrors?) -> Void) {
         
         let urlStr = bsToken.serverUrl + "services/2/tokenized-services/3ds-process-result"
         let request = createRequest(urlStr, bsToken: bsToken)
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: processResultRequest.toJson(), options: .prettyPrinted)
+        } catch let error {
+            NSLog("Error process cardinal result: \(error.localizedDescription)")
+        }
+        request.httpMethod = "POST"
         
         // fire request
         
@@ -141,7 +148,7 @@ import Foundation
         let task = URLSession.shared.dataTask(with: request as URLRequest) { (data: Data?, response, error) in
             if let error = error {
                 let errorType = type(of: error)
-                NSLog("error getting supportedPaymentMethods - \(errorType). Error: \(error.localizedDescription)")
+                NSLog("error process cardinal result - \(errorType). Error: \(error.localizedDescription)")
                 resultError = .unknown
             } else {
                 let httpStatusCode:Int? = (response as? HTTPURLResponse)?.statusCode

@@ -364,7 +364,7 @@ public class BSCcInputLine: BSBaseTextInput {
      - parameters:
      - purchaseDetails: optional purchase details to be tokenized as well as the CC details
     */
-    public func submitPaymentFields(purchaseDetails: BSCcSdkResult?) {
+    public func submitPaymentFields(purchaseDetails: BSCcSdkResult?, _ cardinalCompletion: @escaping (String, BSCreditCard, BSErrors?) -> Void) {
 
         let ccn = self.getValue() ?? ""
         let cvv = self.getCvv() ?? ""
@@ -432,17 +432,8 @@ public class BSCcInputLine: BSBaseTextInput {
                 } else { // regular cc checkout
                     if let purchaseDetailsR = purchaseDetails {
                         if (BlueSnapSDK.sdkRequestBase?.activate3DS ?? false){
+                            cardinalCompletion(ccn, creditCard, error)
                             
-                            BSCardinalManager.instance.authWith3DS(currency: purchaseDetailsR.getCurrency(), amount: String(purchaseDetailsR.getAmount()), creditCardNumber: ccn,
-                                                                   {
-                                                                    DispatchQueue.main.async {
-                                                                        self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
-                                                                    }
-                                                                    
-                                                                    
-                                                                    NSLog("Unexpected error submitting Payment Fields to BS")
-                                                                    
-                            })
                         } else {
                             DispatchQueue.main.async {
                                 self.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)

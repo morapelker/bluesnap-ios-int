@@ -192,6 +192,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
             if error == nil {
                 purchaseDetails.creditCard = creditCard
+                purchaseDetails.threeDSAuthenticationResult = BSCardinalManager.instance.getCardinalResult()
                 // return to merchant screen
                 
                 let merchantControllerIndex = viewControllers.count - (inShippingScreen ? 4 : 3) + (BSApiManager.isNewCCOnlyPaymentMethod() ? 1 : 0)
@@ -437,7 +438,17 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
     func submitPaymentFields() {
 
-        self.ccInputLine.submitPaymentFields(purchaseDetails: self.purchaseDetails)
+        self.ccInputLine.submitPaymentFields(purchaseDetails: self.purchaseDetails, { ccn, creditCard, error in
+            BSCardinalManager.instance.authWith3DS(currency: self.purchaseDetails.getCurrency(), amount: String(self.purchaseDetails.getAmount()), creditCardNumber: ccn,
+                                                   {
+                                                    DispatchQueue.main.async {
+                                                        self.ccInputLine.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+                                                    }
+                                                    
+                                                    NSLog("Unexpected error submitting Payment Fields to BS")
+                                                    
+            }, self.startActivityIndicator, self.stopActivityIndicator)
+        })
     }
 
     private func gotoShippingScreen() {

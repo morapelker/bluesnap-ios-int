@@ -15,11 +15,11 @@ public class BS3DSProcessResultRequest: NSObject, BSModel {
     public func toJson() -> ([String: Any])! {
         var request: [String: Any] = [:]
         
-        if let currencyCode  = self.jwt {
-            request["jwt"] = currencyCode
+        if let jwt  = self.jwt {
+            request["jwt"] = jwt
         }
-        if let amount  = self.resultJwt {
-            request["resultJwt"] = amount
+        if let resultJwt  = self.resultJwt {
+            request["resultJwt"] = resultJwt
         }
         
         return request

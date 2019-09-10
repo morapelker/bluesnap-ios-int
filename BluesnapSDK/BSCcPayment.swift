@@ -113,6 +113,7 @@ public class BSCcSdkResult: BSBaseSdkResult {
     public var creditCard: BSCreditCard = BSCreditCard()
     public var billingDetails: BSBillingAddressDetails! = BSBillingAddressDetails()
     public var shippingDetails: BSShippingAddressDetails?
+    public var threeDSAuthenticationResult: String!
 
     public override init(sdkRequestBase: BSSdkRequestProtocol) {
         super.init(sdkRequestBase: sdkRequestBase)
