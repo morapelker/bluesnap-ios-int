@@ -298,7 +298,7 @@ class ViewController: UIViewController {
         
         sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
         sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
-        sdkRequestBase?.activate3DS = true
+        sdkRequestBase?.activate3DS = false
         NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
 
     }
@@ -445,7 +445,7 @@ class ViewController: UIViewController {
                             result.data = data
                             result.success = isSuccess
                             self.vaultedShopperId = shopperId
-                            self.threeDSResult = (purchaseDetails as! BSCcSdkResult).threeDSAuthenticationResult
+                            self.threeDSResult = (purchaseDetails as? BSCcSdkResult)?.threeDSAuthenticationResult
                             self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
                             self.showThankYouScreen(result)
                     })
