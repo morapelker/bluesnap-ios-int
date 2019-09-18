@@ -15,6 +15,7 @@ public enum BSSdkRequestBaseError: Error {
     case missingReturningShopper(String)
     case sdkNotInitialized(String)
     case tokenIsNil(String)
+    case threeDSDisabledInDashboard(String)
 }
 
 public enum BSServiceError: Error {

@@ -25,6 +25,7 @@ import Foundation
     internal static var supportedPaymentMethods: [String]?
     internal static var lastSupportedPaymentMethodsFetchDate: Date?
     internal static var shopper: BSShopper?
+    internal static var threeDSEnabledInDashboard: Bool!
     internal static var apiToken: BSToken?
     internal static var payPalToken : String?
     internal static var apiGenerateTokenFunc: (_ completion: @escaping (BSToken?, BSErrors?) -> Void) -> Void = { completion in
@@ -117,6 +118,7 @@ import Foundation
         bsCurrencies = sdkData.currencies
         shopper = sdkData.shopper
         sdkIsInitialized = true
+        threeDSEnabledInDashboard = sdkData.cardinalToken != nil
     }
 
     /**

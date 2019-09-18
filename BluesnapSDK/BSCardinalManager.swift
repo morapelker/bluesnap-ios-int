@@ -86,6 +86,7 @@ class BSCardinalManager: NSObject {
     public func authWith3DS(currency: String, amount: String, creditCardNumber: String, _ completion: @escaping (Bool?) -> Void, _ startActivityIndicator: @escaping () -> Void, _ stopActivityIndicator: @escaping () -> Void) {
         if (isCardinalFailure()){
             NSLog("skipping due to cardinal failure")
+            completion(nil)
             return
         }
 

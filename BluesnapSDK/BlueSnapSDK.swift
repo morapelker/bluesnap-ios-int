@@ -351,6 +351,13 @@ open class BlueSnapSDK: NSObject {
             NSLog(msg)
             throw BSSdkRequestBaseError.missingReturningShopper(msg)
         }
+        
+        // verify that request to activate3DS does not conflict with Dashboard configuration
+        guard !(sdkRequestBase.activate3DS && !BSApiManager.threeDSEnabledInDashboard) else {
+            let msg: String = "Failed to activate Bluesnap SDK with 3DS since it has been disabled in Dashboard"
+            NSLog(msg)
+            throw BSSdkRequestBaseError.threeDSDisabledInDashboard(msg)
+        }
 
         self.sdkRequestBase = sdkRequestBase
         self.sdkRequestBase?.adjustSdkRequest()
