@@ -70,8 +70,8 @@
 		2DBD196922B9599F00DDB5E2 /* DemoAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37CE22B83F25006D3E9F /* DemoAPIHelper.swift */; };
 		2DBD196A22B959BB00DDB5E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37AD22B83F25006D3E9F /* AppDelegate.swift */; };
 		2DBD196C22B95B7E00DDB5E2 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
-		2DBD196D22B95BA100DDB5E2 /* BluesnapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		2DD2470022F31AAC003F2B4F /* CardinalMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD246FF22F31AAC003F2B4F /* CardinalMobile.framework */; };
+		2DBD196D22B95BA100DDB5E2 /* BluesnapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2DD2470022F31AAC003F2B4F /* CardinalMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD246FF22F31AAC003F2B4F /* CardinalMobile.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2DD2470322F31BA1003F2B4F /* CardinalMobile.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2DD246FF22F31AAC003F2B4F /* CardinalMobile.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2DD2470522F31C12003F2B4F /* BSCardinalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD2470422F31C12003F2B4F /* BSCardinalManager.swift */; };
 		2DD7F11D1E8828B2002C5571 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
@@ -1313,7 +1313,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1321,8 +1321,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Cardinal",
-					"$(PROJECT_DIR)/BluesnapSDK",
+					"$(PROJECT_DIR)/Cardinal/**",
+					"$(PROJECT_DIR)/BluesnapSDK/**",
 				);
 				INFOPLIST_FILE = BluesnapSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1335,17 +1335,17 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BluesnapSDK",
-					"$(PROJECT_DIR)/Cardinal/CardinalMobile.framework",
+					"$(PROJECT_DIR)/Cardinal/CardinalMobile.framework/**",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 arm64e armv7 armv7s i386 x86_64";
 			};
 			name = Debug;
@@ -1356,7 +1356,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1364,8 +1364,8 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Cardinal",
-					"$(PROJECT_DIR)/BluesnapSDK",
+					"$(PROJECT_DIR)/Cardinal/**",
+					"$(PROJECT_DIR)/BluesnapSDK/**",
 				);
 				INFOPLIST_FILE = BluesnapSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1378,15 +1378,15 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BluesnapSDK",
-					"$(PROJECT_DIR)/Cardinal/CardinalMobile.framework",
+					"$(PROJECT_DIR)/Cardinal/CardinalMobile.framework/**",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 arm64e armv7 armv7s i386 x86_64";
 			};
 			name = Release;
@@ -1444,6 +1444,10 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BluesnapSDK",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/BluesnapSDKExample/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
@@ -1457,7 +1461,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1474,6 +1478,10 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BluesnapSDK",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/BluesnapSDKExample/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
@@ -1486,7 +1494,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
