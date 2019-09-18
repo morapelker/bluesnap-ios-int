@@ -46,6 +46,7 @@ class ViewController: UIViewController {
     final fileprivate var returningShopperId : Int = 22061813
     final fileprivate var shopperId : Int? = nil
     final fileprivate var vaultedShopperId : String? = nil
+    final fileprivate var threeDSResult : String? = nil
     final fileprivate var allowCurrencyChange: Bool! = true
     final fileprivate var hideStoreCard: Bool! = false
     final fileprivate var trialPeriodDays: Int? = nil
@@ -444,6 +445,7 @@ class ViewController: UIViewController {
                             result.data = data
                             result.success = isSuccess
                             self.vaultedShopperId = shopperId
+                            self.threeDSResult = (purchaseDetails as! BSCcSdkResult).threeDSAuthenticationResult
                             self.logResultDetails(result: result, purchaseDetails: purchaseDetails)
                             self.showThankYouScreen(result)
                     })
@@ -533,6 +535,7 @@ class ViewController: UIViewController {
         if let thankYouScreen = storyboard?.instantiateViewController(withIdentifier: "ThankYouViewController") as? ThankYouViewController {
             thankYouScreen.errorText = errorText
             thankYouScreen.vaultedShopperId = self.vaultedShopperId
+            thankYouScreen.threeDSResult = self.threeDSResult
             self.navigationController?.pushViewController(thankYouScreen, animated: true)
         } else {
             resultTextView.text = "An error occurred trying to show the Thank You screen."

@@ -12,12 +12,14 @@ class ThankYouViewController: UIViewController {
 
     var errorText : String?
     var vaultedShopperId: String!
+    var threeDSResult: String!
 
     @IBOutlet weak var checkmarkImageView: UIImageView!
     @IBOutlet weak var successLabel: UILabel!
     @IBOutlet weak var errorTextView: UITextView!
     @IBOutlet weak var somethingWentWrongLabel: UILabel!
     @IBOutlet weak var vaultedShopperIdLabel: UILabel!
+    @IBOutlet weak var ThreeDSResultLabel: UILabel!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,6 +38,12 @@ class ThankYouViewController: UIViewController {
                 vaultedShopperIdLabel.text = "Shopper Id: \(vaultedShopperId)"    
             } else {
                 vaultedShopperIdLabel.text = "No Shopper Id Provided"
+            }
+            
+            if let threeDSResult = threeDSResult {
+                ThreeDSResultLabel.text = "3DS Result: \(threeDSResult)"
+            } else {
+                ThreeDSResultLabel.text = "No 3DS Result Provided"
             }
 
         }

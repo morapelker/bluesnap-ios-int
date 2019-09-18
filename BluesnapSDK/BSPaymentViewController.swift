@@ -440,15 +440,36 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
         self.ccInputLine.submitPaymentFields(purchaseDetails: self.purchaseDetails, { ccn, creditCard, error in
             BSCardinalManager.instance.authWith3DS(currency: self.purchaseDetails.getCurrency(), amount: String(self.purchaseDetails.getAmount()), creditCardNumber: ccn,
-                                                   {
-                                                    DispatchQueue.main.async {
-                                                        self.ccInputLine.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+                                                   { calrdinalCanceled in
+                                                    if (calrdinalCanceled ?? false) {
+                                                        self.show3DSrequiredAlert()
+                                                        self.stopActivityIndicator()
                                                     }
-                                                    
-                                                    NSLog("Unexpected error submitting Payment Fields to BS")
+                                                        
+                                                    else {
+                                                        DispatchQueue.main.async {
+                                                            self.ccInputLine.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+                                                        }
+                                                    }
                                                     
             }, self.startActivityIndicator, self.stopActivityIndicator)
         })
+    }
+    
+    /**
+     Show 3DS required pop-up
+     */
+    private func show3DSrequiredAlert() {
+        let alert = createAlert(title: "Oops", message: "3DS Authentication is required")
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func createAlert(title: String, message: String) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in })
+        alert.addAction(cancel)
+        return alert
+        //After you create alert, you show it like this: present(alert, animated: true, completion: nil)
     }
 
     private func gotoShippingScreen() {
