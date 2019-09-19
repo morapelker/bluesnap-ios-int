@@ -8,6 +8,7 @@ This document will cover the following topics:
 * [Usage](#usage)
 * [Implementing Standard Checkout Flow](#implementing-standard-checkout-flow)
 * [Implementing Custom Checkout Flow](#implementing-custom-checkout-flow)
+* [3D Secure Authentication](#3d-secure-Authentication)
 * [Sending the payment for processing](#sending-the-payment-for-processing)
 * [Demo app - explained](#demo-app---explained)
 * [Reference](#reference)
@@ -168,6 +169,7 @@ BSSdkRequest constructor parameters:
 | `updateTaxFunc` | Optional. Callback function that handles tax rate updates (see [Handling tax updates](#handling-tax-updates-optional)). |
 | `allowCurrencyChange` | Optional. Will allow the shopper to change currency on pay with credit card screen (default is true). |
 | `hideStoreCardSwitch` | Optional. Allows to hide the Securely store my card for future purchases Switch (default is false). |
+| `activate3DS` | Optional. Require a 3D Secure Authentication from the shopper while paying with credit card (default is false). |
 
 #### Defining priceDetails
 `priceDetails` (an instance of `BSPriceDetails`) is a property of `sdkRequest` that contains properties for amount, tax amount, and [currency](https://developers.bluesnap.com/docs/currency-codes). Set these properties to intialize the price details of the checkout page. 
@@ -195,7 +197,7 @@ If you choose to collect shipping details (i.e. `withShipping` is set to `true`)
 
 * If the result is a `BSApplePaySdkResult` instance, it will contain details about the amount, tax, and currency. Note that billing/shipping info is not collected, as it’s not needed to complete the purchase.  
 
-* If the result is a `BSCcSdkResult` or `BSExistingCcSdkResult` instance, it will contain details about the amount, tax, currency, shipping/billing information, and non-sensitive credit card details (card type, last 4 digits, issuing country). 
+* If the result is a `BSCcSdkResult` or `BSExistingCcSdkResult` instance, it will contain details about the amount, tax, currency, shipping/billing information, 3D Secure authentication result, and non-sensitive credit card details (card type, last 4 digits, issuing country). 
 
 * If the result is a `BSPayPalSdkResult`, then the transaction has already been completed! There is no need to send the transaction for processing from your server.  
 
@@ -285,6 +287,16 @@ If you're using `BSCcInputLine` to collect the user's data, in your `ViewControl
 On your submit action (i.e. when the user submits their payment during checkout), you should call `BSCcInputLine`'s `validate` function to make sure the data is correct. If the validation was successful (i.e. `validate` returns `true`), then call `BSCcInputLine`'s `submitPaymentFields()` function, which will call the `didSubmitCreditCard` callback with the results of the submission. 
 
 Another option is to call `checkCreditCard(ccn: String)`, which first validates and then submits the details, calling the delegate `didSubmitCreditCard` after a successful submit.
+
+# 3D Secure Authentication
+The SDK includes an integrated Cardinal SDK for 3DS Authentication. If you choose to activate this service and the shopper chooses credit card as payment method, a cardinal result will be passed as part of the SdkResult (threeDSAuthenticationResult property).
+
+If 3DS Authentication was not successful, the threeDSAuthenticationResult property will contain one of the following errors:
+* `AUTHENTICATION_UNAVAILABLE` 3D Secure is unavailable for this card or a technical error occurred.
+* `AUTHENTICATION_FAILED` Payment/Transaction error.
+* `AUTHENTICATION_NOT_SUPPORTED` No attempt to run 3D Secure challenge was done due to unsupported 3DS version.
+
+In that case, you can decide whether you want to proceed with the transaction without 3DS Authentication or not.
 
 # Sending the payment for processing
 If the shopper purchased via PayPal, then the transaction has successfully been submitted and no further action is required.
@@ -515,6 +527,7 @@ This class inherits from `BSBaseSdkResult`, and it holds the data collected in t
         public var creditCard: BSCreditCard = BSCreditCard()
         public var billingDetails : BSBillingAddressDetails! = BSBillingAddressDetails()
         public var shippingDetails : BSShippingAddressDetails?
+        public var threeDSAuthenticationResult: String!
         
         public override init(sdkRequest: BSSdkRequest) {
             ...
