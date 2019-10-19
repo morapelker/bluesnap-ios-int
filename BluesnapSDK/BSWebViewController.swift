@@ -6,12 +6,13 @@
 //  Copyright © 2017 Bluesnap. All rights reserved.
 //
 import UIKit
+import WebKit
 
-class BSWebViewController: UIViewController, UIWebViewDelegate {
+class BSWebViewController: UIViewController {
     
     // MARK: private properties
     
-    @IBOutlet weak var webView: UIWebView!
+    @IBOutlet weak var webView: WKWebView!
     fileprivate var url : String = ""
     fileprivate var shouldGoToUrlFunc : ((_ url : String) -> Bool)?
     fileprivate var activityIndicator : UIActivityIndicatorView?
@@ -31,41 +32,16 @@ class BSWebViewController: UIViewController, UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        webView.delegate = self
+        //webView.delegate = self
         activityIndicator = BSViewsManager.createActivityIndicator(view: self.view)
         
         let wUrl = URL(string: self.url)
         NSLog("WebView loading URL")
-        webView.loadRequest(URLRequest(url: wUrl!))
+        webView.load(URLRequest(url: wUrl!))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    // MARK: UIWebViewDelegate functions
-    
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-        let urlStr = request.mainDocumentURL?.absoluteString ?? ""
-        if let shouldGoToUrlFunc = shouldGoToUrlFunc {
-            return shouldGoToUrlFunc(urlStr)
-        }
-        return true
-    }
-    
-    func webViewDidStartLoad(_ webView: UIWebView)
-    {
-        BSViewsManager.startActivityIndicator(activityIndicator: self.activityIndicator, blockEvents: false)
-    }
-    
-    func webViewDidFinishLoad(_ webView: UIWebView)
-    {
-        BSViewsManager.stopActivityIndicator(activityIndicator: self.activityIndicator)
-    }
-    
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error)
-    {
-        BSViewsManager.stopActivityIndicator(activityIndicator: self.activityIndicator)
     }
     
 }
