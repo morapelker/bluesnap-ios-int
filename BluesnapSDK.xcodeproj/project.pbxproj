@@ -32,24 +32,36 @@
 		2D6D37F222B84495006D3E9F /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37AB22B83F25006D3E9F /* Configuration.swift */; };
 		2DADB9D51EC31F3200C1A2D2 /* BlueSnap.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DADB9D71EC31F3200C1A2D2 /* BlueSnap.storyboard */; };
 		2DBB606B1F8CB8F800E80254 /* libKountDataCollector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */; };
+		2DBD194522B9595700DDB5E2 /* ReturningShopperMinimalBillingWithEmailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD191F22B9595400DDB5E2 /* ReturningShopperMinimalBillingWithEmailTests.swift */; };
 		2DBD194622B9595700DDB5E2 /* ReturningShopperFullBillingWithEmailWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192022B9595400DDB5E2 /* ReturningShopperFullBillingWithEmailWithShippingTests.swift */; };
+		2DBD194722B9595700DDB5E2 /* ReturningShopperMinimalBillingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192122B9595400DDB5E2 /* ReturningShopperMinimalBillingTests.swift */; };
 		2DBD194922B9595700DDB5E2 /* BSPaymentScreenUITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192322B9595500DDB5E2 /* BSPaymentScreenUITestHelper.swift */; };
 		2DBD194A22B9595700DDB5E2 /* BSCreditCardScreenUITestHelperBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192422B9595500DDB5E2 /* BSCreditCardScreenUITestHelperBase.swift */; };
 		2DBD194B22B9595700DDB5E2 /* CheckoutReturningShopperBaseTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192522B9595500DDB5E2 /* CheckoutReturningShopperBaseTester.swift */; };
 		2DBD194C22B9595700DDB5E2 /* UIBaseTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192622B9595500DDB5E2 /* UIBaseTester.swift */; };
+		2DBD194D22B9595700DDB5E2 /* ShopperConfigurationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192822B9595500DDB5E2 /* ShopperConfigurationUITests.swift */; };
+		2DBD194E22B9595700DDB5E2 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192922B9595500DDB5E2 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift */; };
 		2DBD194F22B9595700DDB5E2 /* CheckoutBaseTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192A22B9595500DDB5E2 /* CheckoutBaseTester.swift */; };
+		2DBD195022B9595700DDB5E2 /* SubscriptionChargeReturningShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192B22B9595500DDB5E2 /* SubscriptionChargeReturningShopperUITests.swift */; };
 		2DBD195122B9595700DDB5E2 /* CheckoutNewShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192C22B9595500DDB5E2 /* CheckoutNewShopperUITests.swift */; };
 		2DBD195222B9595700DDB5E2 /* BSShippingScreenUITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192D22B9595500DDB5E2 /* BSShippingScreenUITestHelper.swift */; };
 		2DBD195322B9595700DDB5E2 /* ReturningShopperFullBillingWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD192E22B9595500DDB5E2 /* ReturningShopperFullBillingWithShippingTests.swift */; };
 		2DBD195422B9595700DDB5E2 /* SubscriptionChargeReturningShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193022B9595500DDB5E2 /* SubscriptionChargeReturningShopperUITests.swift */; };
+		2DBD195522B9595700DDB5E2 /* SubscriptionChargeNewShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193122B9595500DDB5E2 /* SubscriptionChargeNewShopperUITests.swift */; };
+		2DBD195622B9595700DDB5E2 /* ReturningShopperMinimalBillingWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193222B9595500DDB5E2 /* ReturningShopperMinimalBillingWithShippingTests.swift */; };
 		2DBD195722B9595700DDB5E2 /* ReturningShopperMinimalBillingWithEmailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193422B9595600DDB5E2 /* ReturningShopperMinimalBillingWithEmailTests.swift */; };
 		2DBD195822B9595700DDB5E2 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193522B9595600DDB5E2 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift */; };
 		2DBD195922B9595700DDB5E2 /* ReturningShopperMinimalBillingWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193622B9595600DDB5E2 /* ReturningShopperMinimalBillingWithShippingTests.swift */; };
+		2DBD195A22B9595700DDB5E2 /* ReturningShopperFullBillingWithEmailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193722B9595600DDB5E2 /* ReturningShopperFullBillingWithEmailTests.swift */; };
 		2DBD195B22B9595700DDB5E2 /* ReturningShopperMinimalBillingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193822B9595600DDB5E2 /* ReturningShopperMinimalBillingTests.swift */; };
 		2DBD195C22B9595700DDB5E2 /* CheckoutReturningShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193922B9595600DDB5E2 /* CheckoutReturningShopperUITests.swift */; };
+		2DBD195D22B9595700DDB5E2 /* ReturningShopperFullBillingWithEmailWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193A22B9595600DDB5E2 /* ReturningShopperFullBillingWithEmailWithShippingTests.swift */; };
 		2DBD195E22B9595700DDB5E2 /* ReturningShopperFullBillingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193B22B9595600DDB5E2 /* ReturningShopperFullBillingTests.swift */; };
+		2DBD195F22B9595700DDB5E2 /* ReturningShopperFullBillingWithShippingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193C22B9595600DDB5E2 /* ReturningShopperFullBillingWithShippingTests.swift */; };
 		2DBD196022B9595700DDB5E2 /* BSExistingCcScreenUITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193D22B9595600DDB5E2 /* BSExistingCcScreenUITestHelper.swift */; };
 		2DBD196122B9595700DDB5E2 /* ReturningShopperFullBillingWithEmailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193E22B9595600DDB5E2 /* ReturningShopperFullBillingWithEmailTests.swift */; };
+		2DBD196222B9595700DDB5E2 /* CheckoutReturningShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD193F22B9595600DDB5E2 /* CheckoutReturningShopperUITests.swift */; };
+		2DBD196322B9595700DDB5E2 /* ReturningShopperFullBillingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD194022B9595600DDB5E2 /* ReturningShopperFullBillingTests.swift */; };
 		2DBD196422B9595700DDB5E2 /* BSPaymentTypeScreenUITestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD194122B9595600DDB5E2 /* BSPaymentTypeScreenUITestHelper.swift */; };
 		2DBD196522B9595700DDB5E2 /* BSUITestsUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD194222B9595600DDB5E2 /* BSUITestsUtils.swift */; };
 		2DBD196622B9595700DDB5E2 /* SubscriptionChargeNewShopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBD194322B9595600DDB5E2 /* SubscriptionChargeNewShopperUITests.swift */; };
@@ -58,7 +70,7 @@
 		2DBD196922B9599F00DDB5E2 /* DemoAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37CE22B83F25006D3E9F /* DemoAPIHelper.swift */; };
 		2DBD196A22B959BB00DDB5E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37AD22B83F25006D3E9F /* AppDelegate.swift */; };
 		2DBD196C22B95B7E00DDB5E2 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
-		2DBD196D22B95BA100DDB5E2 /* BluesnapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2DBD196D22B95BA100DDB5E2 /* BluesnapSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2DD2470022F31AAC003F2B4F /* CardinalMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD246FF22F31AAC003F2B4F /* CardinalMobile.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		2DD2470322F31BA1003F2B4F /* CardinalMobile.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2DD246FF22F31AAC003F2B4F /* CardinalMobile.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2DD2470522F31C12003F2B4F /* BSCardinalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD2470422F31C12003F2B4F /* BSCardinalManager.swift */; };
@@ -776,7 +788,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1110;
+				LastUpgradeCheck = 1000;
 				ORGANIZATIONNAME = Bluesnap;
 				TargetAttributes = {
 					2D374F1F1E880E7200AE2A81 = {
@@ -807,9 +819,10 @@
 			};
 			buildConfigurationList = 2D374F1A1E880E7200AE2A81 /* Build configuration list for PBXProject "BluesnapSDK" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				Base,
 				de,
 				en,
@@ -986,11 +999,13 @@
 			files = (
 				2DBD196122B9595700DDB5E2 /* ReturningShopperFullBillingWithEmailTests.swift in Sources */,
 				2DBD195E22B9595700DDB5E2 /* ReturningShopperFullBillingTests.swift in Sources */,
+				2DBD195A22B9595700DDB5E2 /* ReturningShopperFullBillingWithEmailTests.swift in Sources */,
 				2DBD194C22B9595700DDB5E2 /* UIBaseTester.swift in Sources */,
 				2DBD196722B9595700DDB5E2 /* ShopperConfigurationUITests.swift in Sources */,
 				2DBD194B22B9595700DDB5E2 /* CheckoutReturningShopperBaseTester.swift in Sources */,
 				2DBD195822B9595700DDB5E2 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift in Sources */,
 				2DBD196522B9595700DDB5E2 /* BSUITestsUtils.swift in Sources */,
+				2DBD194D22B9595700DDB5E2 /* ShopperConfigurationUITests.swift in Sources */,
 				2DBD194F22B9595700DDB5E2 /* CheckoutBaseTester.swift in Sources */,
 				2DBD195122B9595700DDB5E2 /* CheckoutNewShopperUITests.swift in Sources */,
 				2DBD195322B9595700DDB5E2 /* ReturningShopperFullBillingWithShippingTests.swift in Sources */,
@@ -1002,13 +1017,23 @@
 				2DBD196822B9599F00DDB5E2 /* Configuration.swift in Sources */,
 				2DBD196422B9595700DDB5E2 /* BSPaymentTypeScreenUITestHelper.swift in Sources */,
 				2DBD195422B9595700DDB5E2 /* SubscriptionChargeReturningShopperUITests.swift in Sources */,
+				2DBD194E22B9595700DDB5E2 /* ReturningShopperMinimalBillingWithEmailWithShippingTests.swift in Sources */,
 				2DBD196622B9595700DDB5E2 /* SubscriptionChargeNewShopperUITests.swift in Sources */,
 				2DBD196022B9595700DDB5E2 /* BSExistingCcScreenUITestHelper.swift in Sources */,
 				2DBD195C22B9595700DDB5E2 /* CheckoutReturningShopperUITests.swift in Sources */,
 				2DBD195222B9595700DDB5E2 /* BSShippingScreenUITestHelper.swift in Sources */,
+				2DBD195022B9595700DDB5E2 /* SubscriptionChargeReturningShopperUITests.swift in Sources */,
+				2DBD196222B9595700DDB5E2 /* CheckoutReturningShopperUITests.swift in Sources */,
 				2DBD194622B9595700DDB5E2 /* ReturningShopperFullBillingWithEmailWithShippingTests.swift in Sources */,
+				2DBD195F22B9595700DDB5E2 /* ReturningShopperFullBillingWithShippingTests.swift in Sources */,
+				2DBD194722B9595700DDB5E2 /* ReturningShopperMinimalBillingTests.swift in Sources */,
 				2DBD196922B9599F00DDB5E2 /* DemoAPIHelper.swift in Sources */,
+				2DBD194522B9595700DDB5E2 /* ReturningShopperMinimalBillingWithEmailTests.swift in Sources */,
+				2DBD196322B9595700DDB5E2 /* ReturningShopperFullBillingTests.swift in Sources */,
+				2DBD195622B9595700DDB5E2 /* ReturningShopperMinimalBillingWithShippingTests.swift in Sources */,
 				2DBD194922B9595700DDB5E2 /* BSPaymentScreenUITestHelper.swift in Sources */,
+				2DBD195D22B9595700DDB5E2 /* ReturningShopperFullBillingWithEmailWithShippingTests.swift in Sources */,
+				2DBD195522B9595700DDB5E2 /* SubscriptionChargeNewShopperUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1283,7 +1308,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
@@ -1326,7 +1351,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
@@ -1411,8 +1436,8 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = BluesnapSDKExample/BluesnapSDKExample.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1430,7 +1455,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1445,8 +1470,8 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_ENTITLEMENTS = BluesnapSDKExample/BluesnapSDKExample.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1463,7 +1488,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDKExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "ios-sdk-exmaple";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

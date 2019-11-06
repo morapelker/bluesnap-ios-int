@@ -70,6 +70,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "87A317B721BFD77400156EA2"
+            BuildableName = "BluesnapSDKIntegrationTests.xctest"
+            BlueprintName = "BluesnapSDKIntegrationTests"
+            ReferencedContainer = "container:BluesnapSDK.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

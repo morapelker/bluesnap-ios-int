@@ -24,13 +24,27 @@
             buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "NO"
-            buildForArchiving = "NO"
+            buildForArchiving = "YES"
             buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D374F281E880E7300AE2A81"
                BuildableName = "BluesnapSDKTests.xctest"
                BlueprintName = "BluesnapSDKTests"
+               ReferencedContainer = "container:BluesnapSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "87A317B721BFD77400156EA2"
+               BuildableName = "BluesnapSDKIntegrationTests.xctest"
+               BlueprintName = "BluesnapSDKIntegrationTests"
                ReferencedContainer = "container:BluesnapSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
