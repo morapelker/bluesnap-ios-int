@@ -34,6 +34,7 @@ class BluesnapSDKTests: XCTestCase {
         let tokenizeRequest = BSTokenizeRequest()
         tokenizeRequest.paymentDetails = BSTokenizeNewCCDetails(ccNumber: ccn, cvv: cvv, ccType: nil, expDate: exp)
 
+        //TODO: this can be rplaced with XCTWaiter().wait
         let semaphore = DispatchSemaphore(value: 0)
         BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             
@@ -47,7 +48,10 @@ class BluesnapSDKTests: XCTestCase {
                 semaphore.signal()
             })
         })
-        semaphore.wait()
+        //semaphore.wait(timeout: .now() + 30)
+        if semaphore.wait(timeout: .now() + 15) == .timedOut {
+            XCTFail("timeout")
+        }
     }
     
     func testSubmitCCDetailsError() {
@@ -96,7 +100,12 @@ class BluesnapSDKTests: XCTestCase {
                 NSLog("Unexpected error: \(error).")
             }
         })
-        semaphore.wait()
+        //TODO: fix this..
+        semaphore.wait(timeout: .now() + 30)
+//        if semaphore.wait(timeout: .now() + 15) == .timedOut {
+//            XCTFail("timeout")
+//
+//        }
     }
     
         
@@ -124,7 +133,10 @@ class BluesnapSDKTests: XCTestCase {
                 semaphore.signal()
             })
         })
-        semaphore.wait()
+        //semaphore.wait(timeout: .now() + 30)
+        if semaphore.wait(timeout: .now() + 15) == .timedOut {
+           XCTFail("timeout")
+        }
     }
     
 }
