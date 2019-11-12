@@ -38,8 +38,8 @@ public class BSValidator: NSObject {
     class func validateName(ignoreIfEmpty: Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         var result : Bool = true
-        let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces).capitalized ?? ""
-        input.setValue(newValue)
+        let newValue = input.getValue() ?? "" //?.trimmingCharacters(in: .whitespaces).capitalized ?? ""
+        //input.setValue(newValue)
         if let addressDetails = addressDetails {
             addressDetails.name = newValue
         }
@@ -438,9 +438,10 @@ public class BSValidator: NSObject {
             if firstName.count < 1 || lastName.count < 1 {
                 return false
             }
-        } else {
-            return false
         }
+        //else {
+        //    return false
+    //}
         return true
     }
     
