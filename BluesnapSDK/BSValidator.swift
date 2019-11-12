@@ -272,11 +272,11 @@ public class BSValidator: NSObject {
     
     class func nameEditingChanged(_ sender: BSInputLine) {
         
-        var input : String = sender.getValue() ?? ""
-        input = BSStringUtils.removeNoneAlphaCharacters(input)
-        input = BSStringUtils.cutToMaxLength(input, maxLength: 100)
-        input = input.capitalized
-        sender.setValue(input)
+//        var input : String = sender.getValue() ?? ""
+//        input = BSStringUtils.removeNoneAlphaCharacters(input)
+//        input = BSStringUtils.cutToMaxLength(input, maxLength: 100)
+//        input = input.capitalized
+//        sender.setValue(input)
     }
     
 //    class func phoneEditingChanged(_ sender: BSInputLine) {
@@ -296,17 +296,17 @@ public class BSValidator: NSObject {
     
     class func addressEditingChanged(_ sender: BSInputLine) {
         
-        var input : String = sender.getValue() ?? ""
-        input = BSStringUtils.cutToMaxLength(input, maxLength: 100)
-        sender.setValue(input)
+//        var input : String = sender.getValue() ?? ""
+//        input = BSStringUtils.cutToMaxLength(input, maxLength: 100)
+//        sender.setValue(input)
     }
     
     class func cityEditingChanged(_ sender: BSInputLine) {
         
-        var input : String = sender.getValue() ?? ""
-        input = BSStringUtils.removeNoneAlphaCharacters(input)
-        input = BSStringUtils.cutToMaxLength(input, maxLength: 50)
-        sender.setValue(input)
+//        var input : String = sender.getValue() ?? ""
+//        input = BSStringUtils.removeNoneAlphaCharacters(input)
+//        input = BSStringUtils.cutToMaxLength(input, maxLength: 50)
+//        sender.setValue(input)
     }
     
     class func zipEditingChanged(_ sender: BSInputLine) {
