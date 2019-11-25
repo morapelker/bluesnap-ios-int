@@ -109,8 +109,8 @@
 "Label_Name" = "Име";
 /* Label for the Email field in the payment screen */
 "Label_Email" = "Имейл";
-/* Label for the Street field in the payment and shipping screens */
-"Label_Street" = "Улица";
+/* Label for the Address field in the payment and shipping screens */
+"Label_Address" = "Адрес";
 /* Label for the City field in the payment and shipping screens */
 "Label_City" = "Град";
 /* Label for the State field in the payment and shipping screens */

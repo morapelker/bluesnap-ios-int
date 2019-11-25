@@ -395,7 +395,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
         self.nameInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Name)
         self.emailInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Email)
-        self.streetInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Street)
+        self.streetInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Address)
         self.cityInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_City)
         self.stateInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_State)
 

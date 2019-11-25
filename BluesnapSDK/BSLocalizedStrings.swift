@@ -88,7 +88,7 @@ public enum BSLocalizedString : String {
     
     case Label_Name
     case Label_Email
-    case Label_Street
+    case Label_Address
     case Label_City
     case Label_State
     

@@ -109,8 +109,8 @@
 "Label_Name" = "Nimi";
 /* Label for the Email field in the payment screen */
 "Label_Email" = "Sähköpostiosoite";
-/* Label for the Street field in the payment and shipping screens */
-"Label_Street" = "Katuosoite";
+/* Label for the Address field in the payment and shipping screens */
+"Label_Address" = "Osoite";
 /* Label for the City field in the payment and shipping screens */
 "Label_City" = "Kaupunki";
 /* Label for the State field in the payment and shipping screens */

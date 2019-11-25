@@ -381,7 +381,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         self.title = BSLocalizedStrings.getString(BSLocalizedString.Title_Shipping_Screen)
         self.nameInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Name)
 //        self.phoneInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Phone)
-        self.streetInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Street)
+        self.streetInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Address)
         self.cityInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_City)
         self.stateInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_State)
         self.nameInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Name)

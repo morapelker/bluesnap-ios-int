@@ -109,8 +109,8 @@
 "Label_Name" = "Navn";
 /* Label for the Email field in the payment screen */
 "Label_Email" = "E-postadresse";
-/* Label for the Street field in the payment and shipping screens */
-"Label_Street" = "Gate";
+/* Label for the Address field in the payment and shipping screens */
+"Label_Address" = "Adresse";
 /* Label for the City field in the payment and shipping screens */
 "Label_City" = "By";
 /* Label for the State field in the payment and shipping screens */

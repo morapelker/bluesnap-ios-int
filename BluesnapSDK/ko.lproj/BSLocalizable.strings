@@ -109,8 +109,8 @@
 "Label_Name" = "이름";
 /* Label for the Email field in the payment screen */
 "Label_Email" = "이메일";
-/* Label for the Street field in the payment and shipping screens */
-"Label_Street" = "거리";
+/* Label for the Address field in the payment and shipping screens */
+"Label_Address" = "주소";
 /* Label for the City field in the payment and shipping screens */
 "Label_City" = "도시";
 /* Label for the State field in the payment and shipping screens */
