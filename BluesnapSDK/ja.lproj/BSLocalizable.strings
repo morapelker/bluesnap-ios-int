@@ -59,9 +59,9 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "請求先郵便番号";
+"Label_Billing_Zip" = "郵便番号";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "送付先郵便番号";
+"Label_Shipping_Zip" = "郵便番号";
 /* How to call billing/shipping zip code outside the US */
 "Label_Postal_Code" = "郵便番号";
 
@@ -106,13 +106,13 @@
 "Title_Payment_Screen" = "支払い";
 
 /* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "名前";
+"Label_Name" = "姓名";
 /* Label for the Email field in the payment screen */
 "Label_Email" = "メールアドレス";
 /* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "住所";
+"Label_Address" = "以降の住所";
 /* Label for the City field in the payment and shipping screens */
-"Label_City" = "市町村";
+"Label_City" = "都道府県 / 市区町村";
 /* Label for the State field in the payment and shipping screens */
 "Label_State" = "州";
 
