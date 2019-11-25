@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "BluesnapSDK"
-  s.version      = "1.3.0"
+  s.version      = "1.3.2"
   s.summary      = "An iOS SDK for Bluesnap "
   s.description  = <<-DESC
   Integrate payment methods into your iOS native apps quickly and easily.
@@ -23,11 +23,11 @@ Pod::Spec.new do |s|
         'BluesnapSDK/**/*.strings' 
 	]
   }
-  s.exclude_files =  ["BluesnapSDK/BluesnapSDKTests/**/*.*","BluesnapSDK/BluesnapSDKIntegrationTests/**/*.*","BluesnapSDK/**/libKountDataCollector.a","BluesnapSDK/**/KDataCollector.{h,m}" ]
-
+  s.exclude_files =  ["BluesnapSDK/CardinalMobile.framework/Headers/**", "BluesnapSDK/BluesnapSDKTests/**/*.*","BluesnapSDK/BluesnapSDKIntegrationTests/**/*.*","BluesnapSDK/**/libKountDataCollector.a","BluesnapSDK/**/KDataCollector.{h,m}" ]
+  s.ios.vendored_frameworks = 'BluesnapSDK/CardinalMobile.framework'
   
   s.resources = "BluesnapSDK/**/Media.xcassets"
-  s.frameworks                     = 'Foundation', 'Security', 'WebKit', 'PassKit', 'AddressBook', 'UIKit'
+  s.frameworks                     = 'Foundation', 'Security', 'WebKit', 'PassKit', 'AddressBook', 'UIKit' ,
   s.weak_frameworks                = 'Contacts'
   s.requires_arc = true
   s.subspec "DataCollector" do |s|
@@ -36,10 +36,5 @@ Pod::Spec.new do |s|
     s.public_header_files = "BluesnapSDK/**/KDataCollector*.h"
     s.vendored_library = "BluesnapSDK/**/libKountDataCollector.a"
     end
-  s.subspec "CardinalMobile" do |s|
-    s.source_files = "BluesnapSDK/CardinalMobile.framework/**/*.{h,m}"
-    s.public_header_files = "BluesnapSDK/CardinalMobile.framework/Headers/*.h"
-    s.vendored_library = "BluesnapSDK/CardinalMobile.framework/CardinalMobile"
-  end
 
 end
