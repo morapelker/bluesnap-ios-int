@@ -263,8 +263,9 @@ class BSIntegrationTestingAPIHelper {
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         request.setValue(authorization, forHTTPHeaderField: "Authorization")
         //request.setValue("0", forHTTPHeaderField: "Content-Length")
-        request.setValue(BSApiCaller.BLUESNAP_VERSION_HEADER_VAL, forHTTPHeaderField: BSApiCaller.BLUESNAP_VERSION_HEADER)
-        request.setValue(BSApiCaller.SDK_VERSION_HEADER_VAL, forHTTPHeaderField: BSApiCaller.SDK_VERSION_HEADER)
+        request.setValue(BSApiCaller.BLUESNAP_API_VERSION_HEADER_VAL, forHTTPHeaderField: BSApiCaller.BLUESNAP_API_VERSION_HEADER)
+        request.setValue(BSApiCaller.SDK_VERSION_CODE_HEADER_VAL, forHTTPHeaderField: BSApiCaller.SDK_VERSION_CODE_HEADER)
+        request.setValue(BSApiCaller.SDK_VERSION_STRING_HEADER_VAL, forHTTPHeaderField: BSApiCaller.SDK_VERSION_STRING_HEADER)
         if let requestBody = requestBody {
             do {
                 request.httpBody = try JSONSerialization.data(withJSONObject: requestBody, options: .prettyPrinted)
