@@ -28,7 +28,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         
     @IBOutlet weak var payUIButton: UIButton!
     @IBOutlet weak var nameInputLine: BSInputLine!
-    @IBOutlet weak var streetInputLine: BSInputLine!
+    @IBOutlet weak var addressInputLine: BSInputLine!
     @IBOutlet weak var zipInputLine: BSInputLine!
     @IBOutlet weak var cityInputLine: BSInputLine!
     @IBOutlet weak var stateInputLine: BSInputLine!
@@ -128,7 +128,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         
         self.nameInputLine.dismissKeyboard()
         self.zipInputLine.dismissKeyboard()
-        self.streetInputLine.dismissKeyboard()
+        self.addressInputLine.dismissKeyboard()
         self.cityInputLine.dismissKeyboard()
     }
 
@@ -152,7 +152,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         if let shippingDetails = self.purchaseDetails.getShippingDetails() {
             nameInputLine.setValue(shippingDetails.name)
 //            phoneInputLine.setValue(shippingDetails.phone)
-            streetInputLine.setValue(shippingDetails.address)
+            addressInputLine.setValue(shippingDetails.address)
             cityInputLine.setValue(shippingDetails.city)
             zipInputLine.setValue(shippingDetails.zip)
             if (shippingDetails.country == "") {
@@ -169,7 +169,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
             } else {
                 nameInputLine.hideError()
 //                phoneInputLine.hideError()
-                streetInputLine.hideError()
+                addressInputLine.hideError()
                 zipInputLine.hideError()
                 cityInputLine.hideError()
                 stateInputLine.hideError()
@@ -217,7 +217,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
     func validateForm() -> Bool {
         
         let ok1 = validateName(ignoreIfEmpty: false)
-        let ok2 = validateStreet(ignoreIfEmpty: false)
+        let ok2 = validateAddress(ignoreIfEmpty: false)
         let ok3 = validateCity(ignoreIfEmpty: false)
         let ok4 = validateZip(ignoreIfEmpty: false)
         let ok5 = validateState(ignoreIfEmpty: false)
@@ -231,9 +231,9 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         return result
     }
     
-    func validateStreet(ignoreIfEmpty : Bool) -> Bool {
+    func validateAddress(ignoreIfEmpty : Bool) -> Bool {
         
-        let result : Bool = BSValidator.validateStreet(ignoreIfEmpty: ignoreIfEmpty, input: streetInputLine, addressDetails: purchaseDetails.getShippingDetails())
+        let result : Bool = BSValidator.validateAddress(ignoreIfEmpty: ignoreIfEmpty, input: addressInputLine, addressDetails: purchaseDetails.getShippingDetails())
         return result
     }
     
@@ -280,21 +280,21 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         _ = validateName(ignoreIfEmpty: true)
     }
     
-    @IBAction func streetEditingChanged(_ sender: BSInputLine) {
+    @IBAction func addressEditingChanged(_ sender: BSInputLine) {
         BSValidator.addressEditingChanged(sender)
     }
     
-    @IBAction func streetEditingDidEnd(_ sender: BSInputLine) {
-        _ = validateStreet(ignoreIfEmpty: true)
+    @IBAction func addressEditingDidEnd(_ sender: BSInputLine) {
+        _ = validateAddress(ignoreIfEmpty: true)
     }
     
-    @IBAction func streetEditingDidBegin(_ sender: BSInputLine) {
+    @IBAction func addressEditingDidBegin(_ sender: BSInputLine) {
         
         editingDidBegin(sender)
-        if streetInputLine.getValue() == "" {
-            streetInputLine.fieldKeyboardType = .numbersAndPunctuation
+        if addressInputLine.getValue() == "" {
+            addressInputLine.fieldKeyboardType = .numbersAndPunctuation
         } else {
-            streetInputLine.fieldKeyboardType = .default
+            addressInputLine.fieldKeyboardType = .default
         }
     }
     
@@ -381,7 +381,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         self.title = BSLocalizedStrings.getString(BSLocalizedString.Title_Shipping_Screen)
         self.nameInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Name)
 //        self.phoneInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Phone)
-        self.streetInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Address)
+        self.addressInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Address)
         self.cityInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_City)
         self.stateInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_State)
         self.nameInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Name)

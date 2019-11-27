@@ -45,7 +45,7 @@ public enum BSLocalizedString : String {
     case Error_Invalid_EXP
     case Error_Invalid_Name
     case Error_Invalid_Email
-    case Error_Invalid_Street
+    case Error_Invalid_Address
     case Error_Invalid_City
     case Error_Invalid_Country
     case Error_Invalid_State

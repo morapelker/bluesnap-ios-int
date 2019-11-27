@@ -282,7 +282,7 @@ class BSExistingCCViewController: UIViewController {
             result = result && BSValidator.isValidZip(countryCode: purchaseDetails.billingDetails.country ?? "", zip: purchaseDetails.billingDetails.zip ?? "")
             if data.shopperConfiguration.fullBilling {
                 let ok1 = BSValidator.isValidCity(purchaseDetails.billingDetails.city ?? "")
-                let ok2 = BSValidator.isValidStreet(purchaseDetails.billingDetails.address ?? "")
+                let ok2 = BSValidator.isValidAddress(purchaseDetails.billingDetails.address ?? "")
                 let ok3 = BSValidator.isValidCountry(countryCode: purchaseDetails.billingDetails.country)
                 let ok4 = BSValidator.isValidState(countryCode: purchaseDetails.billingDetails.country ?? "", stateCode: purchaseDetails.billingDetails.state)
                 result = result && ok1 && ok2 && ok3 && ok4
@@ -299,7 +299,7 @@ class BSExistingCCViewController: UIViewController {
                 if let shippingDetails = purchaseDetails.shippingDetails {
                     let ok1 = BSValidator.isValidName(shippingDetails.name)
                     let ok2 = BSValidator.isValidCity(shippingDetails.city ?? "")
-                    let ok3 = BSValidator.isValidStreet(shippingDetails.address ?? "")
+                    let ok3 = BSValidator.isValidAddress(shippingDetails.address ?? "")
                     let ok4 = BSValidator.isValidCountry(countryCode: shippingDetails.country)
                     let ok5 = BSValidator.isValidState(countryCode: shippingDetails.country ?? "", stateCode: shippingDetails.state)
                     let ok6 = BSValidator.isValidZip(countryCode: shippingDetails.country ?? "", zip: shippingDetails.zip ?? "")

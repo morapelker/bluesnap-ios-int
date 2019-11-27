@@ -98,29 +98,29 @@ class BSValidatorTests: XCTestCase {
         XCTAssertEqual(addressDetails.email, "aaa@bbb.com")
     }
 
-    func testValidateStreet() {
+    func testValidateAddress() {
 
         let input = BSInputLine()
         let addressDetails = BSBaseAddressDetails()
 
-        XCTAssertEqual(BSValidator.validateStreet(ignoreIfEmpty: true, input: input, addressDetails: addressDetails), true)
+        XCTAssertEqual(BSValidator.validateAddress(ignoreIfEmpty: true, input: input, addressDetails: addressDetails), true)
 
-        XCTAssertEqual(BSValidator.validateStreet(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), false)
+        XCTAssertEqual(BSValidator.validateAddress(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), false)
         XCTAssertEqual(input.getValue(), "")
         XCTAssertEqual(addressDetails.address, "")
 
         input.setValue("12")
-        XCTAssertEqual(BSValidator.validateStreet(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), false)
+        XCTAssertEqual(BSValidator.validateAddress(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), false)
         XCTAssertEqual(input.getValue(), "12")
         XCTAssertEqual(addressDetails.address, "12")
 
         input.setValue("12 Cdf")
-        XCTAssertEqual(BSValidator.validateStreet(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), true)
+        XCTAssertEqual(BSValidator.validateAddress(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), true)
         XCTAssertEqual(input.getValue(), "12 Cdf")
         XCTAssertEqual(addressDetails.address, "12 Cdf")
 
         input.setValue("  12 Cdf  ")
-        XCTAssertEqual(BSValidator.validateStreet(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), true)
+        XCTAssertEqual(BSValidator.validateAddress(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), true)
         XCTAssertEqual(input.getValue(), "12 Cdf")
         XCTAssertEqual(addressDetails.address, "12 Cdf")
     }
