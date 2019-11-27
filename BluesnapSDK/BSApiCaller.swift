@@ -16,10 +16,12 @@ import Foundation
     internal static let PAYPAL_SHIPPING = "&req-confirm-shipping=0&no-shipping=2"
     internal static let TOKENIZED_SERVICE = "services/2/payment-fields-tokens/"
     internal static let UPDATE_SHOPPER = "services/2/tokenized-services/shopper"
-    internal static let BLUESNAP_VERSION_HEADER = "BLUESNAP_VERSION_HEADER"
-    internal static let BLUESNAP_VERSION_HEADER_VAL = "2.0"
-    internal static let SDK_VERSION_HEADER = "BLUESNAP_ORIGIN_HEADER"
-    internal static let SDK_VERSION_HEADER_VAL = "IOS SDK " + (BSViewsManager.getBundle().object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String);
+    internal static let BLUESNAP_API_VERSION_HEADER = "BLUESNAP_VERSION_HEADER"
+    internal static let BLUESNAP_API_VERSION_HEADER_VAL = "2.0"
+    internal static let SDK_VERSION_CODE_HEADER = "BLUESNAP_ORIGIN_HEADER"
+    internal static let SDK_VERSION_CODE_HEADER_VAL = "IOS SDK " + (BSViewsManager.getBundle().object(forInfoDictionaryKey: "CFBundleVersion") as! String)
+    internal static let SDK_VERSION_STRING_HEADER = "BLUESNAP_ORIGIN_VERSION_HEADER"
+    internal static let SDK_VERSION_STRING_HEADER_VAL = (BSViewsManager.getBundle().object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)
 
 
     private static func createRequest(_ urlStr: String, bsToken: BSToken!) -> NSMutableURLRequest {
@@ -28,8 +30,9 @@ import Foundation
         let request = NSMutableURLRequest(url: url as URL)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue(bsToken!.tokenStr, forHTTPHeaderField: "Token-Authentication")
-        request.setValue(BLUESNAP_VERSION_HEADER_VAL, forHTTPHeaderField: BLUESNAP_VERSION_HEADER)
-        request.setValue(SDK_VERSION_HEADER_VAL, forHTTPHeaderField: SDK_VERSION_HEADER)
+        request.setValue(BLUESNAP_API_VERSION_HEADER_VAL, forHTTPHeaderField: BLUESNAP_API_VERSION_HEADER)
+        request.setValue(SDK_VERSION_CODE_HEADER_VAL, forHTTPHeaderField: SDK_VERSION_CODE_HEADER)
+        request.setValue(SDK_VERSION_STRING_HEADER_VAL, forHTTPHeaderField: SDK_VERSION_STRING_HEADER)
         return request
     }
     
