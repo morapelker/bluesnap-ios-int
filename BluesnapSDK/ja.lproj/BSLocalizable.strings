@@ -40,21 +40,21 @@
 /* Invalid expiration date - for general invalid expiration date - shown in the CC component below the field */
 "Error_Invalid_EXP" = "無効な日付";
 /* Invalid Name - should contain first and last name - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Name" = "名と姓を入力してください";
+"Error_Invalid_Name" = "氏名を入力してください";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "無効なメールアドレス";
 /* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "無効な住所";
+"Error_Invalid_Street" = "正しい住所を入力してください";
 /* Invalid City - shown in the Payment/shipping screen below the field */
-"Error_Invalid_City" = "無効な市町村";
+"Error_Invalid_City" = "正しい都道府県・市区町村を入力してください";
 /* Invalid Country - not sure this is in use */
 "Error_Invalid_Country" = "無効な国";
 /* Invalid State - when state is missing for a country that has states - shown in the Payment/shipping screen below the field */
 "Error_Invalid_State" = "無効な州";
 /* Invalid Zip code - used in US - shown in the Payment/shipping screen below the field */
-"Error_Invalid_ZipCode" = "無効な郵便番号";
+"Error_Invalid_ZipCode" = "正しい郵便番号を入力してください";
 /* Invalid Postal code - used outside US - shown in the Payment/shipping screen below the field */
-"Error_Invalid_PostalCode" = "無効な郵便番号";
+"Error_Invalid_PostalCode" = "正しい郵便番号を入力してください";
 
 /* ------- Zip/Postal code labels ------- */
 
