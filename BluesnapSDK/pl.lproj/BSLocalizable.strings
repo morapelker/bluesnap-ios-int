@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Wpisz imię i nazwisko";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Nieprawidłowy e-mail";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Nieprawidłowa nazwa ulicy";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Nieprawidłowa nazwa ulicy";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Nieprawidłowe miasto";
 /* Invalid Country - not sure this is in use */

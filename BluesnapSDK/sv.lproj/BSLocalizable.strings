@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Ange för- och efternamn";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Ogiltig e-postadress";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Ogiltig gata";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Ogiltig gata";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Ogiltig stad";
 /* Invalid Country - not sure this is in use */

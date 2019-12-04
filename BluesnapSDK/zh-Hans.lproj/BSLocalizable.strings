@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "輸入姓名";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "無效的電郵地址";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "無效的街道";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "無效的街道";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "無效的城市";
 /* Invalid Country - not sure this is in use */

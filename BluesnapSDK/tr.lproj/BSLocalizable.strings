@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Bir ad ve soyad girin";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Geçersiz e-posta";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Geçersiz sokak";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Geçersiz sokak";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Geçersiz şehir";
 /* Invalid Country - not sure this is in use */

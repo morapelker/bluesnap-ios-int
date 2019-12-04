@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Zadejte jméno a příjmení";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Neplatný e-mail";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Neplatná ulice";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Neplatná ulice";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Neplatné město";
 /* Invalid Country - not sure this is in use */

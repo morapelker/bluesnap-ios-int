@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Въведете име и фамилия";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Невалиден имейл";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Невалидна улица";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Невалидна улица";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Невалиден град";
 /* Invalid Country - not sure this is in use */

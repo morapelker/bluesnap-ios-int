@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "氏名を入力してください";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "無効なメールアドレス";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "正しい住所を入力してください";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "正しい住所を入力してください";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "正しい都道府県・市区町村を入力してください";
 /* Invalid Country - not sure this is in use */

@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Kérjük, adja meg a teljes nevét";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Hibás e-mail";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Hibás utca";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Hibás utca";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Hibás város";
 /* Invalid Country - not sure this is in use */

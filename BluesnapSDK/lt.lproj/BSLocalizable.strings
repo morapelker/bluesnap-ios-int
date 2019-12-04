@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Įveskite vardą ir pavardę";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Negaliojantis el. pašto adresas";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Negaliojanti gatvė";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Negaliojanti gatvė";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Negaliojantis miestas";
 /* Invalid Country - not sure this is in use */

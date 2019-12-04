@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Voer een voor- en achternaam in";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Ongeldige e-mail";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Ongeldige straat";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Ongeldige straat";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Ongeldige woonplaats";
 /* Invalid Country - not sure this is in use */

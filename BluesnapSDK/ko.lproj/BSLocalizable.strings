@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "이름과 성을 입력하세요";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "무효한 이메일입니다";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "무효한 거리입니다";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "무효한 거리입니다";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "무효한 도시입니다";
 /* Invalid Country - not sure this is in use */

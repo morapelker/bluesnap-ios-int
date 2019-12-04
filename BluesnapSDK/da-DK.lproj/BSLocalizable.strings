@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Indtast et for- og efternavn";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Ugyldig e-mailadresse";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Ugyldig gade";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Ugyldig gade";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Ugyldig by";
 /* Invalid Country - not sure this is in use */
