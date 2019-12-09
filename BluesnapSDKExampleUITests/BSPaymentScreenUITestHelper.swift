@@ -286,19 +286,19 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     }
     
     func checkInvalidExpInputs() {
-        setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/19", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
+        setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/27", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
 
         setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "20/20", invalidError: getExpInputErrorLabelElement(), expectedValid: false, tapToFocusOut: false)
         
-        setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/19", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
+        setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/27", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
         
         setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "10/17", invalidError: getExpInputErrorLabelElement(), expectedValid: false, tapToFocusOut: false)
         
-        setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/19", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
+        setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/27", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
         
         setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "12", invalidError: getExpInputErrorLabelElement(), expectedValid: false, tapToFocusOut: true)
         
-        setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/19", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
+        setAndValidateCCLineFieldInput(input: getExpInputFieldElement(), value: "11/27", invalidError: getExpInputErrorLabelElement(), expectedValid: true, tapToFocusOut: false)
     }
     
     func checkInvalidCvvInputs() {

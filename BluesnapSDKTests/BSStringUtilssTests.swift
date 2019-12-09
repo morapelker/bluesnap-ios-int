@@ -39,8 +39,8 @@ class BSStringUtilsTests: XCTestCase {
         XCTAssertEqual(name1?.lastName, "")
 
         let name2 = BSStringUtils.splitName("aaa")
-        XCTAssertEqual(name2?.firstName, "")
-        XCTAssertEqual(name2?.lastName, "aaa")
+        XCTAssertEqual(name2?.firstName, "aaa")
+        XCTAssertEqual(name2?.lastName, "")
 
         let name3 = BSStringUtils.splitName("aa bb")
         XCTAssertEqual(name3?.firstName, "aa")

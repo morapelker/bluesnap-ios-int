@@ -21,7 +21,7 @@ public class BSStringUtils: NSObject {
             let lastName = str[p..<str.endIndex].trimmingCharacters(in: .whitespaces)
             return (firstName, lastName)
         } else {
-            return ("", str)
+            return (str, "")
         }
     }
     

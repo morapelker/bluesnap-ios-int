@@ -37,23 +37,23 @@ class BSValidatorTests: XCTestCase {
 
         input.setValue("a")
         XCTAssertEqual(BSValidator.validateName(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), false)
-        XCTAssertEqual(input.getValue(), "A")
-        XCTAssertEqual(addressDetails.name, "A")
+        XCTAssertEqual(input.getValue(), "a")
+        XCTAssertEqual(addressDetails.name, "a")
 
         input.setValue("ab")
         XCTAssertEqual(BSValidator.validateName(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), false)
-        XCTAssertEqual(input.getValue(), "Ab")
-        XCTAssertEqual(addressDetails.name, "Ab")
+        XCTAssertEqual(input.getValue(), "ab")
+        XCTAssertEqual(addressDetails.name, "ab")
 
         input.setValue("ab cd")
         XCTAssertEqual(BSValidator.validateName(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), true)
-        XCTAssertEqual(input.getValue(), "Ab Cd")
-        XCTAssertEqual(addressDetails.name, "Ab Cd")
+        XCTAssertEqual(input.getValue(), "ab cd")
+        XCTAssertEqual(addressDetails.name, "ab cd")
 
         input.setValue(" ab cd ")
         XCTAssertEqual(BSValidator.validateName(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), true)
-        XCTAssertEqual(input.getValue(), "Ab Cd")
-        XCTAssertEqual(addressDetails.name, "Ab Cd")
+        XCTAssertEqual(input.getValue(), "ab cd")
+        XCTAssertEqual(addressDetails.name, "ab cd")
     }
 
     func testValidateEmail() {
@@ -109,10 +109,10 @@ class BSValidatorTests: XCTestCase {
         XCTAssertEqual(input.getValue(), "")
         XCTAssertEqual(addressDetails.address, "")
 
-        input.setValue("12")
+        input.setValue("1")
         XCTAssertEqual(BSValidator.validateAddress(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), false)
-        XCTAssertEqual(input.getValue(), "12")
-        XCTAssertEqual(addressDetails.address, "12")
+        XCTAssertEqual(input.getValue(), "1")
+        XCTAssertEqual(addressDetails.address, "1")
 
         input.setValue("12 Cdf")
         XCTAssertEqual(BSValidator.validateAddress(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), true)
@@ -136,10 +136,10 @@ class BSValidatorTests: XCTestCase {
         XCTAssertEqual(input.getValue(), "")
         XCTAssertEqual(addressDetails.city, "")
 
-        input.setValue("12")
+        input.setValue("2")
         XCTAssertEqual(BSValidator.validateCity(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), false)
-        XCTAssertEqual(input.getValue(), "12")
-        XCTAssertEqual(addressDetails.city, "12")
+        XCTAssertEqual(input.getValue(), "2")
+        XCTAssertEqual(addressDetails.city, "2")
 
         input.setValue("12 Cdf")
         XCTAssertEqual(BSValidator.validateCity(ignoreIfEmpty: false, input: input, addressDetails: addressDetails), true)
@@ -371,32 +371,32 @@ class BSValidatorTests: XCTestCase {
         XCTAssertEqual(input.errorLabel?.text, BSValidator.ccnInvalidMessage)
     }
 
-    func testNameEditingChanged() {
-
-        let input = BSInputLine()
-        BSValidator.nameEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "")
-
-        input.setValue("a")
-        BSValidator.nameEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "A")
-
-        input.setValue("ab")
-        BSValidator.nameEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "Ab")
-
-        input.setValue("ab c")
-        BSValidator.nameEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "Ab C")
-
-        input.setValue("a9")
-        BSValidator.nameEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "A")
-
-        input.setValue("aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee yyy")
-        BSValidator.nameEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "Aaaa Aaaa Bbbb Bbbb Cccc Cccc Dddd Dddd Eeee Eeee Aaaa Aaaa Bbbb Bbbb Cccc Cccc Dddd Dddd Eeee Eeee ")
-    }
+//    func testNameEditingChanged() {
+//
+//        let input = BSInputLine()
+//        BSValidator.nameEditingChanged(input)
+//        XCTAssertEqual(input.getValue(), "")
+//
+//        input.setValue("a")
+//        BSValidator.nameEditingChanged(input)
+//        XCTAssertEqual(input.getValue(), "A")
+//
+//        input.setValue("ab")
+//        BSValidator.nameEditingChanged(input)
+//        XCTAssertEqual(input.getValue(), "Ab")
+//
+//        input.setValue("ab c")
+//        BSValidator.nameEditingChanged(input)
+//        XCTAssertEqual(input.getValue(), "Ab C")
+//
+//        input.setValue("a9")
+//        BSValidator.nameEditingChanged(input)
+//        XCTAssertEqual(input.getValue(), "A")
+//
+//        input.setValue("aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee yyy")
+//        BSValidator.nameEditingChanged(input)
+//        XCTAssertEqual(input.getValue(), "Aaaa Aaaa Bbbb Bbbb Cccc Cccc Dddd Dddd Eeee Eeee Aaaa Aaaa Bbbb Bbbb Cccc Cccc Dddd Dddd Eeee Eeee ")
+//    }
 
 //    func testPhoneEditingChanged() {
 //
@@ -450,9 +450,6 @@ class BSValidatorTests: XCTestCase {
         BSValidator.addressEditingChanged(input)
         XCTAssertEqual(input.getValue(), "ab 90210")
 
-        input.setValue("aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee yyy")
-        BSValidator.addressEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee ")
     }
 
     func testCityEditingChanged() {
@@ -465,13 +462,6 @@ class BSValidatorTests: XCTestCase {
         BSValidator.cityEditingChanged(input)
         XCTAssertEqual(input.getValue(), "a")
 
-        input.setValue("ab 90210/")
-        BSValidator.cityEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "ab ")
-
-        input.setValue("aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee yyy")
-        BSValidator.cityEditingChanged(input)
-        XCTAssertEqual(input.getValue(), "aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee ")
     }
 
     func testZipEditingChanged() {

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import NaturalLanguage
 public class BSValidator: NSObject {
     
     
@@ -38,8 +38,8 @@ public class BSValidator: NSObject {
     class func validateName(ignoreIfEmpty: Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         var result : Bool = true
-        let newValue = input.getValue() ?? "" //?.trimmingCharacters(in: .whitespaces).capitalized ?? ""
-        //input.setValue(newValue)
+        let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces) ?? ""
+        input.setValue(newValue)
         if let addressDetails = addressDetails {
             addressDetails.name = newValue
         }
@@ -272,19 +272,7 @@ public class BSValidator: NSObject {
     
     class func nameEditingChanged(_ sender: BSInputLine) {
         
-//        var input : String = sender.getValue() ?? ""
-//        input = BSStringUtils.removeNoneAlphaCharacters(input)
-//        input = BSStringUtils.cutToMaxLength(input, maxLength: 100)
-//        input = input.capitalized
-//        sender.setValue(input)
     }
-    
-//    class func phoneEditingChanged(_ sender: BSInputLine) {
-//        
-//        var input : String = sender.getValue() ?? ""
-//        input = BSStringUtils.cutToMaxLength(input, maxLength: 30)
-//        sender.setValue(input)
-//    }
 
     class func emailEditingChanged(_ sender: BSInputLine) {
         
@@ -296,17 +284,10 @@ public class BSValidator: NSObject {
     
     class func addressEditingChanged(_ sender: BSInputLine) {
         
-//        var input : String = sender.getValue() ?? ""
-//        input = BSStringUtils.cutToMaxLength(input, maxLength: 100)
-//        sender.setValue(input)
     }
     
     class func cityEditingChanged(_ sender: BSInputLine) {
         
-//        var input : String = sender.getValue() ?? ""
-//        input = BSStringUtils.removeNoneAlphaCharacters(input)
-//        input = BSStringUtils.cutToMaxLength(input, maxLength: 50)
-//        sender.setValue(input)
     }
     
     class func zipEditingChanged(_ sender: BSInputLine) {
@@ -438,17 +419,28 @@ public class BSValidator: NSObject {
             if firstName.count < 1 || lastName.count < 1 {
                 return false
             }
+        } else {
+            if #available(iOS 12.0, *) {
+                let recognizer = NLLanguageRecognizer()
+                recognizer.processString(str)
+                guard let languageCode = recognizer.dominantLanguage?.rawValue else { return false }
+                if (languageCode.starts(with: "ja") || languageCode.starts(with: "ko") || languageCode.starts(with: "zh")){
+                    return true
+                } else{
+                    return false
+                }
+            } else {
+                return false
+            }
         }
-        //else {
-        //    return false
-    //}
+        
         return true
     }
     
     open class func isValidCity(_ str: String) -> Bool {
         
         var result : Bool = false
-        if (str.count < 3) {
+        if (str.count < 2) {
             result = false
         } else {
             result = true
@@ -459,7 +451,7 @@ public class BSValidator: NSObject {
     open class func isValidAddress(_ str: String) -> Bool {
         
         var result : Bool = false
-        if (str.count < 3) {
+        if (str.count < 2) {
             result = false
         } else {
             result = true
