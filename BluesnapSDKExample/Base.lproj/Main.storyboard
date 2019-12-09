@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kEU-ax-AwI">
-    <device id="retina5_9" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="kEU-ax-AwI">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -70,7 +68,6 @@
                                             <constraint firstAttribute="height" constant="30" id="1yL-86-mJE"/>
                                             <constraint firstAttribute="width" constant="99" id="DEA-7F-XcH"/>
                                         </constraints>
-                                        <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -130,7 +127,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iOS-3A-GN6">
-                                        <rect key="frame" x="14" y="161" width="109" height="24"/>
+                                        <rect key="frame" x="14" y="161" width="109" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="109" id="fcN-FG-xrv"/>
                                         </constraints>
@@ -139,7 +136,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="20" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1E4-kM-4oY">
-                                        <rect key="frame" x="150" y="158" width="110" height="30"/>
+                                        <rect key="frame" x="150" y="158" width="110" height="34"/>
                                         <accessibility key="accessibilityConfiguration" identifier="AmountField"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="110" id="BlH-PY-OJs"/>
@@ -165,7 +162,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tax:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPH-f5-LxL">
-                                        <rect key="frame" x="14" y="192" width="109" height="20"/>
+                                        <rect key="frame" x="14" y="198" width="109" height="20"/>
                                         <accessibility key="accessibilityConfiguration" hint="calculated automatically"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="109" id="G6B-nk-KD9"/>
@@ -175,14 +172,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AB2-QV-u38">
-                                        <rect key="frame" x="150" y="187" width="110" height="30"/>
+                                        <rect key="frame" x="150" y="191" width="110" height="34"/>
                                         <accessibility key="accessibilityConfiguration" identifier="TaxField"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide Store Card" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pq4-xd-iYv" userLabel="Hide Store Card Label">
-                                        <rect key="frame" x="14" y="252" width="195" height="21"/>
+                                        <rect key="frame" x="14" y="258" width="195" height="21"/>
                                         <accessibility key="accessibilityConfiguration" identifier="HideStoreCardLabel"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="195" id="bAW-jy-xOT"/>
@@ -192,14 +189,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="hKB-dp-nej" userLabel="HideStoreCardSwitch">
-                                        <rect key="frame" x="293" y="252" width="51" height="31"/>
+                                        <rect key="frame" x="293" y="258" width="51" height="31"/>
                                         <accessibility key="accessibilityConfiguration" identifier="HideStoreCardSwitch"/>
                                         <connections>
                                             <action selector="hideStoreCardSwitchChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="en6-JE-gvN"/>
                                         </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow Change Currency" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qed-yK-npd" userLabel="Allow Change Currency">
-                                        <rect key="frame" x="14" y="211" width="195" height="31"/>
+                                        <rect key="frame" x="14" y="217" width="195" height="31"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="195" id="pNQ-z9-he7"/>
                                         </constraints>
@@ -215,14 +212,14 @@
                                         </connections>
                                     </switch>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="allowCurrencyChangeSwitch" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TT4-Lq-e8Y">
-                                        <rect key="frame" x="20" y="392" width="335" height="307"/>
+                                        <rect key="frame" x="20" y="398" width="335" height="301"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TAo-mM-qRo">
-                                        <rect key="frame" x="-14" y="273" width="403" height="105"/>
+                                        <rect key="frame" x="-14" y="279" width="403" height="105"/>
                                         <accessibility key="accessibilityConfiguration" identifier="CheckoutButton"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="105" id="hg7-UI-ey7"/>
@@ -233,7 +230,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEi-hP-ghL">
-                                        <rect key="frame" x="-14" y="348" width="470" height="105"/>
+                                        <rect key="frame" x="-14" y="354" width="470" height="105"/>
                                         <accessibility key="accessibilityConfiguration" identifier="ChooseButton"/>
                                         <state key="normal" title="Choose Button" image="Choose"/>
                                         <connections>
@@ -241,7 +238,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHH-ET-Dgd">
-                                        <rect key="frame" x="-14" y="423" width="462" height="105"/>
+                                        <rect key="frame" x="-14" y="429" width="462" height="105"/>
                                         <accessibility key="accessibilityConfiguration" identifier="CreateButton"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="105" id="pay-eS-ggQ"/>
@@ -448,7 +445,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Success!" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A3N-It-HEB">
-                                        <rect key="frame" x="95.666666666666686" y="303" width="184" height="53"/>
+                                        <rect key="frame" x="108.66666666666667" y="303" width="157.66666666666663" height="50"/>
                                         <accessibility key="accessibilityConfiguration" identifier="SuccessLabel"/>
                                         <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="45"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -467,14 +464,14 @@
                                         </connections>
                                     </button>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Something went wrong" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KfV-UR-b1h">
-                                        <rect key="frame" x="108.66666666666669" y="374" width="158" height="18"/>
+                                        <rect key="frame" x="108.66666666666669" y="371" width="158" height="18"/>
                                         <accessibility key="accessibilityConfiguration" identifier="ErrorDescLabel"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TIc-eV-eUb">
-                                        <rect key="frame" x="20" y="409" width="335" height="135"/>
+                                        <rect key="frame" x="20" y="406" width="335" height="138"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" identifier="ErrorTextView"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>

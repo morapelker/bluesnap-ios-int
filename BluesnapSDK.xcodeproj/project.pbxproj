@@ -1310,6 +1310,7 @@
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1511;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1333,6 +1334,7 @@
 					"$(PROJECT_DIR)/BluesnapSDK",
 					"$(PROJECT_DIR)/Cardinal/CardinalMobile.framework/**",
 				);
+				MARKETING_VERSION = 1.3.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1353,6 +1355,7 @@
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1511;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1376,6 +1379,7 @@
 					"$(PROJECT_DIR)/BluesnapSDK",
 					"$(PROJECT_DIR)/Cardinal/CardinalMobile.framework/**",
 				);
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bluesnap.BluesnapSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

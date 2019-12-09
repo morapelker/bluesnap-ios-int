@@ -42,7 +42,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
     @IBOutlet weak var nameInputLine: BSInputLine!
     @IBOutlet weak var emailInputLine: BSInputLine!
-    @IBOutlet weak var streetInputLine: BSInputLine!
+    @IBOutlet weak var addressInputLine: BSInputLine!
     @IBOutlet weak var zipInputLine: BSInputLine!
     @IBOutlet weak var cityInputLine: BSInputLine!
     @IBOutlet weak var stateInputLine: BSInputLine!
@@ -154,7 +154,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         self.nameInputLine.dismissKeyboard()
         self.emailInputLine.dismissKeyboard()
         self.zipInputLine.dismissKeyboard()
-        self.streetInputLine.dismissKeyboard()
+        self.addressInputLine.dismissKeyboard()
         self.cityInputLine.dismissKeyboard()
     }
 
@@ -273,13 +273,13 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
                 self.emailInputLine.setValue(billingDetails.email)
                 self.zipInputLine.setValue(billingDetails.zip)
                 if fullBilling {
-                    self.streetInputLine.setValue(billingDetails.address)
+                    self.addressInputLine.setValue(billingDetails.address)
                     self.cityInputLine.setValue(billingDetails.city)
                 }
             }
             nameInputLine.hideError()
             emailInputLine.hideError()
-            streetInputLine.hideError()
+            addressInputLine.hideError()
             zipInputLine.hideError()
             cityInputLine.hideError()
             stateInputLine.hideError()
@@ -360,7 +360,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         nameInputLine.isHidden = false
         emailInputLine.isHidden = !self.withEmail
         let hideFields = !self.fullBilling
-        streetInputLine.isHidden = hideFields
+        addressInputLine.isHidden = hideFields
         let countryCode = self.purchaseDetails.getBillingDetails().country ?? ""
         updateZipByCountry(countryCode: countryCode)
         updateFlagImage(countryCode: countryCode)
@@ -395,7 +395,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
         self.nameInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Name)
         self.emailInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Email)
-        self.streetInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Street)
+        self.addressInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Address)
         self.cityInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_City)
         self.stateInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_State)
 
@@ -633,7 +633,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
         if fullBilling {
             let ok1 = validateZip(ignoreIfEmpty: false)
-            let ok2 = validateStreet(ignoreIfEmpty: false)
+            let ok2 = validateAddress(ignoreIfEmpty: false)
             let ok3 = validateCity(ignoreIfEmpty: false)
             let ok4 = validateState(ignoreIfEmpty: false)
             result = result && ok1 && ok2 && ok3 && ok4
@@ -672,9 +672,9 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         return result
     }
 
-    func validateStreet(ignoreIfEmpty: Bool) -> Bool {
+    func validateAddress(ignoreIfEmpty: Bool) -> Bool {
 
-        let result: Bool = BSValidator.validateStreet(ignoreIfEmpty: ignoreIfEmpty, input: streetInputLine, addressDetails: purchaseDetails.getBillingDetails())
+        let result: Bool = BSValidator.validateAddress(ignoreIfEmpty: ignoreIfEmpty, input: addressInputLine, addressDetails: purchaseDetails.getBillingDetails())
         return result
     }
 
@@ -760,21 +760,21 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         _ = validateEmail(ignoreIfEmpty: true)
     }
 
-    @IBAction func streetEditingChanged(_ sender: BSInputLine) {
+    @IBAction func addressEditingChanged(_ sender: BSInputLine) {
         BSValidator.addressEditingChanged(sender)
     }
 
-    @IBAction func streetEditingDidEnd(_ sender: BSInputLine) {
-        _ = validateStreet(ignoreIfEmpty: true)
+    @IBAction func addressEditingDidEnd(_ sender: BSInputLine) {
+        _ = validateAddress(ignoreIfEmpty: true)
     }
 
-    @IBAction func streetEditingDidBegin(_ sender: BSInputLine) {
+    @IBAction func addressEditingDidBegin(_ sender: BSInputLine) {
 
         editingDidBegin(sender)
-        if streetInputLine.getValue() == "" {
-            streetInputLine.fieldKeyboardType = .numbersAndPunctuation
+        if addressInputLine.getValue() == "" {
+            addressInputLine.fieldKeyboardType = .numbersAndPunctuation
         } else {
-            streetInputLine.fieldKeyboardType = .default
+            addressInputLine.fieldKeyboardType = .default
         }
     }
 

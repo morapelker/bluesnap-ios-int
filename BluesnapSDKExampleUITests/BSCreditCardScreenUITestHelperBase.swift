@@ -17,7 +17,7 @@ class BSCreditCardScreenUITestHelperBase {
     var nameInput : XCUIElement!
     var zipInput : XCUIElement!
     var cityInput : XCUIElement!
-    var streetInput : XCUIElement!
+    var addressInput : XCUIElement!
     var stateInput : XCUIElement!
     
     let bsCountryManager = BSCountryManager.getInstance()
@@ -175,7 +175,7 @@ class BSCreditCardScreenUITestHelperBase {
     func checkInvalidInfoInputs(payButtonId: String) {
         checkInvalidFieldInputs(input: nameInput, invalidValuesToCheck: ["Sawyer", "L"], validValue: "Fanny Brice", expectedLabelText: "Name", inputToTap: zipInput)
         
-        checkInvalidFieldInputs(input: streetInput, invalidValuesToCheck: ["ab"], validValue: "Broadway 777", expectedLabelText: "Street", inputToTap: cityInput)
+        checkInvalidFieldInputs(input: addressInput, invalidValuesToCheck: ["ab"], validValue: "Broadway 777", expectedLabelText: "Address", inputToTap: cityInput)
         
         checkInvalidFieldInputs(input: cityInput, invalidValuesToCheck: ["ab"], validValue: "New York", expectedLabelText: "City", inputToTap: nameInput)
         checkInvalidState(payButtonId: payButtonId)

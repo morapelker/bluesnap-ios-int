@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Angi et for- og etternavn";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Ugyldig e-postadresse";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Ugyldig gate";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Ugyldig gate";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Ugyldig by";
 /* Invalid Country - not sure this is in use */
@@ -109,8 +109,8 @@
 "Label_Name" = "Navn";
 /* Label for the Email field in the payment screen */
 "Label_Email" = "E-postadresse";
-/* Label for the Street field in the payment and shipping screens */
-"Label_Street" = "Gate";
+/* Label for the Address field in the payment and shipping screens */
+"Label_Address" = "Adresse";
 /* Label for the City field in the payment and shipping screens */
 "Label_City" = "By";
 /* Label for the State field in the payment and shipping screens */

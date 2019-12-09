@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Введите имя и фамилию";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Неверный email";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Неверная улица";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Неверная улица";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Неверный город";
 /* Invalid Country - not sure this is in use */
@@ -109,8 +109,8 @@
 "Label_Name" = "Имя";
 /* Label for the Email field in the payment screen */
 "Label_Email" = "Email";
-/* Label for the Street field in the payment and shipping screens */
-"Label_Street" = "Улица";
+/* Label for the Address field in the payment and shipping screens */
+"Label_Address" = "Адрес";
 /* Label for the City field in the payment and shipping screens */
 "Label_City" = "Город";
 /* Label for the State field in the payment and shipping screens */

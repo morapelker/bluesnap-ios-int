@@ -20,7 +20,7 @@ public class BSValidator: NSObject {
     static let expInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_EXP)
     static let nameInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_Name)
     static let emailInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_Email)
-    static let streetInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_Street)
+    static let addressInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_Address)
     static let cityInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_City)
     static let countryInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_Country)
     static let stateInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_State)
@@ -90,7 +90,7 @@ public class BSValidator: NSObject {
 //        return true
 //    }
 
-    class func validateStreet(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
+    class func validateAddress(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces) ?? ""
         input.setValue(newValue)
@@ -100,7 +100,7 @@ public class BSValidator: NSObject {
         var result : Bool = true
         if (ignoreIfEmpty && newValue.count == 0) {
             // ignore
-        } else if !isValidStreet(newValue) {
+        } else if !isValidAddress(newValue) {
             result = false
         } else {
             result = true
@@ -108,7 +108,7 @@ public class BSValidator: NSObject {
         if result {
             input.hideError()
         } else {
-            input.showError(streetInvalidMessage)
+            input.showError(addressInvalidMessage)
         }
         return result
     }
@@ -456,7 +456,7 @@ public class BSValidator: NSObject {
         return result
     }
     
-    open class func isValidStreet(_ str: String) -> Bool {
+    open class func isValidAddress(_ str: String) -> Bool {
         
         var result : Bool = false
         if (str.count < 3) {

@@ -31,7 +31,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         nameInput = elementsQuery.element(matching: .any, identifier: "Name")
         zipInput = elementsQuery.element(matching: .any, identifier: "Zip")
         cityInput = elementsQuery.element(matching: .any, identifier: "City")
-        streetInput = elementsQuery.element(matching: .any, identifier: "Street")
+        addressInput = elementsQuery.element(matching: .any, identifier: "Address")
         stateInput = elementsQuery.element(matching: .any, identifier: "State")
     }
     
@@ -146,7 +146,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         let billingDetails = sdkRequest.shopperConfiguration.billingDetails
         checkInput(input: emailInput, expectedExists: sdkRequest.shopperConfiguration.withEmail, expectedValue: billingDetails?.email ?? "", expectedLabelText: "Email")
         checkInput(input: cityInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.city ?? "", expectedLabelText: "City")
-        checkInput(input: streetInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.address ?? "", expectedLabelText: "Street")
+        checkInput(input: addressInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.address ?? "", expectedLabelText: "Address")
         
         if let countryCode = billingDetails?.country {
             //TODO: fix this
@@ -245,7 +245,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipLabel: String) {
         super.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: shopperDetails, payButtonId: payButtonId, zipLabel: zipLabel)
         checkInput(input: emailInput, expectedValue: "", expectedLabelText: "Email", expectedValid: false)
-        checkInput(input: streetInput, expectedValue: "", expectedLabelText: "Street", expectedValid: false)
+        checkInput(input: addressInput, expectedValue: "", expectedLabelText: "Address", expectedValid: false)
         checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
         checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
         
@@ -342,7 +342,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         super.checkInvalidInfoInputs(payButtonId: payButtonId)
         checkInvalidFieldInputs(input: emailInput, invalidValuesToCheck: ["broadwaydancecenter.com", "broadwaydancecenter@gmail"], validValue: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", inputToTap: zipInput)
         
-        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Billing Zip", inputToTap: streetInput)
+        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Billing Zip", inputToTap: addressInput)
     }
     
     func checkMenuButtonEnabled(expectedEnabled: Bool){
@@ -417,7 +417,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         setInputValue(input: zipInput, value: billingDetails.zip ?? "")
         if sdkRequest.shopperConfiguration.fullBilling {
             setInputValue(input: cityInput, value: billingDetails.city ?? "")
-            setInputValue(input: streetInput, value: billingDetails.address ?? "")
+            setInputValue(input: addressInput, value: billingDetails.address ?? "")
         }
         if ignoreCountry == false {
             if let countryCode = billingDetails.country {

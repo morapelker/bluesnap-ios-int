@@ -40,28 +40,28 @@
 /* Invalid expiration date - for general invalid expiration date - shown in the CC component below the field */
 "Error_Invalid_EXP" = "無効な日付";
 /* Invalid Name - should contain first and last name - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Name" = "名と姓を入力してください";
+"Error_Invalid_Name" = "氏名を入力してください";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "無効なメールアドレス";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "無効な住所";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "正しい住所を入力してください";
 /* Invalid City - shown in the Payment/shipping screen below the field */
-"Error_Invalid_City" = "無効な市町村";
+"Error_Invalid_City" = "正しい都道府県・市区町村を入力してください";
 /* Invalid Country - not sure this is in use */
 "Error_Invalid_Country" = "無効な国";
 /* Invalid State - when state is missing for a country that has states - shown in the Payment/shipping screen below the field */
 "Error_Invalid_State" = "無効な州";
 /* Invalid Zip code - used in US - shown in the Payment/shipping screen below the field */
-"Error_Invalid_ZipCode" = "無効な郵便番号";
+"Error_Invalid_ZipCode" = "正しい郵便番号を入力してください";
 /* Invalid Postal code - used outside US - shown in the Payment/shipping screen below the field */
-"Error_Invalid_PostalCode" = "無効な郵便番号";
+"Error_Invalid_PostalCode" = "正しい郵便番号を入力してください";
 
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "請求先郵便番号";
+"Label_Billing_Zip" = "郵便番号";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "送付先郵便番号";
+"Label_Shipping_Zip" = "郵便番号";
 /* How to call billing/shipping zip code outside the US */
 "Label_Postal_Code" = "郵便番号";
 
@@ -106,13 +106,13 @@
 "Title_Payment_Screen" = "支払い";
 
 /* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "名前";
+"Label_Name" = "姓名";
 /* Label for the Email field in the payment screen */
 "Label_Email" = "メールアドレス";
-/* Label for the Street field in the payment and shipping screens */
-"Label_Street" = "住所";
+/* Label for the Address field in the payment and shipping screens */
+"Label_Address" = "以降の住所";
 /* Label for the City field in the payment and shipping screens */
-"Label_City" = "市町村";
+"Label_City" = "都道府県 / 市区町村";
 /* Label for the State field in the payment and shipping screens */
 "Label_State" = "州";
 

@@ -19,7 +19,7 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         nameInput = elementsQuery.element(matching: .any, identifier: "ShippingName")
         zipInput = elementsQuery.element(matching: .any, identifier: "ShippingZip")
         cityInput = elementsQuery.element(matching: .any, identifier: "ShippingCity")
-        streetInput = elementsQuery.element(matching: .any, identifier: "ShippingStreet")
+        addressInput = elementsQuery.element(matching: .any, identifier: "ShippingAddress")
         stateInput = elementsQuery.element(matching: .any, identifier: "ShippingState")
     }
     
@@ -29,7 +29,7 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         super.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: zipLabel)
         let shippingDetails = sdkRequest.shopperConfiguration.shippingDetails
         checkInput(input: cityInput, expectedExists: true, expectedValue: shippingDetails?.city ?? "", expectedLabelText: "City")
-        checkInput(input: streetInput, expectedExists: true, expectedValue: shippingDetails?.address ?? "", expectedLabelText: "Street")
+        checkInput(input: addressInput, expectedExists: true, expectedValue: shippingDetails?.address ?? "", expectedLabelText: "Address")
         
         if let countryCode = shippingDetails?.country {
             // check country image - this does not work, don't know how to access the image
@@ -47,7 +47,7 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     
     override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipLabel: String) {
         super.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: shopperDetails, payButtonId: payButtonId, zipLabel: zipLabel)
-        checkInput(input: streetInput, expectedValue: "", expectedLabelText: "Street", expectedValid: false)
+        checkInput(input: addressInput, expectedValue: "", expectedLabelText: "Address", expectedValid: false)
         checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
         checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
     }
@@ -59,7 +59,7 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
      */
     override func checkInvalidInfoInputs(payButtonId: String) {
         super.checkInvalidInfoInputs(payButtonId: payButtonId)
-        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Shipping Zip", inputToTap: streetInput)
+        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Shipping Zip", inputToTap: addressInput)
     }
 
     func setFieldValues(shippingDetails: BSShippingAddressDetails, sdkRequest: BSSdkRequest) {
@@ -67,7 +67,7 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         setInputValue(input: nameInput, value: shippingDetails.name ?? "")
         setInputValue(input: zipInput, value: shippingDetails.zip ?? "")
         setInputValue(input: cityInput, value: shippingDetails.city ?? "")
-        setInputValue(input: streetInput, value: shippingDetails.address ?? "")
+        setInputValue(input: addressInput, value: shippingDetails.address ?? "")
         if let countryCode = shippingDetails.country {
             setCountry(countryCode: countryCode)
             if let stateCode = shippingDetails.state {

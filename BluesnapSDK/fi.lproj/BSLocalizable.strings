@@ -43,8 +43,8 @@
 "Error_Invalid_Name" = "Syötä etu- ja sukunimi";
 /* Invalid Email - shown in the Payment screen below the field */
 "Error_Invalid_Email" = "Virheellinen sähköpostiosoite";
-/* Invalid street - shown in the Payment/shipping screen below the field */
-"Error_Invalid_Street" = "Virheellinen katuosoite";
+/* Invalid Address - shown in the Payment/shipping screen below the field */
+"Error_Invalid_Address" = "Virheellinen katuosoite";
 /* Invalid City - shown in the Payment/shipping screen below the field */
 "Error_Invalid_City" = "Virheellinen kaupunki";
 /* Invalid Country - not sure this is in use */
@@ -109,8 +109,8 @@
 "Label_Name" = "Nimi";
 /* Label for the Email field in the payment screen */
 "Label_Email" = "Sähköpostiosoite";
-/* Label for the Street field in the payment and shipping screens */
-"Label_Street" = "Katuosoite";
+/* Label for the Address field in the payment and shipping screens */
+"Label_Address" = "Osoite";
 /* Label for the City field in the payment and shipping screens */
 "Label_City" = "Kaupunki";
 /* Label for the State field in the payment and shipping screens */
