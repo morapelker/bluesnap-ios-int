@@ -40,12 +40,12 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
     @IBOutlet weak var ccInputLine: BSCcInputLine!
     @IBOutlet weak var existingCcView: BSExistingCcUIView!
 
-    @IBOutlet weak var nameInputLine: BSInputLine!
-    @IBOutlet weak var emailInputLine: BSInputLine!
-    @IBOutlet weak var addressInputLine: BSInputLine!
-    @IBOutlet weak var zipInputLine: BSInputLine!
-    @IBOutlet weak var cityInputLine: BSInputLine!
-    @IBOutlet weak var stateInputLine: BSInputLine!
+    @IBOutlet weak var nameInputLine: BSBaseTextInput!
+    @IBOutlet weak var emailInputLine: BSBaseTextInput!
+    @IBOutlet weak var addressInputLine: BSBaseTextInput!
+    @IBOutlet weak var zipInputLine: BSBaseTextInput!
+    @IBOutlet weak var cityInputLine: BSBaseTextInput!
+    @IBOutlet weak var stateInputLine: BSBaseTextInput!
 
     @IBOutlet weak var shippingSameAsBillingView: UIView!
     @IBOutlet weak var shippingSameAsBillingSwitch: UISwitch!
@@ -393,13 +393,11 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         }
         updateAmounts()
 
-        self.nameInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Name)
-        self.emailInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Email)
-        self.addressInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Address)
-        self.cityInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_City)
-        self.stateInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_State)
-
         self.nameInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Name)
+        self.emailInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Email)
+        self.addressInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Address)
+        self.cityInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_City)
+        self.stateInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_State)
 
         self.shippingSameAsBillingLabel.text = BSLocalizedStrings.getString(BSLocalizedString.Label_Shipping_Same_As_Billing)
         self.storeCardLabel.text = BSLocalizedStrings.getString(BSLocalizedString.Label_Store_Card)
@@ -498,7 +496,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
     private func updateZipByCountry(countryCode: String) {
 
         let hideZip = BSCountryManager.getInstance().countryHasNoZip(countryCode: countryCode)
-        self.zipInputLine.labelText = BSValidator.getZipLabelText(countryCode: countryCode, forBilling: true)
+        self.zipInputLine.placeHolder = BSValidator.getZipPlaceholderText(countryCode: countryCode, forBilling: true)
         self.zipInputLine.fieldKeyboardType = BSValidator.getZipKeyboardType(countryCode: countryCode)
         self.zipInputLine.isHidden = hideZip
         self.zipInputLine.hideError()
@@ -732,16 +730,16 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
     // MARK: real-time formatting and Validations on text fields
 
-    @IBAction func nameEditingChanged(_ sender: BSInputLine) {
+    @IBAction func nameEditingChanged(_ sender: BSBaseTextInput) {
 
         BSValidator.nameEditingChanged(sender)
     }
 
-    @IBAction func nameEditingDidEnd(_ sender: BSInputLine) {
+    @IBAction func nameEditingDidEnd(_ sender: BSBaseTextInput) {
         _ = validateName(ignoreIfEmpty: true)
     }
 
-    @IBAction func countryFlagClick(_ sender: BSInputLine) {
+    @IBAction func countryFlagClick(_ sender: BSBaseTextInput) {
 
         // open the country screen
         let selectedCountryCode = purchaseDetails.getBillingDetails().country ?? ""
@@ -752,23 +750,23 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
                 updateFunc: updateWithNewCountry)
     }
 
-    @IBAction func emailEditingChanged(_ sender: BSInputLine) {
+    @IBAction func emailEditingChanged(_ sender: BSBaseTextInput) {
         BSValidator.emailEditingChanged(sender)
     }
 
-    @IBAction func emailEditingDidEnd(_ sender: BSInputLine) {
+    @IBAction func emailEditingDidEnd(_ sender: BSBaseTextInput) {
         _ = validateEmail(ignoreIfEmpty: true)
     }
 
-    @IBAction func addressEditingChanged(_ sender: BSInputLine) {
+    @IBAction func addressEditingChanged(_ sender: BSBaseTextInput) {
         BSValidator.addressEditingChanged(sender)
     }
 
-    @IBAction func addressEditingDidEnd(_ sender: BSInputLine) {
+    @IBAction func addressEditingDidEnd(_ sender: BSBaseTextInput) {
         _ = validateAddress(ignoreIfEmpty: true)
     }
 
-    @IBAction func addressEditingDidBegin(_ sender: BSInputLine) {
+    @IBAction func addressEditingDidBegin(_ sender: BSBaseTextInput) {
 
         editingDidBegin(sender)
         if addressInputLine.getValue() == "" {
@@ -778,23 +776,23 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         }
     }
 
-    @IBAction func cityEditingChanged(_ sender: BSInputLine) {
+    @IBAction func cityEditingChanged(_ sender: BSBaseTextInput) {
         BSValidator.cityEditingChanged(sender)
     }
 
-    @IBAction func cityEditingDidEnd(_ sender: BSInputLine) {
+    @IBAction func cityEditingDidEnd(_ sender: BSBaseTextInput) {
         _ = validateCity(ignoreIfEmpty: true)
     }
 
-    @IBAction func zipEditingChanged(_ sender: BSInputLine) {
+    @IBAction func zipEditingChanged(_ sender: BSBaseTextInput) {
         BSValidator.zipEditingChanged(sender)
     }
 
-    @IBAction func zipEditingDidEnd(_ sender: BSInputLine) {
+    @IBAction func zipEditingDidEnd(_ sender: BSBaseTextInput) {
         _ = validateZip(ignoreIfEmpty: true)
     }
 
-    @IBAction func stateClick(_ sender: BSInputLine) {
+    @IBAction func stateClick(_ sender: BSBaseTextInput) {
 
         // open the state screen
         BSViewsManager.showStateList(

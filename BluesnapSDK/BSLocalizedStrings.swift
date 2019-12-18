@@ -54,9 +54,9 @@ public enum BSLocalizedString : String {
     
     /* ------- Zip/Postal code labels ------- */
 
-    case Label_Billing_Zip
-    case Label_Shipping_Zip
-    case Label_Postal_Code
+    case Placeholder_Billing_Zip
+    case Placeholder_Shipping_Zip
+    case Placeholder_Postal_Code
 
 
     /* ------- Payment Type screen ------- */
@@ -86,13 +86,12 @@ public enum BSLocalizedString : String {
     
     case Title_Payment_Screen
     
-    case Label_Name
-    case Label_Email
-    case Label_Address
-    case Label_City
-    case Label_State
-    
     case Placeholder_Name
+    case Placeholder_Email
+    case Placeholder_Address
+    case Placeholder_City
+    case Placeholder_State
+    
 
     case Label_Subtotal_Amount
     case Label_Tax_Amount

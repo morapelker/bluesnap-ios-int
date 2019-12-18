@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "ZIP de facturation";
+"Placeholder_Billing_Zip" = "ZIP de facturation";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "ZIP de livraison";
+"Placeholder_Shipping_Zip" = "ZIP de livraison";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "Code postal";
+"Placeholder_Postal_Code" = "Code postal";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Paiement";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "Nom";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "E-mail";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "Adresse";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "Ville";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "État";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "Nom";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "E-mail";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "Adresse";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "Ville";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "État";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "Jean Dupont";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = "Sous-total :";

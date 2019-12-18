@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "Postcode voor facturering";
+"Placeholder_Billing_Zip" = "Postcode voor facturering";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "Postcode voor verzending";
+"Placeholder_Shipping_Zip" = "Postcode voor verzending";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "Postcode";
+"Placeholder_Postal_Code" = "Postcode";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Betaling";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "Naam";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "E-mail";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "Adres";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "Woonplaats";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "Staat";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "Naam";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "E-mail";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "Adres";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "Woonplaats";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "Staat";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "Jan Smit";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = "Subtotaal:";

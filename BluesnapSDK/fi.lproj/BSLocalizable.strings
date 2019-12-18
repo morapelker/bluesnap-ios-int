@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "Laskutusosoitteen postinumero";
+"Placeholder_Billing_Zip" = "Laskutusosoitteen postinumero";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "Toimitusosoitteen postinumero";
+"Placeholder_Shipping_Zip" = "Toimitusosoitteen postinumero";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "Postinumero";
+"Placeholder_Postal_Code" = "Postinumero";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Maksaminen";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "Nimi";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "Sähköpostiosoite";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "Osoite";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "Kaupunki";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "Osavaltio";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "Nimi";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "Sähköpostiosoite";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "Osoite";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "Kaupunki";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "Osavaltio";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "Matti Meikäläinen";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = "Välisumma:";

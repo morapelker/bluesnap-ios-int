@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "청구할 주소";
+"Placeholder_Billing_Zip" = "청구할 주소";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "배송지 주소";
+"Placeholder_Shipping_Zip" = "배송지 주소";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "우편 코드";
+"Placeholder_Postal_Code" = "우편 코드";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "지불";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "이름";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "이메일";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "주소";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "도시";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "주";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "이름";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "이메일";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "주소";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "도시";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "주";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "홍길동";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = "세부 총계:";

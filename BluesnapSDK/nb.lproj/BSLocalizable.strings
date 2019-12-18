@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "Frakt-zip";
+"Placeholder_Billing_Zip" = "Frakt-zip";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "Frakt-zip";
+"Placeholder_Shipping_Zip" = "Frakt-zip";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "Postnummer";
+"Placeholder_Postal_Code" = "Postnummer";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Betaling";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "Navn";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "E-postadresse";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "Adresse";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "By";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "Delstat";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "Navn";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "E-postadresse";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "Adresse";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "By";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "Delstat";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "Ola Nordmann";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = "Sum:";

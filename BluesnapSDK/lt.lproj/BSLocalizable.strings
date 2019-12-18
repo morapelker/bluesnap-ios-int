@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "Sąskaitų siuntimo adresas";
+"Placeholder_Billing_Zip" = "Sąskaitų siuntimo adresas";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "Pristatymo adresas";
+"Placeholder_Shipping_Zip" = "Pristatymo adresas";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "Pašto kodas";
+"Placeholder_Postal_Code" = "Pašto kodas";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Apmokėjimas";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "Vardas";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "El. pašto adresas";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "Adresas";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "Miestas";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "Valstija";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "Vardas";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "El. pašto adresas";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "Adresas";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "Miestas";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "Valstija";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "Jonas Kalvaitis";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = "Tarpinė suma:";
