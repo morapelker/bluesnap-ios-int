@@ -748,7 +748,7 @@ public class BSCcInputLine: BSBaseTextInput {
         DispatchQueue.global(qos: .userInteractive).async {
             DispatchQueue.main.async {
                 let nextTage = self.tag + 1;
-                let nextResponder = self.superview?.viewWithTag(nextTage) as? BSInputLine
+                let nextResponder = self.superview?.viewWithTag(nextTage) as? BSBaseTextInput
                 if nextResponder != nil {
                     nextResponder?.textField.becomeFirstResponder()
                 }

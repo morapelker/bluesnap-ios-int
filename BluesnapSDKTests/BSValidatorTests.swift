@@ -26,7 +26,7 @@ class BSValidatorTests: XCTestCase {
 
     func testValidateName() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         let addressDetails = BSBaseAddressDetails()
 
         XCTAssertEqual(BSValidator.validateName(ignoreIfEmpty: true, input: input, addressDetails: addressDetails), true)
@@ -58,7 +58,7 @@ class BSValidatorTests: XCTestCase {
 
     func testValidateEmail() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         let addressDetails = BSBillingAddressDetails()
 
         XCTAssertEqual(BSValidator.validateEmail(ignoreIfEmpty: true, input: input, addressDetails: addressDetails), true)
@@ -100,7 +100,7 @@ class BSValidatorTests: XCTestCase {
 
     func testValidateAddress() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         let addressDetails = BSBaseAddressDetails()
 
         XCTAssertEqual(BSValidator.validateAddress(ignoreIfEmpty: true, input: input, addressDetails: addressDetails), true)
@@ -127,7 +127,7 @@ class BSValidatorTests: XCTestCase {
 
     func testValidateCity() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         let addressDetails = BSBaseAddressDetails()
 
         XCTAssertEqual(BSValidator.validateCity(ignoreIfEmpty: true, input: input, addressDetails: addressDetails), true)
@@ -154,7 +154,7 @@ class BSValidatorTests: XCTestCase {
 
     func testValidateCountry() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         let addressDetails = BSBaseAddressDetails()
         var result: Bool
 
@@ -193,7 +193,7 @@ class BSValidatorTests: XCTestCase {
 
     func testValidateZip() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         let addressDetails = BSBaseAddressDetails()
 
         XCTAssertEqual(BSValidator.validateZip(ignoreIfEmpty: true, input: input, addressDetails: addressDetails), true)
@@ -220,7 +220,7 @@ class BSValidatorTests: XCTestCase {
 
     func testValidateState() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         let addressDetails = BSBaseAddressDetails()
         var result: Bool
 
@@ -371,32 +371,6 @@ class BSValidatorTests: XCTestCase {
         XCTAssertEqual(input.errorLabel?.text, BSValidator.ccnInvalidMessage)
     }
 
-//    func testNameEditingChanged() {
-//
-//        let input = BSInputLine()
-//        BSValidator.nameEditingChanged(input)
-//        XCTAssertEqual(input.getValue(), "")
-//
-//        input.setValue("a")
-//        BSValidator.nameEditingChanged(input)
-//        XCTAssertEqual(input.getValue(), "A")
-//
-//        input.setValue("ab")
-//        BSValidator.nameEditingChanged(input)
-//        XCTAssertEqual(input.getValue(), "Ab")
-//
-//        input.setValue("ab c")
-//        BSValidator.nameEditingChanged(input)
-//        XCTAssertEqual(input.getValue(), "Ab C")
-//
-//        input.setValue("a9")
-//        BSValidator.nameEditingChanged(input)
-//        XCTAssertEqual(input.getValue(), "A")
-//
-//        input.setValue("aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee aaaa aaaa bbbb bbbb cccc cccc dddd dddd eeee eeee yyy")
-//        BSValidator.nameEditingChanged(input)
-//        XCTAssertEqual(input.getValue(), "Aaaa Aaaa Bbbb Bbbb Cccc Cccc Dddd Dddd Eeee Eeee Aaaa Aaaa Bbbb Bbbb Cccc Cccc Dddd Dddd Eeee Eeee ")
-//    }
 
 //    func testPhoneEditingChanged() {
 //
@@ -415,7 +389,7 @@ class BSValidatorTests: XCTestCase {
 
     func testEmailEditingChanged() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         BSValidator.emailEditingChanged(input)
         XCTAssertEqual(input.getValue(), "")
 
@@ -438,7 +412,7 @@ class BSValidatorTests: XCTestCase {
 
     func testAddressEditingChanged() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         BSValidator.addressEditingChanged(input)
         XCTAssertEqual(input.getValue(), "")
 
@@ -454,7 +428,7 @@ class BSValidatorTests: XCTestCase {
 
     func testCityEditingChanged() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         BSValidator.cityEditingChanged(input)
         XCTAssertEqual(input.getValue(), "")
 
@@ -466,7 +440,7 @@ class BSValidatorTests: XCTestCase {
 
     func testZipEditingChanged() {
 
-        let input = BSInputLine()
+        let input = BSBaseTextInput()
         BSValidator.zipEditingChanged(input)
         XCTAssertEqual(input.getValue(), "")
 

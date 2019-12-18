@@ -136,7 +136,7 @@ public class BSValidator: NSObject {
         return result
     }
     
-    class func validateCountry(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
+    class func validateCountry(ignoreIfEmpty : Bool, input: BSBaseTextInput, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         let newValue = addressDetails?.country ?? ""
         var result : Bool = true
