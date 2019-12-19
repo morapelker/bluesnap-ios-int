@@ -34,9 +34,9 @@ class BSCreditCardScreenUITestHelperBase {
         return input.staticTexts["ErrorLabel"]
     }
     
-    func getInputLabelElement(_ input : XCUIElement) -> XCUIElement {
-        return input.staticTexts["InputLabel"]
-    }
+//    func getInputLabelElement(_ input : XCUIElement) -> XCUIElement {
+//        return input.staticTexts["InputLabel"]
+//    }
     
     func getInputCoverButtonElement(_ input : XCUIElement) -> XCUIElement {
         return input.buttons["FieldCoverButton"]
@@ -63,17 +63,17 @@ class BSCreditCardScreenUITestHelperBase {
      It also verifies that the invalid error messages are not displayed.
      */
     func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails? = nil, zipLabel: String = "") {
-        checkInput(input: nameInput, expectedValue: shopperDetails?.name.isEmpty ?? true ? "John Doe" : shopperDetails!.name , expectedLabelText: "Name")
+        checkInput(input: nameInput, expectedValue: shopperDetails?.name.isEmpty ?? true ? "Name" : shopperDetails!.name)
         
         // zip should be hidden only for country that does not have zip; label also changes according to country
         let country = shopperDetails?.country ?? "US"
-        let expectedZipLabelText = (country == "US") ? zipLabel : "Postal Code"
+        let expectedZipPlaceholder = (country == "US") ? zipLabel : "Postal Code"
         let zipShouldBeVisible = checkCountryHasZip(country: country)
-        checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: shopperDetails?.zip ?? "", expectedLabelText: expectedZipLabelText)
+        checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: shopperDetails?.zip ?? expectedZipPlaceholder)
     }
 
     //check the input existance, tag, value and validity
-    func checkInput(input: XCUIElement, expectedExists: Bool = true, expectedValue: String, expectedLabelText: String, expectedValid: Bool = true) {
+    func checkInput(input: XCUIElement, expectedExists: Bool = true, expectedValue: String, expectedValid: Bool = true) {
 
         XCTAssertTrue(input.exists == expectedExists, "\(input.identifier) expected to be exists: \(expectedExists), but was exists: \(input.exists)")
 
@@ -82,9 +82,6 @@ class BSCreditCardScreenUITestHelperBase {
             let value = textField.value as! String
             XCTAssertTrue(expectedValue == value, "\(input.identifier) expected value: \(expectedValue), actual value: \(value)")
 
-            let titleLabel = getInputLabelElement(input)
-            let titleLabelText: String = titleLabel.label //label.value as! String
-            XCTAssertTrue(titleLabelText == expectedLabelText, "\(input.identifier) expected value: \(expectedLabelText), actual value: \(titleLabelText)")
 
             let errorLabel = getInputErrorLabelElement(input)
             XCTAssertTrue(errorLabel.exists == !expectedValid, "error message for \(input.identifier) expected to be exists: \(!expectedValid), but was exists: \(errorLabel.exists)")
@@ -96,24 +93,24 @@ class BSCreditCardScreenUITestHelperBase {
      This test verifies the visibility of zip input field,
      according to default country and specific countries.
      */
-    func checkZipVisibility(defaultCountry: String, zipLabel: String) {
+    func checkZipVisibility(defaultCountry: String, zipPlaceholder: String) {
         setCountry(countryCode: defaultCountry)
         // check whether the zip field is visible to the user or not, according to defaultCountry
-        let expectedZipLabelText = (defaultCountry == "US") ? zipLabel : "Postal Code"
+        let expectedZipPlaceholder = (defaultCountry == "US") ? zipPlaceholder : "Postal Code"
         let zipShouldBeVisible = checkCountryHasZip(country: defaultCountry)
-        checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: "", expectedLabelText: expectedZipLabelText)
+        checkInput(input: zipInput, expectedExists: zipShouldBeVisible, expectedValue: expectedZipPlaceholder)
         
         // verify that the zip field is visible when changing to USA (has zip)
         setCountry(countryCode: "US")
-        checkInput(input: zipInput, expectedExists: true, expectedValue: "", expectedLabelText: zipLabel)
+        checkInput(input: zipInput, expectedExists: true, expectedValue: expectedZipPlaceholder)
         
         // verify that the zip field is visible when changing to Angola (doesn't have zip)
         setCountry(countryCode: "AO")
-        checkInput(input: zipInput, expectedExists: false, expectedValue: "", expectedLabelText: expectedZipLabelText)
+        checkInput(input: zipInput, expectedExists: false, expectedValue: expectedZipPlaceholder)
         
         // verify that the zip field is visible when changing to Israel (has postal code)
         setCountry(countryCode: "IL")
-        checkInput(input: zipInput, expectedExists: true, expectedValue: "", expectedLabelText: "Postal Code")
+        checkInput(input: zipInput, expectedExists: true, expectedValue: "Postal Code")
         
 //        setCountry(countryCode: defaultCountry)
 
@@ -128,42 +125,42 @@ class BSCreditCardScreenUITestHelperBase {
         // check whether the state field is visible to the user or not, according to defaultCountry
         setCountry(countryCode: defaultCountry)
         let stateIsVisible = BSCountryManager.getInstance().countryHasStates(countryCode: defaultCountry)
-        checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: "", expectedLabelText: "State")
+        checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: "State")
         
         // verify that the state field is visible when changing to USA (has state)
         setCountry(countryCode: "US")
-        checkInput(input: stateInput, expectedExists: true, expectedValue: "", expectedLabelText: "State")
+        checkInput(input: stateInput, expectedExists: true, expectedValue: "State")
         
         // verify that the zip field is visible when changing to Israel (doesn't have state)
         setCountry(countryCode: "IL")
-        checkInput(input: stateInput, expectedExists: false, expectedValue: "", expectedLabelText: "State")
+        checkInput(input: stateInput, expectedExists: false, expectedValue: "State")
         
         // verify that the state field is visible when changing to Canada (has state)
         setCountry(countryCode: "CA")
-        checkInput(input: stateInput, expectedExists: true, expectedValue: "", expectedLabelText: "State")
+        checkInput(input: stateInput, expectedExists: true, expectedValue: "State")
         
         // verify that the zip field is visible when changing to Spain (doesn't have state)
         setCountry(countryCode: "ES")
-        checkInput(input: stateInput, expectedExists: false, expectedValue: "", expectedLabelText: "State")
+        checkInput(input: stateInput, expectedExists: false, expectedValue: "State")
         
         // verify that the state field is visible when changing to Brazil (has state)
         setCountry(countryCode: "BR")
-        checkInput(input: stateInput, expectedExists: true, expectedValue: "", expectedLabelText: "State")
+        checkInput(input: stateInput, expectedExists: true, expectedValue: "State")
         
         setCountry(countryCode: defaultCountry)
     }
 
     //Pre-condition: full billing or shipping checkout and country is USA- for state existence and "Billing Zip"/"Shipping Zip" label text
     //Pre-condition: all cc line and input fields are empty
-    func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipLabel: String) {
+    func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipPlaceholder: String) {
         pressPayButton()
 
-        checkInput(input: nameInput, expectedValue: "John Doe", expectedLabelText: "Name", expectedValid: false)
+        checkInput(input: nameInput, expectedValue: "Name", expectedValid: false)
         
         let country = shopperDetails?.country ?? "US"
         
-        let expectedZipLabelText = (country == "US") ? zipLabel : "Postal Code"
-        checkInput(input: zipInput, expectedValue: "", expectedLabelText: expectedZipLabelText, expectedValid: false)
+        let expectedZipPlaceholder = (country == "US") ? zipPlaceholder : "Postal Code"
+        checkInput(input: zipInput, expectedValue: expectedZipPlaceholder, expectedValid: false)
     }
     
     /**
@@ -173,34 +170,34 @@ class BSCreditCardScreenUITestHelperBase {
      Pre-condition: full billing is enabled/it is shipping screen
      */
     func checkInvalidInfoInputs(payButtonId: String) {
-        checkInvalidFieldInputs(input: nameInput, invalidValuesToCheck: ["Sawyer", "L"], validValue: "Fanny Brice", expectedLabelText: "Name", inputToTap: zipInput)
+        checkInvalidFieldInputs(input: nameInput, invalidValuesToCheck: ["Sawyer", "L"], validValue: "Fanny Brice", inputToTap: zipInput)
         
-        checkInvalidFieldInputs(input: addressInput, invalidValuesToCheck: ["a"], validValue: "Broadway 777", expectedLabelText: "Address", inputToTap: cityInput)
+        checkInvalidFieldInputs(input: addressInput, invalidValuesToCheck: ["a"], validValue: "Broadway 777", inputToTap: cityInput)
         
-        checkInvalidFieldInputs(input: cityInput, invalidValuesToCheck: ["b"], validValue: "New York", expectedLabelText: "City", inputToTap: nameInput)
+        checkInvalidFieldInputs(input: cityInput, invalidValuesToCheck: ["b"], validValue: "New York", inputToTap: nameInput)
         checkInvalidState(payButtonId: payButtonId)
     }
     
     //Pre-condition: country has state
     func checkInvalidState(payButtonId: String) {
         pressPayButton()
-        checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
+        checkInput(input: stateInput, expectedValue: "State", expectedValid: false)
         setState(countryCode: "US", stateCode: "NY")
-        checkInput(input: stateInput, expectedValue: "New York", expectedLabelText: "State", expectedValid: true)
+        checkInput(input: stateInput, expectedValue: "New York", expectedValid: true)
     }
     
-    func checkInvalidFieldInputs(input: XCUIElement, invalidValuesToCheck: [String], validValue: String, expectedLabelText: String, inputToTap: XCUIElement) {
+    func checkInvalidFieldInputs(input: XCUIElement, invalidValuesToCheck: [String], validValue: String, inputToTap: XCUIElement) {
         for invalidValue in invalidValuesToCheck{
-            setAndValidateInput(input: input, value: validValue, expectedLabelText: expectedLabelText, expectedValid: true, inputToTap: inputToTap)
-            setAndValidateInput(input: input, value: invalidValue, expectedLabelText: expectedLabelText, expectedValid: false, inputToTap: inputToTap)
+            setAndValidateInput(input: input, value: validValue, expectedValid: true, inputToTap: inputToTap)
+            setAndValidateInput(input: input, value: invalidValue, expectedValid: false, inputToTap: inputToTap)
         }
-        setAndValidateInput(input: input, value: validValue, expectedLabelText: expectedLabelText, expectedValid: true, inputToTap: inputToTap)
+        setAndValidateInput(input: input, value: validValue, expectedValid: true, inputToTap: inputToTap)
     }
     
-    func setAndValidateInput(input: XCUIElement, value: String, expectedLabelText: String, expectedValid: Bool, inputToTap: XCUIElement) {
+    func setAndValidateInput(input: XCUIElement, value: String, expectedValid: Bool, inputToTap: XCUIElement) {
         setInputValue(input: input, value: value)
         getInputFieldElement(inputToTap).tap()
-        checkInput(input: input, expectedValue: value, expectedLabelText: expectedLabelText, expectedValid: expectedValid)
+        checkInput(input: input, expectedValue: value, expectedValid: expectedValid)
     }
     
     /**

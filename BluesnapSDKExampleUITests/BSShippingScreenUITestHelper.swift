@@ -28,28 +28,28 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     override func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails? = nil, zipLabel: String = "Shipping Zip") {
         super.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, zipLabel: zipLabel)
         let shippingDetails = sdkRequest.shopperConfiguration.shippingDetails
-        checkInput(input: cityInput, expectedExists: true, expectedValue: shippingDetails?.city ?? "", expectedLabelText: "City")
-        checkInput(input: addressInput, expectedExists: true, expectedValue: shippingDetails?.address ?? "", expectedLabelText: "Address")
+        checkInput(input: cityInput, expectedExists: true, expectedValue: shippingDetails?.city ?? "City")
+        checkInput(input: addressInput, expectedExists: true, expectedValue: shippingDetails?.address ?? "Address")
         
         if let countryCode = shippingDetails?.country {
             // check country image - this does not work, don't know how to access the image
             
             // state should be visible for US/Canada/Brazil
             let stateIsVisible = BSCountryManager.getInstance().countryHasStates(countryCode: countryCode)
-            var expectedStateValue = ""
+            var expectedStateValue = "State"
             if let stateName = bsCountryManager.getStateName(countryCode : countryCode, stateCode: shippingDetails?.state ?? "") {
                 expectedStateValue = stateName
             }
-            checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: expectedStateValue, expectedLabelText: "State")
+            checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: expectedStateValue)
         }
         
     }
     
-    override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipLabel: String) {
-        super.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: shopperDetails, payButtonId: payButtonId, zipLabel: zipLabel)
-        checkInput(input: addressInput, expectedValue: "", expectedLabelText: "Address", expectedValid: false)
-        checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
-        checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
+    override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipPlaceholder: String) {
+        super.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: shopperDetails, payButtonId: payButtonId, zipPlaceholder: zipPlaceholder)
+        checkInput(input: addressInput, expectedValue: "Address", expectedValid: false)
+        checkInput(input: cityInput, expectedValue: "City", expectedValid: false)
+        checkInput(input: stateInput, expectedValue: "State", expectedValid: false)
     }
     
     /**
@@ -59,7 +59,7 @@ class BSShippingScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
      */
     override func checkInvalidInfoInputs(payButtonId: String) {
         super.checkInvalidInfoInputs(payButtonId: payButtonId)
-        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Shipping Zip", inputToTap: addressInput)
+        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", inputToTap: addressInput)
     }
 
     func setFieldValues(shippingDetails: BSShippingAddressDetails, sdkRequest: BSSdkRequest) {

@@ -60,7 +60,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
         
         // check zip input field visibility according to different countries
-        paymentHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Billing Zip")
+        paymentHelper.checkZipVisibility(defaultCountry: defaultCountry, zipPlaceholder: "Billing Zip")
         
         // check state input field visibility according to different countries
         paymentHelper.checkStateVisibility(defaultCountry: defaultCountry)
@@ -86,7 +86,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.setCountry(countryCode: "US")
         
         // check trying to pay with empty fields
-        paymentHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, payButtonId: "PayButton", zipLabel: "Billing Zip")
+        paymentHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, payButtonId: "PayButton", zipPlaceholder: "Billing Zip")
         
         // check invalid cc line inputs
         paymentHelper.checkInvalidCCLineInputs()
@@ -251,7 +251,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         shippingHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails)
         
         // check zip input field visibility according to different countries
-        shippingHelper.checkZipVisibility(defaultCountry: defaultCountry, zipLabel: "Shipping Zip")
+        shippingHelper.checkZipVisibility(defaultCountry: defaultCountry, zipPlaceholder: "Shipping Zip")
         
         // check state input field visibility according to different countries
         shippingHelper.checkStateVisibility(defaultCountry: defaultCountry)
@@ -260,7 +260,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         shippingHelper.checkPayButton(sdkRequest: sdkRequest)
 
         // check trying to pay with empty fields
-        shippingHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, payButtonId: "ShippingPayButton", zipLabel: "Shipping Zip")
+        shippingHelper.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.shippingDetails, payButtonId: "ShippingPayButton", zipPlaceholder: "Shipping Zip")
         
         // check invalid shipping inputs
         shippingHelper.checkInvalidInfoInputs(payButtonId: "ShippingPayButton")

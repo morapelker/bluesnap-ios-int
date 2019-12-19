@@ -144,9 +144,9 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     override func checkInputsVisibility(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails? = nil, zipLabel: String = "Billing Zip") {
         super.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails, zipLabel: zipLabel)
         let billingDetails = sdkRequest.shopperConfiguration.billingDetails
-        checkInput(input: emailInput, expectedExists: sdkRequest.shopperConfiguration.withEmail, expectedValue: billingDetails?.email ?? "", expectedLabelText: "Email")
-        checkInput(input: cityInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.city ?? "", expectedLabelText: "City")
-        checkInput(input: addressInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.address ?? "", expectedLabelText: "Address")
+        checkInput(input: emailInput, expectedExists: sdkRequest.shopperConfiguration.withEmail, expectedValue: billingDetails?.email ?? "Email")
+        checkInput(input: cityInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.city ?? "City")
+        checkInput(input: addressInput, expectedExists: sdkRequest.shopperConfiguration.fullBilling, expectedValue: billingDetails?.address ?? "Address")
         
         if let countryCode = billingDetails?.country {
             //TODO: fix this
@@ -161,11 +161,11 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
             
             // state should be visible for US/Canada/Brazil
             let stateIsVisible = sdkRequest.shopperConfiguration.fullBilling && BSCountryManager.getInstance().countryHasStates(countryCode: countryCode)
-            var expectedStateValue = ""
+            var expectedStateValue = "State"
             if let stateName = bsCountryManager.getStateName(countryCode : countryCode, stateCode: billingDetails?.state ?? "") {
                 expectedStateValue = stateName
             }
-            checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: expectedStateValue, expectedLabelText: "State")
+            checkInput(input: stateInput, expectedExists: stateIsVisible, expectedValue: expectedStateValue)
         }
 
     }
@@ -242,12 +242,12 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
     //Pre-condition: country is USA- for state existence and "Billing Zip" label text
     //Pre-condition: full billing checkout
     //Pre-condition: all cc line and input fields are empty
-    override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipLabel: String) {
-        super.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: shopperDetails, payButtonId: payButtonId, zipLabel: zipLabel)
-        checkInput(input: emailInput, expectedValue: "", expectedLabelText: "Email", expectedValid: false)
-        checkInput(input: addressInput, expectedValue: "", expectedLabelText: "Address", expectedValid: false)
-        checkInput(input: cityInput, expectedValue: "", expectedLabelText: "City", expectedValid: false)
-        checkInput(input: stateInput, expectedValue: "", expectedLabelText: "State", expectedValid: false)
+    override func checkPayWithEmptyInputs(sdkRequest: BSSdkRequest, shopperDetails: BSBaseAddressDetails?, payButtonId: String, zipPlaceholder: String) {
+        super.checkPayWithEmptyInputs(sdkRequest: sdkRequest, shopperDetails: shopperDetails, payButtonId: payButtonId, zipPlaceholder: zipPlaceholder)
+        checkInput(input: emailInput, expectedValue: "Email", expectedValid: false)
+        checkInput(input: addressInput, expectedValue: "Address", expectedValid: false)
+        checkInput(input: cityInput, expectedValue: "City", expectedValid: false)
+        checkInput(input: stateInput, expectedValue: "State", expectedValid: false)
         
         // TODO: add this - check how to open the line
         //        checkCcLineInvalidErrorVisibility(input: getCcInputFieldElement(), invalidError: getCcInputErrorLabelElement(), expectedValid: false)
@@ -340,9 +340,9 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
      */
     override func checkInvalidInfoInputs(payButtonId: String) {
         super.checkInvalidInfoInputs(payButtonId: payButtonId)
-        checkInvalidFieldInputs(input: emailInput, invalidValuesToCheck: ["broadwaydancecenter.com", "broadwaydancecenter@gmail"], validValue: "broadwaydancecenter@gmail.com", expectedLabelText: "Email", inputToTap: zipInput)
+        checkInvalidFieldInputs(input: emailInput, invalidValuesToCheck: ["broadwaydancecenter.com", "broadwaydancecenter@gmail"], validValue: "broadwaydancecenter@gmail.com", inputToTap: zipInput)
         
-        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", expectedLabelText: "Billing Zip", inputToTap: addressInput)
+        checkInvalidFieldInputs(input: zipInput, invalidValuesToCheck: ["12"], validValue: "12345 abcde", inputToTap: addressInput)
     }
     
     func checkMenuButtonEnabled(expectedEnabled: Bool){

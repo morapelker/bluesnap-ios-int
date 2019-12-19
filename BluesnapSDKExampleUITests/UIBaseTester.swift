@@ -125,19 +125,24 @@ class UIBaseTester: XCTestCase{
         setPurchaseAmount()
     }
     
-    internal func setPurchaseAmount() {
+    internal func setPurchaseAmount(waitToExist: Bool = false) {
         if let priceDetails = sdkRequest.priceDetails {
             // set amount text field value
             let amount = "\(priceDetails.amount ?? 0)"
-            setTextField(textFieldId: "AmountField", value: amount)
+            setTextField(textFieldId: "AmountField", value: amount, waitToExist: waitToExist)
         }
     }
     
-    internal func setTextField(textFieldId: String, value: String) {
-            // set amount text field value
-            let textField : XCUIElement = app.textFields[textFieldId]
-            textField.clearText()
-            textField.typeText(value)
+    internal func setTextField(textFieldId: String, value: String, waitToExist: Bool = false) {
+        // set amount text field value
+        let textField : XCUIElement = app.textFields[textFieldId]
+        
+        if (waitToExist) {
+            waitForElementToExist(element: textField, waitTime: 140)
+            waitForElementToBeHittable(element: textField, waitTime: 140)
+        }
+        textField.clearText()
+        textField.typeText(value)
         
     }
 
