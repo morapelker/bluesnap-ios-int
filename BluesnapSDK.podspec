@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "BluesnapSDK"
-  s.version      = "1.3.3-nc"
+  s.version      = "1.3.4-nc"
   s.summary      = "An iOS SDK for Bluesnap "
   s.description  = <<-DESC
   Integrate payment methods into your iOS native apps quickly and easily.
@@ -24,7 +24,6 @@ Pod::Spec.new do |s|
 	]
   }
   s.exclude_files =  ["BluesnapSDK/CardinalMobile.framework/Headers/**", "BluesnapSDK/BluesnapSDKTests/**/*.*","BluesnapSDK/BluesnapSDKIntegrationTests/**/*.*","BluesnapSDK/**/libKountDataCollector.a","BluesnapSDK/**/KDataCollector.{h,m}" ]
-  s.ios.vendored_frameworks = 'BluesnapSDK/CardinalMobile.framework'
   
   s.resources = "BluesnapSDK/**/Media.xcassets"
   s.frameworks                     = 'Foundation', 'Security', 'WebKit', 'PassKit', 'AddressBook', 'UIKit' ,
