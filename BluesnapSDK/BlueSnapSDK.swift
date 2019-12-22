@@ -76,6 +76,8 @@ open class BlueSnapSDK: NSObject {
 //                    completion(nil)
 //                }
                 
+                completion(nil)
+                
             } else {
                 completion(BSErrors.unknown)
             }
