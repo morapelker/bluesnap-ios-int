@@ -69,12 +69,12 @@ open class BlueSnapSDK: NSObject {
                 if let applePayMerchantIdentifier = applePayMerchantIdentifier {
                     BSApplePayConfiguration.setIdentifier(merchantId: applePayMerchantIdentifier)
                 }
-                
-                BSCardinalManager.instance.setCardinalJWT(cardinalToken: sdkData.cardinalToken)
-                BSCardinalManager.instance.configureCardinal(isProduction: bsToken.isProduction)
-                BSCardinalManager.instance.setupCardinal {
-                    completion(nil)
-                }
+//
+//                BSCardinalManager.instance.setCardinalJWT(cardinalToken: sdkData.cardinalToken)
+//                BSCardinalManager.instance.configureCardinal(isProduction: bsToken.isProduction)
+//                BSCardinalManager.instance.setupCardinal {
+//                    completion(nil)
+//                }
                 
             } else {
                 completion(BSErrors.unknown)
