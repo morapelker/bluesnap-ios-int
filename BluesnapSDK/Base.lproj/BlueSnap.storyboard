@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -114,13 +114,11 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xjb-2n-SG7" userLabel="Fields View">
                                         <rect key="frame" x="0.0" y="0.0" width="371" height="400"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Tf-NL-jP3" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Tf-NL-jP3" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="20" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingName"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Name"/>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="John Doe"/>
                                                     <userDefinedRuntimeAttribute type="image" keyPath="image" value="IL"/>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="labelBkdColor">
                                                         <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -133,51 +131,41 @@
                                                     <action selector="nameEditingDidEnd:" destination="PPS-Pq-6Wu" eventType="editingDidEnd" id="y0Q-RU-Oq9"/>
                                                 </connections>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7GX-8o-fbs" userLabel="Zip Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7GX-8o-fbs" userLabel="Zip Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="64" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingZip"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Zip"/>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="editingDidBegin:" destination="PPS-Pq-6Wu" eventType="editingDidBegin" id="yza-e3-oxC"/>
                                                     <action selector="zipEditingChanged:" destination="PPS-Pq-6Wu" eventType="editingChanged" id="9CM-dg-qYG"/>
                                                     <action selector="zipEditingDidEnd:" destination="PPS-Pq-6Wu" eventType="editingDidEnd" id="g6C-zH-XDa"/>
                                                 </connections>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jMo-vo-Aht" userLabel="Address Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jMo-vo-Aht" userLabel="Address Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="108" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingAddress"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Address"/>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="addressEditingChanged:" destination="PPS-Pq-6Wu" eventType="editingChanged" id="tRO-pj-qne"/>
                                                     <action selector="addressEditingDidBegin:" destination="PPS-Pq-6Wu" eventType="editingDidBegin" id="L5p-mb-EKn"/>
                                                     <action selector="addressEditingDidEnd:" destination="PPS-Pq-6Wu" eventType="editingDidEnd" id="iDh-Ub-8b9"/>
                                                 </connections>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M8Q-CA-XJP" userLabel="City Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M8Q-CA-XJP" userLabel="City Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="152" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingCity"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="City"/>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="cityEditingChanged:" destination="PPS-Pq-6Wu" eventType="editingChanged" id="vNS-gh-mJI"/>
                                                     <action selector="cityEditingDidEnd:" destination="PPS-Pq-6Wu" eventType="editingDidEnd" id="wQh-cu-NlD"/>
                                                     <action selector="editingDidBegin:" destination="PPS-Pq-6Wu" eventType="editingDidBegin" id="lTA-Or-Nb5"/>
                                                 </connections>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qye-kG-IzH" userLabel="State Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qye-kG-IzH" userLabel="State Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="196" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ShippingState"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="State"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isEditable" value="NO"/>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
@@ -685,13 +673,11 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ExistingCCN"/>
                                             </view>
-                                            <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gcs-xh-zfv" userLabel="Name Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gcs-xh-zfv" userLabel="Name Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="75" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Name"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Name"/>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeHolder" value="John Doe"/>
                                                     <userDefinedRuntimeAttribute type="image" keyPath="image" value="IL"/>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="labelBkdColor">
                                                         <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -704,64 +690,51 @@
                                                     <action selector="nameEditingDidEnd:" destination="W0G-M6-3dM" eventType="editingDidEnd" id="QJz-yK-d7l"/>
                                                 </connections>
                                             </view>
-                                            <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zAV-CU-OEK" userLabel="Email Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zAV-CU-OEK" userLabel="Email Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="119" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Email"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Email"/>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="editingDidBegin:" destination="W0G-M6-3dM" eventType="editingDidBegin" id="fJw-47-23H"/>
                                                     <action selector="emailEditingChanged:" destination="W0G-M6-3dM" eventType="editingChanged" id="A4y-os-NRv"/>
                                                     <action selector="emailEditingDidEnd:" destination="W0G-M6-3dM" eventType="editingDidEnd" id="aRR-MW-CVj"/>
                                                 </connections>
                                             </view>
-                                            <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yRx-IZ-fub" userLabel="Zip Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yRx-IZ-fub" userLabel="Zip Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="163" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Zip"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Zip"/>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="editingDidBegin:" destination="W0G-M6-3dM" eventType="editingDidBegin" id="AHR-lP-oYN"/>
                                                     <action selector="zipEditingChanged:" destination="W0G-M6-3dM" eventType="editingChanged" id="4PL-N2-ZEl"/>
                                                     <action selector="zipEditingDidEnd:" destination="W0G-M6-3dM" eventType="editingDidEnd" id="3XR-p0-fvD"/>
                                                 </connections>
                                             </view>
-                                            <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Vk-vx-UOS" userLabel="Address Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Vk-vx-UOS" userLabel="Address Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="207" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Address"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="Address"/>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="addressEditingChanged:" destination="W0G-M6-3dM" eventType="editingChanged" id="weg-y9-p4W"/>
                                                     <action selector="addressEditingDidBegin:" destination="W0G-M6-3dM" eventType="editingDidBegin" id="5sT-Yg-mcE"/>
                                                     <action selector="addressEditingDidEnd:" destination="W0G-M6-3dM" eventType="editingDidEnd" id="Zye-Lj-A9b"/>
                                                 </connections>
                                             </view>
-                                            <view tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3sW-jJ-zDD" userLabel="City Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3sW-jJ-zDD" userLabel="City Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="251" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="City"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="City"/>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="cityEditingChanged:" destination="W0G-M6-3dM" eventType="editingChanged" id="Jnn-5Y-xfU"/>
                                                     <action selector="cityEditingDidEnd:" destination="W0G-M6-3dM" eventType="editingDidEnd" id="4HK-eB-GUR"/>
                                                     <action selector="editingDidBegin:" destination="W0G-M6-3dM" eventType="editingDidBegin" id="WIS-YD-en9"/>
                                                 </connections>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKc-lR-XxG" userLabel="State Input Line" customClass="BSInputLine" customModule="BluesnapSDK">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKc-lR-XxG" userLabel="State Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="295" width="335" height="43"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="State"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="labelText" value="State"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isEditable" value="NO"/>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>

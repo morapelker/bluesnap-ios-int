@@ -379,7 +379,7 @@ class ShopperConfigurationUITests: UIBaseTester {
     func createCreditCardPaymentMethodFlow(shopperWithFullBilling: Bool, shopperWithEmail: Bool, shopperWithShipping: Bool, checkoutFullBilling: Bool, checkoutWithEmail: Bool, checkoutWithShipping: Bool, tapExistingCc: Bool = false, checkExistingCcLine: Bool = false) {
         setUpForCreatePaymentSdk(shopperWithFullBilling: shopperWithFullBilling, shopperWithEmail: shopperWithEmail, shopperWithShipping: shopperWithShipping, checkoutFullBilling: checkoutFullBilling, checkoutWithEmail: checkoutWithEmail, checkoutWithShipping: checkoutWithShipping, tapExistingCc: tapExistingCc, checkExistingCcLine: checkExistingCcLine)
         
-        setPurchaseAmount()
+        setPurchaseAmount(waitToExist: true)
         
         app.buttons["CreateButton"].tap()
 

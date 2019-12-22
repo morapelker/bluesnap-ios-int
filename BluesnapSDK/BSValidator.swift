@@ -35,7 +35,7 @@ public class BSValidator: NSObject {
     
     // MARK: validation functions (check UI field and hide/show errors as necessary)
     
-    class func validateName(ignoreIfEmpty: Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
+    class func validateName(ignoreIfEmpty: Bool, input: BSBaseTextInput, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         var result : Bool = true
         let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces) ?? ""
@@ -56,7 +56,7 @@ public class BSValidator: NSObject {
         return result
     }
     
-    class func validateEmail(ignoreIfEmpty: Bool, input: BSInputLine, addressDetails: BSBillingAddressDetails?) -> Bool {
+    class func validateEmail(ignoreIfEmpty: Bool, input: BSBaseTextInput, addressDetails: BSBillingAddressDetails?) -> Bool {
         
         let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces) ?? ""
         input.setValue(newValue)
@@ -90,7 +90,7 @@ public class BSValidator: NSObject {
 //        return true
 //    }
 
-    class func validateAddress(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
+    class func validateAddress(ignoreIfEmpty : Bool, input: BSBaseTextInput, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces) ?? ""
         input.setValue(newValue)
@@ -113,7 +113,7 @@ public class BSValidator: NSObject {
         return result
     }
     
-    class func validateCity(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
+    class func validateCity(ignoreIfEmpty : Bool, input: BSBaseTextInput, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces) ?? ""
         input.setValue(newValue)
@@ -136,7 +136,7 @@ public class BSValidator: NSObject {
         return result
     }
     
-    class func validateCountry(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
+    class func validateCountry(ignoreIfEmpty : Bool, input: BSBaseTextInput, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         let newValue = addressDetails?.country ?? ""
         var result : Bool = true
@@ -155,7 +155,7 @@ public class BSValidator: NSObject {
         return result
     }
 
-    class func validateZip(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
+    class func validateZip(ignoreIfEmpty : Bool, input: BSBaseTextInput, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         var result : Bool = true
         let newValue = input.getValue()?.trimmingCharacters(in: .whitespaces) ?? ""
@@ -179,7 +179,7 @@ public class BSValidator: NSObject {
         return result
     }
 
-    class func validateState(ignoreIfEmpty : Bool, input: BSInputLine, addressDetails: BSBaseAddressDetails?) -> Bool {
+    class func validateState(ignoreIfEmpty : Bool, input: BSBaseTextInput, addressDetails: BSBaseAddressDetails?) -> Bool {
         
         let newValue = addressDetails?.state ?? ""
         var result : Bool = true
@@ -270,11 +270,11 @@ public class BSValidator: NSObject {
     
     // MARK: field editing changed methods (to limit characters and sizes)
     
-    class func nameEditingChanged(_ sender: BSInputLine) {
+    class func nameEditingChanged(_ sender: BSBaseTextInput) {
         
     }
 
-    class func emailEditingChanged(_ sender: BSInputLine) {
+    class func emailEditingChanged(_ sender: BSBaseTextInput) {
         
         var input : String = sender.getValue() ?? ""
         input = BSStringUtils.removeNoneEmailCharacters(input)
@@ -282,15 +282,15 @@ public class BSValidator: NSObject {
         sender.setValue(input)
     }
     
-    class func addressEditingChanged(_ sender: BSInputLine) {
+    class func addressEditingChanged(_ sender: BSBaseTextInput) {
         
     }
     
-    class func cityEditingChanged(_ sender: BSInputLine) {
+    class func cityEditingChanged(_ sender: BSBaseTextInput) {
         
     }
     
-    class func zipEditingChanged(_ sender: BSInputLine) {
+    class func zipEditingChanged(_ sender: BSBaseTextInput) {
         
         var input : String = sender.getValue() ?? ""
         input = BSStringUtils.cutToMaxLength(input, maxLength: 20)
@@ -323,7 +323,7 @@ public class BSValidator: NSObject {
         sender.text = input
     }
 
-    class func updateState(addressDetails: BSBaseAddressDetails!, stateInputLine: BSInputLine) {
+    class func updateState(addressDetails: BSBaseAddressDetails!, stateInputLine: BSBaseTextInput) {
         
         let selectedCountryCode = addressDetails.country ?? ""
         let selectedStateCode = addressDetails.state ?? ""
@@ -582,16 +582,16 @@ public class BSValidator: NSObject {
 
     // MARK: zip texts
     
-    open class func getZipLabelText(countryCode: String, forBilling: Bool) -> String {
+    open class func getZipPlaceholderText(countryCode: String, forBilling: Bool) -> String {
         
         if countryCode.uppercased() == BSCountryManager.US_COUNTRY_CODE {
             if forBilling {
-                return BSLocalizedStrings.getString(BSLocalizedString.Label_Billing_Zip)
+                return BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Billing_Zip)
             } else {
-                return BSLocalizedStrings.getString(BSLocalizedString.Label_Shipping_Zip)
+                return BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Shipping_Zip)
             }
         } else {
-            return BSLocalizedStrings.getString(BSLocalizedString.Label_Postal_Code)
+            return BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Postal_Code)
         }
     }
     

@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "Kodi postal i faturimit ";
+"Placeholder_Billing_Zip" = "Kodi postal i faturimit ";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = " Kodi postal i dërgimit";
+"Placeholder_Shipping_Zip" = " Kodi postal i dërgimit";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "Kodi Postar";
+"Placeholder_Postal_Code" = "Kodi Postar";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Pagesa";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "Emri";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "Posta Elektronike";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "Adresa";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "Qyteti";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "Shteti";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "Emri";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "Posta Elektronike";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "Adresa";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "Qyteti";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "Shteti";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "John Doe";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = " Nëntotali:";

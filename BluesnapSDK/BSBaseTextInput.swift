@@ -520,9 +520,9 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         textField.accessibilityIdentifier = "TextField"
         self.addSubview(textField)
         
-        textField.addTarget(self, action: #selector(BSInputLine.textFieldDidBeginEditing(_:)), for: .editingDidBegin)
-        textField.addTarget(self, action: #selector(BSInputLine.textFieldDidEndEditing(_:)), for: .editingDidEnd)
-        textField.addTarget(self, action: #selector(BSInputLine.textFieldEditingChanged(_:)), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldDidBeginEditing(_:)), for: .editingDidBegin)
+        textField.addTarget(self, action: #selector(textFieldDidEndEditing(_:)), for: .editingDidEnd)
+        textField.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
         textField.delegate = self
         
         self.imageButton = UIButton(type: UIButton.ButtonType.custom)

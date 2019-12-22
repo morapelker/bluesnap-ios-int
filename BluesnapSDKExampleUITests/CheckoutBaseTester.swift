@@ -53,6 +53,7 @@ class CheckoutBaseTester: UIBaseTester{
         } else {
             // click New CC button
             app.buttons["CcButton"].tap()
+            waitForPaymentScreen()
         }
     }
     

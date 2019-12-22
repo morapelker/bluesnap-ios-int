@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "Поштански број за фактуре";
+"Placeholder_Billing_Zip" = "Поштански број за фактуре";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "Поштански број за испоруку";
+"Placeholder_Shipping_Zip" = "Поштански број за испоруку";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "Број поште";
+"Placeholder_Postal_Code" = "Број поште";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Плаћање";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "Име";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "Е-пошта";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "Адреса";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "Град";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "Покрајина";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "Име";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "Е-пошта";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "Адреса";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "Град";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "Покрајина";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "Марко Марковић";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = "Укупно пре пореза:";

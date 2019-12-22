@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "CAP di fatturazione ";
+"Placeholder_Billing_Zip" = "CAP di fatturazione ";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "CAP di fatturazione";
+"Placeholder_Shipping_Zip" = "CAP di fatturazione";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "Codice postale";
+"Placeholder_Postal_Code" = "Codice postale";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Pagamento";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "Nome";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "Email";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "Indirizzo";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "Città";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "Stato";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "Nome";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "Email";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "Indirizzo";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "Città";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "Stato";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "John Doe";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = "Subtotale:";

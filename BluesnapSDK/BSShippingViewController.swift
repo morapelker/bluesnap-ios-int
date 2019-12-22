@@ -27,12 +27,11 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
     // MARK: outlets
         
     @IBOutlet weak var payUIButton: UIButton!
-    @IBOutlet weak var nameInputLine: BSInputLine!
-    @IBOutlet weak var addressInputLine: BSInputLine!
-    @IBOutlet weak var zipInputLine: BSInputLine!
-    @IBOutlet weak var cityInputLine: BSInputLine!
-    @IBOutlet weak var stateInputLine: BSInputLine!
-//    @IBOutlet weak var phoneInputLine: BSInputLine!
+    @IBOutlet weak var nameInputLine: BSBaseTextInput!
+    @IBOutlet weak var addressInputLine: BSBaseTextInput!
+    @IBOutlet weak var zipInputLine: BSBaseTextInput!
+    @IBOutlet weak var cityInputLine: BSBaseTextInput!
+    @IBOutlet weak var stateInputLine: BSBaseTextInput!
     @IBOutlet weak var zipTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var subtotalAndTaxDetailsView: BSSubtotalUIView!
@@ -272,23 +271,23 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: real-time formatting and Validations on text fields
     
-    @IBAction func nameEditingChanged(_ sender: BSInputLine) {
+    @IBAction func nameEditingChanged(_ sender: BSBaseTextInput) {
         BSValidator.nameEditingChanged(sender)
     }
     
-    @IBAction func nameEditingDidEnd(_ sender: BSInputLine) {
+    @IBAction func nameEditingDidEnd(_ sender: BSBaseTextInput) {
         _ = validateName(ignoreIfEmpty: true)
     }
     
-    @IBAction func addressEditingChanged(_ sender: BSInputLine) {
+    @IBAction func addressEditingChanged(_ sender: BSBaseTextInput) {
         BSValidator.addressEditingChanged(sender)
     }
     
-    @IBAction func addressEditingDidEnd(_ sender: BSInputLine) {
+    @IBAction func addressEditingDidEnd(_ sender: BSBaseTextInput) {
         _ = validateAddress(ignoreIfEmpty: true)
     }
     
-    @IBAction func addressEditingDidBegin(_ sender: BSInputLine) {
+    @IBAction func addressEditingDidBegin(_ sender: BSBaseTextInput) {
         
         editingDidBegin(sender)
         if addressInputLine.getValue() == "" {
@@ -298,24 +297,24 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @IBAction func cityEditingChanged(_ sender: BSInputLine) {
+    @IBAction func cityEditingChanged(_ sender: BSBaseTextInput) {
         BSValidator.cityEditingChanged(sender)
     }
     
-    @IBAction func cityEditingDidEnd(_ sender: BSInputLine) {
+    @IBAction func cityEditingDidEnd(_ sender: BSBaseTextInput) {
         _ = validateCity(ignoreIfEmpty: true)
     }
     
-    @IBAction func zipEditingChanged(_ sender: BSInputLine) {
+    @IBAction func zipEditingChanged(_ sender: BSBaseTextInput) {
         BSValidator.zipEditingChanged(sender)
     }
     
-    @IBAction func zipEditingDidEnd(_ sender: BSInputLine) {
+    @IBAction func zipEditingDidEnd(_ sender: BSBaseTextInput) {
         _ = validateZip(ignoreIfEmpty: true)
     }
     
     // enter state field - open the state screen
-    @IBAction func stateTouchUpInside(_ sender: BSInputLine) {
+    @IBAction func stateTouchUpInside(_ sender: BSBaseTextInput) {
         
         BSViewsManager.showStateList(
             inNavigationController: self.navigationController,
@@ -324,7 +323,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
             updateFunc: updateWithNewState)
     }
 
-    @IBAction func flagTouchUpInside(_ sender: BSInputLine) {
+    @IBAction func flagTouchUpInside(_ sender: BSBaseTextInput) {
         
         let selectedCountryCode = purchaseDetails.getShippingDetails()?.country ?? ""
         BSViewsManager.showCountryList(
@@ -334,13 +333,6 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
             updateFunc: updateWithNewCountry)
     }
     
-//    @IBAction func phoneEditingChanged(_ sender: BSInputLine) {
-//        BSValidator.phoneEditingChanged(sender)
-//    }
-    
-//    @IBAction func phoneEditingDidEnd(_ sender: BSInputLine) {
-//        _ = validatePhone(ignoreIfEmpty: true)
-//    }
     
     // MARK: private functions
     
@@ -379,12 +371,10 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
     private func updateTexts() {
 
         self.title = BSLocalizedStrings.getString(BSLocalizedString.Title_Shipping_Screen)
-        self.nameInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Name)
-//        self.phoneInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Phone)
-        self.addressInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_Address)
-        self.cityInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_City)
-        self.stateInputLine.labelText = BSLocalizedStrings.getString(BSLocalizedString.Label_State)
         self.nameInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Name)
+        self.addressInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_Address)
+        self.cityInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_City)
+        self.stateInputLine.placeHolder = BSLocalizedStrings.getString(BSLocalizedString.Placeholder_State)
     }
     
     private func updateWithNewCountry(countryCode : String, countryName : String) {
@@ -413,7 +403,7 @@ class BSShippingViewController: UIViewController, UITextFieldDelegate {
 
         let hideZip = BSCountryManager.getInstance().countryHasNoZip(countryCode: countryCode)
         
-        self.zipInputLine.labelText = BSValidator.getZipLabelText(countryCode: countryCode, forBilling: false)
+        self.zipInputLine.placeHolder = BSValidator.getZipPlaceholderText(countryCode: countryCode, forBilling: false)
         self.zipInputLine.fieldKeyboardType = BSValidator.getZipKeyboardType(countryCode: countryCode)
 //        self.phoneInputLine.fieldKeyboardType = .phonePad
         zipInputLine.isHidden = hideZip

@@ -59,11 +59,11 @@
 /* ------- Zip/Postal code labels ------- */
 
 /* How to call billing zip code in the US */
-"Label_Billing_Zip" = "PSČ fakturačnej adresy";
+"Placeholder_Billing_Zip" = "PSČ fakturačnej adresy";
 /* How to call shipping zip code in the US */
-"Label_Shipping_Zip" = "PSČ dodacej adresy";
+"Placeholder_Shipping_Zip" = "PSČ dodacej adresy";
 /* How to call billing/shipping zip code outside the US */
-"Label_Postal_Code" = "Poštové smerovacie číslo";
+"Placeholder_Postal_Code" = "Poštové smerovacie číslo";
 
 /* ------- Payment Type screen ------- */
 
@@ -105,19 +105,17 @@
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Platba";
 
-/* Label for the Name field in the payment and shipping screens */
-"Label_Name" = "Meno";
-/* Label for the Email field in the payment screen */
-"Label_Email" = "E-mail";
-/* Label for the Address field in the payment and shipping screens */
-"Label_Address" = "Adresa";
-/* Label for the City field in the payment and shipping screens */
-"Label_City" = "Mesto";
-/* Label for the State field in the payment and shipping screens */
-"Label_State" = "Štát";
+/* Placeholder for the Name field in the payment and shipping screens */
+"Placeholder_Name" = "Meno";
+/* Placeholder for the Email field in the payment screen */
+"Placeholder_Email" = "E-mail";
+/* Placeholder for the Address field in the payment and shipping screens */
+"Placeholder_Address" = "Adresa";
+/* Placeholder for the City field in the payment and shipping screens */
+"Placeholder_City" = "Mesto";
+/* Placeholder for the State field in the payment and shipping screens */
+"Placeholder_State" = "Štát";
 
-/* Placeholder for the Name field in the payment and shipping screens (this is what you see in gray if the field is empty) */
-"Placeholder_Name" = "Ján Mrkvička";
 
 /* Label for subtotal amount (bottom right above the pay button) in Billing/Shipping screen */
 "Label_Subtotal_Amount" = "Celkom:";
