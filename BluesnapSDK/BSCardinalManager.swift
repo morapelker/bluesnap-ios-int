@@ -144,6 +144,10 @@ class BSCardinalManager: NSObject {
                 BSCardinalManager.instance.cardinalResult = BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
                 completion(true)
                 break
+            case .timeout:
+                BSCardinalManager.instance.cardinalResult = BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_FAILED.rawValue
+                completion(nil)
+                break
                 
             }
             
