@@ -78,7 +78,7 @@ class BluesnapSDKTests: XCTestCase {
         BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
             
             do {            
-                try BlueSnapSDK.initBluesnap(bsToken: token, generateTokenFunc: {_ in }, initKount: false, fraudSessionId: nil, applePayMerchantIdentifier: nil, merchantStoreCurrency: "USD", completion: { errors in
+                try BlueSnapSDK.initBluesnap(bsToken: token, generateTokenFunc: {_ in }, initKount: false, fraudSessionId: nil, applePayMerchantIdentifier: nil, merchantStoreCurrency: "USD", initCardinal: false, completion: { errors in
                     
                     XCTAssertNil(errors, "Got errors from initBluesnap")
                     
@@ -101,7 +101,7 @@ class BluesnapSDKTests: XCTestCase {
             }
         })
         //TODO: fix this..
-        semaphore.wait(timeout: .now() + 30)
+        semaphore.wait()
 //        if semaphore.wait(timeout: .now() + 15) == .timedOut {
 //            XCTFail("timeout")
 //

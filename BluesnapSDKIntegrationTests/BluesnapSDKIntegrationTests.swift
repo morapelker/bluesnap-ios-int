@@ -40,30 +40,40 @@ class BluesnapSDKIntegrationTests: XCTestCase {
 
         let semaphore = DispatchSemaphore(value: 0)
         BSIntegrationTestingAPIHelper.createToken(completion: { token, error in
-            
-            BlueSnapSDK.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: { (result, error) in
-                XCTAssertNil(error, "error: \(String(describing: error))")
-                
-                BSIntegrationTestingAPIHelper.createTokenizedTransaction(
-                    purchaseAmount: 22.0,
-                    purchaseCurrency: "USD",
-                    bsToken: token,
-                    completion: { isSuccess, data, shopperId in
-                        XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
-                        XCTAssertNotNil(data, "error: \(String(describing: "No data from transaction"))")
-                        XCTAssertNotNil(shopperId, "error: \(String(describing: "No shopperId from transaction"))")
+            do {
+                try BlueSnapSDK.initBluesnap(bsToken: token, generateTokenFunc: {_ in }, initKount: true, fraudSessionId: nil, applePayMerchantIdentifier: "merchant.com.example.bluesnap", merchantStoreCurrency: "USD", initCardinal: false, completion: { errors in
+                    
+                    XCTAssertNil(errors, "Got errors from initBluesnap")
+                    
+                    BlueSnapSDK.submitTokenizedDetails(tokenizeRequest: tokenizeRequest, completion: { (result, error) in
+                        XCTAssertNil(error, "error: \(String(describing: error))")
                         
-                        BSIntegrationTestingAPIHelper.retrieveVaultedShopper(vaultedShopperId: shopperId!, completion: {
-                            isSuccess, data in
-                            XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
-                            let error = BluesnapSDKIntegrationTestsHelper.checkRetrieveVaultedShopperResponse(responseBody: data!, shopperInfo: shopper)
-
-                            XCTAssertNil(error, "error: \(String(describing: error))")
-
-                            semaphore.signal()
+                        BSIntegrationTestingAPIHelper.createTokenizedTransaction(
+                            purchaseAmount: 22.0,
+                            purchaseCurrency: "USD",
+                            bsToken: token,
+                            completion: { isSuccess, data, shopperId in
+                                XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
+                                XCTAssertNotNil(data, "error: \(String(describing: "No data from transaction"))")
+                                XCTAssertNotNil(shopperId, "error: \(String(describing: "No shopperId from transaction"))")
+                                
+                                BSIntegrationTestingAPIHelper.retrieveVaultedShopper(vaultedShopperId: shopperId!, completion: {
+                                    isSuccess, data in
+                                    XCTAssert(isSuccess, "error: \(String(describing: "Transaction failed"))")
+                                    let error = BluesnapSDKIntegrationTestsHelper.checkRetrieveVaultedShopperResponse(responseBody: data!, shopperInfo: shopper)
+                                    
+                                    XCTAssertNil(error, "error: \(String(describing: error))")
+                                    
+                                    semaphore.signal()
+                                })
                         })
+                    })
                 })
-            })
+                
+            } catch {
+                NSLog("Unexpected error: \(error).")
+                XCTFail()
+            }
         })
         semaphore.wait()
         

@@ -73,8 +73,11 @@ class ViewController: UIViewController {
             coverAllView.isHidden = true
             hideCoverView = true
         }
-        if bsToken == nil {
-            initBsToken(returningShopper: returningShopperSwitch.isOn)
+        
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil { //Demo-App run, NOT Test
+            if bsToken == nil {
+                initBsToken(returningShopper: returningShopperSwitch.isOn)
+            }
         }
         self.navigationController?.isNavigationBarHidden = true
         self.returningShopperIdLabel.isHidden = !returningShopperSwitch.isOn

@@ -36,12 +36,24 @@ open class BlueSnapSDK: NSObject {
      - completion: callback; will be called when the init process is done. Only then can you proceed to call other functions in the SDK
      */
     open class func initBluesnap(
+    bsToken: BSToken!,
+    generateTokenFunc: @escaping (_ completion: @escaping (BSToken?, BSErrors?) -> Void) -> Void,
+    initKount: Bool,
+    fraudSessionId: String?,
+    applePayMerchantIdentifier: String?,
+    merchantStoreCurrency: String?,
+    completion: @escaping (BSErrors?) -> Void) throws {
+        try initBluesnap(bsToken: bsToken, generateTokenFunc: generateTokenFunc, initKount: initKount, fraudSessionId: fraudSessionId, applePayMerchantIdentifier: applePayMerchantIdentifier, merchantStoreCurrency: merchantStoreCurrency, completion: completion)
+    }
+    
+    internal class func initBluesnap(
             bsToken: BSToken!,
             generateTokenFunc: @escaping (_ completion: @escaping (BSToken?, BSErrors?) -> Void) -> Void,
             initKount: Bool,
             fraudSessionId: String?,
             applePayMerchantIdentifier: String?,
             merchantStoreCurrency: String?,
+            initCardinal: Bool = true,
             completion: @escaping (BSErrors?) -> Void) throws {
 
         // verify that initBluesnap() has been called prior to this function
@@ -71,8 +83,12 @@ open class BlueSnapSDK: NSObject {
                 }
                 
                 BSCardinalManager.instance.setCardinalJWT(cardinalToken: sdkData.cardinalToken)
-                BSCardinalManager.instance.configureCardinal(isProduction: bsToken.isProduction)
-                BSCardinalManager.instance.setupCardinal {
+                if (initCardinal){
+                    BSCardinalManager.instance.configureCardinal(isProduction: bsToken.isProduction)
+                    BSCardinalManager.instance.setupCardinal {
+                        completion(nil)
+                    }
+                } else {
                     completion(nil)
                 }
                 

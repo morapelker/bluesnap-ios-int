@@ -11,7 +11,7 @@ import XCTest
 @testable import BluesnapSDK
 
 class BluesnapSDKIntegrationTestsHelper {
-
+    
     static func checkRetrieveVaultedShopperResponse(responseBody: Data, shopperInfo: MockShopper) -> BSErrors? {
         var resultError: BSErrors? = nil
         do {
