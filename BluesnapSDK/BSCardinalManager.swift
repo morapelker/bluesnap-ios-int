@@ -6,11 +6,11 @@ import CardinalMobile
 class BSCardinalManager: NSObject {
 
     
-    internal var session : CardinalSession!
-    internal var cardinalToken : String?
+    private var session : CardinalSession!
+    private var cardinalToken : String?
     private var cardinalFailure: Bool = false
     private var cardinalResult: String = CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
-    internal static var instance: BSCardinalManager = BSCardinalManager()
+    public static var instance: BSCardinalManager = BSCardinalManager()
     
     public enum CardinalManagerResponse : String{
         case AUTHENTICATION_BYPASSED
@@ -22,7 +22,7 @@ class BSCardinalManager: NSObject {
     
     override private init(){}
     
-    public func setCardinalJWT(cardinalToken: String?) {
+    internal func setCardinalJWT(cardinalToken: String?) {
         // reset CardinalFailure and CardinalResult for singleton use
         cardinalFailure = false
         cardinalResult = CardinalManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue
@@ -35,7 +35,7 @@ class BSCardinalManager: NSObject {
     }
     
     //Setup can be called in viewDidLoad
-    public func configureCardinal(isProduction: Bool) {
+    internal func configureCardinal(isProduction: Bool) {
         if (isCardinalFailure()){
             NSLog("skipping due to cardinal failure")
             return
@@ -61,7 +61,7 @@ class BSCardinalManager: NSObject {
         session.configure(config)
     }
     
-    public func setupCardinal(_ completion: @escaping () -> Void) {
+    internal func setupCardinal(_ completion: @escaping () -> Void) {
         if (isCardinalFailure()){
             NSLog("skipping due to cardinal failure")
             completion()
@@ -151,7 +151,7 @@ class BSCardinalManager: NSObject {
         
     }
     
-    public func process(response: BS3DSAuthResponse?, creditCardNumber: String, completion: @escaping (Bool?) -> Void, _ startActivityIndicator: @escaping () -> Void, _ stopActivityIndicator: @escaping () -> Void) {
+    private func process(response: BS3DSAuthResponse?, creditCardNumber: String, completion: @escaping (Bool?) -> Void, _ startActivityIndicator: @escaping () -> Void, _ stopActivityIndicator: @escaping () -> Void) {
         let delegate : validationDelegate = validationDelegate(completion, startActivityIndicator)
 
         
@@ -170,7 +170,7 @@ class BSCardinalManager: NSObject {
         }
     }
     
-    public func processCardinalResult(resultJwt: String, completion: @escaping (Bool?) -> Void) {
+    private func processCardinalResult(resultJwt: String, completion: @escaping (Bool?) -> Void) {
         
         BSApiManager.processCardinalResult(cardinalToken: cardinalToken!, resultJwt: resultJwt, completion: { response, errors in
             if (errors != nil) {
