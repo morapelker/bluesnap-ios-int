@@ -43,7 +43,7 @@ open class BlueSnapSDK: NSObject {
     applePayMerchantIdentifier: String?,
     merchantStoreCurrency: String?,
     completion: @escaping (BSErrors?) -> Void) throws {
-        try initBluesnap(bsToken: bsToken, generateTokenFunc: generateTokenFunc, initKount: initKount, fraudSessionId: fraudSessionId, applePayMerchantIdentifier: applePayMerchantIdentifier, merchantStoreCurrency: merchantStoreCurrency, completion: completion)
+        try initBluesnap(bsToken: bsToken, generateTokenFunc: generateTokenFunc, initKount: initKount, fraudSessionId: fraudSessionId, applePayMerchantIdentifier: applePayMerchantIdentifier, merchantStoreCurrency: merchantStoreCurrency, initCardinal: true, completion: completion)
     }
     
     internal class func initBluesnap(
@@ -53,7 +53,7 @@ open class BlueSnapSDK: NSObject {
             fraudSessionId: String?,
             applePayMerchantIdentifier: String?,
             merchantStoreCurrency: String?,
-            initCardinal: Bool = true,
+            initCardinal: Bool,
             completion: @escaping (BSErrors?) -> Void) throws {
 
         // verify that initBluesnap() has been called prior to this function
