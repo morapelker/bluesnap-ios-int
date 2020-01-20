@@ -6,6 +6,7 @@ public class BS3DSAuthResponse: NSObject {
     var acsUrl: String?
     var payload: String?
     var transactionId: String?
+    var threeDSVersion: String?
 
 
     override init() {

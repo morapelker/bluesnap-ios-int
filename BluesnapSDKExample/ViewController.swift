@@ -301,7 +301,7 @@ class ViewController: UIViewController {
         
         sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
         sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
-        sdkRequestBase?.activate3DS = false
+        sdkRequestBase?.activate3DS = true
         NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
 
     }

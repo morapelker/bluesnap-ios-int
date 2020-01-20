@@ -192,7 +192,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
             if error == nil {
                 purchaseDetails.creditCard = creditCard
-                purchaseDetails.threeDSAuthenticationResult = BSCardinalManager.instance.getCardinalResult()
+                purchaseDetails.threeDSAuthenticationResult = BSCardinalManager.instance.getThreeDSAuthResult()
                 // return to merchant screen
                 
                 let merchantControllerIndex = viewControllers.count - (inShippingScreen ? 4 : 3) + (BSApiManager.isNewCCOnlyPaymentMethod() ? 1 : 0)
@@ -438,8 +438,8 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
         self.ccInputLine.submitPaymentFields(purchaseDetails: self.purchaseDetails, { ccn, creditCard, error in
             BSCardinalManager.instance.authWith3DS(currency: self.purchaseDetails.getCurrency(), amount: String(self.purchaseDetails.getAmount()), creditCardNumber: ccn,
-                                                   { calrdinalCanceled in
-                                                    if (calrdinalCanceled ?? false) {
+                                                   { error2 in
+                                                    if (BSCardinalManager.instance.getThreeDSAuthResult() == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_CANCELED.rawValue) {
                                                         self.show3DSrequiredAlert()
                                                         self.stopActivityIndicator()
                                                     }
