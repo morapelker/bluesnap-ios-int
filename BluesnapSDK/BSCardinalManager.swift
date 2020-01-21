@@ -105,19 +105,20 @@ class BSCardinalManager: NSObject {
                 completion(error)
             }
         
-            if let response = response, let threeDSVersion = response.threeDSVersion, let enrollmentStatus = response.enrollmentStatus {
+            if let response = response, let enrollmentStatus = response.enrollmentStatus {
                 if (enrollmentStatus == "CHALLENGE_REQUIRED") {
-                    // verifying 3DS version
-                    let index = threeDSVersion.index(threeDSVersion.startIndex, offsetBy: 1)
-                    let firstChar = threeDSVersion[..<index]
-                    
-                    if (!(firstChar == BSCardinalManager.SUPPORTED_CARD_VERSION)) {
-                        self.setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.CARD_NOT_SUPPORTED.rawValue);
-                        completion(nil)
-                    } else { // call process to trigger cardinal challenge
-                        self.process(response: response ,creditCardNumber: creditCardNumber, completion: completion, startActivityIndicator, stopActivityIndicator)
+                    if let threeDSVersion = response.threeDSVersion {
+                        // verifying 3DS version
+                        let index = threeDSVersion.index(threeDSVersion.startIndex, offsetBy: 1)
+                        let firstChar = threeDSVersion[..<index]
+                        
+                        if (!(firstChar == BSCardinalManager.SUPPORTED_CARD_VERSION)) {
+                            self.setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.CARD_NOT_SUPPORTED.rawValue);
+                            completion(nil)
+                        } else { // call process to trigger cardinal challenge
+                            self.process(response: response ,creditCardNumber: creditCardNumber, completion: completion, startActivityIndicator, stopActivityIndicator)
+                        }
                     }
-                    
                 } else { // populate Enrollment Status as 3DS result
                     self.setThreeDSAuthResult(threeDSAuthResult: enrollmentStatus)
                     completion(nil)
