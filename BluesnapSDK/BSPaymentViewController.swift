@@ -439,12 +439,18 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         self.ccInputLine.submitPaymentFields(purchaseDetails: self.purchaseDetails, { ccn, creditCard, error in
             BSCardinalManager.instance.authWith3DS(currency: self.purchaseDetails.getCurrency(), amount: String(self.purchaseDetails.getAmount()), creditCardNumber: ccn,
                                                    { error2 in
-                                                    if (BSCardinalManager.instance.getThreeDSAuthResult() == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_CANCELED.rawValue) {
-                                                        self.show3DSrequiredAlert()
+                                                    
+                                                    let cardinalResult = BSCardinalManager.instance.getThreeDSAuthResult()
+                                                    if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_CANCELED.rawValue) { // cardinal challenge canceled
+                                                        self.show3DSRequiredAlert()
                                                         self.stopActivityIndicator()
+                                                    } else if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_FAILED.rawValue || cardinalResult == BSCardinalManager.ThreeDSManagerResponse.THREE_DS_ERROR.rawValue) { // cardinal internal error or authentication failure
+                                                        // TODO: handle errors in FE-231
+                                                        DispatchQueue.main.async {
+                                                            self.ccInputLine.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+                                                        }
                                                     }
-                                                        
-                                                    else {
+                                                    else { // cardinal success (success/bypass/unavailable/unsupported)
                                                         DispatchQueue.main.async {
                                                             self.ccInputLine.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
                                                         }
@@ -457,7 +463,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
     /**
      Show 3DS required pop-up
      */
-    private func show3DSrequiredAlert() {
+    private func show3DSRequiredAlert() {
         let alert = createAlert(title: "Oops", message: "3DS Authentication is required")
         present(alert, animated: true, completion: nil)
     }

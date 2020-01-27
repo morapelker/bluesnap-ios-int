@@ -27,6 +27,7 @@ public class BS3DSAuthResponse: NSObject {
             authResponse.acsUrl = json["acsUrl"] as? String
             authResponse.payload = json["payload"] as? String
             authResponse.transactionId = json["transactionId"] as? String
+            authResponse.threeDSVersion = json["threeDSVersion"] as? String
             return (authResponse, nil)
         } catch {
             NSLog("Parse error")
