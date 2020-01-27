@@ -291,12 +291,18 @@ Another option is to call `checkCreditCard(ccn: String)`, which first validates 
 # 3D Secure Authentication
 The SDK includes an integrated Cardinal SDK for 3DS Authentication. If you choose to activate this service and the shopper chooses credit card as payment method, a cardinal result will be passed as part of the SdkResult (threeDSAuthenticationResult property).
 
-If 3DS Authentication was not successful, the threeDSAuthenticationResult property will contain one of the following errors:
-* `AUTHENTICATION_UNAVAILABLE` 3D Secure is unavailable for this card or a technical error occurred.
-* `AUTHENTICATION_FAILED` Payment/Transaction error.
-* `AUTHENTICATION_NOT_SUPPORTED` No attempt to run 3D Secure challenge was done due to unsupported 3DS version.
+If 3DS Authentication was successful, the result will be one of the following:
+* `AUTHENTICATION_SUCCEEDED` = 3D Secure authentication was successful because the shopper entered their credentials correctly or the issuer authenticated the transaction without requiring shopper identity verification.
+* `AUTHENTICATION_BYPASSED` = 3D Secure authentication was bypassed due to the merchant's configuration.
 
-In that case, you can decide whether you want to proceed with the transaction without 3DS Authentication or not.
+If 3DS Authentication was **not** successful, the result will be one of the following errors:
+* `AUTHENTICATION_UNAVAILABLE` = 3D Secure authentication is unavailable for this card.
+* `AUTHENTICATION_FAILED` = Card authentication failed in cardinal challenge.
+* `THREE_DS_ERROR` = Either a Cardinal internal error or a server error occurred.
+* `CARD_NOT_SUPPORTED` = No attempt to run 3D Secure challenge was done due to unsupported 3DS version.
+* `AUTHENTICATION_CANCELED` (only possible when using your own UI) = The shopper canceled the challenge or pressed the 'back' button in Cardinal activity.
+
+In that case, you can decide whether you want to proceed with the transaction without 3DS Authentication or not. **Please note** that you will be able to proceed with the transaction only If the option **Process failed 3DS transactions** is enabled in **Settings > Fraud Settings** in the BlueSnap Console.
 
 # Sending the payment for processing
 If the shopper purchased via PayPal, then the transaction has successfully been submitted and no further action is required.
