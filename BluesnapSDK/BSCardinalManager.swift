@@ -168,6 +168,10 @@ class BSCardinalManager: NSObject {
                 BSCardinalManager.instance.setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.AUTHENTICATION_CANCELED.rawValue)
                 completion(nil)
                 break
+            case .timeout:
+                BSCardinalManager.instance.cardinalResult = BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_FAILED.rawValue
+                completion(nil)
+                break
                 
             }
             
