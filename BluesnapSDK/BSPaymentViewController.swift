@@ -318,25 +318,6 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: self.view.window)
     }
 
-
-    /*private func adjustToPageRotate() {
-        
-        DispatchQueue.main.async{
-            
-            self.ccInputLine.deviceDidRotate()
-            self.nameInputLine.deviceDidRotate()
-            self.emailInputLine.deviceDidRotate()
-            self.streetInputLine.deviceDidRotate()
-            self.zipInputLine.deviceDidRotate()
-            self.cityInputLine.deviceDidRotate()
-            self.stateInputLine.deviceDidRotate()
-            
-            self.deviceDidRotate()
-            
-            self.viewDidLayoutSubviews()
-        }
-    }*/
-
     private func isShippingSameAsBilling() -> Bool {
         return newCardMode && self.withShipping && self.fullBilling && self.shippingSameAsBillingSwitch.isOn
     }
@@ -407,11 +388,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
     private func updateAmounts() {
 
-//        if self.ccInputLine.ccnIsOpen {
-//            subtotalAndTaxDetailsView.isHidden = true
-//        } else {
-            subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0
-//        }
+        subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0
 
         let toCurrency = purchaseDetails.getCurrency() ?? ""
         let subtotalAmount = purchaseDetails.getAmount() ?? 0.0

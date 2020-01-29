@@ -32,7 +32,7 @@ class BSCardinalManager: NSObject {
     override private init(){}
     
     internal func setCardinalJWT(cardinalToken: String?) {
-        // reset CardinalFailure and CardinalResult for singleton use
+        // reset cardinalError and threeDSAuthResult for singleton use
         setCardinalError(cardinalError: false)
         setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.AUTHENTICATION_UNAVAILABLE.rawValue)
         
@@ -42,7 +42,7 @@ class BSCardinalManager: NSObject {
     //Setup can be called in viewDidLoad
     internal func configureCardinal(isProduction: Bool) {
         if (!is3DSecureEnabled()){ // 3DS is disabled in merchant configuration
-            NSLog("skipping due to missing cardinal token- 3D Secure disabled")
+            NSLog("skipping since 3D Secure is disabled")
             return
         }
         
@@ -68,8 +68,7 @@ class BSCardinalManager: NSObject {
     
     internal func setupCardinal(_ completion: @escaping () -> Void) {
         if (!is3DSecureEnabled()){ // 3DS is disabled in merchant configuration
-            NSLog("skipping due to missing cardinal token- 3D Secure disabled")
-            //NSLog("skipping due to cardinal failure")
+            NSLog("skipping since 3D Secure is disabled")
             completion()
             return
         }
@@ -91,7 +90,7 @@ class BSCardinalManager: NSObject {
     
     public func authWith3DS(currency: String, amount: String, creditCardNumber: String, _ completion: @escaping (BSErrors?) -> Void, _ startActivityIndicator: @escaping () -> Void, _ stopActivityIndicator: @escaping () -> Void) {
         if (!is3DSecureEnabled() || isCardinalError()){ // 3DS is disabled in merchant configuration or error occurred
-            NSLog("skipping due to missing cardinal token- 3D Secure disabled or cardinal error")
+            NSLog("skipping since 3D Secure is disabled or cardinal error")
             completion(nil)
             return
         }
@@ -222,6 +221,7 @@ class BSCardinalManager: NSObject {
         
     }
     
+    // Missing cardinal token - 3DS is disabled in merchant configuration
     private func is3DSecureEnabled() -> Bool {
         return (cardinalToken != nil)
     }
