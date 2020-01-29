@@ -169,7 +169,8 @@ class BSCardinalManager: NSObject {
                 completion(nil)
                 break
             case .timeout:
-                BSCardinalManager.instance.cardinalResult = BSCardinalManager.CardinalManagerResponse.AUTHENTICATION_FAILED.rawValue
+                self.startActivityIndicator()
+                BSCardinalManager.instance.setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.THREE_DS_ERROR.rawValue)
                 completion(nil)
                 break
                 
