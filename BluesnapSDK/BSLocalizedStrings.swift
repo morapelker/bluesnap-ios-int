@@ -83,6 +83,7 @@ public enum BSLocalizedString : String {
 
     case Error_Title_Payment
     case Error_General_Payment_error
+    case Error_Three_DS_Authentication_Error
     
     case Title_Payment_Screen
     
@@ -105,6 +106,8 @@ public enum BSLocalizedString : String {
     
     case Subscription_Pay_Button_Format
     case Subscription_with_price_details_Pay_Button_Format
+    
+    case Three_DS_Authentication_Required_Error
 
     /* ------- Menu in Payment screen ------- */
     
