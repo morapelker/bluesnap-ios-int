@@ -10,6 +10,8 @@ import XCTest
 import Foundation
 import PassKit
 import BluesnapSDK
+//@testable import BSApiCaller
+
 //@testable import BluesnapSDKIntegrationTests //TODO: make it work
 
 class CheckoutNewShopperUITests: CheckoutBaseTester {
@@ -475,4 +477,10 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
 //        // We use a buffer here to avoid flakiness with Timer on CI
 //        waitForExpectations(timeout: duration + 0.5)
 //    }
+//}
+
+//extension BSApiCaller {
+//
+//internal static let TOKENIZED_SERVICE = "services/2/payment-fields-tokens/ERROR-WRONG-URL"
+//
 //}

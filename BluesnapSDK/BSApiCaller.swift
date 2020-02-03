@@ -10,7 +10,7 @@
 
 import Foundation
 
-  class BSApiCaller: NSObject {
+class BSApiCaller: NSObject {
     
     internal static let PAYPAL_SERVICE = "services/2/tokenized-services/paypal-token?amount="
     internal static let PAYPAL_SHIPPING = "&req-confirm-shipping=0&no-shipping=2"
@@ -22,10 +22,10 @@ import Foundation
     internal static let SDK_VERSION_CODE_HEADER_VAL = "IOS SDK " + (BSViewsManager.getBundle().object(forInfoDictionaryKey: "CFBundleVersion") as! String)
     internal static let SDK_VERSION_STRING_HEADER = "BLUESNAP_ORIGIN_VERSION_HEADER"
     internal static let SDK_VERSION_STRING_HEADER_VAL = (BSViewsManager.getBundle().object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)
-
-
+    
+    
     private static func createRequest(_ urlStr: String, bsToken: BSToken!) -> NSMutableURLRequest {
-
+        
         let url = NSURL(string: urlStr)!
         let request = NSMutableURLRequest(url: url as URL)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
