@@ -148,7 +148,9 @@ class BSExistingCCViewController: UIViewController {
 
     func showAlert(_ message: String) {
         let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_Payment, message: message)
-        present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
     private func updateAmounts() {
@@ -184,23 +186,23 @@ class BSExistingCCViewController: UIViewController {
 
             if let error = error {
                 if (error == .invalidCcNumber) {
-                    self.showError(BSValidator.ccnInvalidMessage)
+                    self.showAlert(BSValidator.ccnInvalidMessage)
                 } else if (error == .invalidExpDate) {
-                    self.showError(BSValidator.expInvalidMessage)
+                    self.showAlert(BSValidator.expInvalidMessage)
                 } else if (error == .invalidCvv) {
-                    self.showError(BSValidator.cvvInvalidMessage)
+                    self.showAlert(BSValidator.cvvInvalidMessage)
                 } else {
                     NSLog("Unexpected error submitting Payment Fields to BS; error: \(error)")
                     let message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
-                    self.showError(message)
+                    self.showAlert(message)
                 }
             }
 
-            defer {
-                self.finishSubmitPaymentFields(error: error)
-            }
+//            defer {
+//                self.finishSubmitPaymentFields(error: error)
+//            }
 
-            if (self.purchaseDetails!.isShopperRequirements()) {
+            if (self.purchaseDetails!.isShopperRequirements()) { // Shopper configuration
                 BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue)
                 BSApiManager.shopper?.chosenPaymentMethod?.creditCard = self.purchaseDetails.creditCard
                 BSApiManager.updateShopper(completion: {
@@ -209,9 +211,13 @@ class BSExistingCCViewController: UIViewController {
                     if let error = error {
                         NSLog("Unexpected error submitting Payment Fields to BS; error: \(error)")
                         let message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
-                        self.showError(message)
+                        self.showAlert(message)
                     }
+                    self.finishSubmitPaymentFields(error: error)
+                    
                 })
+            } else { // Regular checkout
+                self.finishSubmitPaymentFields(error: error)
             }
         })
     }

@@ -458,6 +458,7 @@ import Foundation
 
         let checkErrorAndComplete: ([String: String], BSErrors?) -> Void = { resultData, error in
             if let error = error {
+                NSLog("BlueSnap; updateShopper error")
                 completion(resultData, error)
                 debugPrint(error.description())
                 return
