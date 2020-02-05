@@ -124,7 +124,7 @@
 /* Label for the "Shipping same as billing" switch in the payment screens */
 "Label_Shipping_Same_As_Billing" = "送付先は請求先と同じ";
 /* Label for the "Store Card" switch in the payment screens */
-"Label_Store_Card" = "カード情報を今後使用できるよう安全に保管する";
+"Label_Store_Card" = "カードを安全に保管する";
 
 
 /* The format of the Pay button text: the word Pay and then the currency and then the amount with a 2 digit precision */

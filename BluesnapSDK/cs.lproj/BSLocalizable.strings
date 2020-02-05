@@ -124,7 +124,7 @@
 /* Label for the "Shipping same as billing" switch in the payment screens */
 "Label_Shipping_Same_As_Billing" = "Doprava stejná jako fakturace";
 /* Label for the "Store Card" switch in the payment screens */
-"Label_Store_Card" = "Bezpečně uložit mou kartu pro budoucí nákupy";
+"Label_Store_Card" = "Bezpečně uložit mou kartu";
 
 
 /* The format of the Pay button text: the word Pay and then the currency and then the amount with a 2 digit precision */
