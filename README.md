@@ -324,7 +324,7 @@ If you are submitting a new credit card (for either a new or an existing shopper
 If you are submitting an existing card (for an existing shopper and a credit card that was previously submitted and stored), you should crate an  `BSTokenizeNewCCDetails`  and store all of its properties.
 
 ## Submit details into BlueSnap server
-Use [submitTokenizedDetails](#submit-tokenized-details) of BlueSnapSDK to submit the shopper's details.
+Use [submitTokenizedDetails](#submitTokenizedDetails) of BlueSnapSDK to submit the shopper's details.
 
 ## Handle 3D Secure Authentication
 BlueSnap SDK integrates Cardinal SDK to provide a full handling of 3D secure authentication. The CardinalManager class provides an easy infrastructure for all data-transmission to BlueSnap and Cardinal servers. Mainly all you need to do is a single call to a CardinalManager method:
