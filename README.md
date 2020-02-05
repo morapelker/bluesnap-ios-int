@@ -168,7 +168,7 @@ BSSdkRequest constructor parameters:
 | `purchaseFunc` | Callback function that handles the purchase (see [Defining your purchase callback function](#defining-your-purchase-callback-function)).|
 | `updateTaxFunc` | Optional. Callback function that handles tax rate updates (see [Handling tax updates](#handling-tax-updates-optional)). |
 | `allowCurrencyChange` | Optional. Will allow the shopper to change currency on pay with credit card screen (default is true). |
-| `hideStoreCardSwitch` | Optional. Allows to hide the Securely store my card for future purchases Switch (default is false). |
+| `hideStoreCardSwitch` | Optional. Allows to hide the Securely store my card Switch (default is false). |
 | `activate3DS` | Optional. Require a 3D Secure Authentication from the shopper while paying with credit card (default is false). |
 
 #### Defining priceDetails
