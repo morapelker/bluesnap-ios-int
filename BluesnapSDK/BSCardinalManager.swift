@@ -88,7 +88,7 @@ class BSCardinalManager: NSObject {
         
     }
     
-    public func authWith3DS(currency: String, amount: String, creditCardNumber: String, _ completion: @escaping (BSErrors?) -> Void, _ startActivityIndicator: @escaping () -> Void, _ stopActivityIndicator: @escaping () -> Void) {
+    public func authWith3DS(currency: String, amount: String, creditCardNumber: String, _ completion: @escaping (BSErrors?) -> Void) {
         if (!is3DSecureEnabled() || isCardinalError()){ // 3DS is disabled in merchant configuration or error occurred
             NSLog("skipping since 3D Secure is disabled or cardinal error")
             completion(nil)
@@ -114,7 +114,7 @@ class BSCardinalManager: NSObject {
                         self.setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.CARD_NOT_SUPPORTED.rawValue);
                         completion(nil)
                     } else { // call process to trigger cardinal challenge
-                        self.process(response: response ,creditCardNumber: creditCardNumber, completion: completion, startActivityIndicator, stopActivityIndicator)
+                        self.process(response: response ,creditCardNumber: creditCardNumber, completion: completion)
                     }
                     
                 } else { // populate Enrollment Status as 3DS result
@@ -134,11 +134,9 @@ class BSCardinalManager: NSObject {
     private class validationDelegate: CardinalValidationDelegate {
         
         var completion :  (BSErrors?) -> Void
-        var startActivityIndicator :  () -> Void
         
-        init (_ completion: @escaping (BSErrors?) -> Void, _ startActivityIndicator: @escaping () -> Void) {
+        init (_ completion: @escaping (BSErrors?) -> Void) {
             self.completion = completion
-            self.startActivityIndicator = startActivityIndicator
         }
         
         func cardinalSession(cardinalSession session: CardinalSession!, stepUpValidated validateResponse: CardinalResponse!, serverJWT: String!) {
@@ -146,29 +144,24 @@ class BSCardinalManager: NSObject {
             switch validateResponse.actionCode {
             case .success,
                  .noAction:
-                self.startActivityIndicator()
                 BSCardinalManager.instance.processCardinalResult(resultJwt: serverJWT, completion: self.completion)
                 break
                 
             case .failure:
-                self.startActivityIndicator()
                 BSCardinalManager.instance.setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.AUTHENTICATION_FAILED.rawValue)
                 completion(nil)
                 break
                 
             case .error:
-                self.startActivityIndicator()
                 BSCardinalManager.instance.setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.THREE_DS_ERROR.rawValue)
                 completion(nil)
                 break
                 
             case .cancel:
-                self.startActivityIndicator()
                 BSCardinalManager.instance.setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.AUTHENTICATION_CANCELED.rawValue)
                 completion(nil)
                 break
             case .timeout:
-                self.startActivityIndicator()
                 BSCardinalManager.instance.setThreeDSAuthResult(threeDSAuthResult: ThreeDSManagerResponse.THREE_DS_ERROR.rawValue)
                 completion(nil)
                 break
@@ -179,8 +172,8 @@ class BSCardinalManager: NSObject {
         
     }
     
-    private func process(response: BS3DSAuthResponse?, creditCardNumber: String, completion: @escaping (BSErrors?) -> Void, _ startActivityIndicator: @escaping () -> Void, _ stopActivityIndicator: @escaping () -> Void) {
-        let delegate : validationDelegate = validationDelegate(completion, startActivityIndicator)
+    private func process(response: BS3DSAuthResponse?, creditCardNumber: String, completion: @escaping (BSErrors?) -> Void) {
+        let delegate : validationDelegate = validationDelegate(completion)
 
         
         if let authResponse = response {
@@ -190,7 +183,6 @@ class BSCardinalManager: NSObject {
                     DispatchQueue.main.async {
                         self.session.continueWith(transactionId: authResponse.transactionId!, payload: authResponse.payload!, validationDelegate:
                             delegate)
-                        stopActivityIndicator()
                     }
                 })
             }

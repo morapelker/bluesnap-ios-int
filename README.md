@@ -302,7 +302,7 @@ Another option is to call `checkCreditCard(ccn: String)`, which first validates 
 This section will cover the following topics: 
 * [Collect all payment info](#collect-all-payment-info)
 * [Generate a BSTokenizeRequest instance](#generate-a-bstokenizerequest-instance)
-* [Submit the shopper's details into BlueSnap server](#submit-the-shopper's-details-into-bluesnap-server)
+* [Submit details into BlueSnap server](#submit-details-into-bluesnap-server)
 * [Handle 3D Secure authentication](#handle-3d-secure-authentication)
 
 You need to create UI layout files and activities on your own. Please use the entities and methods provide business logic as described below:
@@ -312,8 +312,9 @@ Use your own UI to collect all payment info from the shopper. You can use [Helpe
 
 ## Generate a BSTokenizeRequest instance
 * in case of a credit card purchase
+
 A BSTokenizeRequest instance is required to pass the purchase details to the BlueSnap server. The object includes the following properties:
-* paymentDetails - The shopper's credit card information
+* [paymentDetails](#paymentdetails-propertie) - The shopper's credit card information
 * billingDetails - The shopper's billing information
 * shippingDetails - The shopper's shipping information
 
@@ -322,13 +323,47 @@ If you are submitting a new credit card (for either a new or an existing shopper
 
 If you are submitting an existing card (for an existing shopper and a credit card that was previously submitted and stored), you should crate an  `BSTokenizeNewCCDetails`  and store all of its properties.
 
-## Submit the shopper's details into BlueSnap server
+## Submit details into BlueSnap server
+Use [submitTokenizedDetails](#submit-tokenized-details) of BlueSnapSDK to submit the shopper's details.
 
+## Handle 3D Secure Authentication
+BlueSnap SDK integrates Cardinal SDK to provide a full handling of 3D secure authentication. The CardinalManager class provides an easy infrastructure for all data-transmission to BlueSnap and Cardinal servers. Mainly all you need to do is a single call to a CardinalManager method:
+```swift
+    public func authWith3DS(currency: String, amount: String, creditCardNumber: String, _ completion: @escaping (BSErrors?) -> Void)
+```
+In case the card's 3DS version is supported and the shopper identity verification is required: a Cardinal activity will be lunched and the shopper will be asked to enter the authentication code.
 
-## Handle 3D Secure authentication
+Once the 3D Secure flow is done, your `completion` callback will be called.
+
+Your `completion` callback should do the following: 
+1. Handle the 3DS authentication result. For 3DS result options see [3D Secure Authentication](#3d-secure-authentication)
+2. In case there was a server error (`THREE_DS_ERROR`), the error description willl be available in the `completion` callback as `BSErrors` parameter.
+2. If you choose to proceed with the transaction, follow the next steps:
+3. Update your server with the transaction details. From your server, you'll [Send the payment for processing](#sending-the-payment-for-processing) using your token. 
+4. After receiving BlueSnap's response, you'll update the client and display an appropriate message to the user. 
+
+# Sending the payment for processing
+If the shopper purchased via PayPal, then the transaction has successfully been submitted and no further action is required.
+
+If the shopper purchased via credit card, you will need to create a transaction using a server-to-server API call to BlueSnap's Payment API with the Hosted Payment Field token you initialized in the SDK. You should do this after the shopper has completed checkout and has left the SDK checkout screen. Visit the [API documentation](https://developers.bluesnap.com/v8976-Basics/docs/completing-tokenized-payments) to see how.
+
+In case of a Subscription checkout, you should create a subscription using a server to server API call, This is also covered in the [API documentation](https://developers.bluesnap.com/v8976-Basics/docs/completing-tokenized-payments). 
+
+**Note:** In the Standard Checkout Flow, this is when `purchaseFunc` is called. In the Custom Checkout Flow, this is when `didSubmitCreditCard` is called (if you're using the `BSCcInputLine` field) or `completion` is called (if you're using your own input fields). 
+
+DemoTransactions.swift of demo app shows an example of an Auth Capture request. Please note that these calls are for demonstration purposes only - the transaction should be sent from your server.
 
 # 3D Secure Authentication
-The SDK includes an integrated Cardinal SDK for 3DS Authentication. If you choose to activate this service and the shopper chooses credit card as payment method, a cardinal result will be passed as part of the SdkResult (threeDSAuthenticationResult property).
+The SDK includes an integrated Cardinal SDK for 3DS Authentication.
+
+If you are using BlueSnap SDK UI: If you choose to activate this service and the shopper chooses credit card as a payment method, the 3DS authentication result will be passed as part of the SdkResult when `purchaseFunc` of the `sdkRequest` is called. You can access it like this:
+```swift
+    let threeDSResult = (purchaseDetails as? BSCcSdkResult)?.threeDSAuthenticationResult
+```
+If you're using your own UI: The cardinal result will be available in the CardinalManager instance. You can access it like this:
+```swift
+    let threeDSResult = BSCardinalManager.instance.getThreeDSAuthResult()
+```
 
 If 3DS Authentication was successful, the result will be one of the following:
 * `AUTHENTICATION_SUCCEEDED` = 3D Secure authentication was successful because the shopper entered their credentials correctly or the issuer authenticated the transaction without requiring shopper identity verification.
@@ -342,19 +377,6 @@ If 3DS Authentication was **not** successful, the result will be one of the foll
 * `AUTHENTICATION_CANCELED` (only possible when using your own UI) = The shopper canceled the challenge or pressed the 'back' button in Cardinal activity.
 
 In that case, you can decide whether you want to proceed with the transaction without 3DS Authentication or not. **Please note** that you will be able to proceed with the transaction only If the option **Process failed 3DS transactions** is enabled in **Settings > Fraud Settings** in the BlueSnap Console.
-
-# Sending the payment for processing
-If the shopper purchased via PayPal, then the transaction has successfully been submitted and no further action is required.
-
-If the shopper purchased via credit card, you will need to create a transaction using a server-to-server API call to BlueSnap's Payment API with the Hosted Payment Field token you initialized in the SDK. You should do this after the shopper has completed checkout and has left the SDK checkout screen. Visit the [API documentation](https://developers.bluesnap.com/v8976-Basics/docs/completing-tokenized-payments) to see how.
-
-In case of a Subscription checkout, you should create a subscription using a server to server API call, This is also covered in the [API documentation](https://developers.bluesnap.com/v8976-Basics/docs/completing-tokenized-payments). 
-
-**Note:** In the Standard Checkout Flow, this is when `purchaseFunc` is called. In the Custom Checkout Flow, this is when `didSubmitCreditCard` is called (if you're using the `BSCcInputLine` field) or `completion` is called (if you're using your own input fields). 
-
-DemoTransactions.swift of demo app shows an example of an Auth Capture request. Please note that these calls are for demonstration purposes only - the transaction should be sent from your server.
-
-
 
 # Demo app - explained
 The demo app shows how to use the basic functionality of the Standard Checkout Flow, including the various stages you need to implement (everything is in class `ViewController`).
@@ -713,9 +735,9 @@ Parameters:
 | `completion` | Callback function that is invoked with non-sensitive credit card details (if submission was a success), or error details (if submission errored). |
 
 Your `completion` callback should do the following: 
-1. Detect if the user's card data was successfully submitted to BlueSnap (if `BSErrors` is `nil`). 
-2. If submission was successful, you'll update your server with the transaction details. 
-3. From your server, you'll [Send the payment for processing](#sending-the-payment-for-processing) using your token. 
+1. Detect if the user's card data was successfully submitted to BlueSnap (if `BSErrors` is `nil`).
+2. If submission was successful, you can proceed with [3D Secure authenticaiton](#3d-secure-authenticaiton) **or** continue straight to the next steps without 3DS authenticaiton:
+3. Update your server with the transaction details. From your server, you'll [Send the payment for processing](#sending-the-payment-for-processing) using your token. 
 4. After receiving BlueSnap's response, you'll update the client and display an appropriate message to the user. 
 
 ### createSandboxTestToken
