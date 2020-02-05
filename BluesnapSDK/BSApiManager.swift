@@ -122,7 +122,7 @@ import Foundation
     }
 
     /**
-     Submit Exisating CC request to BlueSnap server
+     Submit Existing CC request to BlueSnap server
      - parameters:
      - purchaseDetails: BSExistingCcSdkResult
      - completion: callback with either result details if OK, or error details if not OK

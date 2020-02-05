@@ -14,15 +14,16 @@ This document will cover the following topics:
 * [Reference](#reference)
 
 # Checkout flow options
-The BlueSnap iOS SDK provides two elegant checkout flows to choose from. 
-## Standard Checkout Flow 
-The Standard Checkout Flow allows you to get up and running quickly with our pre-built checkout UI, enabling you to accept credit cards, Apple Pay, and PayPal payments in your app.
- Some of the capabilities include:
+The BlueSnap iOS SDK provides three elegant checkout flows to choose from. 
+## Standard Checkout Flow Using BlueSnap SDK UI
+This flow allows you to get up and running quickly with our pre-built checkout UI, enabling you to accept credit cards, Apple Pay, and PayPal payments in your app.
+Some of the capabilities include:
 * Specifying required user info, such as email or billing address.
 * Pre-populating checkout page.
 * Specifying a returning user so BlueSnap can pre-populate checkout screen with their payment and shipping/billing info.  
 * Launching checkout UI with simple start function.
-* Subscription charges
+* Built-in 3D secure authentication.
+* Reguler payments, shopper configuration and subscription charges.
 
 To see an image of the Standard Checkout Flow, click [here](https://developers.bluesnap.com/v8976-Basics/docs/ios-sdk#standard-checkout-flow). 
 
@@ -32,8 +33,18 @@ Some of the capabilities include:
 * Flexible and customizable UI element with built-in validations and card-type detection.
 * Helper classes to assist you in currency conversions, removing whitespace, and more.
 * Simple function that submits sensitive card details directly to BlueSnap's server.
+* Built-in 3D secure authentication.
+* Reguler payments, shopper configuration and subscription charges.
 
 To see an image of the credit card UI component, click [here](https://developers.bluesnap.com/v8976-Basics/docs/ios-sdk#section-custom-checkout-flow). 
+
+## Standard Checkout Flow Using Your Own UI
+This flow allows you to build you own checkout UI. Please note that by using your own UI, you will be required to handle the data-transmission to BlueSnap as well, by using the BlueSnapService class for performing API calls.
+Some of the capabilities include:
+* Helper classes to assist you in input validations, currency conversions, removing whitespace, and more.
+* Simple function that submits sensitive card details directly to BlueSnap's server.
+* Easy infrastructure for 3D secure authentication.
+* Reguler payments, shopper configuration and subscription charges.
 
 # Installation
 > The SDK is written in Swift 3, using Xcode 8.
@@ -126,7 +137,7 @@ Initialize your token and any additional functionality (such as Apple Pay or fra
 → If you're using the Standard Checkout Flow, then continue on to the next section. <br>
 → If you're using the Custom Checkout Flow, then jump down to [Implementing Custom Checkout Flow](#implementing-custom-checkout-flow). 
 
-# Implementing Standard Checkout Flow
+# Implementing Standard Checkout Flow Using BlueSnap SDK UI
 This section will cover the following topics: 
 * [Defining your checkout settings](#defining-your-checkout-settings)
 * [Launching checkout UI](#launching-checkout-ui)
@@ -276,7 +287,6 @@ If you're using `BSCcInputLine` to collect the user's data, in your `ViewControl
 *Within `didSubmitCreditCard`, you'll do the following: 
 1. Detect if the user's card data was successfully submitted to BlueSnap (i.e. error is `nil`). 
 
-
 2. If error is `nil`, you'll get the CC type, issuing country, and last 4 digits of CC number within `creditCard`. Update your server. 
 
 3. From your server, you'll [send the payment for processing](#sending-the-payment-for-processing) using your token.
@@ -287,6 +297,35 @@ If you're using `BSCcInputLine` to collect the user's data, in your `ViewControl
 On your submit action (i.e. when the user submits their payment during checkout), you should call `BSCcInputLine`'s `validate` function to make sure the data is correct. If the validation was successful (i.e. `validate` returns `true`), then call `BSCcInputLine`'s `submitPaymentFields()` function, which will call the `didSubmitCreditCard` callback with the results of the submission. 
 
 Another option is to call `checkCreditCard(ccn: String)`, which first validates and then submits the details, calling the delegate `didSubmitCreditCard` after a successful submit.
+
+# Implementing Standard Checkout Flow Using Your Own UI
+This section will cover the following topics: 
+* [Collect all payment info](#collect-all-payment-info)
+* [Generate a BSTokenizeRequest instance](#generate-a-bstokenizerequest-instance)
+* [Submit the shopper's details into BlueSnap server](#submit-the-shopper's-details-into-bluesnap-server)
+* [Handle 3D Secure authentication](#handle-3d-secure-authentication)
+
+You need to create UI layout files and activities on your own. Please use the entities and methods provide business logic as described below:
+
+## Collect all payment info
+Use your own UI to collect all payment info from the shopper. You can use [Helper classes](#helper-classes) for input validations, currency conversions, removing whitespace, and more.
+
+## Generate a BSTokenizeRequest instance
+* in case of a credit card purchase
+A BSTokenizeRequest instance is required to pass the purchase details to the BlueSnap server. The object includes the following properties:
+* paymentDetails - The shopper's credit card information
+* billingDetails - The shopper's billing information
+* shippingDetails - The shopper's shipping information
+
+### paymentDetails propertie
+If you are submitting a new credit card (for either a new or an existing shopper), you should crate an  `BSTokenizeNewCCDetails`  and store all of its properties.
+
+If you are submitting an existing card (for an existing shopper and a credit card that was previously submitted and stored), you should crate an  `BSTokenizeNewCCDetails`  and store all of its properties.
+
+## Submit the shopper's details into BlueSnap server
+
+
+## Handle 3D Secure authentication
 
 # 3D Secure Authentication
 The SDK includes an integrated Cardinal SDK for 3DS Authentication. If you choose to activate this service and the shopper chooses credit card as payment method, a cardinal result will be passed as part of the SdkResult (threeDSAuthenticationResult property).
