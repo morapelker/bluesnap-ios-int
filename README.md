@@ -736,7 +736,7 @@ Parameters:
 
 Your `completion` callback should do the following: 
 1. Detect if the user's card data was successfully submitted to BlueSnap (if `BSErrors` is `nil`).
-2. If submission was successful, you can proceed with [Handle 3D Secure Authentication](#handle-3d-secure-authenticaiton) **or** continue straight to the next steps without 3DS authenticaiton:
+2. If submission was successful, you can proceed with [Handle 3D Secure Authentication](#handle-3d-secure-authentication) **or** continue straight to the next steps without 3DS authentication:
 3. Update your server with the transaction details. From your server, you'll [Send the payment for processing](#sending-the-payment-for-processing) using your token. 
 4. After receiving BlueSnap's response, you'll update the client and display an appropriate message to the user. 
 
