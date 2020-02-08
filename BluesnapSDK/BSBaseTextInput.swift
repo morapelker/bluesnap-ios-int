@@ -251,11 +251,11 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
      backgroundColor (default = white) determines the background color for the inside of the component
      */
-    private var customBackgroundColor = UIColor.white
+    private var customBackgroundColor = UIColor.black
     @IBInspectable override public var backgroundColor: UIColor? {
         didSet {
             customBackgroundColor = backgroundColor!
-            super.backgroundColor = UIColor.clear
+            super.backgroundColor = UIColor.black
         }
     }
     /**
@@ -668,7 +668,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
             fieldCoverButton = UIButton()
             fieldCoverButton?.accessibilityIdentifier = "FieldCoverButton"
             if let fieldCoverButton = fieldCoverButton {
-                fieldCoverButton.backgroundColor = UIColor.clear
+                fieldCoverButton.backgroundColor = UIColor.label
                 self.addSubview(fieldCoverButton)
                 fieldCoverButton.addTarget(self, action: #selector(BSBaseTextInput.fieldCoverButtonTouchUpInside(_:)), for: .touchUpInside)
             }

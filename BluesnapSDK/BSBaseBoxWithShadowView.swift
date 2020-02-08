@@ -49,11 +49,11 @@ public class BSBaseBoxWithShadowView: UIControl {
     /**
      backgroundColor (default = white) determines the background color for the inside of the component
      */
-    private var customBackgroundColor = UIColor.white
+    private var customBackgroundColor = UIColor.darkGray
     @IBInspectable override public var backgroundColor: UIColor? {
         didSet {
             customBackgroundColor = backgroundColor!
-            super.backgroundColor = UIColor.clear
+            super.backgroundColor = UIColor.darkGray
         }
     }
     
@@ -182,7 +182,7 @@ public class BSBaseBoxWithShadowView: UIControl {
         layer.shadowOffset = CGSize(width: 0, height: 5)//CGSize.zero
         layer.shadowRadius = shadowRadius
         layer.shadowOpacity = Float(shadowOpacity)
-        super.backgroundColor = UIColor.clear
+        super.backgroundColor = UIColor.systemBackground
     }
     
 //    override public func layoutSubviews() {
