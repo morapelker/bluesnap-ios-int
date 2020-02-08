@@ -37,7 +37,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         textColor (default = black) determines the text color of the text field
     */
-    @IBInspectable var textColor: UIColor = UIColor.black {
+    @IBInspectable var textColor: UIColor = BSDynamicStyle.tint {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -47,7 +47,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         fieldBkdColor (default = white) determines the background color of the text field (just the field, not the whole component)
      */
-    @IBInspectable var fieldBkdColor: UIColor = UIColor.white {
+    @IBInspectable var fieldBkdColor: UIColor = BSDynamicStyle.BSColors.background {
         didSet {
             if designMode {
                 setElementAttributes()

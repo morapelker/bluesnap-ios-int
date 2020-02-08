@@ -30,6 +30,7 @@
 		2D6D37EE22B83F62006D3E9F /* DemoAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37CE22B83F25006D3E9F /* DemoAPIHelper.swift */; };
 		2D6D37EF22B83F62006D3E9F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37CF22B83F25006D3E9F /* ViewController.swift */; };
 		2D6D37F222B84495006D3E9F /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37AB22B83F25006D3E9F /* Configuration.swift */; };
+		2D8C3E5523EB37DE006FFACE /* BSUiStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8C3E5423EB37DE006FFACE /* BSUiStyle.swift */; };
 		2DADB9D51EC31F3200C1A2D2 /* BlueSnap.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DADB9D71EC31F3200C1A2D2 /* BlueSnap.storyboard */; };
 		2DB6FB9A23CCFF69004B9CFC /* CardinalMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB6FB9923CCFF69004B9CFC /* CardinalMobile.framework */; };
 		2DB6FB9B23CD01E3004B9CFC /* CardinalMobile.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2DB6FB9923CCFF69004B9CFC /* CardinalMobile.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -243,6 +244,7 @@
 		2D6D37CD22B83F25006D3E9F /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		2D6D37CE22B83F25006D3E9F /* DemoAPIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIHelper.swift; sourceTree = "<group>"; };
 		2D6D37CF22B83F25006D3E9F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2D8C3E5423EB37DE006FFACE /* BSUiStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSUiStyle.swift; sourceTree = "<group>"; };
 		2DADB9D81EC31F4200C1A2D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/BlueSnap.storyboard; sourceTree = "<group>"; };
 		2DB6FB9923CCFF69004B9CFC /* CardinalMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CardinalMobile.framework; sourceTree = "<group>"; };
 		2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKountDataCollector.a; sourceTree = "<group>"; };
@@ -668,6 +670,7 @@
 				FDA6BE301E938B63006C3359 /* BSValidator.swift */,
 				FDA0772C1EAC8EAE0045E920 /* BSCountryManager.swift */,
 				FD4750BA1EF8EECE00E5DFBC /* BSImageLibrary.swift */,
+				2D8C3E5423EB37DE006FFACE /* BSUiStyle.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -952,6 +955,7 @@
 				FD4750BB1EF8EECE00E5DFBC /* BSImageLibrary.swift in Sources */,
 				FD1F7B8D1ECC68A300C22DEB /* BSInputLine.swift in Sources */,
 				FD4D4D421EB1BBED00D40B2A /* BSStatesViewController.swift in Sources */,
+				2D8C3E5523EB37DE006FFACE /* BSUiStyle.swift in Sources */,
 				FD54FE022051530D005D952F /* BSTokenizeRequest.swift in Sources */,
 				FDAB3AC21ECDAE9600AC8A71 /* BSShippingViewController.swift in Sources */,
 				FD5022961F691D9300C820AC /* BSApiCaller.swift in Sources */,
@@ -1324,7 +1328,7 @@
 				);
 				INFOPLIST_FILE = BluesnapSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1344,7 +1348,7 @@
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 arm64e armv7 armv7s i386 x86_64";
 			};
 			name = Debug;
@@ -1370,7 +1374,7 @@
 				);
 				INFOPLIST_FILE = BluesnapSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1388,7 +1392,7 @@
 				SKIP_INSTALL = NO;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 arm64e armv7 armv7s i386 x86_64";
 			};
 			name = Release;
@@ -1402,6 +1406,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				INFOPLIST_FILE = BluesnapSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1424,6 +1429,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				INFOPLIST_FILE = BluesnapSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1456,7 +1462,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/BluesnapSDKExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1490,7 +1496,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/BluesnapSDKExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1520,7 +1526,7 @@
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = BluesnapSDKExampleUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1555,7 +1561,7 @@
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = BluesnapSDKExampleUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1585,7 +1591,7 @@
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = BluesnapSDKIntegrationTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1616,7 +1622,7 @@
 				DEVELOPMENT_TEAM = AYTGDKG3D8;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = BluesnapSDKIntegrationTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
