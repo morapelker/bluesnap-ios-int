@@ -675,7 +675,7 @@
                                             </view>
                                             <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yRx-IZ-fub" userLabel="Zip Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="163" width="335" height="43"/>
-                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Zip"/>
                                                 <connections>
                                                     <action selector="editingDidBegin:" destination="W0G-M6-3dM" eventType="editingDidBegin" id="AHR-lP-oYN"/>
@@ -685,7 +685,7 @@
                                             </view>
                                             <view tag="5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Vk-vx-UOS" userLabel="Address Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="207" width="335" height="43"/>
-                                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Address"/>
                                                 <connections>
                                                     <action selector="addressEditingChanged:" destination="W0G-M6-3dM" eventType="editingChanged" id="weg-y9-p4W"/>
@@ -695,8 +695,7 @@
                                             </view>
                                             <view tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3sW-jJ-zDD" userLabel="City Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="251" width="335" height="43"/>
-                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="City"/>
                                                 <connections>
                                                     <action selector="cityEditingChanged:" destination="W0G-M6-3dM" eventType="editingChanged" id="Jnn-5Y-xfU"/>
@@ -706,7 +705,7 @@
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EKc-lR-XxG" userLabel="State Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="295" width="335" height="43"/>
-                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="State"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isEditable" value="NO"/>
@@ -717,7 +716,7 @@
                                             </view>
                                             <view opaque="NO" tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gcs-xh-zfv" userLabel="Name Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="75" width="335" height="43"/>
-                                                <color key="backgroundColor" systemColor="secondarySystemGroupedBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Name"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="image" keyPath="image" value="IL"/>
@@ -732,9 +731,9 @@
                                                     <action selector="nameEditingDidEnd:" destination="W0G-M6-3dM" eventType="editingDidEnd" id="QJz-yK-d7l"/>
                                                 </connections>
                                             </view>
-                                            <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zAV-CU-OEK" userLabel="Email Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
+                                            <view opaque="NO" tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zAV-CU-OEK" userLabel="Email Input Line" customClass="BSBaseTextInput" customModule="BluesnapSDK">
                                                 <rect key="frame" x="20" y="119" width="335" height="43"/>
-                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Email"/>
                                                 <connections>
                                                     <action selector="editingDidBegin:" destination="W0G-M6-3dM" eventType="editingDidBegin" id="fJw-47-23H"/>
@@ -793,7 +792,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yCg-Wt-HfE" userLabel="Same as billing View">
                                 <rect key="frame" x="16" y="424" width="307" height="36"/>
                                 <subviews>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XWl-8L-gmv">
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XWl-8L-gmv">
                                         <rect key="frame" x="238" y="0.0" width="51" height="36"/>
                                         <accessibility key="accessibilityConfiguration" identifier="ShippingAsBillingSwitch"/>
                                         <connections>
@@ -1024,19 +1023,10 @@
                     <navigationItem key="navigationItem" title="Select Currency" id="vbq-Vt-6wb"/>
                     <connections>
                         <outlet property="searchBar" destination="7kx-hO-24w" id="lJt-X6-6vD"/>
-                        <outlet property="searchDisplayController" destination="m4Q-0f-btD" id="FtM-Pd-cMb"/>
                         <outlet property="tableView" destination="DXK-pe-9ap" id="hD7-dA-XoW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m5g-w4-tzo" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="m4Q-0f-btD">
-                    <connections>
-                        <outlet property="delegate" destination="CMN-vn-Foo" id="fMY-qk-JPq"/>
-                        <outlet property="searchContentsController" destination="CMN-vn-Foo" id="QZr-jo-3jx"/>
-                        <outlet property="searchResultsDataSource" destination="CMN-vn-Foo" id="fg7-66-Nf0"/>
-                        <outlet property="searchResultsDelegate" destination="CMN-vn-Foo" id="QGg-2E-ory"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="2729" y="1091"/>
         </scene>

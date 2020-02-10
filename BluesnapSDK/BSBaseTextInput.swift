@@ -47,7 +47,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         fieldBkdColor (default = white) determines the background color of the text field (just the field, not the whole component)
      */
-    @IBInspectable var fieldBkdColor: UIColor = UIColor.secondarySystemBackground {
+    @IBInspectable var fieldBkdColor: UIColor = UIColor.systemBackground {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -251,11 +251,11 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
      backgroundColor (default = white) determines the background color for the inside of the component
      */
-    private var customBackgroundColor = UIColor.secondarySystemBackground
+    private var customBackgroundColor = UIColor.systemBackground
     @IBInspectable override public var backgroundColor: UIColor? {
         didSet {
-            customBackgroundColor = UIColor.secondarySystemBackground
-            super.backgroundColor = UIColor.secondarySystemBackground
+            customBackgroundColor = UIColor.systemBackground
+            //super.backgroundColor = UIColor.systemBackground
         }
     }
     /**
