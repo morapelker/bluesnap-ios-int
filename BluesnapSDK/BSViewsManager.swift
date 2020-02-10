@@ -272,13 +272,15 @@ class BSViewsManager {
         }
     }
 
-    open class func stopActivityIndicator(activityIndicator: UIActivityIndicatorView?) {
+    open class func stopActivityIndicator(activityIndicator: UIActivityIndicatorView?, stopProgressBar: Bool = true) {
         
         UIApplication.shared.endIgnoringInteractionEvents()
         if let activityIndicator = activityIndicator {
-            DispatchQueue.global(qos: .default).async {
-                DispatchQueue.main.async {
-                    activityIndicator.stopAnimating()
+            if (stopProgressBar) {
+                DispatchQueue.global(qos: .default).async {
+                    DispatchQueue.main.async {
+                        activityIndicator.stopAnimating()
+                    }
                 }
             }
         }
