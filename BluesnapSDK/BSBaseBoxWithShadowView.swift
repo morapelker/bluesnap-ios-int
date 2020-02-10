@@ -49,11 +49,11 @@ public class BSBaseBoxWithShadowView: UIControl {
     /**
      backgroundColor (default = white) determines the background color for the inside of the component
      */
-    private var customBackgroundColor = UIColor.darkGray
+    private var customBackgroundColor = UIColor.tertiarySystemBackground
     @IBInspectable override public var backgroundColor: UIColor? {
         didSet {
             customBackgroundColor = backgroundColor!
-            super.backgroundColor = UIColor.darkGray
+            super.backgroundColor = UIColor.tertiarySystemBackground
         }
     }
     

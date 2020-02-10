@@ -37,7 +37,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         textColor (default = black) determines the text color of the text field
     */
-    @IBInspectable var textColor: UIColor = BSDynamicStyle.tint {
+    @IBInspectable var textColor: UIColor = UIColor.label {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -47,7 +47,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         fieldBkdColor (default = white) determines the background color of the text field (just the field, not the whole component)
      */
-    @IBInspectable var fieldBkdColor: UIColor = BSDynamicStyle.BSColors.background {
+    @IBInspectable var fieldBkdColor: UIColor = UIColor.secondarySystemBackground {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -213,7 +213,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         errorColor (default = red) determines the color of the error label text
      */
-    @IBInspectable var errorColor : UIColor = UIColor.red
+    @IBInspectable var errorColor : UIColor = UIColor.systemRed
 
     
     // Mark: background, border and shadow configurable properties
@@ -251,17 +251,17 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
      backgroundColor (default = white) determines the background color for the inside of the component
      */
-    private var customBackgroundColor = UIColor.black
+    private var customBackgroundColor = UIColor.secondarySystemBackground
     @IBInspectable override public var backgroundColor: UIColor? {
         didSet {
-            customBackgroundColor = backgroundColor!
-            super.backgroundColor = UIColor.black
+            customBackgroundColor = UIColor.secondarySystemBackground
+            super.backgroundColor = UIColor.secondarySystemBackground
         }
     }
     /**
      shadowDarkColor (default = lightGray) determines the darkest color of the component's shadow
      */
-    @IBInspectable var shadowDarkColor: UIColor = UIColor.lightGray {
+    @IBInspectable var shadowDarkColor: UIColor = UIColor.systemGray {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -558,7 +558,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         layer.shadowOffset = CGSize.zero
         layer.shadowRadius = shadowRadius
         layer.shadowOpacity = Float(shadowOpacity)
-        super.backgroundColor = UIColor.clear
+        super.backgroundColor = UIColor.systemBackground
         
         setKeyboardType()
         textField.backgroundColor = self.fieldBkdColor
@@ -668,7 +668,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
             fieldCoverButton = UIButton()
             fieldCoverButton?.accessibilityIdentifier = "FieldCoverButton"
             if let fieldCoverButton = fieldCoverButton {
-                fieldCoverButton.backgroundColor = UIColor.label
+                fieldCoverButton.backgroundColor = UIColor.systemBackground
                 self.addSubview(fieldCoverButton)
                 fieldCoverButton.addTarget(self, action: #selector(BSBaseTextInput.fieldCoverButtonTouchUpInside(_:)), for: .touchUpInside)
             }
@@ -682,7 +682,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         
         if let errorLabel = errorLabel {
             self.addSubview(errorLabel)
-            errorLabel.backgroundColor = UIColor.clear
+            errorLabel.backgroundColor = UIColor.systemBackground
             errorLabel.textColor = self.errorColor
             errorLabel.isHidden = true
             errorLabel.textAlignment = .left

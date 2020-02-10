@@ -27,7 +27,7 @@ public class BSValidator: NSObject {
     static let zipCodeInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_ZipCode)
     static let postalCodeInvalidMessage = BSLocalizedStrings.getString(BSLocalizedString.Error_Invalid_PostalCode)
 
-    static let defaultFieldColor = BSDynamicStyle.tint
+    static let defaultFieldColor = UIColor.label
 
     static let errorFieldColor = UIColor.systemRed
 
