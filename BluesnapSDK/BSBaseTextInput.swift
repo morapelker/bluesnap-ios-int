@@ -624,13 +624,13 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         
         buildFieldCoverButton()
         if let fieldCoverButton = fieldCoverButton {
-            if !self.isEditable {
-                let actualFieldWidth = getCoverButtonWidth()
-                let fieldX = textField.frame.minX
-                let fieldY = textField.frame.minY
-                fieldCoverButton.frame = CGRect(x: fieldX - 5, y: fieldY - 5, width: actualFieldWidth + 10, height: actualFieldHeight + 10)
-            }
-            fieldCoverButton.alpha = self.isEditable ? 0 : 1
+            
+            let actualFieldWidth = getCoverButtonWidth()
+            let fieldX = textField.frame.minX
+            let fieldY = textField.frame.minY
+            fieldCoverButton.frame = CGRect(x: fieldX - 5, y: fieldY - 5, width: actualFieldWidth + 10, height: actualFieldHeight + 10)
+            
+            fieldCoverButton.alpha = 0.1
             textField.isUserInteractionEnabled = self.isEditable
         }
     }
