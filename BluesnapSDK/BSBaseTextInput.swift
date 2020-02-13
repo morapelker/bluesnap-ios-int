@@ -47,7 +47,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         fieldBkdColor (default = white) determines the background color of the text field (just the field, not the whole component)
      */
-    @IBInspectable var fieldBkdColor: UIColor = UIColor.systemBackground {
+    @IBInspectable var fieldBkdColor: UIColor = UIColor.clear {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -468,16 +468,16 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         
         // set rounded corners
         
-        customBackgroundColor.setFill()
-        UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).fill()
+        //customBackgroundColor.setFill()
+        //UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).fill()
         
         // set shadow
         
         let borderRect = bounds.insetBy(dx: borderWidth/2, dy: borderWidth/2)
         let borderPath = UIBezierPath(roundedRect: borderRect, cornerRadius: cornerRadius - borderWidth/2)
-        borderColor.setStroke()
-        borderPath.lineWidth = borderWidth
-        borderPath.stroke()
+        //borderColor.setStroke()
+        //borderPath.lineWidth = borderWidth
+        //borderPath.stroke()
         //UIColor.clear.setStroke()
         //self.layer.shouldRasterize = true
     }
@@ -553,24 +553,24 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
      */
     internal func setElementAttributes() {
         
-        // set stuff for shadow
-        layer.shadowColor = shadowDarkColor.cgColor
-        layer.shadowOffset = CGSize.zero
-        layer.shadowRadius = shadowRadius
-        layer.shadowOpacity = Float(shadowOpacity)
-        super.backgroundColor = UIColor.systemBackground
-        
-        setKeyboardType()
-        textField.backgroundColor = self.fieldBkdColor
-        textField.textColor = self.textColor
-        textField.returnKeyType = UIReturnKeyType.done
-        
-        textField.borderStyle = fieldBorderStyle
-        textField.layer.borderWidth = fieldBorderWidth
- 
-        if let fieldBorderColor = self.fieldBorderColor {
-            self.textField.layer.borderColor = fieldBorderColor.cgColor
-        }
+//        // set stuff for shadow
+//        layer.shadowColor = shadowDarkColor.cgColor
+//        layer.shadowOffset = CGSize.zero
+//        layer.shadowRadius = shadowRadius
+//        layer.shadowOpacity = Float(shadowOpacity)
+//        super.backgroundColor = UIColor.systemBackground
+//
+//        setKeyboardType()
+//        //textField.backgroundColor = self.backgroundColor
+//        textField.textColor = self.textColor
+//        textField.returnKeyType = UIReturnKeyType.done
+//
+//        textField.borderStyle = fieldBorderStyle
+//        textField.layer.borderWidth = fieldBorderWidth
+//
+////        if let fieldBorderColor = self.fieldBorderColor {
+////            self.textField.layer.borderColor = fieldBorderColor.cgColor
+////        }
     }
     
     /**
