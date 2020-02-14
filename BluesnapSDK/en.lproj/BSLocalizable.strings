@@ -101,6 +101,8 @@
 "Error_Title_Payment" = "Oops";
 /* Error in alert pop-up when we get an unknown error in the Payment screen */
 "Error_General_Payment_error" = "An error occurred; please try again";
+/* BlueSnap server error in 3DS authentication API calls or a cardinal internal error */
+"Error_Three_DS_Authentication_Error" = "A server error occurred. Please try again.";
 
 /* Title of Payment screen (where you fill billing details) */
 "Title_Payment_Screen" = "Payment";
@@ -139,6 +141,8 @@
 /* The format of the Pay button text in subscription mode: the word Subscribe and then the currency and then the amount with a 2 digit precision */
 "Subscription_with_price_details_Pay_Button_Format" = "Subscribe %@ %.2f";
 
+/* 3DS authentication is required. */
+"Three_DS_Authentication_Required_Error" = "3DS Authentication is required. Please try again.";
 
 /* ------- Menu in Payment screen ------- */
 

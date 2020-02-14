@@ -192,7 +192,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
             if error == nil {
                 purchaseDetails.creditCard = creditCard
-                purchaseDetails.threeDSAuthenticationResult = BSCardinalManager.instance.getCardinalResult()
+                purchaseDetails.threeDSAuthenticationResult = BSCardinalManager.instance.getThreeDSAuthResult()
                 // return to merchant screen
                 
                 let merchantControllerIndex = viewControllers.count - (inShippingScreen ? 4 : 3) + (BSApiManager.isNewCCOnlyPaymentMethod() ? 1 : 0)
@@ -212,7 +212,9 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
     func showAlert(_ message: String) {
         let alert = BSViewsManager.createErrorAlert(title: BSLocalizedString.Error_Title_Payment, message: message)
-        present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
     }
 
 
@@ -316,25 +318,6 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: self.view.window)
     }
 
-
-    /*private func adjustToPageRotate() {
-        
-        DispatchQueue.main.async{
-            
-            self.ccInputLine.deviceDidRotate()
-            self.nameInputLine.deviceDidRotate()
-            self.emailInputLine.deviceDidRotate()
-            self.streetInputLine.deviceDidRotate()
-            self.zipInputLine.deviceDidRotate()
-            self.cityInputLine.deviceDidRotate()
-            self.stateInputLine.deviceDidRotate()
-            
-            self.deviceDidRotate()
-            
-            self.viewDidLayoutSubviews()
-        }
-    }*/
-
     private func isShippingSameAsBilling() -> Bool {
         return newCardMode && self.withShipping && self.fullBilling && self.shippingSameAsBillingSwitch.isOn
     }
@@ -405,11 +388,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
     private func updateAmounts() {
 
-//        if self.ccInputLine.ccnIsOpen {
-//            subtotalAndTaxDetailsView.isHidden = true
-//        } else {
-            subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0
-//        }
+        subtotalAndTaxDetailsView.isHidden = !newCardMode || self.purchaseDetails.getTaxAmount() == 0
 
         let toCurrency = purchaseDetails.getCurrency() ?? ""
         let subtotalAmount = purchaseDetails.getAmount() ?? 0.0
@@ -438,13 +417,27 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
 
         self.ccInputLine.submitPaymentFields(purchaseDetails: self.purchaseDetails, { ccn, creditCard, error in
             BSCardinalManager.instance.authWith3DS(currency: self.purchaseDetails.getCurrency(), amount: String(self.purchaseDetails.getAmount()), creditCardNumber: ccn,
-                                                   { calrdinalCanceled in
-                                                    if (calrdinalCanceled ?? false) {
-                                                        self.show3DSrequiredAlert()
+                                                   { error2 in
+                                                    
+                                                    let cardinalResult = BSCardinalManager.instance.getThreeDSAuthResult()
+                                                    if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_CANCELED.rawValue) { // cardinal challenge canceled
+                                                        NSLog(BSLocalizedStrings.getString(BSLocalizedString.Three_DS_Authentication_Required_Error))
+                                                        self.showAlert(BSLocalizedStrings.getString(BSLocalizedString.Three_DS_Authentication_Required_Error))
                                                         self.stopActivityIndicator()
-                                                    }
                                                         
-                                                    else {
+                                                    } else if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.THREE_DS_ERROR.rawValue) { // server or cardinal internal error
+                                                        NSLog("Unexpected BS server error in 3DS authentication; error: \(error2)")
+                                                        let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Three_DS_Authentication_Error) + "\n" + (error2?.description() ?? "")
+                                                        
+                                                        self.showAlert(message)
+                                                        self.stopActivityIndicator()
+                                                        
+                                                    } else if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_FAILED.rawValue) { // authentication failure
+                                                        DispatchQueue.main.async {
+                                                            self.ccInputLine.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
+                                                        }
+                                                        
+                                                    } else { // cardinal success (success/bypass/unavailable/unsupported)
                                                         DispatchQueue.main.async {
                                                             self.ccInputLine.delegate?.didSubmitCreditCard(creditCard: creditCard, error: error)
                                                         }
@@ -457,7 +450,7 @@ class BSPaymentViewController: UIViewController, UITextFieldDelegate, BSCcInputL
     /**
      Show 3DS required pop-up
      */
-    private func show3DSrequiredAlert() {
+    private func show3DSRequiredAlert() {
         let alert = createAlert(title: "Oops", message: "3DS Authentication is required")
         present(alert, animated: true, completion: nil)
     }
