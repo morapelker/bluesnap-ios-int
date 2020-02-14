@@ -123,7 +123,8 @@
 "Label_Tax_Amount" = "Impuestos:";
 /* Label for the "Shipping same as billing" switch in the payment screens */
 "Label_Shipping_Same_As_Billing" = "El envío es igual que la facturación";
-
+/* Label for the "Store Card" switch in the payment screens */
+"Label_Store_Card" = "Guardar de forma segura mi tarjeta";
 
 /* The format of the Pay button text: the word Pay and then the currency and then the amount with a 2 digit precision */
 "Payment_Pay_Button_Format" = "Pagar %@%.2f";

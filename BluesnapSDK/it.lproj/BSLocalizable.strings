@@ -124,7 +124,7 @@
 /* Label for the "Shipping same as billing" switch in the payment screens */
 "Label_Shipping_Same_As_Billing" = "Spedire all’indirizzo di fatturazione";
 /* Label for the "Store Card" switch in the payment screens */
-"Label_Store_Card" = "Metti da parte senza rischi la mia carta per futuri acquisti";
+"Label_Store_Card" = "Conserva la mia carta in modo sicuro";
 
 
 /* The format of the Pay button text: the word Pay and then the currency and then the amount with a 2 digit precision */

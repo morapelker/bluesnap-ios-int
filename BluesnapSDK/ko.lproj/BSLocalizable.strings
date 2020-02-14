@@ -124,7 +124,7 @@
 /* Label for the "Shipping same as billing" switch in the payment screens */
 "Label_Shipping_Same_As_Billing" = "청구서 주소와 같은 배송지";
 /* Label for the "Store Card" switch in the payment screens */
-"Label_Store_Card" = "더 많은 구매를 위해 카드를 안전하게 보관하세요";
+"Label_Store_Card" = "나의 카드 안전 보관 ";
 
 
 /* The format of the Pay button text: the word Pay and then the currency and then the amount with a 2 digit precision */
