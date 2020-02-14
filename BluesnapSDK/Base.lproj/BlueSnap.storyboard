@@ -795,19 +795,23 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yCg-Wt-HfE" userLabel="Same as billing View">
                                 <rect key="frame" x="16" y="424" width="307" height="36"/>
                                 <subviews>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XWl-8L-gmv">
-                                        <rect key="frame" x="238" y="0.0" width="51" height="36"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="ShippingAsBillingSwitch"/>
-                                        <connections>
-                                            <action selector="shippingSameAsBillingValueChanged:" destination="W0G-M6-3dM" eventType="valueChanged" id="TrO-Bd-u8l"/>
-                                        </connections>
-                                    </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.54000000000000004" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shipping same as billing" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0EE-XI-ScQ">
                                         <rect key="frame" x="20" y="7" width="205" height="22"/>
                                         <accessibility key="accessibilityConfiguration" identifier="ShippingAsBillingLabel"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XWl-8L-gmv">
+                                        <rect key="frame" x="258" y="0.0" width="51" height="36"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="ShippingAsBillingSwitch">
+                                            <accessibilityTraits key="traits" button="YES" allowsDirectInteraction="YES" header="YES"/>
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
+                                        <connections>
+                                            <action selector="shippingSameAsBillingValueChanged:" destination="W0G-M6-3dM" eventType="valueChanged" id="TrO-Bd-u8l"/>
+                                        </connections>
+                                    </switch>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration" identifier="ShippingAsBillingView"/>
@@ -832,9 +836,6 @@
                                 <color key="backgroundColor" red="0.23921568627450979" green="0.23137254901960785" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" identifier="PayButton"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.0"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="aKf-g1-3h2"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                 <state key="normal" title="Pay $100">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -847,8 +848,9 @@
                                 <rect key="frame" x="16" y="468" width="307" height="36"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="751" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vwF-7y-FIh" userLabel="Store Card Switch">
-                                        <rect key="frame" x="243" y="0.0" width="51" height="36"/>
+                                        <rect key="frame" x="260" y="0.0" width="51" height="36"/>
                                         <accessibility key="accessibilityConfiguration" identifier="StoreCardSwitch">
+                                            <accessibilityTraits key="traits" button="YES" allowsDirectInteraction="YES" header="YES"/>
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
                                         <connections>
@@ -856,11 +858,8 @@
                                         </connections>
                                     </switch>
                                     <label opaque="NO" userInteractionEnabled="NO" alpha="0.54000002145767212" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Securely store my card for future purchases" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="9jx-od-DTQ" userLabel="Store Card Label">
-                                        <rect key="frame" x="46" y="0.0" width="184" height="36"/>
+                                        <rect key="frame" x="46" y="0.0" width="201" height="36"/>
                                         <accessibility key="accessibilityConfiguration" identifier="StoreCardLabel" label="Store Card Label"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="184" id="67r-5T-th4"/>
-                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="highlightedColor"/>
                                     </label>
