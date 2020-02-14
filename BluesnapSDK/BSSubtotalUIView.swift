@@ -139,10 +139,10 @@ class BSSubtotalUIView: UIView {
 
         //self.backgroundColor = UIColor.white
         
-        subtotalLabel.textColor = UIColor.label
-        subtotalValueLabel.textColor = UIColor.label
-        taxLabel.textColor = UIColor.label
-        taxValueLabel.textColor = UIColor.label
+        subtotalLabel.textColor = BSColorCompat.label
+        subtotalValueLabel.textColor = BSColorCompat.label
+        taxLabel.textColor = BSColorCompat.label
+        taxValueLabel.textColor = BSColorCompat.label
     }
 
 }

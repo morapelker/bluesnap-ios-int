@@ -37,7 +37,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         textColor (default = black) determines the text color of the text field
     */
-    @IBInspectable var textColor: UIColor = UIColor.label {
+    @IBInspectable var textColor: UIColor = BSColorCompat.label {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -251,11 +251,11 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
      backgroundColor (default = white) determines the background color for the inside of the component
      */
-    private var customBackgroundColor = UIColor.systemBackground
+    private var customBackgroundColor = BSColorCompat.systemBackground
     @IBInspectable override public var backgroundColor: UIColor? {
         didSet {
-            customBackgroundColor = UIColor.systemBackground
-            //super.backgroundColor = UIColor.systemBackground
+            customBackgroundColor = BSColorCompat.systemBackground
+            //super.backgroundColor = BSColorCompat.systemBackground
         }
     }
     /**
@@ -558,7 +558,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
 //        layer.shadowOffset = CGSize.zero
 //        layer.shadowRadius = shadowRadius
 //        layer.shadowOpacity = Float(shadowOpacity)
-//        super.backgroundColor = UIColor.systemBackground
+//        super.backgroundColor = BSColorCompat.systemBackground
 //
 //        setKeyboardType()
 //        //textField.backgroundColor = self.backgroundColor
@@ -668,7 +668,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
             fieldCoverButton = UIButton()
             fieldCoverButton?.accessibilityIdentifier = "FieldCoverButton"
             if let fieldCoverButton = fieldCoverButton {
-                fieldCoverButton.backgroundColor = UIColor.systemBackground
+                fieldCoverButton.backgroundColor = BSColorCompat.systemBackground
                 self.addSubview(fieldCoverButton)
                 fieldCoverButton.addTarget(self, action: #selector(BSBaseTextInput.fieldCoverButtonTouchUpInside(_:)), for: .touchUpInside)
             }
@@ -682,7 +682,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         
         if let errorLabel = errorLabel {
             self.addSubview(errorLabel)
-            errorLabel.backgroundColor = UIColor.systemBackground
+            errorLabel.backgroundColor = BSColorCompat.systemBackground
             errorLabel.textColor = self.errorColor
             errorLabel.isHidden = true
             errorLabel.textAlignment = .left

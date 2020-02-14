@@ -11,6 +11,7 @@
 		2D374F491E880EF100AE2A81 /* BSCurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D374F3E1E880EF100AE2A81 /* BSCurrencyModel.swift */; };
 		2D374F4C1E880EF100AE2A81 /* BSToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D374F411E880EF100AE2A81 /* BSToken.swift */; };
 		2D374F4D1E880EF100AE2A81 /* BlueSnapSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D374F421E880EF100AE2A81 /* BlueSnapSDK.swift */; };
+		2D69401123F6BA1300627AD7 /* BSColorCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D69401023F6BA1300627AD7 /* BSColorCompat.swift */; };
 		2D6D376622B804F7006D3E9F /* BluesnapSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D374F2E1E880E7300AE2A81 /* BluesnapSDKTests.swift */; };
 		2D6D376722B804F7006D3E9F /* BSApiManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9197421F49630E008C266A /* BSApiManagerTests.swift */; };
 		2D6D376822B804F7006D3E9F /* BluesnapSDKIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */; };
@@ -30,7 +31,6 @@
 		2D6D37EE22B83F62006D3E9F /* DemoAPIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37CE22B83F25006D3E9F /* DemoAPIHelper.swift */; };
 		2D6D37EF22B83F62006D3E9F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37CF22B83F25006D3E9F /* ViewController.swift */; };
 		2D6D37F222B84495006D3E9F /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D6D37AB22B83F25006D3E9F /* Configuration.swift */; };
-		2D8C3E5523EB37DE006FFACE /* BSUiStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D8C3E5423EB37DE006FFACE /* BSUiStyle.swift */; };
 		2DADB9D51EC31F3200C1A2D2 /* BlueSnap.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DADB9D71EC31F3200C1A2D2 /* BlueSnap.storyboard */; };
 		2DB6FB9A23CCFF69004B9CFC /* CardinalMobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB6FB9923CCFF69004B9CFC /* CardinalMobile.framework */; };
 		2DB6FB9B23CD01E3004B9CFC /* CardinalMobile.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2DB6FB9923CCFF69004B9CFC /* CardinalMobile.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -205,6 +205,7 @@
 		2D374F3E1E880EF100AE2A81 /* BSCurrencyModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSCurrencyModel.swift; sourceTree = "<group>"; };
 		2D374F411E880EF100AE2A81 /* BSToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BSToken.swift; sourceTree = "<group>"; };
 		2D374F421E880EF100AE2A81 /* BlueSnapSDK.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlueSnapSDK.swift; sourceTree = "<group>"; };
+		2D69401023F6BA1300627AD7 /* BSColorCompat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSColorCompat.swift; sourceTree = "<group>"; };
 		2D6D36FA22B7E748006D3E9F /* BluesnapSDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BluesnapSDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6D371822B7E74B006D3E9F /* BluesnapSDKExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BluesnapSDKExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D6D37A522B83F25006D3E9F /* de */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = de; path = de.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -244,7 +245,6 @@
 		2D6D37CD22B83F25006D3E9F /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		2D6D37CE22B83F25006D3E9F /* DemoAPIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAPIHelper.swift; sourceTree = "<group>"; };
 		2D6D37CF22B83F25006D3E9F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		2D8C3E5423EB37DE006FFACE /* BSUiStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSUiStyle.swift; sourceTree = "<group>"; };
 		2DADB9D81EC31F4200C1A2D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/BlueSnap.storyboard; sourceTree = "<group>"; };
 		2DB6FB9923CCFF69004B9CFC /* CardinalMobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CardinalMobile.framework; sourceTree = "<group>"; };
 		2DBB606A1F8CB8F800E80254 /* libKountDataCollector.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libKountDataCollector.a; sourceTree = "<group>"; };
@@ -624,6 +624,7 @@
 				FD461F571F4073FC0050F0FD /* BSLocalizedStrings.swift */,
 				FD5022951F691D9300C820AC /* BSApiCaller.swift */,
 				2DD2470422F31C12003F2B4F /* BSCardinalManager.swift */,
+				2D69401023F6BA1300627AD7 /* BSColorCompat.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -670,7 +671,6 @@
 				FDA6BE301E938B63006C3359 /* BSValidator.swift */,
 				FDA0772C1EAC8EAE0045E920 /* BSCountryManager.swift */,
 				FD4750BA1EF8EECE00E5DFBC /* BSImageLibrary.swift */,
-				2D8C3E5423EB37DE006FFACE /* BSUiStyle.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -927,6 +927,7 @@
 				FDA0772D1EAC8EAE0045E920 /* BSCountryManager.swift in Sources */,
 				FD4750B81EF7C50000E5DFBC /* BSStringUtils.swift in Sources */,
 				FDA6BE311E938B63006C3359 /* BSValidator.swift in Sources */,
+				2D69401123F6BA1300627AD7 /* BSColorCompat.swift in Sources */,
 				97AD856023159EAC00C6940D /* BS3DSProcessResultResponse.swift in Sources */,
 				FD68145D1F38762E00FAE1ED /* BSCcPayment.swift in Sources */,
 				FD461F5A1F41A99D0050F0FD /* BSSubtotalUIView.swift in Sources */,
@@ -955,7 +956,6 @@
 				FD4750BB1EF8EECE00E5DFBC /* BSImageLibrary.swift in Sources */,
 				FD1F7B8D1ECC68A300C22DEB /* BSInputLine.swift in Sources */,
 				FD4D4D421EB1BBED00D40B2A /* BSStatesViewController.swift in Sources */,
-				2D8C3E5523EB37DE006FFACE /* BSUiStyle.swift in Sources */,
 				FD54FE022051530D005D952F /* BSTokenizeRequest.swift in Sources */,
 				FDAB3AC21ECDAE9600AC8A71 /* BSShippingViewController.swift in Sources */,
 				FD5022961F691D9300C820AC /* BSApiCaller.swift in Sources */,
@@ -1328,7 +1328,7 @@
 				);
 				INFOPLIST_FILE = BluesnapSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1374,7 +1374,7 @@
 				);
 				INFOPLIST_FILE = BluesnapSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1462,7 +1462,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/BluesnapSDKExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1496,7 +1496,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "$(SRCROOT)/BluesnapSDKExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
