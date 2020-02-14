@@ -223,7 +223,7 @@ class ViewController: UIViewController {
         hideCoverView = true
 
         DispatchQueue.main.async {
-            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements, isSubscriptionCharge: false)
+            self.fillSdkRequest(isShopperRequirements: self.isShopperRequirements ?? false , isSubscriptionCharge: false)
             BlueSnapSDK.showCurrencyList(
                     inNavigationController: self.navigationController,
                     animated: true,

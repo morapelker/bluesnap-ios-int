@@ -33,7 +33,6 @@ class BSStartViewController: UIViewController {
     // MARK: init
 
     func initScreen() {
-
         self.supportedPaymentMethods = BSApiManager.supportedPaymentMethods
     }
 

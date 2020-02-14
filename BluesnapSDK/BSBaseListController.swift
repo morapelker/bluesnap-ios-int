@@ -45,7 +45,7 @@ class BSBaseListController: UIViewController, UITableViewDelegate, UITableViewDa
         // add thin border below the searchBar
         let border = CALayer()
         border.frame = CGRect(x: 0, y: searchBar.frame.height-1, width: searchBar.frame.width, height: 0.5)
-        border.backgroundColor = UIColor.lightGray.cgColor
+        border.backgroundColor = BSColorCompat.systemBackground.cgColor
         searchBar.layer.addSublayer(border)
     }
     

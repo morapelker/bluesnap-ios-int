@@ -37,7 +37,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         textColor (default = black) determines the text color of the text field
     */
-    @IBInspectable var textColor: UIColor = UIColor.black {
+    @IBInspectable var textColor: UIColor = BSColorCompat.label {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -47,7 +47,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         fieldBkdColor (default = white) determines the background color of the text field (just the field, not the whole component)
      */
-    @IBInspectable var fieldBkdColor: UIColor = UIColor.white {
+    @IBInspectable var fieldBkdColor: UIColor = UIColor.clear {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -213,7 +213,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         errorColor (default = red) determines the color of the error label text
      */
-    @IBInspectable var errorColor : UIColor = UIColor.red
+    @IBInspectable var errorColor : UIColor = UIColor.systemRed
 
     
     // Mark: background, border and shadow configurable properties
@@ -251,17 +251,17 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
      backgroundColor (default = white) determines the background color for the inside of the component
      */
-    private var customBackgroundColor = UIColor.white
+    private var customBackgroundColor = BSColorCompat.systemBackground
     @IBInspectable override public var backgroundColor: UIColor? {
         didSet {
-            customBackgroundColor = backgroundColor!
-            super.backgroundColor = UIColor.clear
+            customBackgroundColor = BSColorCompat.systemBackground
+            //super.backgroundColor = BSColorCompat.systemBackground
         }
     }
     /**
      shadowDarkColor (default = lightGray) determines the darkest color of the component's shadow
      */
-    @IBInspectable var shadowDarkColor: UIColor = UIColor.lightGray {
+    @IBInspectable var shadowDarkColor: UIColor = UIColor.systemGray {
         didSet {
             if designMode {
                 setElementAttributes()
@@ -468,16 +468,16 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         
         // set rounded corners
         
-        customBackgroundColor.setFill()
-        UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).fill()
+        //customBackgroundColor.setFill()
+        //UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).fill()
         
         // set shadow
         
         let borderRect = bounds.insetBy(dx: borderWidth/2, dy: borderWidth/2)
         let borderPath = UIBezierPath(roundedRect: borderRect, cornerRadius: cornerRadius - borderWidth/2)
-        borderColor.setStroke()
-        borderPath.lineWidth = borderWidth
-        borderPath.stroke()
+        //borderColor.setStroke()
+        //borderPath.lineWidth = borderWidth
+        //borderPath.stroke()
         //UIColor.clear.setStroke()
         //self.layer.shouldRasterize = true
     }
@@ -553,24 +553,24 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
      */
     internal func setElementAttributes() {
         
-        // set stuff for shadow
-        layer.shadowColor = shadowDarkColor.cgColor
-        layer.shadowOffset = CGSize.zero
-        layer.shadowRadius = shadowRadius
-        layer.shadowOpacity = Float(shadowOpacity)
-        super.backgroundColor = UIColor.clear
-        
-        setKeyboardType()
-        textField.backgroundColor = self.fieldBkdColor
-        textField.textColor = self.textColor
-        textField.returnKeyType = UIReturnKeyType.done
-        
-        textField.borderStyle = fieldBorderStyle
-        textField.layer.borderWidth = fieldBorderWidth
- 
-        if let fieldBorderColor = self.fieldBorderColor {
-            self.textField.layer.borderColor = fieldBorderColor.cgColor
-        }
+//        // set stuff for shadow
+//        layer.shadowColor = shadowDarkColor.cgColor
+//        layer.shadowOffset = CGSize.zero
+//        layer.shadowRadius = shadowRadius
+//        layer.shadowOpacity = Float(shadowOpacity)
+//        super.backgroundColor = BSColorCompat.systemBackground
+//
+//        setKeyboardType()
+//        //textField.backgroundColor = self.backgroundColor
+//        textField.textColor = self.textColor
+//        textField.returnKeyType = UIReturnKeyType.done
+//
+//        textField.borderStyle = fieldBorderStyle
+//        textField.layer.borderWidth = fieldBorderWidth
+//
+////        if let fieldBorderColor = self.fieldBorderColor {
+////            self.textField.layer.borderColor = fieldBorderColor.cgColor
+////        }
     }
     
     /**
@@ -624,13 +624,13 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         
         buildFieldCoverButton()
         if let fieldCoverButton = fieldCoverButton {
-            if !self.isEditable {
-                let actualFieldWidth = getCoverButtonWidth()
-                let fieldX = textField.frame.minX
-                let fieldY = textField.frame.minY
-                fieldCoverButton.frame = CGRect(x: fieldX - 5, y: fieldY - 5, width: actualFieldWidth + 10, height: actualFieldHeight + 10)
-            }
-            fieldCoverButton.alpha = self.isEditable ? 0 : 1
+            
+            let actualFieldWidth = getCoverButtonWidth()
+            let fieldX = textField.frame.minX
+            let fieldY = textField.frame.minY
+            fieldCoverButton.frame = CGRect(x: fieldX - 5, y: fieldY - 5, width: actualFieldWidth + 10, height: actualFieldHeight + 10)
+            
+            fieldCoverButton.alpha = 0.1
             textField.isUserInteractionEnabled = self.isEditable
         }
     }
@@ -668,7 +668,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
             fieldCoverButton = UIButton()
             fieldCoverButton?.accessibilityIdentifier = "FieldCoverButton"
             if let fieldCoverButton = fieldCoverButton {
-                fieldCoverButton.backgroundColor = UIColor.clear
+                fieldCoverButton.backgroundColor = BSColorCompat.systemBackground
                 self.addSubview(fieldCoverButton)
                 fieldCoverButton.addTarget(self, action: #selector(BSBaseTextInput.fieldCoverButtonTouchUpInside(_:)), for: .touchUpInside)
             }
@@ -682,7 +682,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         
         if let errorLabel = errorLabel {
             self.addSubview(errorLabel)
-            errorLabel.backgroundColor = UIColor.clear
+            errorLabel.backgroundColor = BSColorCompat.systemBackground
             errorLabel.textColor = self.errorColor
             errorLabel.isHidden = true
             errorLabel.textAlignment = .left
