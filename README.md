@@ -47,7 +47,7 @@ Some of the capabilities include:
 * Reguler payments, shopper configuration and subscription charges.
 
 # Installation
-> The SDK is written in Swift 3, using Xcode 8.
+> The SDK is written in Swift 5, using Xcode 11.3.1.
 
 ## Requirements
 * Xcode 10+
@@ -256,6 +256,14 @@ Now that you've set `showCheckoutScreen`'s parameters, it's time to launch the c
     )
 ```
 And you're ready to go! Accepting Apple Pay, credit card, and PayPal payments will be a breeze.
+
+## Configure shopper flow
+BlueSnap SDK offers an easy flow to collect a shopper's information and selected payment method. This flow will be used in apps where you wish to save the shopper's payment details upon registration, and use it later in a quick and easy fashion. This flow can be run only for an existing shopper (you can easily create the shopper using BlueSnap API). If the shopper chooses a Credit card, we collect the billing details and store them on BlueSnap servers, so that the (later) charge will not require the shopper to type any information. If the shopper chooses Google Pay or PayPal, we simply keep this preference, so that in the next step (Create Payment flow), the shopper will automatically get the ApplePay pop-up or the PayPal page.
+In order to run this flow you will need to create an `BSSdkRequestShopperRequirements` instance instead of `sdkRequest` and to launch the `showChoosePaymentScreen` instead of `showCheckoutScreen`'. In `purchaseFunc` you won't need to do any farther action since this phase is only about saving details.
+
+## Pay with selected payment method flow
+BlueSnap SDK offers an easy flow to create a transaction using an existing shopper's selected payment method. This is where you quickly complete the payment with the shopper’s chosen payment method. This flow can be run only for an existing shopper that HAS valid chosen payment details. If (in the previous step: Configure shopper flow) the shopper chose a credit card, you will get the response immediately; if the shopper chose ApplePay or PayPal, they will now do the payment flow. In both cases, the result is the same as in the the regular Checkout flow: The BSBaseSdkResult returns some (non secure) information.
+In order to run this flow you will need to create an `sdkRequest` instance and to launch the `showCreatePaymentScreen` instead of `showCheckoutScreen`'. In `purchaseFunc` you will need to complete the transaction, exectly like in the regular checkout flow- mainly all you need to do now is let your app server do an API call to BlueSnap, sending just the token, and the transaction will be completed. In case of PayPal, you don't even have to do that, since PayPal flow already completes the transaction. 
 
 > **Important**: For each new purchase, you need to generate a new token, call `initBluesnap` with your token and any additional parameters, and then call `showCheckoutScreen` (in this order). 
 
