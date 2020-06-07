@@ -20,6 +20,11 @@ open class BlueSnapSDK: NSObject {
     static internal var fraudSessionId: String?
     static internal var sdkRequestBase: BSSdkRequestProtocol?
 
+    func getCards() -> [String] {
+        return BSApiManager.shopper?.existingCreditCards.map({ (item) -> String in
+            item.creditCard.last4Digits ?? "NO DIGITS"
+        }) ?? []
+    }
 
     // MARK: SDK functions
 
