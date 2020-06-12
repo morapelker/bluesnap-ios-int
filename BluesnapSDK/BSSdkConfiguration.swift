@@ -47,7 +47,8 @@ class BSShopper: BSBaseAddressDetails {
 
     // todo: change to paymentSources of type paymentInfo
     var existingCreditCards: [BSCreditCardInfo] = []
-
+    var lastPaymentInfo: [String: Any]?
+    
     // todo: add last payment info? type paymentInfo, base for creditCardInfo
 
     override func toJson() -> ([String: Any])! {
@@ -71,6 +72,7 @@ class BSShopper: BSBaseAddressDetails {
         if let vaultedShopperId = vaultedShopperId {
             shopperDetails[BSShopper.VAULTED_SHOPPER_ID] = vaultedShopperId
         }
+        
         return shopperDetails
     }
 

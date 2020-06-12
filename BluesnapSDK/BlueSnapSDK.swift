@@ -25,6 +25,10 @@ open class BlueSnapSDK: NSObject {
             item.creditCard
         }) ?? []
     }
+    
+    public class func defaultCard() -> [String: Any]? {
+        BSApiManager.shopper?.lastPaymentInfo
+    }
 
     // MARK: SDK functions
 
