@@ -749,6 +749,7 @@ import Foundation
                 }
             }
         }
+        shopper.lastPaymentInfo = json["lastPaymentInfo"] as? [String: Any]
 
         if let chosenPaymentMethod = json["chosenPaymentMethod"] as? [String: AnyObject] {
             let methods = parseChosenPaymentMethodsJSON(json: chosenPaymentMethod)
