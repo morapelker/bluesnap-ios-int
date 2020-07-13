@@ -20,15 +20,7 @@ open class BlueSnapSDK: NSObject {
     static internal var fraudSessionId: String?
     static internal var sdkRequestBase: BSSdkRequestProtocol?
 
-    public class func getCards() -> [BSCreditCard] {
-        return BSApiManager.shopper?.existingCreditCards.map({ (item) -> BSCreditCard in
-            item.creditCard
-        }) ?? []
-    }
     
-    public class func defaultCard() -> [String: Any]? {
-        BSApiManager.shopper?.lastPaymentInfo
-    }
 
     // MARK: SDK functions
 
@@ -297,6 +289,22 @@ open class BlueSnapSDK: NSObject {
         }
 
         return (canMakePayments: false, canSetupCards: false)
+    }
+    
+    /**
+     Return an array of the last four digits of the shopper's existing credit cards
+    */
+    open class func getCards() -> [BSCreditCard] {
+        return BSApiManager.shopper?.existingCreditCards.map({ (item) -> BSCreditCard in
+            item.creditCard
+        }) ?? []
+    }
+    
+    /**
+     Return the shopper's last payment info
+    */
+    open class func getLastPaymentInfo() -> [String: Any]? {
+        BSApiManager.shopper?.lastPaymentInfo
     }
 
 
