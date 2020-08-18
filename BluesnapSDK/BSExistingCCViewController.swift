@@ -108,7 +108,7 @@ class BSExistingCCViewController: UIViewController {
         } else if !validateShipping() {
             editShipping(sender)
         } else {
-            BSViewsManager.startActivityIndicator(activityIndicator: self.activityIndicator, blockEvents: true)
+            startActivityIndicator()
             submitPaymentFields()
         }
     }
@@ -194,10 +194,36 @@ class BSExistingCCViewController: UIViewController {
                     let message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
                     self.showError(message)
                 }
-            }
-
-            defer {
-                self.finishSubmitPaymentFields(error: error)
+            } else if (!self.purchaseDetails!.isShopperRequirements() && BlueSnapSDK.sdkRequestBase?.activate3DS ?? false ) { // regular checkout and 3DS enabled
+                
+                self.stopActivityIndicator(stopProgressBar: false)
+                BSCardinalManager.instance.authWith3DS(currency: self.purchaseDetails.getCurrency(), amount: String(self.purchaseDetails.getAmount()),
+                                                       { error2 in
+                                                        
+                                                        let cardinalResult = BSCardinalManager.instance.getThreeDSAuthResult()
+                                                        if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_CANCELED.rawValue) { // cardinal challenge canceled
+                                                            NSLog(BSLocalizedStrings.getString(BSLocalizedString.Three_DS_Authentication_Required_Error))
+                                                            self.stopActivityIndicator()
+                                                            self.showAlert(BSLocalizedStrings.getString(BSLocalizedString.Three_DS_Authentication_Required_Error))
+                                                            
+                                                        } else if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.THREE_DS_ERROR.rawValue) { // server or cardinal internal error
+                                                            NSLog("Unexpected BS server error in 3DS authentication; error: \(error2)")
+                                                            let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Three_DS_Authentication_Error) + "\n" + (error2?.description() ?? "")
+                                                            self.stopActivityIndicator()
+                                                            self.showAlert(message)
+                                                            
+                                                        } else if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_FAILED.rawValue) { // authentication failure
+                                                            DispatchQueue.main.async {
+                                                                self.finishSubmitPaymentFields(error: error)
+                                                            }
+                                                            
+                                                        } else { // cardinal success (success/bypass/unavailable/unsupported)
+                                                            DispatchQueue.main.async {
+                                                                self.finishSubmitPaymentFields(error: error)
+                                                            }
+                                                        }
+                                                        
+                })
             }
 
             if (self.purchaseDetails!.isShopperRequirements()) {
@@ -211,6 +237,8 @@ class BSExistingCCViewController: UIViewController {
                         let message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
                         self.showError(message)
                     }
+                    
+                    self.finishSubmitPaymentFields(error: error)
                 })
             }
         })
@@ -219,8 +247,9 @@ class BSExistingCCViewController: UIViewController {
     private func finishSubmitPaymentFields(error: BSErrors?) {
         DispatchQueue.main.async {
             // complete the purchase - go back to merchant screen and call the merchant purchaseFunc
-            BSViewsManager.stopActivityIndicator(activityIndicator: self.activityIndicator)
+            self.stopActivityIndicator()
             if error == nil {
+                self.purchaseDetails.threeDSAuthenticationResult = BSCardinalManager.instance.getThreeDSAuthResult()
                 if let navigationController = self.navigationController {
                     // return to merchant screen
                     let viewControllers = navigationController.viewControllers
@@ -308,5 +337,15 @@ class BSExistingCCViewController: UIViewController {
             }
         }
         return result
+    }
+    
+    // MARK: activity indicator methods
+
+    func startActivityIndicator() {
+        BSViewsManager.startActivityIndicator(activityIndicator: self.activityIndicator, blockEvents: true)
+    }
+
+    func stopActivityIndicator(stopProgressBar: Bool = true) {
+        BSViewsManager.stopActivityIndicator(activityIndicator: self.activityIndicator, stopProgressBar: stopProgressBar)
     }
 }

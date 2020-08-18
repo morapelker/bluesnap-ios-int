@@ -124,7 +124,7 @@ class ShopperConfigurationUITests: UIBaseTester {
         
         // check Store Card view visibility
         paymentHelper.closeKeyboard()
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         if (checkoutWithShipping){
             let expectedShippingSameAsBilling = checkoutFullBilling && !shopperWithShipping

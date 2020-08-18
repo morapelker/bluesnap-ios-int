@@ -47,13 +47,14 @@ class BSCreditCardScreenUITestHelperBase {
     }
     
     func closeKeyboard() {
-//        if (!keyboardIsHidden) {
+        //        if (!keyboardIsHidden) {
         if app.keys.element(boundBy: 0).exists {
+            nameInput.tap()
             app.typeText("\n")
         }
         
-//        nameInput.tap()
-//        if (app.keyboards.count > 0) {
+        //        nameInput.tap()
+        //        if (app.keyboards.count > 0) {
 //            let doneBtn = app.keyboards.buttons["Done"]
 //            if doneBtn.exists && doneBtn.isHittable {
 //                doneBtn.tap()

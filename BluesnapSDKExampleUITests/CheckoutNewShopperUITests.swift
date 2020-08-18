@@ -57,7 +57,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
 
         // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         // check zip input field visibility according to different countries
         paymentHelper.checkZipVisibility(defaultCountry: defaultCountry, zipPlaceholder: "Billing Zip")
@@ -96,7 +96,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         
         // check Store Card view visibility
         paymentHelper.closeKeyboard()
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         // check store card visibility after changing screens
         paymentHelper.checkStoreCardVisibilityAfterChangingScreens(shouldBeVisible: true, setTo: true, sdkRequest: sdkRequest)
@@ -115,7 +115,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
         // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         // check pay button when shipping same as billing is on
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -155,7 +155,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
         // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         // check pay button when shipping same as billing is on
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -205,7 +205,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
         // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -222,7 +222,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
         // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -239,7 +239,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
         // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)
@@ -286,7 +286,7 @@ class CheckoutNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
         // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         // check pay button
         paymentHelper.checkPayButton(sdkRequest: sdkRequest, shippingSameAsBilling: isShippingSameAsBillingOn)

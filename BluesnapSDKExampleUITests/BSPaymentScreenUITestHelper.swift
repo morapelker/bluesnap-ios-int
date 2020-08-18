@@ -174,7 +174,7 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
      This test verifies the visibility of store card switch.
      It covers visibility, swith state (on/off) and validation (if mandatory)
      */
-    func checkStoreCardVisibility(shouldBeVisible: Bool, shouldBeOn: Bool = false, isValid: Bool = true) {
+    func checkStoreCardVisibilityAndState(shouldBeVisible: Bool, shouldBeOn: Bool = false, isValid: Bool = true) {
         closeKeyboard()
         
         // check visibility
@@ -212,18 +212,18 @@ class BSPaymentScreenUITestHelper: BSCreditCardScreenUITestHelperBase {
         
         // check store card after changing country
         setCountry(countryCode: sdkRequest.shopperConfiguration.billingDetails?.country ?? "US")
-        checkStoreCardVisibility(shouldBeVisible: shouldBeVisible, shouldBeOn: setTo)
+        checkStoreCardVisibilityAndState(shouldBeVisible: shouldBeVisible, shouldBeOn: setTo)
         
         if (sdkRequest.shopperConfiguration.fullBilling && checkCountryHasState(country: sdkRequest.shopperConfiguration.billingDetails?.country ?? "US")){
             // check store card after changing state
             setState(countryCode: sdkRequest.shopperConfiguration.billingDetails?.country ?? "US", stateCode: sdkRequest.shopperConfiguration.billingDetails?.state ?? "NY")
-            checkStoreCardVisibility(shouldBeVisible: shouldBeVisible, shouldBeOn: setTo)
+            checkStoreCardVisibilityAndState(shouldBeVisible: shouldBeVisible, shouldBeOn: setTo)
         }
         
         if (sdkRequest.allowCurrencyChange){
             // check store card after changing currency
             setCurrency(currencyName: "US Dollar USD")
-            checkStoreCardVisibility(shouldBeVisible: shouldBeVisible, shouldBeOn: setTo)
+            checkStoreCardVisibilityAndState(shouldBeVisible: shouldBeVisible, shouldBeOn: setTo)
         }
         
         // set store card switch back to the initial mode

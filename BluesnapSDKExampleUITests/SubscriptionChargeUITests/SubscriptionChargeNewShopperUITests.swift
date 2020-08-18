@@ -32,7 +32,7 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
         paymentHelper.checkInputsVisibility(sdkRequest: sdkRequest, shopperDetails: sdkRequest.shopperConfiguration.billingDetails)
         
         // check Store Card view visibility
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
         
         // check that the Store Card is mandatory
         paymentHelper.checkStoreCardMandatory()
@@ -83,7 +83,7 @@ class SubscriptionChargeNewShopperUITests: CheckoutBaseTester {
     
     func testHideStoreCardSwitch_subscriptionWithPriceDetails(){
         setUpForCheckoutSdk(fullBilling: false, withShipping: false, withEmail: false, hideStoreCardSwitch: true, isSubscription: true)
-        paymentHelper.checkStoreCardVisibility(shouldBeVisible: true)
+        paymentHelper.checkStoreCardVisibilityAndState(shouldBeVisible: true)
     }
     
     func testViewsNoFullBillingNoShippingNoEmail_subscriptionWithoutPriceDetails() {

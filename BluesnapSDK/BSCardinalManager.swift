@@ -88,7 +88,7 @@ class BSCardinalManager: NSObject {
         
     }
     
-    public func authWith3DS(currency: String, amount: String, creditCardNumber: String, _ completion: @escaping (BSErrors?) -> Void) {
+    public func authWith3DS(currency: String, amount: String, creditCardNumber: String? = nil, _ completion: @escaping (BSErrors?) -> Void) {
         if (!is3DSecureEnabled() || isCardinalError()){ // 3DS is disabled in merchant configuration or error occurred
             NSLog("skipping since 3D Secure is disabled or cardinal error")
             completion(nil)
@@ -172,19 +172,25 @@ class BSCardinalManager: NSObject {
         
     }
     
-    private func process(response: BS3DSAuthResponse?, creditCardNumber: String, completion: @escaping (BSErrors?) -> Void) {
+    private func process(response: BS3DSAuthResponse?, creditCardNumber: String?, completion: @escaping (BSErrors?) -> Void) {
         let delegate : validationDelegate = validationDelegate(completion)
 
         
         if let authResponse = response {
             
             setupCardinal {
-                self.session.processBin(creditCardNumber, completed: {
-                    DispatchQueue.main.async {
-                        self.session.continueWith(transactionId: authResponse.transactionId!, payload: authResponse.payload!, validationDelegate:
-                            delegate)
-                    }
-                })
+                if let creditCardNumber = creditCardNumber { // new card mode - passing the cc number to cardinal for processing
+                    
+                    self.session.processBin(creditCardNumber, completed: {
+                        DispatchQueue.main.async {
+                            self.session.continueWith(transactionId: authResponse.transactionId!, payload: authResponse.payload!, validationDelegate:
+                                delegate)
+                        }
+                    })
+                } else { // vaulted card - skipping straight to cardinal challenge
+                    self.session.continueWith(transactionId: authResponse.transactionId!, payload: authResponse.payload!, validationDelegate:
+                    delegate)
+                }
             }
 
         }
