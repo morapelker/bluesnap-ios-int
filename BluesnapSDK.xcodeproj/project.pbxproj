@@ -80,6 +80,7 @@
 		660300EAA5412A9B2F51C177 /* BSShopperConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030FD5BA5AD398A2EF004D /* BSShopperConfigurationTests.swift */; };
 		6603063876E32FC9C6232507 /* BSCreatePaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66030DB8FB7B234A62BFC735 /* BSCreatePaymentViewController.swift */; };
 		87A317BD21BFD77400156EA2 /* BluesnapSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D374F201E880E7200AE2A81 /* BluesnapSDK.framework */; };
+		9712871224FB7DED00BFDDCF /* BSApplePayPaymentTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9712871124FB7DED00BFDDCF /* BSApplePayPaymentTypeView.swift */; };
 		97AD855E23159D8800C6940D /* BS3DSProcessResultRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AD855D23159D8800C6940D /* BS3DSProcessResultRequest.swift */; };
 		97AD856023159EAC00C6940D /* BS3DSProcessResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97AD855F23159EAC00C6940D /* BS3DSProcessResultResponse.swift */; };
 		DEB03A9C85F648C1BCBDEC42 /* Kount-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = DEB84D43DE95794744F74D97 /* Kount-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -296,6 +297,7 @@
 		87A317BA21BFD77400156EA2 /* BluesnapSDKIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluesnapSDKIntegrationTests.swift; sourceTree = "<group>"; };
 		87A317BC21BFD77400156EA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87A317CF21C022D300156EA2 /* BluesnapSDKIntegrationTestsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluesnapSDKIntegrationTestsHelper.swift; sourceTree = "<group>"; };
+		9712871124FB7DED00BFDDCF /* BSApplePayPaymentTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSApplePayPaymentTypeView.swift; sourceTree = "<group>"; };
 		97AD855D23159D8800C6940D /* BS3DSProcessResultRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BS3DSProcessResultRequest.swift; sourceTree = "<group>"; };
 		97AD855F23159EAC00C6940D /* BS3DSProcessResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BS3DSProcessResultResponse.swift; sourceTree = "<group>"; };
 		DEB3F1CE7C6D81D7DC387683 /* BS3DSAuthRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BS3DSAuthRequest.swift; sourceTree = "<group>"; };
@@ -660,6 +662,7 @@
 				FD0888341FAB5152001EED4C /* BSBaseBoxWithShadowView.swift */,
 				FD0888301FAB3259001EED4C /* BSExistingCcUIView.swift */,
 				FD0888361FAB56A6001EED4C /* BSPaymentTypeView.swift */,
+				9712871124FB7DED00BFDDCF /* BSApplePayPaymentTypeView.swift */,
 			);
 			name = CustomControls;
 			sourceTree = "<group>";
@@ -924,6 +927,7 @@
 				FDF630881ED1AA2A00BE6F48 /* BSPaymentViewController.swift in Sources */,
 				2D374F491E880EF100AE2A81 /* BSCurrencyModel.swift in Sources */,
 				FD919B531FB04C9A00CFDEE9 /* BSExistingCCViewController.swift in Sources */,
+				9712871224FB7DED00BFDDCF /* BSApplePayPaymentTypeView.swift in Sources */,
 				FDA0772D1EAC8EAE0045E920 /* BSCountryManager.swift in Sources */,
 				FD4750B81EF7C50000E5DFBC /* BSStringUtils.swift in Sources */,
 				FDA6BE311E938B63006C3359 /* BSValidator.swift in Sources */,

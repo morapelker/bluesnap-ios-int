@@ -16,7 +16,7 @@ class BSPaymentTypeView: BSBaseBoxWithShadowView {
      */
     @IBInspectable var iconImage: UIImage? {
         didSet {
-            self.imageButton.setImage(iconImage, for: .normal)
+            setImageButtom()
         }
     }
     
@@ -64,11 +64,15 @@ class BSPaymentTypeView: BSBaseBoxWithShadowView {
     internal func buildElements() {
         
         if let iconImage = iconImage {
-            self.imageButton.setImage(iconImage, for: .normal)
+            setImageButtom()
         }
         self.addSubview(self.imageButton)
         //setElementAttributes()
         imageButton.addTarget(self, action: #selector(BSPaymentTypeView.touchUpInside(_:)), for: .touchUpInside)
+    }
+    
+    internal func setImageButtom() {
+        self.imageButton.setImage(iconImage, for: .normal)
     }
     
     /**

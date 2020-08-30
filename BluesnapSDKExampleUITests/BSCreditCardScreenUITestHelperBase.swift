@@ -49,6 +49,7 @@ class BSCreditCardScreenUITestHelperBase {
     func closeKeyboard() {
 //        if (!keyboardIsHidden) {
         if app.keys.element(boundBy: 0).exists {
+            nameInput.tap()
             app.typeText("\n")
         }
         
