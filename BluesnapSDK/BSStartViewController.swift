@@ -27,9 +27,9 @@ class BSStartViewController: UIViewController {
 
     @IBOutlet weak var centeredView: UIView!
     @IBOutlet weak var ccnButton: BSPaymentTypeView!
-    @IBOutlet weak var applePayButton: BSPaymentTypeView!
     @IBOutlet weak var payPalButton: BSPaymentTypeView!
-
+    @IBOutlet weak var applePayButton: BSApplePayPaymentTypeView!
+    
     // MARK: init
 
     func initScreen() {
@@ -62,7 +62,6 @@ class BSStartViewController: UIViewController {
     // MARK: button functions
 
     @IBAction func applePayClick(_ sender: Any) {
-
         let applePaySupported = BlueSnapSDK.applePaySupported(supportedPaymentMethods: supportedPaymentMethods, supportedNetworks: BlueSnapSDK.applePaySupportedNetworks)
 
         if (!applePaySupported.canMakePayments) {

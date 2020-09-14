@@ -280,27 +280,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FkL-LM-R7b" userLabel="Centered View">
                                 <rect key="frame" x="0.0" y="72" width="375" height="523"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TxO-8f-A8O" userLabel="ApplePay" customClass="BSPaymentTypeView" customModule="BluesnapSDK">
-                                        <rect key="frame" x="27" y="61" width="320" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="ApplePayButton">
-                                            <accessibilityTraits key="traits" button="YES"/>
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="image" keyPath="iconImage" value="apple_pay_button"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="iconWidth">
-                                                <real key="value" value="46"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="iconHeight">
-                                                <real key="value" value="30"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="applePayClick:" destination="f14-WO-daN" eventType="touchUpInside" id="jes-no-Nt4"/>
-                                        </connections>
-                                    </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tF0-LC-ldx" userLabel="NewCard" customClass="BSPaymentTypeView" customModule="BluesnapSDK">
                                         <rect key="frame" x="28" y="130" width="320" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -343,6 +322,26 @@
                                             <action selector="payPalClicked:" destination="f14-WO-daN" eventType="touchUpInside" id="JrI-yK-9Su"/>
                                         </connections>
                                     </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uGx-VW-DNT" userLabel="ApplePay" customClass="BSApplePayPaymentTypeView" customModule="BluesnapSDK">
+                                        <rect key="frame" x="28" y="58" width="320" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="ApplePayButton">
+                                            <accessibilityTraits key="traits" button="YES"/>
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="iconWidth">
+                                                <integer key="value" value="320"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="iconHeight">
+                                                <integer key="value" value="41"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="applePayClick:" destination="f14-WO-daN" eventType="touchUpInside" id="QGv-1a-KiA"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -359,7 +358,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Payment Type" id="Py8-S0-Quf"/>
                     <connections>
-                        <outlet property="applePayButton" destination="TxO-8f-A8O" id="E6U-6J-j2u"/>
+                        <outlet property="applePayButton" destination="uGx-VW-DNT" id="TeJ-dk-BhU"/>
                         <outlet property="ccnButton" destination="tF0-LC-ldx" id="gA0-9d-nh8"/>
                         <outlet property="centeredView" destination="FkL-LM-R7b" id="Wre-WY-Jla"/>
                         <outlet property="payPalButton" destination="zdE-7E-j3h" id="pAw-hl-jad"/>
@@ -370,7 +369,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I7q-E5-0yv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2679.375" y="-380.28169014084506"/>
+            <point key="canvasLocation" x="2679.1999999999998" y="-380.95952023988008"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="Jh7-rO-NOj">
@@ -1170,7 +1169,6 @@
     <resources>
         <image name="Card_button" width="110" height="36"/>
         <image name="IL" width="28" height="20"/>
-        <image name="apple_pay_button" width="46" height="30"/>
         <image name="blue_check_mark" width="16" height="13"/>
         <image name="cc_default" width="35" height="21"/>
         <image name="menu_button" width="20" height="16"/>
