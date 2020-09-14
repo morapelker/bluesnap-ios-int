@@ -194,6 +194,9 @@ class BSExistingCCViewController: UIViewController {
                     let message = BSLocalizedStrings.getString(BSLocalizedString.Error_General_CC_Submit_Error)
                     self.showError(message)
                 }
+                
+                self.stopActivityIndicator(stopProgressBar: false)
+                
             } else if (!self.purchaseDetails!.isShopperRequirements() && BlueSnapSDK.sdkRequestBase?.activate3DS ?? false ) { // regular checkout and 3DS enabled
                 
                 self.stopActivityIndicator(stopProgressBar: false)
@@ -224,9 +227,11 @@ class BSExistingCCViewController: UIViewController {
                                                         }
                                                         
                 })
-            }
-
-            if (self.purchaseDetails!.isShopperRequirements()) {
+                
+            } else if (!self.purchaseDetails!.isShopperRequirements()){ // regular checkout and 3DS disabled
+                self.finishSubmitPaymentFields(error: error)
+                
+            } else { // shopper requirements
                 BSApiManager.shopper?.chosenPaymentMethod = BSChosenPaymentMethod(chosenPaymentMethodType: BSPaymentType.CreditCard.rawValue)
                 BSApiManager.shopper?.chosenPaymentMethod?.creditCard = self.purchaseDetails.creditCard
                 BSApiManager.updateShopper(completion: {
