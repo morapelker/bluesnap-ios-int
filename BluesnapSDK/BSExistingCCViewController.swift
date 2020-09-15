@@ -199,34 +199,7 @@ class BSExistingCCViewController: UIViewController {
                 
             } else if (!self.purchaseDetails!.isShopperRequirements() && BlueSnapSDK.sdkRequestBase?.activate3DS ?? false ) { // regular checkout and 3DS enabled
                 
-                self.stopActivityIndicator(stopProgressBar: false)
-                BSCardinalManager.instance.authWith3DS(currency: self.purchaseDetails.getCurrency(), amount: String(self.purchaseDetails.getAmount()),
-                                                       { error2 in
-                                                        
-                                                        let cardinalResult = BSCardinalManager.instance.getThreeDSAuthResult()
-                                                        if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_CANCELED.rawValue) { // cardinal challenge canceled
-                                                            NSLog(BSLocalizedStrings.getString(BSLocalizedString.Three_DS_Authentication_Required_Error))
-                                                            self.stopActivityIndicator()
-                                                            self.showAlert(BSLocalizedStrings.getString(BSLocalizedString.Three_DS_Authentication_Required_Error))
-                                                            
-                                                        } else if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.THREE_DS_ERROR.rawValue) { // server or cardinal internal error
-                                                            NSLog("Unexpected BS server error in 3DS authentication; error: \(error2)")
-                                                            let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Three_DS_Authentication_Error) + "\n" + (error2?.description() ?? "")
-                                                            self.stopActivityIndicator()
-                                                            self.showAlert(message)
-                                                            
-                                                        } else if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_FAILED.rawValue) { // authentication failure
-                                                            DispatchQueue.main.async {
-                                                                self.finishSubmitPaymentFields(error: error)
-                                                            }
-                                                            
-                                                        } else { // cardinal success (success/bypass/unavailable/unsupported)
-                                                            DispatchQueue.main.async {
-                                                                self.finishSubmitPaymentFields(error: error)
-                                                            }
-                                                        }
-                                                        
-                })
+                self.cardinalAuthentication(error: error)
                 
             } else if (!self.purchaseDetails!.isShopperRequirements()){ // regular checkout and 3DS disabled
                 self.finishSubmitPaymentFields(error: error)
@@ -249,6 +222,37 @@ class BSExistingCCViewController: UIViewController {
         })
     }
 
+    private func cardinalAuthentication(error: BSErrors?) {
+        self.stopActivityIndicator(stopProgressBar: false)
+        BSCardinalManager.instance.authWith3DS(currency: self.purchaseDetails.getCurrency(), amount: String(self.purchaseDetails.getAmount()),
+                                               { error2 in
+                                                
+                                                let cardinalResult = BSCardinalManager.instance.getThreeDSAuthResult()
+                                                if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_CANCELED.rawValue) { // cardinal challenge canceled
+                                                    NSLog(BSLocalizedStrings.getString(BSLocalizedString.Three_DS_Authentication_Required_Error))
+                                                    self.stopActivityIndicator()
+                                                    self.showAlert(BSLocalizedStrings.getString(BSLocalizedString.Three_DS_Authentication_Required_Error))
+                                                    
+                                                } else if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.THREE_DS_ERROR.rawValue) { // server or cardinal internal error
+                                                    NSLog("Unexpected BS server error in 3DS authentication; error: \(error2)")
+                                                    let message = BSLocalizedStrings.getString(BSLocalizedString.Error_Three_DS_Authentication_Error) + "\n" + (error2?.description() ?? "")
+                                                    self.stopActivityIndicator()
+                                                    self.showAlert(message)
+                                                    
+                                                } else if (cardinalResult == BSCardinalManager.ThreeDSManagerResponse.AUTHENTICATION_FAILED.rawValue) { // authentication failure
+                                                    DispatchQueue.main.async {
+                                                        self.finishSubmitPaymentFields(error: error)
+                                                    }
+                                                    
+                                                } else { // cardinal success (success/bypass/unavailable/unsupported)
+                                                    DispatchQueue.main.async {
+                                                        self.finishSubmitPaymentFields(error: error)
+                                                    }
+                                                }
+                                                
+        })
+    }
+    
     private func finishSubmitPaymentFields(error: BSErrors?) {
         DispatchQueue.main.async {
             // complete the purchase - go back to merchant screen and call the merchant purchaseFunc
