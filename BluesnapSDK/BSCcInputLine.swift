@@ -540,10 +540,10 @@ public class BSCcInputLine: BSBaseTextInput {
         cvvTextField.layer.borderWidth = fieldBorderWidth
         expTextField.layer.borderWidth = fieldBorderWidth
 
-        if let fieldBorderColor = self.fieldBorderColor {
-            cvvTextField.layer.borderColor = fieldBorderColor.cgColor
-            expTextField.layer.borderColor = fieldBorderColor.cgColor
-        }
+//        if let fieldBorderColor = self.fieldBorderColor {
+//            cvvTextField.layer.borderColor = fieldBorderColor.cgColor
+//            expTextField.layer.borderColor = fieldBorderColor.cgColor
+//        }
     }
 
     override func resizeElements() {
