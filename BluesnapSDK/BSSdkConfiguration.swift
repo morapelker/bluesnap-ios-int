@@ -12,6 +12,7 @@ class BSSdkConfiguration: NSObject {
     public static let THREE_D_SECURE_JWT: String = "threeDSecureJwt";
     
     var kountMID: Int?
+    var merchantName: String?
     var currencies: BSCurrencies?
     var shopper: BSShopper?
 

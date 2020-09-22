@@ -182,6 +182,9 @@ import Foundation
                     if let kountMID = json["kountMerchantId"] as? Int {
                         resultData?.kountMID = kountMID
                     }
+                    if let merchantName = json["merchantName"] as? String {
+                        resultData?.merchantName = merchantName
+                    }
                     if let cardinalToken = json[BSSdkConfiguration.THREE_D_SECURE_JWT] as? String {
                         resultData?.cardinalToken = cardinalToken
                     }

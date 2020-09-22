@@ -22,6 +22,7 @@ import Foundation
  
     // MARK: private properties
     internal static var bsCurrencies: BSCurrencies?
+    internal static var merchantName: String?
     internal static var supportedPaymentMethods: [String]?
     internal static var lastSupportedPaymentMethodsFetchDate: Date?
     internal static var shopper: BSShopper?
@@ -116,6 +117,7 @@ import Foundation
     static private func initSdkDataProperties(sdkData: BSSdkConfiguration){
         supportedPaymentMethods = sdkData.supportedPaymentMethods
         bsCurrencies = sdkData.currencies
+        merchantName = sdkData.merchantName
         shopper = sdkData.shopper
         sdkIsInitialized = true
         threeDSEnabledInDashboard = sdkData.cardinalToken != nil
