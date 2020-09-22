@@ -20,7 +20,7 @@ extension BSStartViewController : PaymentOperationDelegate {
         if let sdkRequestBase = BlueSnapSDK.sdkRequestBase {
             let priceDetails = sdkRequestBase.priceDetails!
             let tax = PKPaymentSummaryItem(label: "Tax", amount: NSDecimalNumber(floatLiteral: priceDetails.taxAmount.doubleValue), type: .final)
-            let total = PKPaymentSummaryItem(label: "\(BSApiManager.merchantName ?? "Payment") via BlueSnap", amount: NSDecimalNumber(floatLiteral: priceDetails.amount.doubleValue), type: .final)
+            let total = PKPaymentSummaryItem(label: "\(BSApiManager.merchantName ?? "Payment")", amount: NSDecimalNumber(floatLiteral: priceDetails.amount.doubleValue), type: .final)
             
             paymentSummaryItems = [tax, total];
             
