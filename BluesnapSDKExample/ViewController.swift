@@ -302,6 +302,7 @@ class ViewController: UIViewController {
         sdkRequestBase?.allowCurrencyChange = self.allowCurrencyChange
         sdkRequestBase?.hideStoreCardSwitch = self.hideStoreCard
         sdkRequestBase?.activate3DS = false
+//        sdkRequestBase?.applePayCustomizePayLine = "Some Merchant via BlueSnap"
         NSLog("sdkRequestBase store Card = \(sdkRequestBase?.hideStoreCardSwitch)")
 
     }

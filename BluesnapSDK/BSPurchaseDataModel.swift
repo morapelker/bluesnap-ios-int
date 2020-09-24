@@ -145,6 +145,7 @@ public class BSSdkRequest: NSObject, BSSdkRequestProtocol {
     public var hideStoreCardSwitch: Bool = false
     public var activate3DS: Bool = false
     public var priceDetails: BSPriceDetails! = BSPriceDetails(amount: 0, taxAmount: 0, currency: nil)
+    public var applePayCustomizePayLine: String? = nil
 
     public var purchaseFunc: (BSBaseSdkResult?) -> Void
     public var updateTaxFunc: ((String, String?, BSPriceDetails) -> Void)?
@@ -173,6 +174,14 @@ public class BSSdkRequestShopperRequirements: NSObject, BSSdkRequestProtocol {
     public var activate3DS: Bool {
         get {
             return false
+        }
+        set {
+        }
+    }
+    
+    public var applePayCustomizePayLine: String? {
+        get {
+            return nil
         }
         set {
         }
@@ -278,6 +287,8 @@ public protocol BSSdkRequestProtocol {
     var allowCurrencyChange: Bool { get set }
     var hideStoreCardSwitch: Bool { get set }
     var activate3DS: Bool { get set }
+    var applePayCustomizePayLine: String? { get set }
+
 }
 
 public class BSShopperConfiguration {
