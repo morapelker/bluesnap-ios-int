@@ -181,7 +181,7 @@ BSSdkRequest constructor parameters:
 | `allowCurrencyChange` | Optional. Will allow the shopper to change currency on pay with credit card screen (default is true). |
 | `hideStoreCardSwitch` | Optional. Allows to hide the Securely store my card Switch (default is false). |
 | `activate3DS` | Optional. Require a 3D Secure Authentication from the shopper while paying with credit card (default is false). |
-| `applePayCustomizePayLine` | Optional. Your own customized pay line for the ApplePay pop-up. see [Apple Guidlines](https://developer.apple.com/design/human-interface-guidelines/apple-pay/overview/checkout-and-payment/#customize-the-payment-sheet) (default is "PAY [MERCHANT_NAME]") |
+| `applePayCustomizePayLine` | Optional. Your own customized pay line for the ApplePay pop-up. see [Apple Guidlines](https://developer.apple.com/design/human-interface-guidelines/apple-pay/overview/checkout-and-payment/#customize-the-payment-sheet). (default is "PAY [MERCHANT_NAME]") |
 
 #### Defining priceDetails
 `priceDetails` (an instance of `BSPriceDetails`) is a property of `sdkRequest` that contains properties for amount, tax amount, and [currency](https://developers.bluesnap.com/docs/currency-codes). Set these properties to intialize the price details of the checkout page. 
