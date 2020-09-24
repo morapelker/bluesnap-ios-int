@@ -81,7 +81,7 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
     /**
         fieldCornerRadius (default = 0) sets the radius for rounded corners on the text field. This value will not change on different devices.
      */
-    @IBInspectable var fieldCornerRadius : CGFloat = 0 {
+    @IBInspectable var fieldCornerRadius : CGFloat = 1 {
         didSet {
             if designMode {
                 resizeElements()
@@ -475,10 +475,10 @@ public class BSBaseTextInput: UIControl, UITextFieldDelegate {
         
         let borderRect = bounds.insetBy(dx: borderWidth/2, dy: borderWidth/2)
         let borderPath = UIBezierPath(roundedRect: borderRect, cornerRadius: cornerRadius - borderWidth/2)
-        //borderColor.setStroke()
-        //borderPath.lineWidth = borderWidth
-        //borderPath.stroke()
-        //UIColor.clear.setStroke()
+        borderColor.setStroke()
+        borderPath.lineWidth = borderWidth
+        borderPath.stroke()
+        UIColor.clear.setStroke()
         //self.layer.shouldRasterize = true
     }
     
